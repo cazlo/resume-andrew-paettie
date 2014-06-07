@@ -12,6 +12,7 @@
     <link href="../res/css/bootstrap.min.css" rel="stylesheet">
     <link href="../res/css/style.css" rel="stylesheet">
     <script src="../res/js/bootstrap.min.js"></script>
+    <script src="../res/js/holder.js"></script>
     <style type="text/css"></style>
     <!-- Bootstrap core CSS -->
 <!--    <link href="../res/css/bootstrap.css" rel="stylesheet">
@@ -53,8 +54,8 @@
       <!--</div>
     </div>-->
 
-    <div class="container-narrow">
-      <div>
+    <div id="wrapper" class="container-narrow">
+      <div id = header>
 	<ul class="nav nav-pills pull-right">
 	  <li ><a href="../">About Me</a></li>
 	  <li class="active"><a href="#">Projects</a></li>
@@ -65,27 +66,31 @@
       
       <hr>
     
-      <div class="projects">
+      <div id="content">
         <h2>Projects</h2>
         <p class="lead" style="text-align: justify;">
 		Here are some of the projects that I have worked on in the past or are still working on.
 	</p>
         <div class="row-fluid" style="margin-bottom: 30px;">
-	  <div class="thumbnails">
-	    <a class="col-xs-6 col-md-4" href="/projects/flappy/">
+	  <div class="col-xs-6 col-md-4">
+	    <a class="thumbnail" href="/projects/flappy/">
 	      <img src="../res/img/flappy.jpg">
 	      <h4>Flapp</h4>
 	      <h6>June 2014</h6>
 	    </a>
-	    <a class="col-xs-6 col-md-4" href="https://github.com/cazlo/heli-madness">
-	      <img src="../res/img/flappy.jpg">
-	      <h4>Helicopter Madness</h4>
+	  </div>
+	  <div class="col-xs-6 col-md-4">
+	    <a class="thumbnail" href="https://github.com/cazlo/heli-madness">
+	      <img data-src="holder.js/229x229/auto/gray/text:Image Coming Soon">
+	      <h4 >Helicopter Madness</h4>
 	      <h6>October 2013</h6>
 	    </a>
-	    <a class="col-xs-6 col-md-4" >
-	      <img src="../res/img/flappy.jpg">
-	      <h4>Placeholder</h4>
-	      <h6>October 2013</h6>
+	  </div>
+	  <div class="col-xs-6 col-md-4">
+	    <a  class="thumbnail">
+	      <img data-src="holder.js/229x229/auto/gray/text:Coming Soon">
+	      <h4>Smart Planter</h4>
+	      <h6>Coming Soon</h6>
 	    </a>
 	  </div>
 	</div>
@@ -94,10 +99,8 @@
       <hr>
     
       <div id="footer">
-	<div class="navbar navbar-inner navbar-fixed-bottom">
 	  <p class="muted" align="center">
 	   &copy; Andrew Paettie, 2014. All rights reserved.</p>
-	</div>
       </div>  
       
     </div><!-- /.container -->
