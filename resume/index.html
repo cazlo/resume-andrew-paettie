@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,49 +6,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Andrew Paettie">
-    <link rel="shortcut icon" href="../static/ico/favicon.png">
+    <!--<link rel="shortcut icon" href="../static/ico/favicon.png">-->
 
     <title>Andrew Paettie's Resume</title>
-
     <!-- Bootstrap min -->
+    <script src="../static/js/jquery-2.1.3.min.js"></script>
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <script src="../static/js/bootstrap.min.js"></script>
-    
-    <!-- Custom styles for this template -->
+    <!-- Custom styles -->
     <link href="../static/css/style.css" rel="stylesheet">
-    
-    <style type="text/css"></style>
   </head>
 
   <body>
     <div id="wrapper"class="container-narrow">
-      <div id="header">
-	<ul class="nav nav-pills pull-right">
-	  <li ><a href="/">About Me</a></li>
-	  <li ><a href="../projects">Projects</a></li>
-	  <li class="active"><a href="#">Resume</a></li>
-	</ul>
-	<h1>Andrew Paettie</h1>
+      <div class="navbar navbar-default navbar-static-top">
+	<div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+          </button>
+	  <a class="navbar-brand" href="../">Andrew Paettie</a>
+        </div>
+	<div class="nav navbar-nav navbar-right">
+	  <ul class="nav nav-pills navbar-right">
+	    <li ><a href="/"><span class="glyphicon glyphicon-home"></span> About Me</a></li>
+	    <li ><a href="/projects"><span class="glyphicon glyphicon-star"></span> Projects</a></li>
+	    <li class="active"><a href="/resume"><span class="glyphicon glyphicon-book"></span> Resume</a></li>
+	  </ul>
+	</div>
       </div>
       
-      <hr>
+      <br>
+      <div class="thumbnail pull-right">
+	<a href="../static/resume/resume.pdf">
+	  <img src="../static/img/pdf.png">
+	</a>
+      </div>
 	
       <div id="content" class="resume">
-        <h1>Summary</h1>
-        
-        <h1>Education</h1> 
-        
-        <h1>Languages</h1>
+        <h2>Summary</h2>
+        <p class="lead">
+	I love creating software and have experience in all fascets of development.
+	I am knowledgeable and proficient with data structures, algorithms, UI and UX
+	development, etc.  I focus on results and pay close attention to details.
+	</p>
 	
-	<h1>Experience</h1>
+	<p class="lead">
+        I am a Senior at the University of Texas at Dallas looking for an internship and/or part time employment
+        immediately, preferably in a dev-ops position. Additionally, I will be available for full time work during the
+	summer of 2015, and should be able to work full time in my final semester at UTD (08-15 through 12-15).
+	</p>
+	
+	<p class="lead">
+	    E-mail:
+	    <a href="mailto:paettiea@gmail.com">paettiea@gmail.com</a>
+	</p>
+        <h2><span class="glyphicon glyphicon-education"></span> Education</h2>
+	<h4>B.S. Computer Science at <a href="http://www.utdallas.edu/">University of Texas at Dallas</a></h4>
 
+	<h5>August 2009 - December 2015</h5>
+	  <ul>
+	    <li>Expected graduation is December 2015</li>
+	    <li>GPA: 3.086</li>
+	    <li>Major GPA: 3.876</li>
+	  </ul>
+        <p></p>
+        <h2><span class="glyphicon glyphicon-briefcase"></span> Skills</h2>
+	  <h5>Programming languages</h5>
+	    <ul>
+	      <li>JAVA (including J2EE, EJB, JSP, Swing, Android)</li>
+	      <li>C</li>
+	      <li>C++</li>
+	      <li>MIPS</li>
+	      <li>x86</li>
+	    </ul>
+   	  <h5>Scripting languages</h5>
+	    <ul>
+	      <li>Python</li>
+	      <li>BASH</li>
+	      <li>VBScript</li>
+	      <li>Javascript</li>
+	    </ul>
+	  <h5>Version control</h5>
+	    <ul>
+	      <li>SVN</li>
+	      <li>Git</li>
+	    </ul>
+	  <h5>Web specific</h5>
+	    <ul>
+	      <li>HTML</li>
+	      <li>CSS</li>
+	    </ul>
+	  <h5>Other technologies</h5>
+	    <ul>
+	      <li>SQL (Oracle and MYSQL)</li>
+	      <li>VMWare</li>
+	      <li>AWS</li>
+	    </ul>
+	<h2><span class="glyphicon glyphicon-piggy-bank"></span> Professional Experience</h2>
+	    <h4>Dev/OPS intern at <a href="http://www.capitalsoft.com/">CaptialSoft</a></h4>
+	    <h5>March 2014 - Present</h5>
+	      <ul>
+		<li>Designed javascript interface for GIS</li>
+		<li>Designed/updated interface for document management system</li>
+		<li>Implemented new build process which greatly reduced build time and otherwise increased productivity</li>
+		<li>Wrote technical documentation for the code base and end-user help system</li>
+		<li>Setup and administered servers for SVN, Bugzilla, Oracle Database and Weblogic</li>
+	      </ul>
+	    <h4>Various Retail</h4>
+	      <ul>
+		<li>Employed steadily in various retail positions since 2005</li>
+		<li>Never less than 1 year in a position</li>
+		<li>Full employment list available upon request</li>
+	      </ul>
       </div>
       <hr>
-    
-      <div id="footer">
-	  <p class="muted" align="center">
-	   &copy; Andrew Paettie, 2014. All rights reserved.</p>
-      </div>   
+    <hr>
+    <br>
+    <div >
+      <p class="muted" align="center">
+	&copy; Andrew Paettie, 2015. All rights reserved.</p>
+    </div>  
+      
     </div><!-- /.container -->
   </body>
+
 </html>
