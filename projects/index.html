@@ -13,20 +13,27 @@
     <link href="../static/css/style.css" rel="stylesheet">
     <script src="../static/js/bootstrap.min.js"></script>
     <script src="../static/js/holder.js"></script>
-    <style type="text/css"></style>
   </head>
 
   <body>
     <div id="wrapper" class="container-narrow">
-      <div id = header>
-	<ul class="nav nav-pills pull-right">
-	  <li ><a href="../">About Me</a></li>
-	  <li class="active"><a href="#">Projects</a></li>
-	  <li ><a href="../resume">Resume</a></li>
-	</ul>
-	<h1>Andrew Paettie</h1>
+      <div class="navbar navbar-default navbar-static-top">
+	<div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+          </button>
+	  <a class="navbar-brand" href="../">Andrew Paettie</a>
+        </div>
+	<div class="nav navbar-nav navbar-right">
+	  <ul class="nav nav-pills navbar-right">
+	    <li ><a href="/"><span class="glyphicon glyphicon-home"></span> About Me</a></li>
+	    <li class="active"><a href="/projects"><span class="glyphicon glyphicon-star"></span> Projects</a></li>
+	    <li ><a href="/resume"><span class="glyphicon glyphicon-book"></span> Resume</a></li>
+	  </ul>
+	</div>
       </div>
-      
       <hr>
     
       <div id="content">
@@ -35,7 +42,7 @@
 		Here are some of the projects that I have worked on in the past or are still working on.
 	</p>
 	<!--row 1-->
-        <div class="row-fluid" style="margin-bottom: 30px;">
+        <div class="row">
 	  <div class="col-xs-4 col-md-4">
 	    <a class="thumbnail" href="/projects/flappy/">
 	      <img src="../static/img/flappy.jpg">
@@ -59,7 +66,7 @@
 	  </div>
 	</div>
 	<!--row 2-->
-	<div class="row-fluid" style="margin-bottom: 30px;">
+	<div class="row">
 	  <div class="col-xs-4 col-md-4">
 	    <a class="thumbnail" href="https://github.com/cazlo/phrase-generator">
 	      <img data-src="holder.js/229x229/auto/gray/text:Coming Soon">
@@ -72,9 +79,10 @@
 	  <div class="col-xs-4 col-md-4"></div>
       </div>
       <hr>
-      <div id="footer">
+      <br>
+      <div>
 	  <p class="muted" align="center">
-	   &copy; Andrew Paettie, 2014. All rights reserved.</p>
+	   &copy; Andrew Paettie, 2015. All rights reserved.</p>
       </div>  
       
     </div><!-- /.container -->
