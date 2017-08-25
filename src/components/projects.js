@@ -1,4 +1,4 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 import { Card, Button, CardImg, CardTitle, CardText, CardDeck,
     CardSubtitle, CardBlock } from 'reactstrap';
 
