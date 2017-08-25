@@ -1,7 +1,6 @@
 import { h, Component } from 'preact';
 import  { Route } from 'react-router-dom';
-import { Link } from 'react-router';
-import { Container, Row, Col, Nav, NavItem, NavLink } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import HeaderNav from "./containers/header";
 import Intro from "./components/intro";
 import Projects from "./components/projects";

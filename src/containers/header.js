@@ -1,5 +1,6 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 import { Link } from 'react-router-dom';
+// eslint-disable-next-line
 import { Container, Row, Col, Button, Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 
 const LinkWrapper = (props) => (
