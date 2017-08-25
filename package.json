@@ -1,0 +1,36 @@
+{
+  "name": "andrew-paettie",
+  "version": "3.0.0",
+  "private": true,
+  "dependencies": {
+    "@just-boris/preact-scripts": "1.0.7",
+    "bootstrap": "^4.0.0-beta",
+    "preact": "^8.2.1",
+    "preact-compat": "^3.17.0",
+    "react-addons-css-transition-group": "^15.6.0",
+    "react-addons-transition-group": "^15.6.0",
+    "react-router-dom": "^4.2.0",
+    "reactstrap": "^4.8.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-config-standard-preact": "^1.1.6",
+    "eslint-plugin-flowtype": "^2.33.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^5.0.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.3.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/",
+    "lint-fix": "eslint src/ --fix"
+  }
+}
