@@ -111,9 +111,6 @@ const Summary = () => (
   <Container>
     <Row>
       <Row>
-        <h3>About Me</h3>
-      </Row>
-      <Row>
         <Col lg='6'>
           <ul className='lead'>
             <li>
@@ -170,6 +167,7 @@ const Education = () => (
 
 const Resume = (props) => (
   <Container>
+      <h3>About Me</h3>
     <Row>
       <Summary />
     </Row>

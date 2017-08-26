@@ -1,9 +1,9 @@
 import { h } from 'preact';
 import { Card, Button, ButtonGroup, CardImg, CardTitle, CardText, CardDeck,
-    CardSubtitle, CardBlock, CardHeader, Container } from 'reactstrap';
+    CardSubtitle, CardBlock, CardHeader } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
-import Iframe from "react-iframe";
-import Intro from "./intro";
+// import Iframe from "react-iframe";
+// import Intro from "./intro";
 
 const placeholderImgUrl = "https://placeholdit.imgix.net/~text?txtsize=33&txt=Image%20Coming%20Soon&w=256&h=180";
 
