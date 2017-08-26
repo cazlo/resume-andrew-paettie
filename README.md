@@ -13,9 +13,6 @@ Basically just a portfolio site to show some things I've done, but also a place 
 
 # Major remaining tasks
 
- - landing page needs total redo
-    - updated picture?
-    - https://reactstrap.github.io/components/
  - css beautification??
  - update PDF resume
  - fix mobile version
@@ -23,6 +20,7 @@ Basically just a portfolio site to show some things I've done, but also a place 
  - proofread
  - https
  -------- initial deployment ----------
+ - updated picture on landing page
  - unit tests not working
    - maybe just delete until there is some behavior worth testing
  - archived could probably be replaced by some pre-rendered version of each route
