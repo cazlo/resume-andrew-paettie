@@ -108,23 +108,41 @@ const Skills = () => (
 );
 
 const Summary = () => (
-  <div>
-    <p class='lead'>
-            I love creating software and have experience in all facets of development.
-            I am knowledgeable and proficient with data structures, algorithms, UI and UX
-            development, etc.  I focus on results and pay close attention to details.
+  <Container>
+    <Row>
+      <Row>
+        <h3>About Me</h3>
+      </Row>
+      <Row>
+        <Col lg='6'>
+          <ul className='lead'>
+            <li>
+                  I love creating software and have experience in all facets of development.
+            </li><li>
+                  I am knowledgeable and proficient with data structures, algorithms, UI and UX development, etc.
+            </li><li>
+                  I focus on results and pay close attention to details.
+            </li>
+          </ul>
+        </Col>
+        <Col sm='2' >
+          <div class='thumbnail pull-right'>
+            <a href='/resume/resume-Andrew-Paettie.pdf'>
+              <img src='/img/pdf.png' alt='The resume of Andrew Paettie' />
+            </a>
+          </div>
+        </Col>
+      </Row>
+    </Row>
+    <Row>
+      <Col>
+        <p class='lead'>
+          I am currently working at Cox Automotive as a Software Engineer on the Data Solutions team.
+          I am always on the lookout for interesting opportunities to experiment with the latest technologies.
         </p>
-
-    <p class='lead'>
-            I am currently working at Cox Automotive as a Software Engineer on the Data Solutions team.
-            I am always on the lookout for interesting opportunities to experiment with the latest technologies.
-        </p>
-
-    <p class='lead'>
-            E-mail:
-            <a href='mailto:paettiea@gmail.com'>paettiea@gmail.com</a>
-    </p>
-  </div>
+      </Col>
+    </Row>
+  </Container>
 );
 
 const Education = () => (
@@ -152,12 +170,6 @@ const Education = () => (
 
 const Resume = (props) => (
   <Container>
-    <div class='thumbnail pull-right'>
-      <a href='/resume/resume-Andrew-Paettie.pdf'>
-        <img src='/img/pdf.png' alt='The resume of Andrew Paettie' />
-      </a>
-    </div>
-
     <Row>
       <Summary />
     </Row>
