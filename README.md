@@ -13,10 +13,6 @@ Basically just a portfolio site to show some things I've done, but also a place 
 
 # Major remaining tasks
 
- - still need to port over content from old site
-    - projects
-        - add link to this repo
-        - less placeholder images
  - landing page needs total redo
     - updated picture?
     - https://reactstrap.github.io/components/
