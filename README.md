@@ -15,8 +15,6 @@ Basically just a portfolio site to show some things I've done, but also a place 
 
  - css beautification??
  - update PDF resume
- - fix mobile version
-   - navbar should be collapsing but isn't
  - proofread
  - https
  -------- initial deployment ----------

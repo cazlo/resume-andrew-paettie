@@ -9,7 +9,7 @@ const Intro = (props) => (
       <h1 className='display-3'>Hello, world!</h1>
       <p className='lead'>My name is Andrew Paettie. I am an experienced and capable full stack software engineer.</p>
       <hr className='my-2' />
-        <p>If you are interested in hiring a full stack software engineer, check out my <Link to="/resume">résumé</Link> and <Link to="/projects">projects</Link></p>
+      <p>If you are interested in hiring a full stack software engineer, check out my <Link to='/resume'>résumé</Link> and <Link to='/projects'>projects</Link></p>
     </Jumbotron>
   </div>
 );

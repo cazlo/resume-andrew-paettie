@@ -1,7 +1,9 @@
-import { h } from 'preact';
+import { h, Component } from 'preact';
 import { Link } from 'react-router-dom';
+import FontAwesome from 'react-fontawesome';
 // eslint-disable-next-line
-import { Container, Row, Col, Button, Navbar, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand, Container, Row, Col } from 'reactstrap';
+import "../css/nav.css";
 
 const LinkWrapper = (props) => (
   <NavItem>
@@ -11,15 +13,36 @@ const LinkWrapper = (props) => (
   </NavItem>
     );
 
-const HeaderNav = (props) => (
-  <Navbar className='navbar navbar-expand-md navbar-dark bg-dark fixed-top'>
-    <Nav className='navbar-nav mr-auto'>
-      <LinkWrapper to='/' name='About Me' />
-      <LinkWrapper to='/projects' name='Projects' />
-      <LinkWrapper to='/resume' name='Resume' />
-    </Nav>
-  </Navbar>
-);
+export default class HeaderNav extends Component {
+    constructor(props) {
+        super(props);
 
+        this.toggleNavbar = this.toggleNavbar.bind(this);
+        this.state = {
+            collapsed: false
+        };
+    }
 
-export default HeaderNav;
+    toggleNavbar() {
+        this.setState({
+            collapsed: !this.state.collapsed
+        });
+    }
+
+    render() {
+        return (
+          <Navbar className='navbar navbar-expand-lg fixed-top bg-dark'>
+            <NavbarToggler className='navbar-toggler-icon navbar-toggler' onClick={this.toggleNavbar} >
+              <FontAwesome name='ellipsis-v' className='text-white' />
+            </NavbarToggler>
+            <Collapse className='navbar-toggleable-sm' isOpen={!this.state.collapsed}>
+              <Nav className='navbar-nav '>
+                <LinkWrapper to='/' name='About Me' />
+                <LinkWrapper to='/projects' name='Projects' />
+                <LinkWrapper to='/resume' name='Resume' />
+              </Nav>
+            </Collapse>
+          </Navbar>
+        );
+    }
+}
