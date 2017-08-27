@@ -10,7 +10,22 @@ Basically just a portfolio site to show some things I've done, but also a place 
  - `npm run build` builds minified version ready for deployment
 
 # CI
- - TODO: document script to run aws cli and deploy files to s3 bucket
+
+CI will deploy to http://andrewpaettie.test.com.s3-website-us-east-1.amazonaws.com for any branches except master.
+For master branch CI will deploy to andrewpaettie.com
+
+It uses the aws cli sync and delete options for the s3 command.
+
+# Email Lambda
+
+Setting up an email address at admin@andrewpaettie.com was necessary to setup
+ssl using AWS ACM.  There is a lamda at [lamda/emailForward](lamda/emailForward)
+which forwards emails coming from this domain to a verified gmail.
+
+There is not any automation setup around deploying that,
+just zip `exports.js`, `package.json`, and `node_modules` into a file
+ `exports.zip` which is uploaded to the already setup AWS lambda.
+
 
 # Links
  - [Reactstrap - Bootstrap 4 React Components](https://reactstrap.github.io/components/)
@@ -23,7 +38,6 @@ Basically just a portfolio site to show some things I've done, but also a place 
 # Major remaining tasks
  - css beautification??
  - proofread
- - https
  - updated picture on landing page
  - archived could probably be replaced by some pre-rendered version of each route
  - remove this section
