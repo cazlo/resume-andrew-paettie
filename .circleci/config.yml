@@ -8,7 +8,6 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:7.10
-        - run: pip install awscli --upgrade --user
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -34,6 +33,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+      - run:
+          command: |
+            python-dev
+            sudo pip install awscli
       # run tests!
 #      - run: npm test
       - run: npm run build
