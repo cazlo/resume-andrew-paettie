@@ -89,6 +89,8 @@ const Skills = () => (
         <li>Oracle</li>
         <li>Postgres</li>
       </ul>
+    </Col>
+    <Col>
       <h5>Misc. Tools</h5>
       <ul>
         <li>NewRelic</li>
