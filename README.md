@@ -40,5 +40,4 @@ just zip `exports.js`, `package.json`, and `node_modules` into a file
  - css beautification??
  - proofread
  - updated picture on landing page
- - archived could probably be replaced by some pre-rendered version of each route
  - remove this section
