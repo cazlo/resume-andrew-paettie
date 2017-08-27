@@ -46,8 +46,12 @@ jobs:
            command: |
              if [ "${CIRCLE_BRANCH}" == "master" ]; then
                echo "=====  Deploying MASTER to PROD  ====="
+               mv build/projects.html build/projects
+               mv build/resume.html build/resume
                aws s3 sync build s3://andrewpaettie.com --delete --acl public-read
              else
                echo "=====  Deploying ${CIRCLE_BRANCH} to TEST  ====="
+               mv build/projects.html build/projects
+               mv build/resume.html build/resume
                aws s3 sync build s3://andrewpaettie.test.com --delete --acl public-read
              fi
