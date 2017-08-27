@@ -30,7 +30,7 @@ just zip `exports.js`, `package.json`, and `node_modules` into a file
 # Links
  - [Reactstrap - Bootstrap 4 React Components](https://reactstrap.github.io/components/)
  - [Bootstrap 4 Components](https://v4-alpha.getbootstrap.com/components/)
- - [FontAwesome Icons](https://v4-alpha.getbootstrap.com/components/)
+ - [FontAwesome Icons](http://fontawesome.io/icons/)
  - [React-Snapshot: pre-rendering DOM](https://www.npmjs.com/package/react-snapshot)
  - [SSL setup](https://medium.com/@sbuckpesch/setup-aws-s3-static-website-hosting-using-ssl-acm-34d41d32e394)
  - [CircleCI](https://circleci.com/gh/cazlo)
