@@ -110,8 +110,7 @@ const Skills = () => (
 const Summary = () => (
   <Container>
     <Row>
-      <Row>
-        <Col lg='6'>
+        <Col xs="6" sm="10">
           <ul className='lead'>
             <li>
                   I love creating software and have experience in all facets of development.
@@ -122,14 +121,13 @@ const Summary = () => (
             </li>
           </ul>
         </Col>
-        <Col sm='2' >
+        <Col xs="6" sm="2" >
           <div class='thumbnail pull-right'>
             <a href='/resume/resume-Andrew-Paettie.pdf'>
               <img src='/img/pdf.png' alt='The resume of Andrew Paettie' />
             </a>
           </div>
         </Col>
-      </Row>
     </Row>
     <Row>
       <Col>
