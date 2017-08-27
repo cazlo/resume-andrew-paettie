@@ -31,12 +31,13 @@ export default class HeaderNav extends Component {
 
     render() {
         return (
-          <Navbar className='navbar navbar-expand-lg navbar-expand-xl fixed-top bg-dark'>
+          <Navbar toggleable className='navbar navbar-expand-lg navbar-expand-xl fixed-top bg-dark navbar-toggleable-md'>
             <NavbarToggler className='navbar-toggler-icon navbar-toggler' onClick={this.toggleNavbar} >
               <FontAwesome name='ellipsis-v' className='text-white' />
             </NavbarToggler>
+            {/*<NavbarBrand className="text-white"><h1>Andrew Paettie</h1></NavbarBrand>*/}
             <Collapse className='navbar-toggleable-xs' isOpen={!this.state.collapsed}>
-              <Nav className='navbar-nav '>
+              <Nav >
                 <LinkWrapper to='/' name='About Me' />
                 <LinkWrapper to='/projects' name='Projects' />
                 <LinkWrapper to='/resume' name='Résumé' />

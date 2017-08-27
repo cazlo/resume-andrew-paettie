@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { Card, Button, ButtonGroup, CardImg, CardTitle, CardText, CardDeck,
-    CardSubtitle, CardBlock, CardHeader } from 'reactstrap';
+    CardSubtitle, CardBlock, CardHeader, Media } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 // import Iframe from "react-iframe";
 // import Intro from "./intro";
@@ -8,17 +8,17 @@ import FontAwesome from 'react-fontawesome';
 const placeholderImgUrl = "https://placeholdit.imgix.net/~text?txtsize=33&txt=Image%20Coming%20Soon&w=256&h=180";
 
 const ProjectCard = (props) => (
-  <Card>
+  <Card color='dark'>
 
-    {props.imageUrl? (<CardImg top src={props.imageUrl} alt='No Image Available' />) : null}
+    {props.imageUrl? (<Media><CardImg top src={props.imageUrl} alt='No Image Available' /></Media>) : null}
     {props.projectComponent ? (<CardHeader>{props.projectComponent}</CardHeader>) : null}
     <CardBlock className='text-center'>
       <CardTitle>{props.title}</CardTitle>
       <CardSubtitle>{props.subtitle}</CardSubtitle>
       <CardText><p>{props.text}</p></CardText>
       <ButtonGroup>
-        {props.githubUrl? (<Button tag='a' className='btn btn-outline-info'><FontAwesome name='github' /><a role='button' href={props.githubUrl}> Github</a></Button>) : null}
-        {props.siteUrl? (<Button tag='a' className='btn btn-outline-info'><FontAwesome name='hashtag' /><a role='button' href={props.siteUrl}> Site</a></Button>) : null}
+        {props.githubUrl? (<Button tag="a" className='btn btn-outline-info'><FontAwesome name='github' className='text-dark' /><a role='button' href={props.githubUrl}> Github</a></Button>) : null}
+        {props.siteUrl? (<Button  className='btn btn-outline-info'><FontAwesome name='hashtag'className='text-dark' /><a role='button' href={props.siteUrl}> Site</a></Button>) : null}
       </ButtonGroup>
     </CardBlock>
   </Card>
@@ -61,16 +61,22 @@ const Projects = (props) => {
             imageUrl='/img/ctf.png'
             />
         </CardDeck>
-        <br />
+        <br className='hidden-sm-down' />
         <CardDeck>
           <ProjectCard
             githubUrl='https://github.com/cazlo/MOOPS-Moo-on-MIPS'
             title='MOOPS'
             subtitle='December 2013'
-            text='An implementation of the game moo in the MIPS assembly lanuage.  Also includes an algorithm for solving the puzzle within 16 moves'
+            text='An implementation of the game moo in the MIPS assembly lanuage.  Also includes an algorithm for solving the puzzle within 16 moves.'
             imageUrl='/img/Mars-moo.png'
             />
-
+          <ProjectCard
+            githubUrl='https://github.com/cazlo/academic-stuff'
+            title='Various School Projects'
+            subtitle='2012-2014'
+            text="Just some random things I've made for school. Pictured is a loan amortization calculator featuring from scratch graphs and tables built using the swing UI framework for Java."
+            imageUrl='/img/loan-amortization.png'
+          />
           <ProjectCard
             githubUrl='https://github.com/cazlo/exploring-AI'
             title='Artificial Intelligence'
@@ -78,16 +84,17 @@ const Projects = (props) => {
             text='Some homework for an AI class I took, implementing search and constraint solving algorithms in python.'
             imageUrl='/img/ai-brain.jpg'
           />
+
+        </CardDeck>
+        <br className='hidden-sm-down' />
+        <CardDeck>
           <ProjectCard
             githubUrl='https://github.com/cazlo/exploring-machine-learning'
             title='Machine Learning'
             subtitle='October 2014'
             text='Some homework for a machine learning class I took, aimed towards implementing and using various prediction engines to classify data.'
             imageUrl={placeholderImgUrl}
-          />
-        </CardDeck>
-        <br />
-        <CardDeck>
+            />
           <ProjectCard
             githubUrl='https://github.com/cazlo/WhizCalc'
             title='WhizCalc'
@@ -95,13 +102,6 @@ const Projects = (props) => {
             text='A simple calculator app for android used to experiment with creating android apps.'
             imageUrl={placeholderImgUrl}
           />
-          <ProjectCard
-            githubUrl='https://github.com/cazlo/academic-stuff'
-            title='Various School Projects'
-            subtitle='2012-2014'
-            text="Just some random things I've made for school."
-            imageUrl='/img/loan-amortization.png'
-        />
         </CardDeck>
       </div>
     );

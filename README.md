@@ -37,7 +37,5 @@ just zip `exports.js`, `package.json`, and `node_modules` into a file
  - [resume doc](https://drive.google.com/drive/folders/0BwF9znNbxADrbVg1emdYcnNockU)
 
 # Major remaining tasks
- - css beautification??
  - proofread
- - updated picture on landing page
  - remove this section
