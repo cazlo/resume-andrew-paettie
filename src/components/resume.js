@@ -110,24 +110,24 @@ const Skills = () => (
 const Summary = () => (
   <Container>
     <Row>
-        <Col xs="6" sm="10">
-          <ul className='lead'>
-            <li>
+      <Col xs='6' sm='10'>
+        <ul className='lead'>
+          <li>
                   I love creating software and have experience in all facets of development.
             </li><li>
                   I am knowledgeable and proficient with data structures, algorithms, UI and UX development, etc.
             </li><li>
                   I focus on results and pay close attention to details.
             </li>
-          </ul>
-        </Col>
-        <Col xs="6" sm="2" >
-          <div class='thumbnail pull-right'>
-            <a href='/resume/resume-Andrew-Paettie.pdf'>
-              <img src='/img/pdf.png' alt='The resume of Andrew Paettie' />
-            </a>
-          </div>
-        </Col>
+        </ul>
+      </Col>
+      <Col xs='6' sm='2' >
+        <div class='thumbnail pull-right'>
+          <a href='/resume/resume-Andrew-Paettie.pdf'>
+            <img src='/img/pdf.png' alt='The resume of Andrew Paettie' />
+          </a>
+        </div>
+      </Col>
     </Row>
     <Row>
       <Col>
