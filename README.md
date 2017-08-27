@@ -18,8 +18,6 @@ Basically just a portfolio site to show some things I've done, but also a place 
  - https
  -------- initial deployment ----------
  - updated picture on landing page
- - unit tests not working
-   - maybe just delete until there is some behavior worth testing
  - archived could probably be replaced by some pre-rendered version of each route
     - https://www.npmjs.com/package/react-snapshot
  - remove this section
