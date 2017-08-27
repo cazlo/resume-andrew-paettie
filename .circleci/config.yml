@@ -35,7 +35,7 @@ jobs:
 
       - run:
           command: |
-            python-dev
+            sudo apt-get install python-dev
             sudo pip install awscli
       # run tests!
 #      - run: npm test
