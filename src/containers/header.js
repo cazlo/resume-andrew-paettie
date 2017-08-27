@@ -39,7 +39,7 @@ export default class HeaderNav extends Component {
               <Nav className='navbar-nav '>
                 <LinkWrapper to='/' name='About Me' />
                 <LinkWrapper to='/projects' name='Projects' />
-                <LinkWrapper to='/resume' name='Resume' />
+                <LinkWrapper to='/resume' name='Résumé' />
               </Nav>
             </Collapse>
           </Navbar>
