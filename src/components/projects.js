@@ -44,7 +44,7 @@ const Projects = (props) => {
             //             // styles={{transform: "scale(0.92) translateX(-37.35535584735135%) translateZ(0)"}}
             //     />
             //   </Container>}
-            imageUrl='/img/react-logo.svg'
+            imageUrl='/img/this-site.png'
           />
           <ProjectCard
             githubUrl='https://github.com/cazlo/heli-madness'
