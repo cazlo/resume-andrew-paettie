@@ -39,7 +39,7 @@
   },
   "reactSnapshot": {
     "exclude": [
-      "/index.html"
+      "/"
     ],
     "snapshotDelay": 300
   }
