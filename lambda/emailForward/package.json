@@ -1,0 +1,10 @@
+{
+  "name": "aws-lambda-ses-forwarder-andrewpaettie.com",
+  "version": "1.0.0",
+  "description": "Email forwading using aws-lambda-ses-forwarder.",
+  "main": "exports.js",
+  "private": true,
+  "dependencies": {
+    "aws-lambda-ses-forwarder": "^4.0.0"
+  }
+}
