@@ -14,7 +14,6 @@ Basically just a portfolio site to show some things I've done, but also a place 
 # Major remaining tasks
 
  - css beautification??
- - update PDF resume
  - proofread
  - https
  -------- initial deployment ----------
