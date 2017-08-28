@@ -113,7 +113,7 @@ const Skills = () => (
 const Summary = () => (
   <Container fluid>
     <Row>
-      <Col xs='10' sm='10' md="12">
+      <Col xs='10' sm='10' md='12'>
         <ul className='lead'>
           <li>
                   I love creating software and have experience in all facets of development.
