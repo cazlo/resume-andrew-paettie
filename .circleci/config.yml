@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: nodejs-aws-cli
+      - image: codelovers/nodejs-aws-cli
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
