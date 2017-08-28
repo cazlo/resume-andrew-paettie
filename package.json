@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "private": true,
   "dependencies": {
-    "@just-boris/preact-scripts": "1.0.7",
+    "@just-boris/preact-scripts": "^1.0.7",
     "bootstrap": "^4.0.0-beta",
     "preact": "^8.2.4",
     "preact-compat": "^3.17.0",
