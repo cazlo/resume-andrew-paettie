@@ -19,7 +19,7 @@ It uses the aws cli sync and delete options for the s3 command.
 # Email Lambda
 
 Setting up an email address at admin@andrewpaettie.com was necessary to setup
-ssl using AWS ACM.  There is a lamda at [lamda/emailForward](lamda/emailForward/exports.js)
+ssl using AWS ACM.  There is a lamda at [lambda/emailForward/](lambda/emailForward/exports.js)
 which forwards emails coming from this domain to a verified gmail.
 
 There is not any automation setup around deploying that,
