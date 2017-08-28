@@ -19,6 +19,11 @@ class App extends Component {
             <Route path='/resume' component={Resume} />
           </Row>
         </Container>
+
+        <br />
+        <div class='pull-down'>
+          <p class='muted' align='center'>&copy; 2013 - {new Date().getFullYear()}, Andrew Paettie</p>
+        </div>
       </div>
     );
   }

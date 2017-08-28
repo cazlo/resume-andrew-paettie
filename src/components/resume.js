@@ -1,7 +1,8 @@
 import { h } from 'preact';
 import FontAwesome from 'react-fontawesome';
 // eslint-disable-next-line
-import { Container, Row, Col, Button, Navbar, Nav, NavItem, NavLink , Jumbotron} from 'reactstrap';
+import { Container, Row, Col, Card, CardHeader, CardText,CardImg, CardDeck, CardSubtitle,
+    CardBlock, CardTitle, CardColumns} from 'reactstrap';
 
 const Experience = () => (
   <div>
@@ -12,16 +13,18 @@ const Experience = () => (
     <h6>Data Solutions</h6>
     <ul>
       <li>Created single point of ingestion and viewing for vehicle catalog data</li>
-      <li>Participated in API design </li>
+      <li>Participated in API design with direct feedback from internal consumers</li>
       <li>Automated integration testing using localstack</li>
+      <li>Worked with platform specialists in a dev ops environment</li>
     </ul>
     <h5>May 2015 - April 2017</h5>
     <h6>Dealer.com Inventory</h6>
     <ul>
+      <li>Worked with enterprise Java, mostly with Spring and Spring-boot and AWS deployments</li>
       <li>Acted as technical lead driving technology and architectural decisions</li>
       <li>Created system to migrate image hosting to the cloud via S3</li>
       <li>Member of scrum team which develops and maintains microservice applications which aggregate and serve vehicle data in a scalable way</li>
-      <li>Set up and maintain system to migrate the source of truth for incentive data to a more performant and reliable technology stack</li>
+      <li>Set up and maintained system to migrate the source of truth for incentive data to a more performant and reliable technology stack</li>
       <li>Integrated with automated deployment tools to support continuous deployment and integration</li>
       <li>Installed monitoring and alerting to get increased visibility into key performance indicators of the overall system</li>
       <li>Created internal applications to ease troubleshooting issues and testing</li>
@@ -50,7 +53,7 @@ const Experience = () => (
 
 const Skills = () => (
   <Row>
-    <Col>
+    <Col sm='6' md='4'>
       <h5>Backend Programming languages</h5>
       <ul>
         <li>Java (J2EE, EJB, JSP, Swing, Android, Spring, Spring boot)</li>
@@ -74,11 +77,12 @@ const Skills = () => (
         <li>VBScript</li>
       </ul>
     </Col>
-    <Col>
+    <Col sm='6' md='4'>
       <h5>Version control</h5>
       <ul>
         <li>Git</li>
         <li>SVN</li>
+        <li>Amazon S3 Versioning</li>
       </ul>
       <h5>Databases/Document stores</h5>
       <ul>
@@ -90,7 +94,7 @@ const Skills = () => (
         <li>Postgres</li>
       </ul>
     </Col>
-    <Col>
+    <Col sm='6' md='4'>
       <h5>Misc. Tools</h5>
       <ul>
         <li>NewRelic</li>
@@ -103,6 +107,7 @@ const Skills = () => (
         <li>AWS</li>
         <li>Maven/Ant</li>
         <li>Npm/Yarn</li>
+        <li>CircleCI</li>
         <li>RabbitMQ</li>
       </ul>
     </Col>
@@ -110,9 +115,9 @@ const Skills = () => (
 );
 
 const Summary = () => (
-  <Container>
+  <Container fluid>
     <Row>
-      <Col xs='6' sm='10'>
+      <Col xs='10' sm='10' md='12'>
         <ul className='lead'>
           <li>
                   I love creating software and have experience in all facets of development.
@@ -122,13 +127,6 @@ const Summary = () => (
                   I focus on results and pay close attention to details.
             </li>
         </ul>
-      </Col>
-      <Col xs='6' sm='2' >
-        <div class='thumbnail pull-right'>
-          <a href='/resume/resume-Andrew-Paettie.pdf'>
-            <img src='/img/pdf.png' alt='The resume of Andrew Paettie' />
-          </a>
-        </div>
       </Col>
     </Row>
     <Row>
@@ -165,9 +163,51 @@ const Education = () => (
   </Row>
 );
 
+const VersionCard = (props) => (
+  <Card >
+    <CardBlock className='text-center'>
+      <CardTitle>
+        <a href={props.link}>{props.linkComponent}</a>
+      </CardTitle>
+      <CardSubtitle><a href={props.link}>{props.name}</a></CardSubtitle>
+    </CardBlock>
+  </Card>
+);
+
+const AlternativeVersions = () => (
+  <Container >
+    <Row>
+      <h2><FontAwesome name='handshake-o' className='text-dark' /> Alternative Resume Formats</h2>
+    </Row>
+    <Row>
+      <CardColumns />
+      <VersionCard
+        link='/resume/resume-Andrew-Paettie.pdf'
+        name='PDF'
+        linkComponent={(<img src='/img/pdf.png' alt='The resume of Andrew Paettie in PDF format' />)}
+      />
+      <VersionCard
+        link='/resume/resume-Andrew-Paettie.docx'
+        name='docx'
+        linkComponent={(<FontAwesome name='file-text-o' className='text-dark' size='5x' />)}
+      />
+      <VersionCard
+        link='https://www.linkedin.com/in/andrew-paettie-26859584'
+        name='LinkedIn'
+        linkComponent={(<FontAwesome name='linkedin-square' className='text-dark' size='5x' />)}
+      />
+      <VersionCard
+        link='https://github.com/cazlo/'
+        name='Github'
+        linkComponent={(<FontAwesome name='github' className='text-dark' size='5x' />)}
+      />
+    </Row>
+  </Container>
+);
+
 const Resume = (props) => (
   <Container>
-    <h3>About Me</h3>
+    <h2>About Me</h2>
     <Row>
       <Summary />
     </Row>
@@ -185,7 +225,10 @@ const Resume = (props) => (
     <h2> <FontAwesome name='cogs' /> Skills</h2>
     <br />
     <Skills />
-
+    <hr />
+    <Row >
+      <AlternativeVersions />
+    </Row>
   </Container>
 );
 
