@@ -17,8 +17,8 @@ const ProjectCard = (props) => (
       <CardSubtitle>{props.subtitle}</CardSubtitle>
       <CardText><p>{props.text}</p></CardText>
       <ButtonGroup>
-        {props.githubUrl? (<a href={props.githubUrl}><Button tag="a" className='btn btn-outline-info'><FontAwesome name='github' className='text-dark' /> Github</Button></a>) : null}
-        {props.siteUrl? (<a href={props.siteUrl}><Button tag="a" className='btn btn-outline-info'><FontAwesome name='hashtag'className='text-dark' /> Site</Button></a>) : null}
+        {props.githubUrl? (<a href={props.githubUrl}><Button tag='a' className='btn btn-outline-info'><FontAwesome name='github' className='text-dark' /> Github</Button></a>) : null}
+        {props.siteUrl? (<a href={props.siteUrl}><Button tag='a' className='btn btn-outline-info'><FontAwesome name='hashtag'className='text-dark' /> Site</Button></a>) : null}
       </ButtonGroup>
     </CardBlock>
   </Card>
