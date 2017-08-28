@@ -49,7 +49,8 @@ jobs:
                mkdir build/projects
                mv build/projects.html build/projects/index.html
                mv build/resume.html build/resume/index.html
-               aws s3 sync build s3://andrewpaettie.com --delete --acl public-read
+               aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=604800
+               aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths /*
              else
                echo "=====  Deploying ${CIRCLE_BRANCH} to TEST  ====="
                mkdir build/projects
