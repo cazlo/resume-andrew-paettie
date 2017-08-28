@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: codelovers/nodejs-aws-cli
+      - image: circleci/node:7.10
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -33,11 +33,16 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+      - run:
+          command: |
+            sudo apt-get install python-dev python-pip
+            sudo pip install awscli
+      # run tests!
 #      - run: npm test
       - run: npm run build
 
       - deploy:
-           name: Deploy to S3 (test site if not master branch)
+           name: Deploy to S3 (test if not master branch)
            command: |
              if [ "${CIRCLE_BRANCH}" == "master" ]; then
                echo "=====  Deploying MASTER to PROD  ====="
