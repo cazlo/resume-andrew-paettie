@@ -35,7 +35,3 @@ just zip `exports.js`, `package.json`, and `node_modules` into a file
  - [SSL setup](https://medium.com/@sbuckpesch/setup-aws-s3-static-website-hosting-using-ssl-acm-34d41d32e394)
  - [CircleCI](https://circleci.com/gh/cazlo)
  - [resume doc](https://drive.google.com/drive/folders/0BwF9znNbxADrbVg1emdYcnNockU)
-
-# Major remaining tasks
- - proofread
- - remove this section

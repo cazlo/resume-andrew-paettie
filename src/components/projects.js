@@ -33,7 +33,10 @@ const Projects = (props) => {
             siteUrl='http://andrewpaettie.com'
             title='This Website'
             subtitle='August 2017'
-            text='A simple portfolio site to show some projects I have done.'
+            text={(
+              <div>A simple portfolio site to show some projects I have done. Implemented with <a href='https://preactjs.com/'>Preact</a>,
+                    <a href='https://reactstrap.github.io/'> reactstrap</a>, and <a href='https://circleci.com'>CircleCI</a>.
+                </div>)}
             // projectComponent={
             //   <Container width="100%" height="100%" >
             //     <Iframe url='http://localhost:3000/' // TODO: point to prod
@@ -50,7 +53,7 @@ const Projects = (props) => {
             githubUrl='https://github.com/cazlo/heli-madness'
             title='Helicopter Side-scroller'
             subtitle='May 2013'
-            text='A simple side scroller implemented with Java Swing'
+            text='A simple side scroller implemented with Java Swing. Game engine built from scratch.'
             imageUrl='/img/heli-game.png'
             />
           <ProjectCard
@@ -93,7 +96,7 @@ const Projects = (props) => {
             title='Machine Learning'
             subtitle='October 2014'
             text='Some homework for a machine learning class I took, aimed towards implementing and using various prediction engines to classify data.'
-            imageUrl={placeholderImgUrl}
+            imageUrl='/img/ml-stats.png'
             />
           <ProjectCard
             githubUrl='https://github.com/cazlo/WhizCalc'
