@@ -182,12 +182,12 @@ const AlternativeVersions = () => (
     <Row>
       <CardColumns />
       <VersionCard
-        link='/resume/resume-Andrew-Paettie.pdf'
+        link='http://www.andrewpaettie.com/resume/resume-Andrew-Paettie.pdf'
         name='PDF'
         linkComponent={(<img src='/img/pdf.png' alt='The resume of Andrew Paettie in PDF format' />)}
       />
       <VersionCard
-        link='/resume/resume-Andrew-Paettie.docx'
+        link='http://www.andrewpaettie.com/resume/resume-Andrew-Paettie.docx'
         name='docx'
         linkComponent={(<FontAwesome name='file-text-o' className='text-dark' size='5x' />)}
       />
