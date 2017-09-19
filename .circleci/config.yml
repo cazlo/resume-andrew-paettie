@@ -48,6 +48,7 @@ jobs:
                echo "=====  Deploying MASTER to PROD  ====="
                mkdir build/projects
                mv build/projects.html build/projects/index.html
+               mkdir build/resume
                mv build/resume.html build/resume/index.html
                aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=5
                aws configure set preview.cloudfront true
