@@ -51,7 +51,29 @@ jobs:
                mv build/resume.html build/resume/index.html
                aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=5
                aws configure set preview.cloudfront true
-               aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths /*
+               aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths \
+                /img/flappy.jpg \
+                /asset-manifest.json \
+                /200.html \
+                /img/react-logo.svg \
+                /img/ml-stats.png \
+                /img/pdf.png \
+                /img/loan-amortization.png \
+                /img/ctf.png \
+                /projects/index.html \
+                /img/heli-game.png \
+                /manifest.json \
+                /index.html \
+                /resume/index.html \
+                /robots.txt \
+                /resume/resume-Andrew-Paettie.docx \
+                /favicon.ico \
+                /resume/resume-Andrew-Paettie.pdf \
+                /img/ai-brain.jpg \
+                /img/andrew-paettie-having-fun.jpg \
+                /service-worker.js \
+                /img/Mars-moo.png \
+                /img/this-site.png
              else
                echo "=====  Deploying ${CIRCLE_BRANCH} to TEST  ====="
                mkdir build/projects
