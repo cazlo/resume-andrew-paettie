@@ -50,7 +50,7 @@ jobs:
                mv build/projects.html build/projects/index.html
                mkdir build/resume
                mv build/resume.html build/resume/index.html
-               aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=5
+               aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=604800
                aws configure set preview.cloudfront true
                aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths \
                 /asset-manifest.json \
