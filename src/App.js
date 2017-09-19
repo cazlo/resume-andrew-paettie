@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import  { Route } from 'react-router-dom';
+import  { Route, Switch } from 'react-router-dom';
 import { Container, Row } from 'reactstrap';
 import HeaderNav from "./containers/header";
 import Intro from "./components/intro";
@@ -14,9 +14,11 @@ class App extends Component {
 
         <Container>
           <Row>
-            <Route exact path='/' component={Intro} />
-            <Route path='/projects' component={Projects} />
-            <Route path='/resume' component={Resume} />
+            <Switch>
+              <Route exact path='/' component={Intro} />
+              <Route exact path='/projects' component={Projects} />
+              <Route exact path='/resume' component={Resume} />
+            </Switch>
           </Row>
         </Container>
 
