@@ -15,7 +15,7 @@ const Intro = (props) => (
                 <h2>About Me</h2>
               </Media>
               <p className='lead'>
-          I am an experienced and capable full stack software engineer.
+          I am an experienced and capable full stack software engineer with leadership experience.
           If you are interested in hiring a full stack software engineer,
           check out my <Link to='/resume'>résumé</Link> and <Link to='/projects'>projects </Link>
           and feel free to contact me via one of the listed methods.
