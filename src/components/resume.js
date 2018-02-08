@@ -15,6 +15,7 @@ const Experience = () => (
       <li>Acted as technical lead driving technology and architectural decisions</li>
       <li>Created standardized vehicle language for use in multiple business units</li>
       <li>Created single point of ingestion, maintenance, and viewing for vehicle catalog data</li>
+      <li>Simplified complicated configuration logic by searching for tautologies, and removing unsatisfiable expressions using MinSAT</li>
       <li>Participated in API design with direct feedback from internal consumers</li>
       <li>Automated integration testing using localstack</li>
       <li>Created infrastructure as code using terraform</li>
@@ -59,7 +60,7 @@ const Skills = () => (
       <h5>Backend Programming languages</h5>
       <ul>
         <li>Java (J2EE, EJB, JSP, Swing, Android, Spring, Spring boot)</li>
-        <li>Javascript (node, ES8)</li>
+        <li>Javascript (node, ES6 - ES8)</li>
         <li>Python</li>
         <li>C# (.Net)</li>
         <li>Groovy (Grails)</li>
