@@ -36,17 +36,7 @@ const Projects = (props) => {
             text={(
               <div>A simple portfolio site to show some projects I have done. Implemented with <a href='https://preactjs.com/'>Preact</a>,
                     <a href='https://reactstrap.github.io/'> reactstrap</a>, and <a href='https://circleci.com'>CircleCI</a>.
-                </div>)}
-            // projectComponent={
-            //   <Container width="100%" height="100%" >
-            //     <Iframe url='http://localhost:3000/' // TODO: point to prod
-            //             display='initial'
-            //             position='relative'
-            //             width='100%'
-            //             height='100%'
-            //             // styles={{transform: "scale(0.92) translateX(-37.35535584735135%) translateZ(0)"}}
-            //     />
-            //   </Container>}
+              </div>)}
             imageUrl='/img/this-site.png'
           />
           <ProjectCard
