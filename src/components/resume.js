@@ -12,10 +12,12 @@ const Experience = () => (
     <h5>April 2017 - Present</h5>
     <h6>Data Solutions</h6>
     <ul>
-      <li>Created single point of ingestion and viewing for vehicle catalog data</li>
+      <li>Acted as technical lead driving technology and architectural decisions</li>
+      <li>Created standardized vehicle language for use in multiple business units</li>
+      <li>Created single point of ingestion, maintenance, and viewing for vehicle catalog data</li>
       <li>Participated in API design with direct feedback from internal consumers</li>
       <li>Automated integration testing using localstack</li>
-      <li>Worked with platform specialists in a dev ops environment</li>
+      <li>Created infrastructure as code using terraform</li>
     </ul>
     <h5>May 2015 - April 2017</h5>
     <h6>Dealer.com Inventory</h6>
@@ -132,7 +134,7 @@ const Summary = () => (
     <Row>
       <Col>
         <p class='lead'>
-          I am currently working at Cox Automotive as a Software Engineer on the Data Solutions team.
+          I am currently working at Cox Automotive as a Software Engineer/Tech Lead on the Data Solutions team.
           I am always on the lookout for interesting opportunities to experiment with the latest technologies.
         </p>
       </Col>
