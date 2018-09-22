@@ -1,34 +1,30 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
-import { Container, Row } from 'reactstrap';
-import HeaderNav from './containers/header';
-import Intro from './components/intro';
-import ProjectsBlock from './components/ProjectsBlock/ProjectsBlock';
-import Resume from './components/resume';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
+import red from '@material-ui/core/colors/red';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <HeaderNav />
+import Resume from './containers/Resume/Resume';
 
-        <Container>
-          <Row>
-            <Route exact path="/" component={Intro} />
-            <Route path="/projects" component={ProjectsBlock} />
-            <Route path="/resume" component={Resume} />
-          </Row>
-        </Container>
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+    error: red,
+  },
+});
 
-        <br />
-        <div className="pull-down">
-          <p className="muted" align="center">
-            &copy; 2013 - {new Date().getFullYear()}, Andrew Paettie
-          </p>
-        </div>
+const App = () => (
+  <MuiThemeProvider theme={theme}>
+    <div className="App">
+      <Route exact path="/" component={Resume} />
+      <br />
+      <div className="pull-down">
+        <p className="muted" align="center">
+          &copy; 2013 - {new Date().getFullYear()}, Andrew Paettie
+        </p>
       </div>
-    );
-  }
-}
+    </div>
+  </MuiThemeProvider>
+);
 
 export default App;

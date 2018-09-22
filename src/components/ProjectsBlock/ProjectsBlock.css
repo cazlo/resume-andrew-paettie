@@ -1,0 +1,12 @@
+.VerticalTimeline {
+    margin: 0 auto !important;
+    max-width: 1250px;
+}
+
+.ProjectsBlock .vertical-timeline-element {
+    box-sizing: content-box;
+}
+
+.ProjectsBlock > .vertical-timeline-element-date {
+    box-sizing: content-box;
+}

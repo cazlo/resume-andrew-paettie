@@ -6,7 +6,7 @@ Basically just a portfolio site to show some things I've done, but also a place 
 # Dev
 
 ## Tech Stack
- - bootstrapped with create-preact-app
+ - bootstrapped with create-react-app
  - bootstrap 4 via reactstrap
  - routing with react router 4
  - static page snapshot generation via react-snapshot
