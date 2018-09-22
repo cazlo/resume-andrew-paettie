@@ -1,12 +1,12 @@
 import React from 'react';
-import FontAwesome from 'react-fontawesome';
+import { FaPieChart, FaHandGrabO, FaFileTextO, FaLinkedinSquare, FaGithub, FaGraduationCap, FaCogs } from "react-icons/lib/fa";
 // eslint-disable-next-line
 import { Container, Row, Col, Card, CardHeader, CardText,CardImg, CardDeck, CardSubtitle,
     CardBody, CardTitle, CardColumns} from 'reactstrap';
 
 const Experience = () => (
   <div>
-    <h2> <FontAwesome name='pie-chart' /> Professional Experience</h2>
+    <h2> <FaPieChart /> Professional Experience</h2>
     <br />
     <h4>Software Engineer at <a href='http://www.coxautoinc.com/'>Cox Automotive</a></h4>
     <h5>April 2017 - Present</h5>
@@ -134,7 +134,7 @@ const Summary = () => (
     </Row>
     <Row>
       <Col>
-        <p class='lead'>
+        <p className='lead'>
           I am currently working at Cox Automotive as a Software Engineer/Tech Lead on the Data Solutions team.
           I am always on the lookout for interesting opportunities to experiment with the latest technologies.
         </p>
@@ -180,7 +180,7 @@ const VersionCard = (props) => (
 const AlternativeVersions = () => (
   <Container >
     <Row>
-      <h2><FontAwesome name='handshake-o' className='text-dark' /> Alternative Resume Formats</h2>
+      <h2><FaHandGrabO className='text-dark' /> Alternative Resume Formats</h2>
     </Row>
     <Row>
       <CardColumns />
@@ -192,17 +192,17 @@ const AlternativeVersions = () => (
       <VersionCard
         link='http://andrewpaettie.com/static/resume/resume-Andrew-Paettie.docx'
         name='docx'
-        linkComponent={(<FontAwesome name='file-text-o' className='text-dark' size='5x' />)}
+        linkComponent={(<FaFileTextO className='text-dark' size='5x' />)}
       />
       <VersionCard
         link='https://www.linkedin.com/in/andrew-paettie-26859584'
         name='LinkedIn'
-        linkComponent={(<FontAwesome name='linkedin-square' className='text-dark' size='5x' />)}
+        linkComponent={(<FaLinkedinSquare className='text-dark' size='5x' />)}
       />
       <VersionCard
         link='https://github.com/cazlo/'
         name='Github'
-        linkComponent={(<FontAwesome name='github' className='text-dark' size='5x' />)}
+        linkComponent={(<FaGithub className='text-dark' size='5x' />)}
       />
     </Row>
   </Container>
@@ -215,7 +215,7 @@ const Resume = (props) => (
       <Summary />
     </Row>
     <hr />
-    <h2> <FontAwesome name='graduation-cap' /> Education</h2>
+    <h2> <FaGraduationCap /> Education</h2>
     <br />
     <Education />
     <hr />
@@ -225,7 +225,7 @@ const Resume = (props) => (
       </Col>
     </Row>
     <hr />
-    <h2> <FontAwesome name='cogs' /> Skills</h2>
+    <h2> <FaCogs /> Skills</h2>
     <br />
     <Skills />
     <hr />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import FontAwesome from 'react-fontawesome';
+import { FaEllipsisV} from 'react-icons/lib/fa';
 // eslint-disable-next-line
 import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand, Container, Row, Col } from 'reactstrap';
 import "../css/nav.css";
@@ -33,7 +33,7 @@ export default class HeaderNav extends Component {
         return (
           <Navbar toggleable className='navbar navbar-expand-lg navbar-expand-xl fixed-top bg-dark navbar-toggleable-md'>
             <NavbarToggler className='navbar-toggler-icon navbar-toggler' onClick={this.toggleNavbar} >
-              <FontAwesome name='ellipsis-v' className='text-white' />
+              <FaEllipsisV className='text-white' />
             </NavbarToggler>
             {/*<NavbarBrand className="text-white"><h1>Andrew Paettie</h1></NavbarBrand>*/}
             <Collapse className='navbar-toggleable-xs' isOpen={!this.state.collapsed}>
