@@ -2,7 +2,7 @@ import { h } from 'preact';
 import FontAwesome from 'react-fontawesome';
 // eslint-disable-next-line
 import { Container, Row, Col, Card, CardHeader, CardText,CardImg, CardDeck, CardSubtitle,
-    CardBlock, CardTitle, CardColumns} from 'reactstrap';
+    CardBody, CardTitle, CardColumns} from 'reactstrap';
 
 const Experience = () => (
   <div>
@@ -124,11 +124,11 @@ const Summary = () => (
         <ul className='lead'>
           <li>
                   I love creating software and have experience in all facets of development.
-            </li><li>
+          </li><li>
                   I am knowledgeable and proficient with data structures, algorithms, UI and UX development, etc.
-            </li><li>
+          </li><li>
                   I focus on results and pay close attention to details.
-            </li>
+          </li>
         </ul>
       </Col>
     </Row>
@@ -168,12 +168,12 @@ const Education = () => (
 
 const VersionCard = (props) => (
   <Card >
-    <CardBlock className='text-center'>
+    <CardBody className='text-center'>
       <CardTitle>
         <a href={props.link}>{props.linkComponent}</a>
       </CardTitle>
       <CardSubtitle><a href={props.link}>{props.name}</a></CardSubtitle>
-    </CardBlock>
+    </CardBody>
   </Card>
 );
 

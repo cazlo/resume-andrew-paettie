@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { Card, Button, ButtonGroup, CardImg, CardTitle, CardText, CardDeck,
-    CardSubtitle, CardBlock, CardHeader, Media } from 'reactstrap';
+    CardSubtitle, CardBody, CardHeader, Media } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 // import Iframe from "react-iframe";
 // import Intro from "./intro";
@@ -12,7 +12,7 @@ const ProjectCard = (props) => (
 
     {props.imageUrl? (<Media><CardImg top src={props.imageUrl} alt='No Image Available' /></Media>) : null}
     {props.projectComponent ? (<CardHeader>{props.projectComponent}</CardHeader>) : null}
-    <CardBlock className='text-center'>
+    <CardBody className='text-center'>
       <CardTitle>{props.title}</CardTitle>
       <CardSubtitle>{props.subtitle}</CardSubtitle>
       <CardText><p>{props.text}</p></CardText>
@@ -20,7 +20,7 @@ const ProjectCard = (props) => (
         {props.githubUrl? (<a href={props.githubUrl}><Button tag='a' className='btn btn-outline-info'><FontAwesome name='github' className='text-dark' /> Github</Button></a>) : null}
         {props.siteUrl? (<a href={props.siteUrl}><Button tag='a' className='btn btn-outline-info'><FontAwesome name='hashtag'className='text-dark' /> Site</Button></a>) : null}
       </ButtonGroup>
-    </CardBlock>
+    </CardBody>
   </Card>
 );
 
@@ -35,7 +35,7 @@ const Projects = (props) => {
             subtitle='August 2017'
             text={(
               <div>A simple portfolio site to show some projects I have done. Implemented with <a href='https://preactjs.com/'>Preact</a>,
-                    <a href='https://reactstrap.github.io/'> reactstrap</a>, and <a href='https://circleci.com'>CircleCI</a>.
+                <a href='https://reactstrap.github.io/'> reactstrap</a>, and <a href='https://circleci.com'>CircleCI</a>.
               </div>)}
             imageUrl='/img/this-site.png'
           />
