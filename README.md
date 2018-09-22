@@ -21,9 +21,9 @@ This does not work because it is a stateful react component, whose open/closed s
 
 ## Dev scripts
 
- - `npm start` serves files, and re-compile file that changed
- - `npm run lint-fix` applies linting
- - `npm run build` builds minified version ready for deployment
+ - `yarn start` serves files, and re-compile file that changed
+ - `yarn run lint-fix` applies linting
+ - `yarn run build` builds minified version ready for deployment
 
 # Ops
 
