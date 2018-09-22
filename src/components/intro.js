@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 // eslint-disable-next-line
 import { Container, Row, Col, Button, Navbar, Nav, NavItem, NavLink , Jumbotron, Media} from 'reactstrap';
 import { Link } from 'react-router-dom';

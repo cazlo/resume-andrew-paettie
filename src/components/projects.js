@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, Button, ButtonGroup, CardImg, CardTitle, CardText, CardDeck,
     CardSubtitle, CardBody, CardHeader, Media } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
