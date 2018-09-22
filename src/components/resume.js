@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import React, { Component } from 'react';
 import FontAwesome from 'react-fontawesome';
 // eslint-disable-next-line
 import { Container, Row, Col, Card, CardHeader, CardText,CardImg, CardDeck, CardSubtitle,

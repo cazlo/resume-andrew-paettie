@@ -1,4 +1,4 @@
-import { h } from 'preact';
+import React, { Component } from 'react';
 import { render } from 'react-snapshot';
 
 import  { BrowserRouter } from 'react-router-dom';
