@@ -288,239 +288,174 @@ export default {
       image: '/img/heli-game.png', // todo gif
     },
   ],
-  skills: [],
-  // skills: [
-  //   {
-  //     name: 'Laravel 5',
-  //     language: {
-  //       name: 'PHP',
-  //       style: 'php',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'Symfony 2 & 3',
-  //     language: {
-  //       name: 'PHP',
-  //       style: 'php',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'Ruby on Rails',
-  //     language: {
-  //       name: 'Ruby',
-  //       style: 'ruby',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'API development with Rails',
-  //     language: {
-  //       name: 'Ruby',
-  //       style: 'ruby',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'RSpec',
-  //     language: {
-  //       name: 'Ruby',
-  //       style: 'ruby',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'React',
-  //     language: {
-  //       name: 'Javascript',
-  //       style: 'javascript',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'React Native',
-  //     language: {
-  //       name: 'Javascript',
-  //       style: 'javascript',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'Redux',
-  //     language: {
-  //       name: 'Javascript',
-  //       style: 'javascript',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'ES6',
-  //     language: {
-  //       name: 'Javascript',
-  //       style: 'javascript',
-  //     },
-  //     category: {
-  //       name: 'Languages',
-  //     },
-  //   },
-  //   {
-  //     name: 'Facebook SDK',
-  //     language: {
-  //       name: 'Javascript',
-  //       style: 'javascript',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'Facebook SDK',
-  //     language: {
-  //       name: 'PHP',
-  //       style: 'php',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'API',
-  //     language: {
-  //       name: 'PHP',
-  //       style: 'php',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'SQL (MYSQL, PostgreSQL, PostGIS)',
-  //     language: {
-  //       name: 'Others',
-  //       style: 'others',
-  //     },
-  //     category: {
-  //       name: 'Languages',
-  //     },
-  //   },
-  //   {
-  //     name: 'Continuous integration',
-  //     language: {
-  //       name: 'Others',
-  //       style: 'others',
-  //     },
-  //     category: {
-  //       name: 'Languages',
-  //     },
-  //   },
-  //   {
-  //     name: 'TDD',
-  //     language: {
-  //       name: 'Others',
-  //       style: 'others',
-  //     },
-  //     category: {
-  //       name: 'Languages',
-  //     },
-  //   },
-  //   {
-  //     name: 'HTML5/CSS3',
-  //     language: {
-  //       name: 'Others',
-  //       style: 'others',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'Bootstrap',
-  //     language: {
-  //       name: 'Others',
-  //       style: 'others',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'JQUERY',
-  //     language: {
-  //       name: 'Javascript',
-  //       style: 'javascript',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'Wordpress',
-  //     language: {
-  //       name: 'PHP',
-  //       style: 'php',
-  //     },
-  //     category: {
-  //       name: 'Frameworks / SDK / CMS',
-  //     },
-  //   },
-  //   {
-  //     name: 'Linux',
-  //     category: {
-  //       name: 'Tools',
-  //     },
-  //   },
-  //   {
-  //     name: 'Docker',
-  //     category: {
-  //       name: 'Tools',
-  //     },
-  //   },
-  //   {
-  //     name: 'JIRA/Redmine',
-  //     category: {
-  //       name: 'Tools',
-  //     },
-  //   },
-  //   {
-  //     name: 'GIT',
-  //     category: {
-  //       name: 'Tools',
-  //     },
-  //   },
-  //   {
-  //     name: 'Jenkins/Gitlab-CI',
-  //     category: {
-  //       name: 'Tools',
-  //     },
-  //   },
-  //   {
-  //     name: 'Docker',
-  //     category: {
-  //       name: 'Tools',
-  //     },
-  //   },
-  //   {
-  //     name: 'GITLAB/GITHUB',
-  //     category: {
-  //       name: 'Tools',
-  //     },
-  //   },
-  // ],
+  skills: [
+    {
+      name: 'Java 8',
+      language: {
+        name: 'Java',
+        style: techTheme.javaColor,
+      },
+    },
+    {
+      name: 'Spring Boot',
+      language: {
+        name: 'Java',
+        style: techTheme.javaColor,
+      },
+    },
+    {
+      name: 'Maven',
+      language: {
+        name: 'Java',
+        style: techTheme.javaColor,
+      },
+    },
+    {
+      name: 'Kotlin',
+      language: {
+        name: 'Java',
+        style: techTheme.javaColor,
+      },
+    },
+    {
+      name: 'RESTful API design',
+      language: {
+        name: 'Java',
+        style: techTheme.javaColor,
+      },
+    },
+    {
+      name: 'JPA',
+      language: {
+        name: 'Java',
+        style: techTheme.javaColor,
+      },
+    },
+    {
+      name: 'JUnit',
+      language: {
+        name: 'Java',
+        style: techTheme.javaColor,
+      },
+    },
+    {
+      name: 'Node (6,8,10)',
+      language: {
+        name: 'Node',
+        style: techTheme.nodeJsColor,
+      },
+    },
+    {
+      name: 'Knex',
+      language: {
+        name: 'Node',
+        style: techTheme.nodeJsColor,
+      },
+    },
+    {
+      name: 'HapiJS',
+      language: {
+        name: 'Node',
+        style: techTheme.nodeJsColor,
+      },
+    },
+    {
+      name: 'React',
+      language: {
+        name: 'Javascript',
+        style: techTheme.javascriptColor,
+      },
+    },
+    {
+      name: 'Redux',
+      language: {
+        name: 'Javascript',
+        style: techTheme.javascriptColor,
+      },
+    },
+    {
+      name: 'ES6',
+      language: {
+        name: 'Javascript',
+        style: techTheme.javascriptColor,
+      },
+    },
+    {
+      name: 'ES8',
+      language: {
+        name: 'Node',
+        style: techTheme.nodeJsColor,
+      },
+    },
+    {
+      name: 'SQL (MYSQL, PostgreSQL)',
+      language: {
+        name: 'Others',
+        style: techTheme.othersColor,
+      },
+    },
+    {
+      name: 'NOSQL (Elasticsearch, MongoDB)',
+      language: {
+        name: 'Others',
+        style: techTheme.othersColor,
+      },
+    },
+    {
+      name: 'Continuous integration',
+      language: {
+        name: 'Others',
+        style: techTheme.othersColor,
+      },
+    },
+    {
+      name: 'TDD',
+      language: {
+        name: 'Others',
+        style: techTheme.othersColor,
+      },
+    },
+    {
+      name: 'HTML5/CSS3',
+      language: {
+        name: 'Others',
+        style: techTheme.othersColor,
+      },
+    },
+    {
+      name: 'JQUERY',
+      language: {
+        name: 'Javascript',
+        style: techTheme.javascriptColor,
+      },
+    },
+    {
+      name: 'Ramda',
+      language: {
+        name: 'Javascript',
+        style: techTheme.javascriptColor,
+      },
+    },
+    {
+      name: 'GIT',
+      language: {
+        name: 'Others',
+        style: techTheme.othersColor,
+      },
+    },
+    {
+      name: 'Docker',
+      language: {
+        name: 'Others',
+        style: techTheme.othersColor,
+      },
+    },
+    {
+      name: 'AWS',
+      language: {
+        name: 'Others',
+        style: techTheme.othersColor,
+      },
+    },
+  ],
 };

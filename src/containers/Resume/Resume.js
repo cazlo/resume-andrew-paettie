@@ -15,6 +15,19 @@ import techTheme from '../../common/techTheme';
 
 import './Resume.css';
 
+const getSkillsByLanguages = skills => {
+  const skillsByLanguages = skills.reduce((obj, item) => {
+    const newObj = obj;
+    if (item.language) {
+      newObj[item.language.name] = newObj[item.language.name] || [];
+      newObj[item.language.name].push(item);
+    }
+    return newObj;
+  }, {});
+
+  return Object.keys(skillsByLanguages).map(key => skillsByLanguages[key]);
+}
+
 const Resume = () => (
   // const cv = this.props.cvPDF;
   //
@@ -50,7 +63,7 @@ const Resume = () => (
     <Home />
     <AboutMe style={techTheme.githubColor.style} />
     <WorkAndEducationBlock educations={content.educations} positions={content.positions} />
-    <Skills skills={content.skills} tools={content.tools} />
+    <Skills skills={getSkillsByLanguages(content.skills)} tools={content.tools} />
     <ProjectsBlock projects={content.projects} />
     <BottomNav />
   </div>

@@ -10,6 +10,7 @@ import DockerIcon from 'react-devicon/docker/plain';
 import GithubIcon from 'react-devicon/github/original';
 import PostgresIcon from 'react-devicon/postgresql/plain';
 import PythonIcon from 'react-devicon/python/plain';
+import AndroidIcon from 'react-devicon/android/original';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 // todo CircleCI, Jest, Kotlin
 
@@ -55,6 +56,14 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--nodejs',
     icon: <NodeJsIcon />,
+  },
+  androidColor: {
+    style: {
+      background: '#99c034',
+      color: '#fff',
+    },
+    className: 'vertical-timeline-element--android',
+    icon: <AndroidIcon />,
   },
   javaColor: {
     style: {
