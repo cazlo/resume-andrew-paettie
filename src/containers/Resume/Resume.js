@@ -3,6 +3,7 @@ import flow from 'lodash/flow';
 // import Helmet from 'react-helmet';
 // import { injectIntl, intlShape } from 'react-intl';
 import { withTheme } from '@material-ui/core/styles';
+import { sortBy } from 'lodash';
 
 import Home from '../../components/Home/Home';
 import AboutMe from '../../components/AboutMe/AboutMe';
@@ -21,12 +22,13 @@ const getSkillsByLanguages = skills => {
     if (item.language) {
       newObj[item.language.name] = newObj[item.language.name] || [];
       newObj[item.language.name].push(item);
+      newObj[item.language.name] = sortBy(newObj[item.language.name], [x => x.name]);
     }
     return newObj;
   }, {});
 
   return Object.keys(skillsByLanguages).map(key => skillsByLanguages[key]);
-}
+};
 
 const Resume = () => (
   // const cv = this.props.cvPDF;
