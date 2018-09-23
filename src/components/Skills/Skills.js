@@ -6,7 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 
-import appTheme from '../../common/techTheme';
 import './Skills.css';
 
 const Skills = ({ skills, tools }) => (
@@ -24,17 +23,17 @@ const Skills = ({ skills, tools }) => (
             <CardContent>
               <Avatar
                 style={{
-                  ...appTheme[`${skillCategory[0].language.style}Color`].style,
+                  ...skillCategory[0].language.style.style,
                   width: 100,
                   height: 100,
                   margin: '0 auto',
                 }}
               >
-                {appTheme[`${skillCategory[0].language.style}Color`].icon}
+                {skillCategory[0].language.style.icon}
               </Avatar>
               <h3
                 style={{
-                  color: appTheme[`${skillCategory[0].language.style}Color`].style.background,
+                  color: skillCategory[0].language.style.style.background,
                 }}
               >
                 {skillCategory[0].language.name}

@@ -12,7 +12,7 @@ export default {
       startDate: '2010',
       endDate: '2015',
       degree: 'Bachelor of Science in Computer Science',
-      activities: <span>Database, Java, Javascript, AI, ML, Network Security, UNIX</span>,
+      activities: <span>Java, C++, C#, AI, Database, ML, Network Security, UNIX</span>,
     },
   ],
   positions: [
@@ -224,16 +224,29 @@ export default {
        from scratch graphs and tables built using the swing UI framework for Java.`,
       image: '/img/loan-amortization.png',
     },
-    /**
-     * TODO
-     *  <ProjectCard
-     *   githubUrl='https://github.com/cazlo/WhizCalc'
-     *   title='WhizCalc'
-     *   subtitle='January 2014'
-     *   text='A simple calculator app for android used to experiment with creating android apps.'
-     *   imageUrl={placeholderImgUrl}
-     *   />
-     * */
+    {
+      title: 'Whiz Calc',
+      subtitle: 'Android calculator app',
+      date: 'January 2014',
+      techTheme: techTheme.androidColor,
+      links: [
+        {
+          url: 'https://github.com/cazlo/WhizCalc',
+          text: 'View source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Android',
+          icon: techTheme.androidColor.icon,
+        },
+        {
+          name: 'Java',
+          icon: techTheme.javaColor.icon,
+        },
+      ],
+      content: `A simple calculator app for android used to experiment with creating android apps.`,
+    },
     {
       title: 'MOOPS',
       subtitle: 'MIPS assembler project',
