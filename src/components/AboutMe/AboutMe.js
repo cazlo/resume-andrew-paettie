@@ -57,7 +57,7 @@ const Intro = ({ style }) => (
               Resume DOCX
             </Button>
             &nbsp;&nbsp;&nbsp;
-            <Button href="mailto:andrew.paettie@gmail.com" variant="contained" color="secondary">
+            <Button href="mailto:paettiea@gmail.com" variant="contained" color="secondary">
               Contact Me
             </Button>
           </div>
