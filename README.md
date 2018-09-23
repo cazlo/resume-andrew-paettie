@@ -9,7 +9,7 @@ Basically just a portfolio site to show some things I've done, but also a place 
  - bootstrapped with create-react-app
  - bootstrap 4 via reactstrap
  - routing with react router 4
- - static page snapshot generation via react-snapshot
+ - static page snapshot generation via react-snap
  - CI/deployment via CircleCI-Github integration
  - Hosted via AWS S3, CloudFront, Lambda
 

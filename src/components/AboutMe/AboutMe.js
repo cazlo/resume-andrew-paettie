@@ -2,6 +2,8 @@ import React from 'react';
 // eslint-disable-next-line
 import {Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import PropTypes from 'prop-types';
+
 import selfImage from '../../data/me-2018.jpg';
 
 import './AboutMe.css';
@@ -30,9 +32,7 @@ const Intro = ({ style }) => (
           <h4>Senior Software Engineer</h4>
           <p className="Resume-summary" />I am an experienced and capable full stack software
           engineer with leadership experience. If you are interested in hiring a full stack software
-          engineer, out my <Link to="/resume">résumé</Link> and{' '}
-          <Link to="/projects">projects </Link>
-          and feel free to contact me via one of the listed methods.
+          engineer, out my resume and projects and feel free to contact me via one of the listed methods.
           <br />
           <br />
           <div className="ResumeAboutMeBlock-links">
@@ -40,7 +40,7 @@ const Intro = ({ style }) => (
               variant="contained"
               color="primary"
               target="_blank"
-              href="TODO RESUME URL" // TODO
+              href="/static/resume/resume-Andrew-Paettie.pdf"
             >
               Download
             </Button>
@@ -58,5 +58,13 @@ const Intro = ({ style }) => (
     </div>
   </ScreenBlock>
 );
+
+Intro.propTypes = {
+  style: PropTypes.object,
+};
+
+Intro.defaultPropTypes = {
+  style: {},
+};
 
 export default Intro;
