@@ -37,7 +37,27 @@ export default {
       content: 'A simple portfolio site to show some projects I have done',
       image: '/img/this-site.png',
     },
-    // todo: JS map performance
+    {
+      title: 'JS Performance Analysis',
+      subtitle: 'Analyzing differences between node 8 and 10',
+      date: getDateElement('May 2018'),
+      techTheme: techTheme.javascriptColor,
+      links: [
+        {
+          url: 'https://github.com/cazlo/js-map-performance',
+          text: 'View source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Javascript',
+          icon: techTheme.javascriptColor.icon,
+        },
+      ],
+      content:
+        'Something to test out differences in several map implementations between node 8 and 10',
+      // image: '/img/this-site.png',
+    },
     {
       title: 'CTF AI: Agent007',
       subtitle: 'University project',

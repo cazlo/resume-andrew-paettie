@@ -34,6 +34,9 @@ const techTheme = {
       background: '#F0DB4F',
       color: '#fff',
     },
+    iconStyle: {
+      background: '#303233',
+    },
     className: 'vertical-timeline-element--javascript',
     icon: <JavascriptIcon />,
   },
