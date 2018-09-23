@@ -41,7 +41,6 @@ jobs:
       # run tests!
 #      - run: npm test
       - run: yarn build
-      - run: yarn build-snapshot
 
       - deploy:
            name: Deploy to S3 (test if not master branch)
