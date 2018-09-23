@@ -18,6 +18,8 @@ GridItem.defaultPropTypes = {
   height: 0,
   width: 0,
   style: {},
+  delay: 1000,
+  duration: 1000,
 };
 
 export default GridItem;
