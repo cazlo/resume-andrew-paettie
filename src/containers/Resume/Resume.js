@@ -7,6 +7,8 @@ import { withTheme } from '@material-ui/core/styles';
 import Home from '../../components/Home/Home';
 import AboutMe from '../../components/AboutMe/AboutMe';
 import ProjectsBlock from '../../components/ProjectsBlock/ProjectsBlock';
+import WorkAndEducationBlock from '../../components/WorkAndEducationBlock/WorkAndEducationBlock';
+import Skills from '../../components/Skills/Skills';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import content from '../../common/content';
 import techTheme from '../../common/techTheme';
@@ -47,6 +49,8 @@ const Resume = () => (
     {/* /> */}
     <Home />
     <AboutMe style={techTheme.githubColor.style} />
+    <WorkAndEducationBlock educations={content.educations} positions={content.positions} />
+    <Skills skills={content.skills} tools={content.tools} />
     <ProjectsBlock projects={content.projects} />
     <BottomNav />
   </div>

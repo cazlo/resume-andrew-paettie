@@ -23,38 +23,38 @@ Link.propTypes = {
 
 const buttons = [
   {
-    label: 'home',
+    label: 'Home',
     name: 'Resume-home',
     icon: <HomeIcon />,
   },
   {
-    label: 'aboutMe',
+    label: 'About Me',
     name: 'Resume-aboutMe',
     icon: <FaceIcon />,
   },
   {
-    label: 'workExperience',
+    label: 'Work Experience',
     name: 'Resume-work',
     icon: <WorkIcon />,
   },
   {
-    label: 'education',
+    label: 'Education',
     name: 'Resume-education',
     icon: <SchoolIcon />,
     offset: -16,
   },
   {
-    label: 'skills',
+    label: 'Skills',
     name: 'Resume-skills',
     icon: <SettingsIcon />,
   },
   {
-    label: 'projects',
+    label: 'Projects',
     name: 'Resume-projects',
     icon: <CodeIcon />,
   },
   {
-    label: 'hobbies',
+    label: 'Hobbies',
     name: 'Resume-hobbies',
     icon: <ToysIcon />,
   },

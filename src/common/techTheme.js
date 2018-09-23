@@ -4,7 +4,7 @@ import React from 'react';
 import ReactIcon from 'react-devicon/react/original';
 import JavascriptIcon from 'react-devicon/javascript/plain';
 import NodeJsIcon from 'react-devicon/nodejs/plain';
-import JavaIcon from 'react-devicon/java/plain';
+import JavaIcon from 'react-devicon/java/original';
 import AwsIcon from 'react-devicon/amazonwebservices/original';
 import DockerIcon from 'react-devicon/docker/plain';
 import GithubIcon from 'react-devicon/github/original';
@@ -58,7 +58,7 @@ const techTheme = {
   },
   javaColor: {
     style: {
-      background: '#3886e0',
+      background: '#af0930',
       color: '#fff',
     },
     className: 'vertical-timeline-element--java',

@@ -5,6 +5,46 @@ import techTheme from './techTheme';
 const getDateElement = date => <div className="ProjectDate">{date}</div>;
 
 export default {
+  educations: [
+    {
+      schoolName: 'University of Texas Dallas',
+      fieldOfStudy: 'Computer Science',
+      startDate: '2010',
+      endDate: '2015',
+      degree: 'Bachelor of Science in Computer Science',
+      activities: 'Database, Java, Javascript, AI, ML, Network Security, UNIX',
+    },
+  ],
+  positions: [
+    {
+      title: 'Full-stack software engineer',
+      summary:
+        'NodeJS/Postgres/Javascript development<br />Node 8 | HapiJS | ReactJS | Docker | CI | AWS',
+      startDate: '2017',
+      endDate: 'Today',
+      isCurrent: true,
+      company: 'Cox Auto Data Solutions',
+    },
+    {
+      title: 'Full-stack software engineer',
+      summary:
+        'Java/MySQL/Javascript development<br />Spring Boot | Groovy | AngularJS | Docker | Jenkins',
+      startDate: '2015',
+      endDate: '2017',
+      isCurrent: false,
+      company: 'Cox Auto (Dealer.com)',
+    },
+    {
+      title: 'Dev/Ops Intern',
+      summary: 'Java EE/Oracle DB/Jquery development<br />J2EE | IIS | Jquery | Ant | Bugzilla',
+      startDate: '2014',
+      endDate: '2015',
+      isCurrent: false,
+      company: 'CapitalSoft',
+    },
+  ],
+  tools:
+    'Operating system: Linux<br />IDE: Webstorm / Intellij<br />Containerization: Docker <br />Continuous integration software: Jenkins / CircleCI<br />Project Management Software: Rally / Github / Trello<br />Version control system software: Github<br />',
   projects: [
     {
       title: 'AndrewPaettie.com',

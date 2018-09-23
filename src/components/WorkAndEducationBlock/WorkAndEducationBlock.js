@@ -1,120 +1,119 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Chip from '@material-ui/core/Chip';
-import Button from '@material-ui/core/Button';
-
+import SchoolIcon from '@material-ui/icons/School';
+import WorkIcon from '@material-ui/icons/Work';
 // import { FaGithub, FaHashtag } from 'react-icons/lib/fa';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import 'react-vertical-timeline-component/style.min.css';
 
-// projects will like be common/content.projects
-const WorkAndEducationBlock = ({ projects }) => (
-  <div className="container">
-    <div className="heading">
-      <h2>Projects</h2>
-      <p>Showcase of my latest builds</p>
+import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
+import techTheme from '../../common/techTheme';
+import './WorkAndEducationBlock.css';
+
+const formatPeriod = (start, end) => {
+  const isToday = end === 'Today' || end === "Aujourd'hui" || end === '今';
+
+  const period = (isToday ? new Date().getFullYear() : parseInt(end, 10)) - parseInt(start, 10);
+
+  if (period <= 1) {
+    return `${start} – ${end}`;
+  }
+
+  return `${start} – ${end}`;
+};
+
+// positions and educations will like be common/content.projects
+const WorkAndEducationBlock = ({ positions, educations, workIconStyle, educationIconStyle }) => (
+  <ScreenBlock id="Resume-work" className="ResumeWorkAndEducationBlock">
+    <div className="container">
+      <div className="heading">
+        <h2>Work experience & Education</h2>
+        <p>My previous jobs and my qualifications.</p>
+      </div>
+
+      <VerticalTimeline>
+        {positions.map((position, i) => (
+          // let picture = null;
+          // if (position.picture) {
+          //   picture = require(`../../data/img/${position.picture}`); // eslint-disable-line global-require
+          // }
+          <VerticalTimelineElement
+            className="Resume-position"
+            key={i} // eslint-disable-line react/no-array-index-key
+            icon={<WorkIcon />}
+            iconStyle={techTheme.postGresColor.style}
+            date={formatPeriod(position.startDate, position.endDate)}
+          >
+            {/* {picture && ( */}
+            {/* <img className="ResumeWorkAndEducationBlock-picture" alt="" src={picture} /> */}
+            {/* )} */}
+            <h3 className="vertical-timeline-element-title">
+              {position.title} @{position.company}
+            </h3>
+            {position.keywords && (
+              <div className="ResumeWorkAndEducationBlock-keywords">
+                {position.keywords.map((keyword, j) => (
+                  <span key={j}> {keyword.name} </span> // eslint-disable-line react/no-array-index-key
+                ))}
+              </div>
+            )}
+            <p>
+              {/* eslint-disable-next-line react/no-danger */}
+              <span dangerouslySetInnerHTML={{ __html: position.summary }} />
+            </p>
+            {/* {position.more && ( */}
+            {/* <ShowMore> */}
+            {/* <p dangerouslySetInnerHTML={{ __html: position.more }} /> */}
+            {/* </ShowMore> */}
+            {/* )} */}
+          </VerticalTimelineElement>
+        ))}
+      </VerticalTimeline>
+
+      <div id="Resume-education">
+        <VerticalTimeline>
+          {educations.map((education, i) => (
+            <VerticalTimelineElement
+              position={i % 2 ? 'left' : 'right'}
+              id=""
+              className="Resume-position"
+              key={i} // eslint-disable-line react/no-array-index-key
+              icon={<SchoolIcon />}
+              iconStyle={techTheme.javaColor.style}
+              date={formatPeriod(education.startDate, education.endDate)}
+            >
+              <h3 className="vertical-timeline-element-title">{education.fieldOfStudy}</h3>
+              <h4 className="vertical-timeline-element-subtitle">{education.degree}</h4>
+              {education.activities &&
+                !Array.isArray(education.activities) && (
+                  <p>
+                    <span
+                      /* eslint-disable-next-line react/no-danger */
+                      dangerouslySetInnerHTML={{ __html: education.activities }}
+                    />
+                  </p>
+                )}
+              {education.activities &&
+                Array.isArray(education.activities) && (
+                  <div className="ResumeWorkAndEducationBlock-keywords">
+                    {education.activities.map((activity, j) => (
+                      <span key={j}> {activity.name} </span> // eslint-disable-line react/no-array-index-key
+                    ))}
+                  </div>
+                )}
+              {education.summary && <p dangerouslySetInnerHTML={{ __html: education.summary }} />}
+            </VerticalTimelineElement>
+          ))}
+        </VerticalTimeline>
+      </div>
     </div>
-    <VerticalTimeline>
-      {projects.map((project, i) => (
-        <VerticalTimelineElement
-          style={{
-            borderTop: `3px solid ${project.techTheme.border}`,
-          }}
-          className={`ProjectsBlock ${project.techTheme.className}`}
-          key={i} // eslint-disable-line react/no-array-index-key
-          icon={project.techTheme.icon}
-          iconStyle={project.techTheme.style}
-          date={project.date}
-        >
-          <div className="ProjectsBlock-technologies">
-            {project.technologies.map((technology, j) => (
-              <Chip key={j} label={technology.name} /> // eslint-disable-line react/no-array-index-key
-            ))}
-          </div>
-          <h3 className="vertical-timeline-element-title">{project.title}</h3>
-          <h4 className="vertical-timeline-element-subtitle">{project.subtitle}</h4>
-          <p>
-            {/* eslint-disable-next-line react/no-danger */}
-            {/* <span dangerouslySetInnerHTML={{ __html: project.content }} /> */}
-            {project.content}
-          </p>
-          <br />
-          <div className="ProjectsBlock-links">
-            {project.links.map((link, j) => (
-              <Button
-                key={j} // eslint-disable-line react/no-array-index-key
-                variant="outlined"
-                color="default"
-                target="_blank"
-                href={link.url}
-              >
-                {link.text}
-              </Button>
-            ))}
-          </div>
-        </VerticalTimelineElement>
-      ))}
-
-      {/* <VerticalTimelineElement */}
-      {/* className='vertical-timeline-element--work' */}
-      {/* date='2017 - present' */}
-      {/* iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }} */}
-      {/* icon='' */}
-      {/* > */}
-      {/* <h3 className='vertical-timeline-element-title'>TODO: current title</h3> */}
-      {/* <h4 className='vertical-timeline-element-subtitle'>TODO: location</h4> */}
-      {/* <p> */}
-      {/* TODO: buzzwords like: */}
-      {/* Creative Direction, User Experience, Visual Design, SEO, Online Marketing */}
-      {/* </p> */}
-      {/* </VerticalTimelineElement> */}
-
-      {/* <VerticalTimelineElement */}
-      {/* className='vertical-timeline-element--work' */}
-      {/* date='2015 - 2017' */}
-      {/* iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }} */}
-      {/* icon='' */}
-      {/* > */}
-      {/* <h3 className='vertical-timeline-element-title'>TODO DDC title</h3> */}
-      {/* <h4 className='vertical-timeline-element-subtitle'>TODO DDC description</h4> */}
-      {/* <p> */}
-      {/* TODO Buzzwords about the incentive/inventory re-architectures */}
-      {/* </p> */}
-      {/* </VerticalTimelineElement> */}
-      {/* <VerticalTimelineElement */}
-      {/* className="vertical-timeline-element--education" */}
-      {/* date="2009 - 2015" */}
-      {/* iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }} */}
-      {/* icon="" */}
-      {/* > */}
-      {/* <h3 className="vertical-timeline-element-title">Bachelor of Science in Computer Science</h3> */}
-      {/* <h4 className="vertical-timeline-element-subtitle">Bachelor Degree</h4> */}
-      {/* </VerticalTimelineElement> */}
-
-      {/* <VerticalTimelineElement */}
-      {/* className='vertical-timeline-element--education' */}
-      {/* date='2014 - 2015' */}
-      {/* iconStyle={{ background: 'rgb(233, 30, 99)', color: '#fff' }} */}
-      {/* icon='' */}
-      {/* > */}
-      {/* <h3 className='vertical-timeline-element-title'>TODO Capitalsoft stuff</h3> */}
-      {/* <h4 className='vertical-timeline-element-subtitle'>TODO Capitalsoft stuff</h4> */}
-      {/* <p>TODO Capitalsoft stuff</p> */}
-      {/* </VerticalTimelineElement> */}
-    </VerticalTimeline>
-
-    {/* <ProjectCard */}
-    {/* githubUrl='https://github.com/cazlo/WhizCalc' */}
-    {/* title='WhizCalc' */}
-    {/* subtitle='January 2014' */}
-    {/* text='A simple calculator app for android used to experiment with creating android apps.' */}
-    {/* imageUrl={placeholderImgUrl} */}
-    {/* /> */}
-  </div>
+  </ScreenBlock>
 );
 
 WorkAndEducationBlock.propTypes = {
-  projects: PropTypes.array.isRequired,
+  workIconStyle: PropTypes.object.isRequired,
+  educationIconStyle: PropTypes.object.isRequired,
+  positions: PropTypes.array.isRequired,
+  educations: PropTypes.array.isRequired,
 };
 
 export default WorkAndEducationBlock;
