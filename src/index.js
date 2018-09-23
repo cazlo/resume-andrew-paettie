@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { hydrate, render } from 'react-dom';
 import WebFont from 'webfontloader';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
@@ -17,7 +17,9 @@ WebFont.load({
   },
 });
 
-render(
+const rootElement = document.getElementById('root');
+const spawnFn = rootElement.hasChildNodes() ? hydrate : render;
+spawnFn(
   <BrowserRouter>
     <App />
   </BrowserRouter>,
