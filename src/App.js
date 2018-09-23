@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
@@ -16,7 +16,10 @@ const theme = createMuiTheme({
 const App = () => (
   <MuiThemeProvider theme={theme}>
     <div className="App">
-      <Route exact path="/" component={Resume} />
+      <Switch>
+        <Route exact path="/" component={Resume} />
+        <Route component={Resume} />
+      </Switch>
       <br />
       <div className="pull-down">
         <p className="muted" align="center">
