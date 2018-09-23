@@ -7,7 +7,7 @@ import WorkIcon from '@material-ui/icons/Work';
 import FaceIcon from '@material-ui/icons/Face';
 import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/SettingsApplications';
-import ToysIcon from '@material-ui/icons/Toys';
+// import ToysIcon from '@material-ui/icons/Toys';
 import CodeIcon from '@material-ui/icons/Code';
 
 import './BottomNav.css';
