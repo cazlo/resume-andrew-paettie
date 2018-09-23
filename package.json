@@ -42,25 +42,26 @@
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "prettier": "^1.14.3",
-    "react-snapshot": "^1.2.0",
+    "react-snap": "^1.19.0",
     "svg-inline-loader": "^0.8.0",
     "webfontloader": "^1.6.28"
   },
   "scripts": {
     "fix-normalize-css-unit": "cross-env NODE_ENV=production babel --presets es2015 ./node_modules/normalize-css-unit/dist --out-dir ./node_modules/normalize-css-unit/dist",
     "start": "node scripts/customized-config  start",
-    "build": "yarn fix-normalize-css-unit && node scripts/customized-config build",
-    "build-snapshot": "react-snapshot",
+    "build": "yarn fix-normalize-css-unit && node scripts/customized-config build && yarn build-snapshot",
+    "build-snapshot": "react-snap",
     "build-run": "yarn build && serve -s build",
     "test": "node scripts/customized-config test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src/",
     "lint-fix": "eslint --fix --ignore-path .eslintignore src/"
   },
-  "reactSnapshot": {
-    "exclude": [
-      "/"
-    ],
-    "snapshotDelay": 300
+  "reactSnap": {
+    "inlineCss": true,
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ]
   }
 }
