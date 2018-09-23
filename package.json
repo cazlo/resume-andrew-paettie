@@ -49,7 +49,7 @@
   "scripts": {
     "fix-normalize-css-unit": "cross-env NODE_ENV=production babel --presets es2015 ./node_modules/normalize-css-unit/dist --out-dir ./node_modules/normalize-css-unit/dist",
     "start": "node scripts/customized-config  start",
-    "build": "yarn fix-normalize-css-unit && node scripts/customized-config build && yarn build-snapshot",
+    "build": "yarn fix-normalize-css-unit && node scripts/customized-config build",
     "build-snapshot": "react-snap",
     "build-run": "yarn build && serve -s build",
     "test": "node scripts/customized-config test --env=jsdom",
