@@ -8,7 +8,7 @@
 }
 
 .Resume .ScreenBlockContainer:nth-child(odd) .ScreenBlock {
-    background: #fff;
+    background: #aaaeb0;
 }
 
 @media only screen and (max-width: 800px) {

@@ -1,11 +1,15 @@
+import React from 'react';
+
 import techTheme from './techTheme';
+
+const getDateElement = date => <div className="ProjectDate">{date}</div>;
 
 export default {
   projects: [
     {
       title: 'AndrewPaettie.com',
       subtitle: 'My résumé',
-      date: '2015 - 2018',
+      date: getDateElement('2015 - 2018'),
       techTheme: techTheme.reactColor,
       links: [
         {

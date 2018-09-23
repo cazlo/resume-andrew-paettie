@@ -5,11 +5,12 @@ import ReactIcon from 'react-devicon/react/original';
 import JavascriptIcon from 'react-devicon/javascript/plain';
 import NodeJsIcon from 'react-devicon/nodejs/plain';
 import JavaIcon from 'react-devicon/java/plain';
-import AwsIcon from 'react-devicon/amazonwebservices/plain-wordmark';
+import AwsIcon from 'react-devicon/amazonwebservices/original';
 import DockerIcon from 'react-devicon/docker/plain';
 import GithubIcon from 'react-devicon/github/original';
 import PostgresIcon from 'react-devicon/postgresql/plain';
 import PythonIcon from 'react-devicon/python/plain';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 // todo CircleCI, Jest, Kotlin
 
 /**
@@ -21,6 +22,9 @@ const techTheme = {
     style: {
       background: '#61DAFB',
       color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
     },
     className: 'vertical-timeline-element--react',
     icon: <ReactIcon />,
@@ -35,7 +39,7 @@ const techTheme = {
   },
   dockerColor: {
     style: {
-      background: '#019bc6',
+      background: '#2f9ec4',
       color: '#fff',
     },
     className: 'vertical-timeline-element--docker',
@@ -43,7 +47,7 @@ const techTheme = {
   },
   nodeJsColor: {
     style: {
-      background: '#4CC2E4',
+      background: '#8fc160',
       color: '#fff',
     },
     className: 'vertical-timeline-element--nodejs',
@@ -51,7 +55,7 @@ const techTheme = {
   },
   javaColor: {
     style: {
-      background: '#21759b',
+      background: '#3886e0',
       color: '#fff',
     },
     className: 'vertical-timeline-element--java',
@@ -59,7 +63,7 @@ const techTheme = {
   },
   awsColor: {
     style: {
-      background: '#4267B2',
+      background: '#f48e3d',
       color: '#fff',
     },
     className: 'vertical-timeline-element--aws',
@@ -67,7 +71,7 @@ const techTheme = {
   },
   githubColor: {
     style: {
-      background: '#6AD7E5',
+      background: '#2f78b9',
       color: '#fff',
     },
     className: 'vertical-timeline-element--github',
@@ -76,7 +80,7 @@ const techTheme = {
   postGresColor: {
     // todo change this to not be github colors
     style: {
-      background: '#6AD7E5',
+      background: '#3a6990',
       color: '#fff',
     },
     className: 'vertical-timeline-element--postgres',
@@ -84,7 +88,7 @@ const techTheme = {
   },
   pythonColor: {
     style: {
-      background: '#f3c794',
+      background: '#4075a3',
       color: '#fff',
     },
     className: 'vertical-timeline-element--python',
@@ -96,7 +100,7 @@ const techTheme = {
       color: '#fff',
     },
     className: 'vertical-timeline-element--others',
-    icon: <PostgresIcon />,
+    icon: <MoreHorizIcon />,
   },
 };
 
