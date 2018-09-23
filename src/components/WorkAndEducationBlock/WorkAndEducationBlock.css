@@ -1,0 +1,44 @@
+.ResumeWorkAndEducationBlock .container {
+    /* fix problem scroll spy with work & education */
+    padding-bottom: 0px !important;
+    max-width: none;
+}
+
+.ResumeWorkAndEducationBlock #Resume-education {
+    padding-bottom: 69px;
+}
+
+.ResumeWorkAndEducationBlock-picture {
+    position: absolute;
+    top: 22px;
+    right: 16px;
+    width: 50px;
+    opacity: .5;
+    transition: opacity .4s;
+}
+
+.ResumeWorkAndEducationBlock-keywords span {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 0 5px;
+    border-right: 1px solid black;
+}
+
+.ResumeWorkAndEducationBlock-keywords span:last-child {
+    border-right: none;
+    padding-right: 0;
+}
+
+.ResumeWorkAndEducationBlock-keywords span:first-child {
+    padding-left: 0;
+}
+
+.ResumeWorkAndEducationBlock .Resume-position ul {
+    margin-top: 0;
+    list-style: circle;
+}
+
+.ResumeWorkAndEducationBlock .VerticalTimelineElement .vertical-timeline-element-title,
+.ResumeWorkAndEducationBlock-keywords {
+    max-width: calc(100% - 50px);
+}

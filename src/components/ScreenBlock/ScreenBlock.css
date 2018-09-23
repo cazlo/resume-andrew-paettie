@@ -1,0 +1,22 @@
+.ScreenBlockContainer {
+    display: flex;
+    min-height: calc(100vh - 56px);
+    flex-direction: column;
+}
+
+.ScreenBlock {
+    flex: 1;
+}
+
+.ScreenBlock h2 {
+    margin: 0;
+    color: #d20010;
+    font-size: 34px;
+    text-transform: none;
+}
+
+@media only screen and (max-width: 480px) {
+    .ScreenBlockContainer {
+        min-height: calc(100vh - 88px);
+    }
+}

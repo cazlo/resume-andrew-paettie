@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
+      - image: circleci/node:8.12
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -19,6 +19,11 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          command: |
+            sudo apt-get install python-dev python-pip
+            sudo pip install awscli
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -26,30 +31,22 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: npm install
+      - run: yarn install
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run:
-          command: |
-            sudo apt-get install python-dev python-pip
-            sudo pip install awscli
       # run tests!
 #      - run: npm test
-      - run: npm run build
+      - run: yarn build
 
       - deploy:
            name: Deploy to S3 (test if not master branch)
            command: |
              if [ "${CIRCLE_BRANCH}" == "master" ]; then
                echo "=====  Deploying MASTER to PROD  ====="
-               mkdir build/projects
-               mv build/projects.html build/projects/index.html
-               mkdir build/resume
-               mv build/resume.html build/resume/index.html
                aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=604800
                aws configure set preview.cloudfront true
                aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths \
@@ -77,8 +74,5 @@ jobs:
                 /static/resume/resume-Andrew-Paettie.pdf
              else
                echo "=====  Deploying ${CIRCLE_BRANCH} to TEST  ====="
-               mkdir build/projects
-               mv build/projects.html build/projects/index.html
-               mv build/resume.html build/resume/index.html
                aws s3 sync build s3://andrewpaettie.test.com --delete --acl public-read
              fi
