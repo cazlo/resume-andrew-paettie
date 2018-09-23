@@ -1,0 +1,108 @@
+.VerticalTimeline {
+    margin: 0 auto !important;
+    max-width: 1250px;
+    color: #ffffff
+}
+
+.ProjectsBlock .vertical-timeline-element {
+    box-sizing: content-box;
+    color: #ffffff
+}
+
+.ProjectDate .vertical-timeline-element-content .vertical-timeline-element-date  {
+    color: #ffffff;
+}
+
+
+.ProjectsBlock > .vertical-timeline-element-date {
+    box-sizing: content-box;
+    color: #ffffff;
+}
+
+.VerticalTimelineElement .vertical-timeline-element-title {
+    margin: 0;
+}
+
+.VerticalTimelineElement .vertical-timeline-element-subtitle {
+    margin: 0;
+}
+
+.VerticalTimelineElement .vertical-timeline-element-content p {
+    margin: 1em 0 0;
+}
+
+.VerticalTimelineElement.vertical-timeline-element--java .vertical-timeline-element-content {
+    border-top: 3px solid #fd4f31;
+}
+
+.VerticalTimelineElement.vertical-timeline-element--aws .vertical-timeline-element-content {
+    border-top: 3px solid #f48e3d;
+}
+
+.VerticalTimelineElement.vertical-timeline-element--react .vertical-timeline-element-content {
+    border-top: 3px solid #61DAFB;
+}
+
+.VerticalTimelineElement.vertical-timeline-element--python .vertical-timeline-element-content {
+    border-top: 3px solid #f3c794;
+}
+
+
+VerticalTimelineElement.vertical-timeline-element > * > svg{
+    width: 36px;
+    height: 36px;
+    margin-left: -18px;
+    margin-top: -18px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+svg.SVGInline-devicon.ReactOriginal-devicon.VerticalTimelineElement-devicon {
+    width: 36px;
+    height: 36px;
+    margin-left: -18px;
+    margin-top: -18px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.VerticalTimelineElement .vertical-timeline-element-icon .SVGInline svg {
+    width: 36px;
+    height: 36px;
+    left: auto;
+    top: auto;
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
+.VerticalTimelineElement .vertical-timeline-element-icon .SVGInline svg path,
+.VerticalTimelineElement .vertical-timeline-element-icon .SVGInline svg g {
+    fill: #fff !important;
+}
+
+@media only screen and (max-width: 1170px) {
+    .vertical-timeline-element-content .vertical-timeline-element-date {
+        text-align: right;
+        width: 100%;
+        margin-bottom: -12px;
+    }
+
+    .VerticalTimelineElement .vertical-timeline-element-icon .SVGInline {
+        width: 24px;
+        height: 24px;
+        margin-left: -12px;
+        margin-top: -12px;
+    }
+
+    .VerticalTimelineElement .vertical-timeline-element-icon .SVGInline svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .vertical-timeline-element-content .vertical-timeline-element-date {
+        text-align: center;
+    }
+}

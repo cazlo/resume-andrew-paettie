@@ -6,10 +6,10 @@ Basically just a portfolio site to show some things I've done, but also a place 
 # Dev
 
 ## Tech Stack
- - bootstrapped with create-preact-app
+ - bootstrapped with create-react-app
  - bootstrap 4 via reactstrap
  - routing with react router 4
- - static page snapshot generation via react-snapshot
+ - static page snapshot generation via react-snap
  - CI/deployment via CircleCI-Github integration
  - Hosted via AWS S3, CloudFront, Lambda
 
@@ -21,9 +21,9 @@ This does not work because it is a stateful react component, whose open/closed s
 
 ## Dev scripts
 
- - `npm start` serves files, and re-compile file that changed
- - `npm run lint-fix` applies linting
- - `npm run build` builds minified version ready for deployment
+ - `yarn start` serves files, and re-compile file that changed
+ - `yarn run lint-fix` applies linting
+ - `yarn run build` builds minified version ready for deployment
 
 # Ops
 

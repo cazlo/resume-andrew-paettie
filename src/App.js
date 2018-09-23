@@ -1,32 +1,30 @@
-import { h, Component } from 'preact';
-import  { Route } from 'react-router-dom';
-import { Container, Row } from 'reactstrap';
-import HeaderNav from "./containers/header";
-import Intro from "./components/intro";
-import Projects from "./components/projects";
-import Resume from "./components/resume";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import blue from '@material-ui/core/colors/blue';
+import red from '@material-ui/core/colors/red';
 
-class App extends Component {
-  render() {
-    return (
-      <div className='App'>
-        <HeaderNav />
+import Resume from './containers/Resume/Resume';
+import Copyright from './components/Copyright/Copyright';
 
-        <Container>
-          <Row>
-            <Route exact path='/' component={Intro} />
-            <Route path='/projects' component={Projects} />
-            <Route path='/resume' component={Resume} />
-          </Row>
-        </Container>
+const theme = createMuiTheme({
+  palette: {
+    primary: blue,
+    error: red,
+  },
+});
 
-        <br />
-        <div class='pull-down'>
-          <p class='muted' align='center'>&copy; 2013 - {new Date().getFullYear()}, Andrew Paettie</p>
-        </div>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <MuiThemeProvider theme={theme}>
+    <div className="App">
+      <Switch>
+        <Route exact path="/" component={Resume} />
+        <Route component={Resume} />
+      </Switch>
+      <br />
+      <Copyright />
+    </div>
+  </MuiThemeProvider>
+);
 
 export default App;

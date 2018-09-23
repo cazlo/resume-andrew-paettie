@@ -5,6 +5,6 @@
   "main": "exports.js",
   "private": true,
   "dependencies": {
-    "aws-lambda-ses-forwarder": "^4.0.0"
+    "aws-lambda-ses-forwarder": "^4.2.0"
   }
 }
