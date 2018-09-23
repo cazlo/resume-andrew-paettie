@@ -4,10 +4,12 @@ import flow from 'lodash/flow';
 // import { injectIntl, intlShape } from 'react-intl';
 import { withTheme } from '@material-ui/core/styles';
 
+import Home from '../../components/Home/Home';
+import AboutMe from '../../components/AboutMe/AboutMe';
 import ProjectsBlock from '../../components/ProjectsBlock/ProjectsBlock';
 import BottomNav from '../../components/BottomNav/BottomNav';
-import AboutMe from '../../components/AboutMe/AboutMe';
 import content from '../../common/content';
+import techTheme from '../../common/techTheme';
 
 import './Resume.css';
 
@@ -43,7 +45,8 @@ const Resume = () => (
     {/* }, */}
     {/* ]} */}
     {/* /> */}
-    <AboutMe />
+    <Home />
+    <AboutMe style={techTheme.githubColor.style} />
     <ProjectsBlock projects={content.projects} />
     <BottomNav />
   </div>
