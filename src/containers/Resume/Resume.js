@@ -11,6 +11,7 @@ import ProjectsBlock from '../../components/ProjectsBlock/ProjectsBlock';
 import WorkAndEducationBlock from '../../components/WorkAndEducationBlock/WorkAndEducationBlock';
 import Skills from '../../components/Skills/Skills';
 import BottomNav from '../../components/BottomNav/BottomNav';
+import Copyright from '../../components/Copyright/Copyright';
 import content from '../../common/content';
 import techTheme from '../../common/techTheme';
 
@@ -67,6 +68,7 @@ const Resume = () => (
     <WorkAndEducationBlock educations={content.educations} positions={content.positions} />
     <Skills skills={getSkillsByLanguages(content.skills)} tools={content.tools} />
     <ProjectsBlock projects={content.projects} />
+    <Copyright />
     <BottomNav />
   </div>
 );

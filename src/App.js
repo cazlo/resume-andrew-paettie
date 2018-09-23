@@ -5,6 +5,7 @@ import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
 
 import Resume from './containers/Resume/Resume';
+import Copyright from './components/Copyright/Copyright';
 
 const theme = createMuiTheme({
   palette: {
@@ -21,11 +22,7 @@ const App = () => (
         <Route component={Resume} />
       </Switch>
       <br />
-      <div className="pull-down">
-        <p className="muted" align="center">
-          &copy; 2013 - {new Date().getFullYear()}, Andrew Paettie
-        </p>
-      </div>
+      <Copyright />
     </div>
   </MuiThemeProvider>
 );
