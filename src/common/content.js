@@ -86,7 +86,7 @@ export default {
           text: 'Site',
         },
         {
-          url: 'https://github.com/cazlo/apaettie_backup',
+          url: 'https://github.com/cazlo/resume-andrew-paettie',
           text: 'View source code',
         },
       ],
