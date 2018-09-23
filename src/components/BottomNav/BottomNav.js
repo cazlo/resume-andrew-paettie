@@ -53,11 +53,11 @@ const buttons = [
     name: 'Resume-projects',
     icon: <CodeIcon />,
   },
-  {
-    label: 'Hobbies',
-    name: 'Resume-hobbies',
-    icon: <ToysIcon />,
-  },
+  // {
+  //   label: 'Hobbies',
+  //   name: 'Resume-hobbies',
+  //   icon: <ToysIcon />,
+  // },
 ];
 
 const SimpleBottomNavigation = () => (
