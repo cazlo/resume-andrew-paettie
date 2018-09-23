@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import GridBackground from '../../components/GridBackground/GridBackground';
+import GridBackground from './GridBackground/GridBackground';
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 
 import appTheme from '../../common/techTheme';
