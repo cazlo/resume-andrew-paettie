@@ -12,14 +12,19 @@ export default {
       startDate: '2010',
       endDate: '2015',
       degree: 'Bachelor of Science in Computer Science',
-      activities: 'Database, Java, Javascript, AI, ML, Network Security, UNIX',
+      activities: <span>Database, Java, Javascript, AI, ML, Network Security, UNIX</span>,
     },
   ],
   positions: [
     {
       title: 'Full-stack software engineer',
-      summary:
-        'NodeJS/Postgres/Javascript development<br />Node 8 | HapiJS | ReactJS | Docker | CI | AWS',
+      summary: (
+        <span>
+          NodeJS/Postgres/Javascript development
+          <br />
+          Node 8 | HapiJS | ReactJS | Docker | CI | AWS
+        </span>
+      ),
       startDate: '2017',
       endDate: 'Today',
       isCurrent: true,
@@ -27,8 +32,13 @@ export default {
     },
     {
       title: 'Full-stack software engineer',
-      summary:
-        'Java/MySQL/Javascript development<br />Spring Boot | Groovy | AngularJS | Docker | Jenkins',
+      summary: (
+        <span>
+          Java/MySQL/Javascript development
+          <br />
+          Spring Boot | Groovy | AngularJS | Docker | Jenkins
+        </span>
+      ),
       startDate: '2015',
       endDate: '2017',
       isCurrent: false,
@@ -36,15 +46,34 @@ export default {
     },
     {
       title: 'Dev/Ops Intern',
-      summary: 'Java EE/Oracle DB/Jquery development<br />J2EE | IIS | Jquery | Ant | Bugzilla',
+      summary: (
+        <span>
+          Java EE/Oracle DB/Jquery development
+          <br />
+          J2EE | IIS | Jquery | Ant | Bugzilla
+        </span>
+      ),
       startDate: '2014',
       endDate: '2015',
       isCurrent: false,
       company: 'CapitalSoft',
     },
   ],
-  tools:
-    'Operating system: Linux<br />IDE: Webstorm / Intellij<br />Containerization: Docker <br />Continuous integration software: Jenkins / CircleCI<br />Project Management Software: Rally / Github / Trello<br />Version control system software: Github<br />',
+  tools: (
+    <span>
+      Operating system: Linux
+      <br />
+      IDE: Webstorm / Intellij
+      <br />
+      Containerization: Docker <br />
+      Continuous integration software: Jenkins / CircleCI
+      <br />
+      Project Management Software: Rally / Github / Trello
+      <br />
+      Version control system software: Github
+      <br />
+    </span>
+  ),
   projects: [
     {
       title: 'AndrewPaettie.com',
@@ -246,4 +275,239 @@ export default {
       image: '/img/heli-game.png', // todo gif
     },
   ],
+  skills: [],
+  // skills: [
+  //   {
+  //     name: 'Laravel 5',
+  //     language: {
+  //       name: 'PHP',
+  //       style: 'php',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'Symfony 2 & 3',
+  //     language: {
+  //       name: 'PHP',
+  //       style: 'php',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'Ruby on Rails',
+  //     language: {
+  //       name: 'Ruby',
+  //       style: 'ruby',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'API development with Rails',
+  //     language: {
+  //       name: 'Ruby',
+  //       style: 'ruby',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'RSpec',
+  //     language: {
+  //       name: 'Ruby',
+  //       style: 'ruby',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'React',
+  //     language: {
+  //       name: 'Javascript',
+  //       style: 'javascript',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'React Native',
+  //     language: {
+  //       name: 'Javascript',
+  //       style: 'javascript',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'Redux',
+  //     language: {
+  //       name: 'Javascript',
+  //       style: 'javascript',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'ES6',
+  //     language: {
+  //       name: 'Javascript',
+  //       style: 'javascript',
+  //     },
+  //     category: {
+  //       name: 'Languages',
+  //     },
+  //   },
+  //   {
+  //     name: 'Facebook SDK',
+  //     language: {
+  //       name: 'Javascript',
+  //       style: 'javascript',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'Facebook SDK',
+  //     language: {
+  //       name: 'PHP',
+  //       style: 'php',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'API',
+  //     language: {
+  //       name: 'PHP',
+  //       style: 'php',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'SQL (MYSQL, PostgreSQL, PostGIS)',
+  //     language: {
+  //       name: 'Others',
+  //       style: 'others',
+  //     },
+  //     category: {
+  //       name: 'Languages',
+  //     },
+  //   },
+  //   {
+  //     name: 'Continuous integration',
+  //     language: {
+  //       name: 'Others',
+  //       style: 'others',
+  //     },
+  //     category: {
+  //       name: 'Languages',
+  //     },
+  //   },
+  //   {
+  //     name: 'TDD',
+  //     language: {
+  //       name: 'Others',
+  //       style: 'others',
+  //     },
+  //     category: {
+  //       name: 'Languages',
+  //     },
+  //   },
+  //   {
+  //     name: 'HTML5/CSS3',
+  //     language: {
+  //       name: 'Others',
+  //       style: 'others',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'Bootstrap',
+  //     language: {
+  //       name: 'Others',
+  //       style: 'others',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'JQUERY',
+  //     language: {
+  //       name: 'Javascript',
+  //       style: 'javascript',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'Wordpress',
+  //     language: {
+  //       name: 'PHP',
+  //       style: 'php',
+  //     },
+  //     category: {
+  //       name: 'Frameworks / SDK / CMS',
+  //     },
+  //   },
+  //   {
+  //     name: 'Linux',
+  //     category: {
+  //       name: 'Tools',
+  //     },
+  //   },
+  //   {
+  //     name: 'Docker',
+  //     category: {
+  //       name: 'Tools',
+  //     },
+  //   },
+  //   {
+  //     name: 'JIRA/Redmine',
+  //     category: {
+  //       name: 'Tools',
+  //     },
+  //   },
+  //   {
+  //     name: 'GIT',
+  //     category: {
+  //       name: 'Tools',
+  //     },
+  //   },
+  //   {
+  //     name: 'Jenkins/Gitlab-CI',
+  //     category: {
+  //       name: 'Tools',
+  //     },
+  //   },
+  //   {
+  //     name: 'Docker',
+  //     category: {
+  //       name: 'Tools',
+  //     },
+  //   },
+  //   {
+  //     name: 'GITLAB/GITHUB',
+  //     category: {
+  //       name: 'Tools',
+  //     },
+  //   },
+  // ],
 };

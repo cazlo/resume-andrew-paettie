@@ -17,36 +17,36 @@ const Skills = ({ skills, tools }) => (
         <p>I can say i’m quite good at</p>
       </div>
 
-      {/*<div className="ResumeSkillsBlock-skills">*/}
-        {/*{skills.map((skillCategory, i) => (*/}
-          {/*// eslint-disable-next-line react/no-array-index-key*/}
-          {/*<Card key={i}>*/}
-            {/*<CardContent>*/}
-              {/*<Avatar*/}
-                {/*style={{*/}
-                  {/*...appTheme[`${skillCategory[0].language.style}Color`].style,*/}
-                  {/*width: 100,*/}
-                  {/*height: 100,*/}
-                  {/*margin: '0 auto',*/}
-                {/*}}*/}
-              {/*>*/}
-                {/*{appTheme[`${skillCategory[0].language.style}Color`].icon}*/}
-              {/*</Avatar>*/}
-              {/*<h3*/}
-                {/*style={{*/}
-                  {/*color: appTheme[`${skillCategory[0].language.style}Color`].style.background,*/}
-                {/*}}*/}
-              {/*>*/}
-                {/*{skillCategory[0].language.name}*/}
-              {/*</h3>*/}
-              {/*{skillCategory.map((skill, j) => (*/}
-                {/*// eslint-disable-next-line react/no-array-index-key*/}
-                {/*<div key={j}>{skill.name}</div>*/}
-              {/*))}*/}
-            {/*</CardContent>*/}
-          {/*</Card>*/}
-        {/*))}*/}
-      {/*</div>*/}
+      <div className="ResumeSkillsBlock-skills">
+        {skills.map((skillCategory, i) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <Card key={i}>
+            <CardContent>
+              <Avatar
+                style={{
+                  ...appTheme[`${skillCategory[0].language.style}Color`].style,
+                  width: 100,
+                  height: 100,
+                  margin: '0 auto',
+                }}
+              >
+                {appTheme[`${skillCategory[0].language.style}Color`].icon}
+              </Avatar>
+              <h3
+                style={{
+                  color: appTheme[`${skillCategory[0].language.style}Color`].style.background,
+                }}
+              >
+                {skillCategory[0].language.name}
+              </h3>
+              {skillCategory.map((skill, j) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={j}>{skill.name}</div>
+              ))}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
 
       <br />
 
@@ -56,8 +56,7 @@ const Skills = ({ skills, tools }) => (
       </div>
 
       <div className="ResumeSkillsBlock-tools">
-        {/* eslint-disable-next-line react/no-danger */}
-        <p dangerouslySetInnerHTML={{ __html: tools }} />
+        <p>{tools}</p>
       </div>
     </div>
   </ScreenBlock>

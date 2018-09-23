@@ -22,7 +22,7 @@ const formatPeriod = (start, end) => {
 };
 
 // positions and educations will like be common/content.projects
-const WorkAndEducationBlock = ({ positions, educations, workIconStyle, educationIconStyle }) => (
+const WorkAndEducationBlock = ({ positions, educations }) => (
   <ScreenBlock id="Resume-work" className="ResumeWorkAndEducationBlock">
     <div className="container">
       <div className="heading">
@@ -56,10 +56,7 @@ const WorkAndEducationBlock = ({ positions, educations, workIconStyle, education
                 ))}
               </div>
             )}
-            <p>
-              {/* eslint-disable-next-line react/no-danger */}
-              <span dangerouslySetInnerHTML={{ __html: position.summary }} />
-            </p>
+            <p>{position.summary}</p>
             {/* {position.more && ( */}
             {/* <ShowMore> */}
             {/* <p dangerouslySetInnerHTML={{ __html: position.more }} /> */}
@@ -84,14 +81,7 @@ const WorkAndEducationBlock = ({ positions, educations, workIconStyle, education
               <h3 className="vertical-timeline-element-title">{education.fieldOfStudy}</h3>
               <h4 className="vertical-timeline-element-subtitle">{education.degree}</h4>
               {education.activities &&
-                !Array.isArray(education.activities) && (
-                  <p>
-                    <span
-                      /* eslint-disable-next-line react/no-danger */
-                      dangerouslySetInnerHTML={{ __html: education.activities }}
-                    />
-                  </p>
-                )}
+                !Array.isArray(education.activities) && <p>{education.activities}</p>}
               {education.activities &&
                 Array.isArray(education.activities) && (
                   <div className="ResumeWorkAndEducationBlock-keywords">
@@ -100,7 +90,7 @@ const WorkAndEducationBlock = ({ positions, educations, workIconStyle, education
                     ))}
                   </div>
                 )}
-              {education.summary && <p dangerouslySetInnerHTML={{ __html: education.summary }} />}
+              {education.summary && <p>{education.summary}</p>}
             </VerticalTimelineElement>
           ))}
         </VerticalTimeline>
@@ -110,8 +100,6 @@ const WorkAndEducationBlock = ({ positions, educations, workIconStyle, education
 );
 
 WorkAndEducationBlock.propTypes = {
-  workIconStyle: PropTypes.object.isRequired,
-  educationIconStyle: PropTypes.object.isRequired,
   positions: PropTypes.array.isRequired,
   educations: PropTypes.array.isRequired,
 };
