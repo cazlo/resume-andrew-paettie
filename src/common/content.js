@@ -74,6 +74,9 @@ export default {
           name: 'Java',
           icon: techTheme.javaColor.icon,
         },
+        {
+          name: 'AI',
+        },
       ],
       content: `An AI agent implemented in Java used to compete against other agents in a simple capture 
          the flag game written in Java. The Agent007 bot ended up placing 6th in a competition
