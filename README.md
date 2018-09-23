@@ -1,4 +1,4 @@
-# apaettie_backup
+# resume-andrew-paettie
 
 Source of andrewpaettie.com
 Basically just a portfolio site to show some things I've done, but also a place to mess around with new frontend technologies on a whim.
