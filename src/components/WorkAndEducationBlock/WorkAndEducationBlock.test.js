@@ -8,7 +8,7 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
     <MemoryRouter location="someLocation" context={{}}>
-      <WorkAndEducationBlock projects={[]} styles={{}} formatDate={() => {}} />
+      <WorkAndEducationBlock positions={[]} educations={[]} styles={{}} formatDate={() => {}} />
     </MemoryRouter>,
     div,
   );
