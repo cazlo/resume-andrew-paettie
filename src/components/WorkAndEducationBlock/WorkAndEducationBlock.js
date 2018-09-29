@@ -40,7 +40,7 @@ const WorkAndEducationBlock = ({ positions, educations }) => (
             className="Resume-position"
             key={i} // eslint-disable-line react/no-array-index-key
             icon={<WorkIcon />}
-            iconStyle={techTheme.postGresColor.style}
+            iconStyle={techTheme.postgres.style}
             date={formatPeriod(position.startDate, position.endDate)}
           >
             {/* {picture && ( */}
@@ -75,7 +75,7 @@ const WorkAndEducationBlock = ({ positions, educations }) => (
               className="Resume-position"
               key={i} // eslint-disable-line react/no-array-index-key
               icon={<SchoolIcon />}
-              iconStyle={techTheme.javaColor.style}
+              iconStyle={techTheme.java.style}
               date={formatPeriod(education.startDate, education.endDate)}
             >
               <h3 className="vertical-timeline-element-title">{education.fieldOfStudy}</h3>

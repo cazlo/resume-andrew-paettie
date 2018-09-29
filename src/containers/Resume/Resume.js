@@ -64,7 +64,7 @@ const Resume = () => (
     {/* ]} */}
     {/* /> */}
     <Home />
-    <AboutMe style={techTheme.githubColor.style} />
+    <AboutMe style={techTheme.github.style} />
     <WorkAndEducationBlock educations={content.educations} positions={content.positions} />
     <Skills skills={getSkillsByLanguages(content.skills)} tools={content.tools} />
     <ProjectsBlock projects={content.projects} />
