@@ -48,15 +48,6 @@
 }
 
 
-VerticalTimelineElement.vertical-timeline-element > * > svg{
-    width: 36px;
-    height: 36px;
-    margin-left: -18px;
-    margin-top: -18px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-}
 svg.SVGInline-devicon.ReactOriginal-devicon.VerticalTimelineElement-devicon {
     width: 36px;
     height: 36px;
@@ -72,8 +63,8 @@ svg.SVGInline-devicon.ReactOriginal-devicon.VerticalTimelineElement-devicon {
     height: 36px;
     left: auto;
     top: auto;
-    margin-left: 0px;
-    margin-top: 0px;
+    margin-left: 0;
+    margin-top: 0;
 }
 
 .VerticalTimelineElement .vertical-timeline-element-icon .SVGInline svg path,
