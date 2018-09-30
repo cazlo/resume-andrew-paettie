@@ -28,7 +28,7 @@ const Projects = ({ projects, style }) => (
             iconStyle={project.techTheme.iconStyle || project.techTheme.style}
             date={project.date}
           >
-            <div style={{ display: 'flex', flexDirection: 'flex-column' }} className="">
+            <div style={{ display: 'flex' }} className="">
               <div style={{}}>
                 <h3 className="vertical-timeline-element-title">{project.title}</h3>
                 <h4 className="vertical-timeline-element-subtitle">{project.subtitle}</h4>
