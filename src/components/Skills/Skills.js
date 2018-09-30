@@ -63,7 +63,7 @@ const Skills = ({ skills, tools }) => (
 
 Skills.propTypes = {
   skills: PropTypes.array.isRequired,
-  tools: PropTypes.string.isRequired,
+  tools: PropTypes.element.isRequired,
 };
 
 export default Skills;

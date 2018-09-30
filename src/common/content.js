@@ -5,8 +5,6 @@ import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';
 import agent007Image from '../data/agent-007.gif';
 
-const getDateElement = date => <div className="ProjectDate">{date}</div>;
-
 export default {
   educations: [
     {
@@ -81,7 +79,7 @@ export default {
     {
       title: 'AndrewPaettie.com',
       subtitle: 'My résumé',
-      date: getDateElement('2015 - 2018'),
+      date: '2015 - 2018',
       techTheme: techTheme.react,
       links: [
         {
@@ -112,7 +110,7 @@ export default {
     {
       title: 'JS Performance Analysis',
       subtitle: 'Analyzing differences between node 8 and 10',
-      date: getDateElement('May 2018'),
+      date: 'May 2018',
       techTheme: techTheme.javascript,
       links: [
         {
