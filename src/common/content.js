@@ -1,6 +1,9 @@
 import React from 'react';
 
 import techTheme from './techTheme';
+import heliGameImage from '../data/heli-game.gif';
+import amatorizationImage from '../data/amatorization.gif';
+import agent007Image from '../data/agent-007.gif';
 
 const getDateElement = date => <div className="ProjectDate">{date}</div>;
 
@@ -104,7 +107,7 @@ export default {
         },
       ],
       content: 'A simple portfolio site to show some projects I have done',
-      image: '/img/this-site.png',
+      // image: '/img/this-site.png',
     },
     {
       title: 'JS Performance Analysis',
@@ -150,7 +153,7 @@ export default {
       content: `An AI agent implemented in Java used to compete against other agents in a simple capture 
          the flag game written in Java. The Agent007 bot ended up placing 6th in a competition
          against 44 others.`,
-      image: '/img/ctf.png', // todo gif
+      image: agent007Image,
     },
     {
       title: 'Artificial Intelligence',
@@ -174,7 +177,7 @@ export default {
       ],
       content: `Some homework for an AI class I took, implementing search and constraint solving
           algorithms in python.`,
-      image: '/img/ai-brain.jpg',
+      // image: '/img/ai-brain.jpg',
     },
     {
       title: 'Machine Learning',
@@ -198,7 +201,7 @@ export default {
       ],
       content: `Some homework for a machine learning class I took, aimed towards implementing and using
           various prediction engines to classify data.`,
-      image: '/img/ml-stats.png',
+      // image: '/img/ml-stats.png',
     },
     {
       title: 'Various School Projects',
@@ -222,7 +225,7 @@ export default {
       ],
       content: `Just some random things I've made for school. Pictured is a loan amortization calculator featuring
        from scratch graphs and tables built using the swing UI framework for Java.`,
-      image: '/img/loan-amortization.png',
+      image: amatorizationImage,
     },
     {
       title: 'Whiz Calc',
@@ -265,7 +268,7 @@ export default {
       ],
       content: `An implementation of the game moo in the MIPS assembly lanuage.  
       Also includes an algorithm for solving the puzzle within 16 moves.`,
-      image: '/img/Mars-moo.png',
+      // image: '/img/Mars-moo.png',
     },
     {
       title: 'Helicopter Side-scroller',
@@ -285,7 +288,7 @@ export default {
         },
       ],
       content: `A simple side scroller implemented with Java Swing. Game engine built from scratch.`,
-      image: '/img/heli-game.png', // todo gif
+      image: heliGameImage,
     },
   ],
   skills: [
