@@ -7,8 +7,8 @@ import { sortBy } from 'lodash';
 
 import Home from '../../components/Home/Home';
 import AboutMe from '../../components/AboutMe/AboutMe';
-import ProjectsBlock from '../../components/ProjectsBlock/ProjectsBlock';
-import WorkAndEducationBlock from '../../components/WorkAndEducationBlock/WorkAndEducationBlock';
+import Projects from '../../components/Projects/Projects';
+import WorkAndEducation from '../../components/WorkAndEducation/WorkAndEducation';
 import Skills from '../../components/Skills/Skills';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import Copyright from '../../components/Copyright/Copyright';
@@ -65,9 +65,9 @@ const Resume = () => (
     {/* /> */}
     <Home />
     <AboutMe style={techTheme.github.style} />
-    <WorkAndEducationBlock educations={content.educations} positions={content.positions} />
+    <WorkAndEducation educations={content.educations} positions={content.positions} />
     <Skills skills={getSkillsByLanguages(content.skills)} tools={content.tools} />
-    <ProjectsBlock projects={content.projects} />
+    <Projects projects={content.projects} />
     <Copyright />
     <BottomNav />
   </div>

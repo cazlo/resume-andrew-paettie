@@ -8,7 +8,7 @@ import './VerticalTimeline.css';
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 
 // projects will like be common/content.projects
-const ProjectsBlock = ({ projects, style }) => (
+const Projects = ({ projects, style }) => (
   <ScreenBlock className="Resume-projects" id="Resume-projects" style={style}>
     <div className=" container">
       <div className="Resume-projects heading">
@@ -70,9 +70,9 @@ const ProjectsBlock = ({ projects, style }) => (
   </ScreenBlock>
 );
 
-ProjectsBlock.propTypes = {
+Projects.propTypes = {
   projects: PropTypes.array.isRequired,
   style: PropTypes.object,
 };
 
-export default ProjectsBlock;
+export default Projects;
