@@ -1,7 +1,7 @@
 .vertical-timeline {
     width: 95%;
     max-width: 1170px;
-    margin: 2em auto;
+    margin: 0 auto!important;
     position: relative;
     padding: 2em 0
 }
@@ -197,7 +197,6 @@
 }
 
 .vertical-timeline-element-content .vertical-timeline-element-date, .vertical-timeline-element-content p {
-    font-size: 13px;
     font-size: .8125rem;
     font-weight: 500;
     color: #333
@@ -243,17 +242,14 @@
 
 @media only screen and (min-width: 768px) {
     .vertical-timeline-element-content h2 {
-        font-size: 20px;
         font-size: 1.25rem
     }
 
     .vertical-timeline-element-content p {
-        font-size: 16px;
         font-size: 1rem
     }
 
     .vertical-timeline-element-content .vertical-timeline-element-date {
-        font-size: 14px;
         font-size: .875rem
     }
 }
@@ -277,7 +273,6 @@
         width: 100%;
         left: 124%;
         top: 6px;
-        font-size: 16px;
         font-size: 1rem
     }
 

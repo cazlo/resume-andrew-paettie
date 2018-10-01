@@ -7,14 +7,14 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8.12
+      - image: circleci/node:8.12-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: ~/apaettie_backup
+    working_directory: ~/resume-andrew-paettie
 
     steps:
       - checkout
@@ -39,7 +39,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-#      - run: npm test
+      - run: yarn test
+      - run: yarn lint
       - run: yarn build
 
       - deploy:
@@ -52,6 +53,7 @@ jobs:
                aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths \
                 /asset-manifest.json \
                 /manifest.json \
+                /manifest.png \
                 /robots.txt \
                 /favicon.ico \
                 /service-worker.js \

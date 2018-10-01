@@ -1,8 +1,9 @@
 import React from 'react';
 
 import techTheme from './techTheme';
-
-const getDateElement = date => <div className="ProjectDate">{date}</div>;
+import heliGameImage from '../data/heli-game.gif';
+import amatorizationImage from '../data/amatorization.gif';
+import agent007Image from '../data/agent-007.gif';
 
 export default {
   educations: [
@@ -78,8 +79,8 @@ export default {
     {
       title: 'AndrewPaettie.com',
       subtitle: 'My résumé',
-      date: getDateElement('2015 - 2018'),
-      techTheme: techTheme.reactColor,
+      date: '2015 - 2018',
+      techTheme: techTheme.react,
       links: [
         {
           url: 'https://andrewpaettie.com',
@@ -93,24 +94,24 @@ export default {
       technologies: [
         {
           name: 'React',
-          icon: techTheme.reactColor.icon,
+          icon: techTheme.react.icon,
         },
         {
           name: 'AWS',
-          icon: techTheme.awsColor.icon,
+          icon: techTheme.aws.icon,
         },
         {
           name: 'CircleCI',
         },
       ],
       content: 'A simple portfolio site to show some projects I have done',
-      image: '/img/this-site.png',
+      // image: '/img/this-site.png',
     },
     {
       title: 'JS Performance Analysis',
       subtitle: 'Analyzing differences between node 8 and 10',
-      date: getDateElement('May 2018'),
-      techTheme: techTheme.javascriptColor,
+      date: 'May 2018',
+      techTheme: techTheme.javascript,
       links: [
         {
           url: 'https://github.com/cazlo/js-map-performance',
@@ -120,7 +121,7 @@ export default {
       technologies: [
         {
           name: 'Javascript',
-          icon: techTheme.javascriptColor.icon,
+          icon: techTheme.javascript.icon,
         },
       ],
       content:
@@ -131,7 +132,7 @@ export default {
       title: 'CTF AI: Agent007',
       subtitle: 'University project',
       date: 'April 2015',
-      techTheme: techTheme.javaColor,
+      techTheme: techTheme.java,
       links: [
         {
           url: 'https://github.com/cazlo/ctf/tree/master/ctf',
@@ -141,7 +142,7 @@ export default {
       technologies: [
         {
           name: 'Java',
-          icon: techTheme.javaColor.icon,
+          icon: techTheme.java.icon,
         },
         {
           name: 'AI',
@@ -150,13 +151,13 @@ export default {
       content: `An AI agent implemented in Java used to compete against other agents in a simple capture 
          the flag game written in Java. The Agent007 bot ended up placing 6th in a competition
          against 44 others.`,
-      image: '/img/ctf.png', // todo gif
+      image: agent007Image,
     },
     {
       title: 'Artificial Intelligence',
       subtitle: 'University Course',
       date: 'March 2015',
-      techTheme: techTheme.pythonColor,
+      techTheme: techTheme.python,
       links: [
         {
           url: 'https://github.com/cazlo/exploring-AI',
@@ -166,7 +167,7 @@ export default {
       technologies: [
         {
           name: 'Python',
-          icon: techTheme.pythonColor.icon,
+          icon: techTheme.python.icon,
         },
         {
           name: 'AI',
@@ -174,13 +175,13 @@ export default {
       ],
       content: `Some homework for an AI class I took, implementing search and constraint solving
           algorithms in python.`,
-      image: '/img/ai-brain.jpg',
+      // image: '/img/ai-brain.jpg',
     },
     {
       title: 'Machine Learning',
       subtitle: 'University Course',
       date: 'October 2014',
-      techTheme: techTheme.pythonColor,
+      techTheme: techTheme.python,
       links: [
         {
           url: 'https://github.com/cazlo/exploring-machine-learning',
@@ -190,7 +191,7 @@ export default {
       technologies: [
         {
           name: 'Python',
-          icon: techTheme.pythonColor.icon,
+          icon: techTheme.python.icon,
         },
         {
           name: 'ML',
@@ -198,13 +199,13 @@ export default {
       ],
       content: `Some homework for a machine learning class I took, aimed towards implementing and using
           various prediction engines to classify data.`,
-      image: '/img/ml-stats.png',
+      // image: '/img/ml-stats.png',
     },
     {
       title: 'Various School Projects',
       subtitle: 'University Courses',
       date: '2012 - 2014',
-      techTheme: techTheme.othersColor,
+      techTheme: techTheme.others,
       links: [
         {
           url: 'https://github.com/cazlo/academic-stuff',
@@ -214,7 +215,7 @@ export default {
       technologies: [
         {
           name: 'Java',
-          icon: techTheme.javaColor.icon,
+          icon: techTheme.java.icon,
         },
         {
           name: 'C++',
@@ -222,13 +223,13 @@ export default {
       ],
       content: `Just some random things I've made for school. Pictured is a loan amortization calculator featuring
        from scratch graphs and tables built using the swing UI framework for Java.`,
-      image: '/img/loan-amortization.png',
+      image: amatorizationImage,
     },
     {
       title: 'Whiz Calc',
       subtitle: 'Android calculator app',
       date: 'January 2014',
-      techTheme: techTheme.androidColor,
+      techTheme: techTheme.android,
       links: [
         {
           url: 'https://github.com/cazlo/WhizCalc',
@@ -238,11 +239,11 @@ export default {
       technologies: [
         {
           name: 'Android',
-          icon: techTheme.androidColor.icon,
+          icon: techTheme.android.icon,
         },
         {
           name: 'Java',
-          icon: techTheme.javaColor.icon,
+          icon: techTheme.java.icon,
         },
       ],
       content: `A simple calculator app for android used to experiment with creating android apps.`,
@@ -251,7 +252,7 @@ export default {
       title: 'MOOPS',
       subtitle: 'MIPS assembler project',
       date: 'December 2013',
-      techTheme: techTheme.othersColor,
+      techTheme: techTheme.others,
       links: [
         {
           url: 'https://github.com/cazlo/MOOPS-Moo-on-MIPS',
@@ -265,13 +266,13 @@ export default {
       ],
       content: `An implementation of the game moo in the MIPS assembly lanuage.  
       Also includes an algorithm for solving the puzzle within 16 moves.`,
-      image: '/img/Mars-moo.png',
+      // image: '/img/Mars-moo.png',
     },
     {
       title: 'Helicopter Side-scroller',
       subtitle: 'School project',
       date: 'May 2013',
-      techTheme: techTheme.javaColor,
+      techTheme: techTheme.java,
       links: [
         {
           url: 'https://github.com/cazlo/heli-madness',
@@ -281,11 +282,11 @@ export default {
       technologies: [
         {
           name: 'Java',
-          icon: techTheme.javaColor.icon,
+          icon: techTheme.java.icon,
         },
       ],
       content: `A simple side scroller implemented with Java Swing. Game engine built from scratch.`,
-      image: '/img/heli-game.png', // todo gif
+      image: heliGameImage,
     },
   ],
   skills: [
@@ -293,168 +294,168 @@ export default {
       name: 'Java 8',
       language: {
         name: 'Java',
-        style: techTheme.javaColor,
+        style: techTheme.java,
       },
     },
     {
       name: 'Spring Boot',
       language: {
         name: 'Java',
-        style: techTheme.javaColor,
+        style: techTheme.java,
       },
     },
     {
       name: 'Maven',
       language: {
         name: 'Java',
-        style: techTheme.javaColor,
+        style: techTheme.java,
       },
     },
     {
       name: 'Kotlin',
       language: {
         name: 'Java',
-        style: techTheme.javaColor,
+        style: techTheme.java,
       },
     },
     {
       name: 'RESTful API design',
       language: {
         name: 'Java',
-        style: techTheme.javaColor,
+        style: techTheme.java,
       },
     },
     {
       name: 'JPA',
       language: {
         name: 'Java',
-        style: techTheme.javaColor,
+        style: techTheme.java,
       },
     },
     {
       name: 'JUnit',
       language: {
         name: 'Java',
-        style: techTheme.javaColor,
+        style: techTheme.java,
       },
     },
     {
       name: 'Node (6,8,10)',
       language: {
         name: 'Node',
-        style: techTheme.nodeJsColor,
+        style: techTheme.nodeJs,
       },
     },
     {
       name: 'Knex',
       language: {
         name: 'Node',
-        style: techTheme.nodeJsColor,
+        style: techTheme.nodeJs,
       },
     },
     {
       name: 'HapiJS',
       language: {
         name: 'Node',
-        style: techTheme.nodeJsColor,
+        style: techTheme.nodeJs,
       },
     },
     {
       name: 'React',
       language: {
         name: 'Javascript',
-        style: techTheme.javascriptColor,
+        style: techTheme.javascript,
       },
     },
     {
       name: 'Redux',
       language: {
         name: 'Javascript',
-        style: techTheme.javascriptColor,
+        style: techTheme.javascript,
       },
     },
     {
       name: 'ES6',
       language: {
         name: 'Javascript',
-        style: techTheme.javascriptColor,
+        style: techTheme.javascript,
       },
     },
     {
       name: 'ES8',
       language: {
         name: 'Node',
-        style: techTheme.nodeJsColor,
+        style: techTheme.nodeJs,
       },
     },
     {
       name: 'SQL (MYSQL, PostgreSQL)',
       language: {
         name: 'Others',
-        style: techTheme.othersColor,
+        style: techTheme.others,
       },
     },
     {
       name: 'NOSQL (Elasticsearch, MongoDB)',
       language: {
         name: 'Others',
-        style: techTheme.othersColor,
+        style: techTheme.others,
       },
     },
     {
       name: 'Continuous integration',
       language: {
         name: 'Others',
-        style: techTheme.othersColor,
+        style: techTheme.others,
       },
     },
     {
       name: 'TDD',
       language: {
         name: 'Others',
-        style: techTheme.othersColor,
+        style: techTheme.others,
       },
     },
     {
       name: 'HTML5/CSS3',
       language: {
         name: 'Others',
-        style: techTheme.othersColor,
+        style: techTheme.others,
       },
     },
     {
       name: 'JQUERY',
       language: {
         name: 'Javascript',
-        style: techTheme.javascriptColor,
+        style: techTheme.javascript,
       },
     },
     {
       name: 'Ramda',
       language: {
         name: 'Javascript',
-        style: techTheme.javascriptColor,
+        style: techTheme.javascript,
       },
     },
     {
       name: 'GIT',
       language: {
         name: 'Others',
-        style: techTheme.othersColor,
+        style: techTheme.others,
       },
     },
     {
       name: 'Docker',
       language: {
         name: 'Others',
-        style: techTheme.othersColor,
+        style: techTheme.others,
       },
     },
     {
       name: 'AWS',
       language: {
         name: 'Others',
-        style: techTheme.othersColor,
+        style: techTheme.others,
       },
     },
   ],

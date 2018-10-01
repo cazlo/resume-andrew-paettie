@@ -3,8 +3,8 @@
   "name": "Andrew Paettie",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "192x192",
+      "src": "manifest.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],

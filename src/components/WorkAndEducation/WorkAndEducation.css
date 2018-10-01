@@ -1,6 +1,6 @@
 .ResumeWorkAndEducationBlock .container {
     /* fix problem scroll spy with work & education */
-    padding-bottom: 0px !important;
+    padding-bottom: 0 !important;
     max-width: none;
 }
 

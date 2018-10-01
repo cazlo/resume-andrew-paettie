@@ -80,7 +80,7 @@ ul {
   line-height: 21px;
   font-weight: 400;
   padding-bottom: 22px;
-  margin: 0px;
+  margin: 0;
 }
 
 @media only screen and (max-width: 480px) {
