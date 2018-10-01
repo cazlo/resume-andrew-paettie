@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
-import selfImage from '../../data/me-2018.jpg';
+import selfImage from '../../data/me.jpg';
 
 import './AboutMe.css';
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';

@@ -7,7 +7,7 @@ import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeli
 
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 import techTheme from '../../common/techTheme';
-import './WorkAndEducationBlock.css';
+import './WorkAndEducation.css';
 
 const formatPeriod = (start, end) => {
   const isToday = end === 'Today' || end === "Aujourd'hui" || end === '今';
@@ -22,7 +22,7 @@ const formatPeriod = (start, end) => {
 };
 
 // positions and educations will like be common/content.projects
-const WorkAndEducationBlock = ({ positions, educations }) => (
+const WorkAndEducation = ({ positions, educations }) => (
   <ScreenBlock id="Resume-work" className="ResumeWorkAndEducationBlock">
     <div className="container">
       <div className="heading">
@@ -40,7 +40,7 @@ const WorkAndEducationBlock = ({ positions, educations }) => (
             className="Resume-position"
             key={i} // eslint-disable-line react/no-array-index-key
             icon={<WorkIcon />}
-            iconStyle={techTheme.postGresColor.style}
+            iconStyle={techTheme.postgres.style}
             date={formatPeriod(position.startDate, position.endDate)}
           >
             {/* {picture && ( */}
@@ -75,7 +75,7 @@ const WorkAndEducationBlock = ({ positions, educations }) => (
               className="Resume-position"
               key={i} // eslint-disable-line react/no-array-index-key
               icon={<SchoolIcon />}
-              iconStyle={techTheme.javaColor.style}
+              iconStyle={techTheme.java.style}
               date={formatPeriod(education.startDate, education.endDate)}
             >
               <h3 className="vertical-timeline-element-title">{education.fieldOfStudy}</h3>
@@ -99,9 +99,9 @@ const WorkAndEducationBlock = ({ positions, educations }) => (
   </ScreenBlock>
 );
 
-WorkAndEducationBlock.propTypes = {
+WorkAndEducation.propTypes = {
   positions: PropTypes.array.isRequired,
   educations: PropTypes.array.isRequired,
 };
 
-export default WorkAndEducationBlock;
+export default WorkAndEducation;

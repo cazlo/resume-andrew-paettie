@@ -1,6 +1,5 @@
 import React from 'react';
 
-// import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ReactIcon from 'react-devicon/react/original';
 import JavascriptIcon from 'react-devicon/javascript/plain';
 import NodeJsIcon from 'react-devicon/nodejs/plain';
@@ -18,8 +17,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
  * A centralized place to organize the style + icons of various technologies
  * */
 const techTheme = {
-  // todo refactor to remove color from all of these names
-  reactColor: {
+  react: {
     style: {
       background: '#61DAFB',
       color: '#fff',
@@ -30,7 +28,7 @@ const techTheme = {
     className: 'vertical-timeline-element--react',
     icon: <ReactIcon />,
   },
-  javascriptColor: {
+  javascript: {
     style: {
       background: '#F0DB4F',
       color: '#fff',
@@ -41,7 +39,7 @@ const techTheme = {
     className: 'vertical-timeline-element--javascript',
     icon: <JavascriptIcon />,
   },
-  dockerColor: {
+  docker: {
     style: {
       background: '#2f9ec4',
       color: '#fff',
@@ -49,7 +47,7 @@ const techTheme = {
     className: 'vertical-timeline-element--docker',
     icon: <DockerIcon />,
   },
-  nodeJsColor: {
+  nodeJs: {
     style: {
       background: '#8fc160',
       color: '#fff',
@@ -57,7 +55,7 @@ const techTheme = {
     className: 'vertical-timeline-element--nodejs',
     icon: <NodeJsIcon />,
   },
-  androidColor: {
+  android: {
     style: {
       background: '#99c034',
       color: '#fff',
@@ -65,7 +63,7 @@ const techTheme = {
     className: 'vertical-timeline-element--android',
     icon: <AndroidIcon />,
   },
-  javaColor: {
+  java: {
     style: {
       background: '#af0930',
       color: '#fff',
@@ -73,7 +71,7 @@ const techTheme = {
     className: 'vertical-timeline-element--java',
     icon: <JavaIcon />,
   },
-  awsColor: {
+  aws: {
     style: {
       background: '#f48e3d',
       color: '#fff',
@@ -81,7 +79,7 @@ const techTheme = {
     className: 'vertical-timeline-element--aws',
     icon: <AwsIcon />,
   },
-  githubColor: {
+  github: {
     style: {
       background: '#2f78b9',
       color: '#fff',
@@ -89,8 +87,7 @@ const techTheme = {
     className: 'vertical-timeline-element--github',
     icon: <GithubIcon />,
   },
-  postGresColor: {
-    // todo change this to not be github colors
+  postgres: {
     style: {
       background: '#3a6990',
       color: '#fff',
@@ -98,7 +95,7 @@ const techTheme = {
     className: 'vertical-timeline-element--postgres',
     icon: <PostgresIcon />,
   },
-  pythonColor: {
+  python: {
     style: {
       background: '#4075a3',
       color: '#fff',
@@ -106,7 +103,7 @@ const techTheme = {
     className: 'vertical-timeline-element--python',
     icon: <PythonIcon />,
   },
-  othersColor: {
+  others: {
     style: {
       background: '#019bc6',
       color: '#fff',

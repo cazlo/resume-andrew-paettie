@@ -18,12 +18,12 @@ export const Home = ({ style }) => (
 
     <div className="ResumeHomeBlock-squares">
       <GridBackground>
-        <div style={{ ...appTheme.reactColor.style }}>{appTheme.reactColor.icon}</div>
-        <div style={{ ...appTheme.nodeJsColor.style }}>{appTheme.nodeJsColor.icon}</div>
-        <div style={{ ...appTheme.awsColor.style }}>{appTheme.awsColor.icon}</div>
-        <div style={{ ...appTheme.dockerColor.style }}>{appTheme.dockerColor.icon}</div>
-        <div style={{ ...appTheme.pythonColor.style }}>{appTheme.pythonColor.icon}</div>
-        <div style={{ ...appTheme.javaColor.style }}>{appTheme.javaColor.icon}</div>
+        <div style={{ ...appTheme.react.style }}>{appTheme.react.icon}</div>
+        <div style={{ ...appTheme.nodeJs.style }}>{appTheme.nodeJs.icon}</div>
+        <div style={{ ...appTheme.aws.style }}>{appTheme.aws.icon}</div>
+        <div style={{ ...appTheme.docker.style }}>{appTheme.docker.icon}</div>
+        <div style={{ ...appTheme.python.style }}>{appTheme.python.icon}</div>
+        <div style={{ ...appTheme.java.style }}>{appTheme.java.icon}</div>
       </GridBackground>
     </div>
   </ScreenBlock>
