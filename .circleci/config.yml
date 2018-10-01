@@ -53,6 +53,7 @@ jobs:
                aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths \
                 /asset-manifest.json \
                 /manifest.json \
+                /manifest.png \
                 /robots.txt \
                 /favicon.ico \
                 /service-worker.js \
