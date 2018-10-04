@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+}
+/* todo the above breaks timeline */
+
+
+.SnakeGame {
+    box-sizing: border-box;
+    position: relative;
+    margin: 10px auto;
+}
+.grid-cell .SVGInline svg path,
+.grid-cell .SVGInline svg g {
+    opacity: 0.65;
+
+    fill: #fff !important;
+}

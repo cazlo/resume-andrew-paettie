@@ -5,6 +5,7 @@ import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
 
 import Resume from './containers/Resume/Resume';
+import NotFound from './containers/NotFound/NotFound';
 import Copyright from './components/Copyright/Copyright';
 
 const theme = createMuiTheme({
@@ -19,7 +20,7 @@ const App = () => (
     <div className="App">
       <Switch>
         <Route exact path="/" component={Resume} />
-        <Route component={Resume} />
+        <Route component={NotFound} />
       </Switch>
       <br />
       <Copyright />
