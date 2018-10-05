@@ -68,11 +68,35 @@ class SnakeGame extends Component {
       if (this.isWithinPlayArea(position) && !this.isColliding(position, snake)) {
         newSection = { ...food, ...position };
         // absorb the food's style
+        break;
       }
     }
-
+    const catSnake = snake.concat(newSection).slice(1);
+    const newSnake = [];
+    for (let i = catSnake.length-1; i >=0; i -= 1) {
+      if (i === 0) {
+        const catBlock = catSnake[i];
+        newSnake.push({
+          ...newSection,
+          x: catBlock.x,
+          y: catBlock.y,
+        });
+      } else {
+        const catBlock = catSnake[i];
+        const prevBlock = catSnake[i - 1] || {};
+        newSnake.push({
+          ...catBlock,
+          ...prevBlock,
+          x: catBlock.x,
+          y: catBlock.y,
+        });
+      }
+    }
+    // newSnake.push(catSnake[0]);
+    newSnake.reverse();
+    const newAssembledSnake = [snake[0], ...newSnake];
     this.setState({
-      snake: snake.concat(newSection),
+      snake: newAssembledSnake,
       score: this.state.score + 1,
     });
     this.moveFood();
