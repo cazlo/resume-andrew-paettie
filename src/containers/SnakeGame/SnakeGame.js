@@ -129,7 +129,6 @@ class SnakeGame extends Component {
       // don't put food along the very edge of the play surface
       position = Position(x, y);
     } while (this.isColliding(position, this.state.snake));
-    // todo check for collision with snake and reset if so
     const theme = techTheme[FOOD_THEMES[_.random(0, FOOD_THEMES.length)]];
     this.setState({
       food: {
