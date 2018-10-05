@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^1.4.2",
     "@material-ui/icons": "^2.0.0",
+    "easystarjs": "^0.4.3",
     "global": "^4.3.2",
     "lodash": "^4.17.11",
     "proxyquire": "^2.1.0",

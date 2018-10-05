@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import flow from 'lodash/flow';
 import * as PropTypes from 'prop-types';
+import Easystarjs from 'easystarjs';
 
 import GridCell from './GridCell';
 import Direction from './util/Direction';
@@ -12,21 +13,25 @@ import withWindowSize from '../../components/Home/GridBackground/withWindowSize'
 import './SnakeGame.css';
 
 const FOOD_TIMEOUT = 7000;
-const MOVE_SNAKE_TIMEOUT = 130;
-const BOX_SIZE = 40;
+const MOVE_SNAKE_TIMEOUT = 90;
+const BOX_SIZE = 80;
 
 const INITIAL_STATE = {
   snake: [{ ...techTheme.java, ...Position(5, 5) }],
   food: { ...techTheme.nodeJs, ...Position(4, 2) },
   direction: Direction.RIGHT,
+  score: 0,
 };
 
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'java']));
+
+const aStar = new Easystarjs.js();
 
 class SnakeGame extends Component {
   constructor(props) {
     super(props);
     this.state = INITIAL_STATE;
+    this.pathfindInstanceId = null;
     this.isWithinPlayArea = this.isWithinPlayArea.bind(this);
     this.moveFood = this.moveFood.bind(this);
     this.checkIfAteFood = this.checkIfAteFood.bind(this);
@@ -36,6 +41,7 @@ class SnakeGame extends Component {
     this.ateItself = this.ateItself.bind(this);
     this.inputDirection = this.inputDirection.bind(this);
     this.removeTimers = this.removeTimers.bind(this);
+    this.pathfind = this.pathfind.bind(this);
   }
   componentDidMount() {
     this.startGame();
@@ -67,12 +73,17 @@ class SnakeGame extends Component {
 
     this.setState({
       snake: snake.concat(newSection),
+      score: this.state.score + 1,
     });
     this.moveFood();
     return true;
   }
 
   endGame() {
+    console.info(`Ended game with score ${this.state.score}`);
+    if (this.pathfindInstanceId) {
+      aStar.cancelPath(this.pathfindInstanceId);
+    }
     this.setState(INITIAL_STATE);
     this.startGame();
   }
@@ -111,18 +122,24 @@ class SnakeGame extends Component {
   // randomly place snake food
   moveFood() {
     if (this.moveFoodTimeout) clearTimeout(this.moveFoodTimeout);
-    const x = parseInt(Math.random() * this.numCols, 10);
-    const y = parseInt(Math.random() * this.numRows, 10);
+    let position = {};
+    do {
+      const x = _.random(1, this.numCols - 2);
+      const y = _.random(1, this.numRows - 2);
+      // don't put food along the very edge of the play surface
+      position = Position(x, y);
+    } while (this.isColliding(position, this.state.snake));
     // todo check for collision with snake and reset if so
     const theme = techTheme[FOOD_THEMES[_.random(0, FOOD_THEMES.length)]];
     this.setState({
       food: {
         ...this.state.food,
         ...theme,
-        ...Position(x, y),
+        ...position,
       },
     });
     this.moveFoodTimeout = setTimeout(this.moveFood, FOOD_TIMEOUT);
+    this.pathfind(this.state.snake);
   }
 
   moveSnake() {
@@ -166,11 +183,129 @@ class SnakeGame extends Component {
     );
 
     this.setState({ snake: newSnake });
-
     this.checkIfAteFood(newSnake);
     if (!this.isWithinPlayArea(newSnake[0]) || this.ateItself(newSnake)) {
       this.endGame();
+    } else {
+      this.pathfind(newSnake);
     }
+  }
+
+  createSurroundingNodes(x, y, grid) {
+    const newGrid = _.map(grid, _.clone);
+    if (newGrid[y + 1] && Number.isInteger(newGrid[y + 1][x])) {
+      newGrid[y + 1][x] = newGrid[y + 1][x] === 0 ? 1 : newGrid[y + 1][x];
+    }
+    if (newGrid[y + 1] && Number.isInteger(newGrid[y + 1][x + 1])) {
+      newGrid[y + 1][x + 1] = newGrid[y + 1][x + 1] === 0 ? 1 : newGrid[y + 1][x + 1];
+    }
+    if (newGrid[y] && Number.isInteger(newGrid[y][x + 1])) {
+      newGrid[y][x + 1] = newGrid[y][x + 1] === 0 ? 1 : newGrid[y][x + 1];
+    }
+    if (newGrid[y - 1] && Number.isInteger(newGrid[y - 1][x + 1])) {
+      newGrid[y - 1][x + 1] = newGrid[y - 1][x + 1] === 0 ? 1 : newGrid[y - 1][x + 1];
+    }
+    if (newGrid[y - 1] && Number.isInteger(newGrid[y - 1][x - 1])) {
+      newGrid[y - 1][x - 1] = newGrid[y - 1][x - 1] === 0 ? 1 : newGrid[y - 1][x - 1];
+    }
+    if (newGrid[y] && Number.isInteger(newGrid[y][x - 1])) {
+      newGrid[y][x - 1] = newGrid[y][x - 1] === 0 ? 1 : newGrid[y][x - 1];
+    }
+    return newGrid;
+  }
+
+  pathfind(newSnake) {
+    if (!newSnake[0]) {
+      return;
+    }
+    const head = newSnake[0];
+    const grid = _.map(_.range(this.numRows), () => _.map(_.range(this.numCols), () => 0));
+    const newGrid = _.reduce(
+      newSnake,
+      (accGrid, snake) => {
+        const cloned = _.map(accGrid, _.clone);
+        cloned[snake.y][snake.x] = 2;
+        return this.createSurroundingNodes(snake.x, snake.y, cloned);
+      },
+      grid,
+    );
+    aStar.setGrid(newGrid);
+    const allowedStates = [0, 1];
+    aStar.setAcceptableTiles(allowedStates);
+    aStar.setTileCost(1, 5);
+    this.pathfindInstanceId = aStar.findPath(
+      newSnake[0].x,
+      newSnake[0].y,
+      this.state.food.x,
+      this.state.food.y,
+      path => {
+        if (path === null || !path.length) {
+          let randomX;
+          let randomY;
+          do {
+            randomX = _.random(1, this.numCols - 1);
+            randomY = _.random(1, this.numRows - 1);
+          } while (!allowedStates.includes(grid[randomY][randomX]));
+          this.pathfindInstanceId = aStar.findPath(
+            newSnake[0].x,
+            newSnake[0].y,
+            randomX,
+            randomY,
+            newPath => {
+              if (newPath === null || !newPath.length) {
+                console.debug(`Ramdom fallback failed to (${randomX}, ${randomY})`);
+              } else {
+                const firstMove = newPath[1] || newPath[0]; // todo this hack
+                let directionToMove = null;
+                if (firstMove.x !== head.x) {
+                  if (firstMove.x < head.x) {
+                    directionToMove = Direction.LEFT;
+                  } else {
+                    directionToMove = Direction.RIGHT;
+                  }
+                } else if (firstMove.y !== head.y) {
+                  if (firstMove.y < head.y) {
+                    directionToMove = Direction.UP;
+                  } else {
+                    directionToMove = Direction.DOWN;
+                  }
+                }
+                if (directionToMove) {
+                  console.debug(`Ramdom fallback successful to (${randomX}, ${randomY})`);
+                  this.inputDirection({ keyCode: directionToMove });
+                } else {
+                  console.warn('Path is noop somehow');
+                }
+              }
+            },
+          );
+          aStar.calculate();
+        } else {
+          // alert("Path was found. The first Point is " + path[0].x + " " + path[0].y);
+          const firstMove = path[1] || path[0]; // todo this hack
+          let directionToMove = null;
+          if (firstMove.x !== head.x) {
+            if (firstMove.x < head.x) {
+              directionToMove = Direction.LEFT;
+            } else {
+              directionToMove = Direction.RIGHT;
+            }
+          } else if (firstMove.y !== head.y) {
+            if (firstMove.y < head.y) {
+              directionToMove = Direction.UP;
+            } else {
+              directionToMove = Direction.DOWN;
+            }
+          }
+          if (directionToMove) {
+            this.inputDirection({ keyCode: directionToMove });
+          } else {
+            console.log('Path is noop somehow');
+          }
+        }
+      },
+    );
+    aStar.calculate();
   }
 
   ateItself(snake) {

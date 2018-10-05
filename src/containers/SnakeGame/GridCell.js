@@ -24,8 +24,8 @@ const GridCell = props => {
 };
 
 GridCell.propTypes = {
-  foodCell: PropTypes.object,
-  snakeCell: PropTypes.object,
+  foodCell: PropTypes.any,
+  snakeCell: PropTypes.any,
   size: PropTypes.number,
 };
 
