@@ -15,6 +15,9 @@ const GridCell = props => {
   if (props.snakeCell) {
     style = { ...style, ...props.snakeCell.style };
   }
+  if (props.pathCell) {
+    style = { ...style, ...props.pathCell.style, opacity: '0.15' };
+  }
   return (
     <div className={classes} style={style}>
       {props.foodCell && props.foodCell.icon ? props.foodCell.icon : ''}
@@ -26,12 +29,14 @@ const GridCell = props => {
 GridCell.propTypes = {
   foodCell: PropTypes.any,
   snakeCell: PropTypes.any,
+  pathCell: PropTypes.any,
   size: PropTypes.number,
 };
 
 GridCell.defaultPropTypes = {
   foodCell: false,
   snakeCell: false,
+  pathCell: false,
   size: 15,
 };
 

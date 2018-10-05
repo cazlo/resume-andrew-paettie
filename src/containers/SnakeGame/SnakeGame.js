@@ -19,6 +19,7 @@ const BOX_SIZE = 80;
 const INITIAL_STATE = {
   snake: [{ ...techTheme.java, ...Position(5, 5) }],
   food: { ...techTheme.nodeJs, ...Position(4, 2) },
+  path: [],
   direction: Direction.RIGHT,
   score: 0,
 };
@@ -73,7 +74,7 @@ class SnakeGame extends Component {
     }
     const catSnake = snake.concat(newSection).slice(1);
     const newSnake = [];
-    for (let i = catSnake.length-1; i >=0; i -= 1) {
+    for (let i = catSnake.length - 1; i >= 0; i -= 1) {
       if (i === 0) {
         const catBlock = catSnake[i];
         newSnake.push({
@@ -263,6 +264,8 @@ class SnakeGame extends Component {
       this.state.food.y,
       path => {
         if (path === null || !path.length) {
+          this.setState({ path: [] });
+
           let randomX;
           let randomY;
           do {
@@ -278,6 +281,8 @@ class SnakeGame extends Component {
               if (newPath === null || !newPath.length) {
                 console.debug(`Ramdom fallback failed to (${randomX}, ${randomY})`);
               } else {
+                this.setState({ path: newPath.slice(1, newPath.length - 1) });
+
                 const firstMove = newPath[1] || newPath[0]; // todo this hack
                 let directionToMove = null;
                 if (firstMove.x !== head.x) {
@@ -304,6 +309,8 @@ class SnakeGame extends Component {
           );
           aStar.calculate();
         } else {
+          this.setState({ path: path.slice(1, path.length - 1) });
+
           // alert("Path was found. The first Point is " + path[0].x + " " + path[0].y);
           const firstMove = path[1] || path[0]; // todo this hack
           let directionToMove = null;
@@ -372,9 +379,20 @@ class SnakeGame extends Component {
           this.state.food.x === x && this.state.food.y === y ? this.state.food : false;
         const snakeCells = this.state.snake.filter(s => s.x === x && s.y === y);
         const snakeCell = snakeCells.length && snakeCells[0] ? snakeCells[0] : false;
+        const pathCells = this.state.path.filter(s => s.x === x && s.y === y);
+        const pathCell =
+          pathCells.length && pathCells[0]
+            ? { ...pathCells[0], style: techTheme.react.style }
+            : false;
 
         return (
-          <GridCell foodCell={foodCell} snakeCell={snakeCell} size={BOX_SIZE} key={`${x} ${y}`} />
+          <GridCell
+            foodCell={foodCell}
+            snakeCell={snakeCell}
+            pathCell={pathCell}
+            size={BOX_SIZE}
+            key={`${x} ${y}`}
+          />
         );
       }),
     );
