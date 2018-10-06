@@ -314,6 +314,34 @@ class SnakeGame extends Component {
     }
   }
 
+  moveFromPath(path, head) {
+    if (!path) {
+      return false;
+    }
+    const firstMove = path[1] || path[0]; // todo this hack
+    let directionToMove = null;
+    if (firstMove.x !== head.x) {
+      if (firstMove.x < head.x) {
+        directionToMove = Direction.LEFT;
+      } else {
+        directionToMove = Direction.RIGHT;
+      }
+    } else if (firstMove.y !== head.y) {
+      if (firstMove.y < head.y) {
+        directionToMove = Direction.UP;
+      } else {
+        directionToMove = Direction.DOWN;
+      }
+    }
+    if (directionToMove) {
+      // console.debug(`Ramdom fallback successful to (${randomX}, ${randomY})`);
+      this.inputDirection({ keyCode: directionToMove });
+      return true;
+    }
+    // console.warn('Path is noop somehow');
+    return false;
+  }
+
   pathfind(newSnake) {
     if (!newSnake[0]) {
       return;
@@ -322,27 +350,7 @@ class SnakeGame extends Component {
     if (this.state.path && this.state.path.length && this.state.path.length > 1) {
       // if there is already a path, dispatch that move now, to avoid a potentially costly wait for
       // pathfinding re-calculation to occur
-      const firstMove = this.state.path[1] || this.state.path[0]; // todo this hack
-      let directionToMove = null;
-      if (firstMove.x !== head.x) {
-        if (firstMove.x < head.x) {
-          directionToMove = Direction.LEFT;
-        } else {
-          directionToMove = Direction.RIGHT;
-        }
-      } else if (firstMove.y !== head.y) {
-        if (firstMove.y < head.y) {
-          directionToMove = Direction.UP;
-        } else {
-          directionToMove = Direction.DOWN;
-        }
-      }
-      if (directionToMove) {
-        // console.debug(`Ramdom fallback successful to (${randomX}, ${randomY})`);
-        this.inputDirection({ keyCode: directionToMove });
-      } else {
-        // console.warn('Path is noop somehow');
-      }
+      this.moveFromPath(this.state.path, head);
     }
     const grid = _.map(_.range(this.numRows), () =>
       _.map(_.range(this.numCols), () => GridState.WALKABLE),
@@ -357,17 +365,19 @@ class SnakeGame extends Component {
       grid,
     );
     aStar.setGrid(newGrid);
-    const allowedStates = [0, 1];
+    const allowedStates = [GridState.WALKABLE, GridState.WALKABLE_PENALTY];
     aStar.setAcceptableTiles(allowedStates);
-    aStar.setTileCost(1, 5);
+    aStar.setTileCost(GridState.WALKABLE_PENALTY, 5);
     this.pathfindInstanceId = aStar.findPath(
-      newSnake[0].x,
-      newSnake[0].y,
+      head.x,
+      head.y,
       this.state.food.x,
       this.state.food.y,
       path => {
         if (path === null || !path.length) {
           this.setState({ path: [] });
+          // if there is no path available, try and calculate one to a random point as a last
+          // ditch effort
 
           let randomX;
           let randomY;
@@ -375,66 +385,18 @@ class SnakeGame extends Component {
             randomX = _.random(1, this.numCols - 1);
             randomY = _.random(1, this.numRows - 1);
           } while (!allowedStates.includes(grid[randomY][randomX]));
-          this.pathfindInstanceId = aStar.findPath(
-            newSnake[0].x,
-            newSnake[0].y,
-            randomX,
-            randomY,
-            newPath => {
-              if (newPath === null || !newPath.length) {
-                // console.debug(`Ramdom fallback failed to (${randomX}, ${randomY})`);
-              } else {
-                this.setState({ path: newPath.slice(1, newPath.length - 1) });
-
-                const firstMove = newPath[1] || newPath[0]; // todo this hack
-                let directionToMove = null;
-                if (firstMove.x !== head.x) {
-                  if (firstMove.x < head.x) {
-                    directionToMove = Direction.LEFT;
-                  } else {
-                    directionToMove = Direction.RIGHT;
-                  }
-                } else if (firstMove.y !== head.y) {
-                  if (firstMove.y < head.y) {
-                    directionToMove = Direction.UP;
-                  } else {
-                    directionToMove = Direction.DOWN;
-                  }
-                }
-                if (directionToMove) {
-                  // console.debug(`Ramdom fallback successful to (${randomX}, ${randomY})`);
-                  this.inputDirection({ keyCode: directionToMove });
-                } else {
-                  // console.warn('Path is noop somehow');
-                }
-              }
-            },
-          );
+          this.pathfindInstanceId = aStar.findPath(head.x, head.y, randomX, randomY, newPath => {
+            if (newPath === null || !newPath.length) {
+              // console.debug(`Ramdom fallback failed to (${randomX}, ${randomY})`);
+            } else {
+              this.setState({ path: newPath.slice(1, newPath.length - 1) });
+              this.moveFromPath(path, head);
+            }
+          });
           aStar.calculate();
         } else {
           this.setState({ path: path.slice(1, path.length - 1) });
-
-          // alert("Path was found. The first Point is " + path[0].x + " " + path[0].y);
-          const firstMove = path[1] || path[0]; // todo this hack
-          let directionToMove = null;
-          if (firstMove.x !== head.x) {
-            if (firstMove.x < head.x) {
-              directionToMove = Direction.LEFT;
-            } else {
-              directionToMove = Direction.RIGHT;
-            }
-          } else if (firstMove.y !== head.y) {
-            if (firstMove.y < head.y) {
-              directionToMove = Direction.UP;
-            } else {
-              directionToMove = Direction.DOWN;
-            }
-          }
-          if (directionToMove) {
-            this.inputDirection({ keyCode: directionToMove });
-          } else {
-            // console.log('Path is noop somehow');
-          }
+          this.moveFromPath(path, head);
         }
       },
     );
