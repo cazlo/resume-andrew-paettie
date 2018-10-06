@@ -6,6 +6,8 @@ import Easystarjs from 'easystarjs';
 import moment from 'moment';
 
 import Button from '@material-ui/core/Button/Button';
+import Chip from '@material-ui/core/Chip/Chip';
+import Avatar from '@material-ui/core/Avatar/Avatar';
 
 import GridCell from './GridCell';
 import Scoreboard from './Scoreboard';
@@ -496,6 +498,7 @@ class SnakeGame extends Component {
         tabIndex={-1}
         style={style}
       >
+        <Chip label="Score" avatar={<Avatar>{this.state.score}</Avatar>} color="primary" />
         <div className="grid" style={style}>
           {this.renderGameCells()}
         </div>
