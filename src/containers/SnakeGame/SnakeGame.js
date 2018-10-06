@@ -11,6 +11,8 @@ import GridCell from './GridCell';
 import Scoreboard from './Scoreboard';
 import Direction from './util/Direction';
 import Position from './util/Position';
+import PositionUtil from './util/PositionUtil';
+import Format from './util/Format';
 import techTheme from '../../common/techTheme';
 import withWindowSize from '../../components/Home/GridBackground/withWindowSize';
 
@@ -55,19 +57,17 @@ class SnakeGame extends Component {
         {
           score: boardArea - 1, // -1 because the head occupies 1 space
           name: 'Perfect score',
-          time: this.formatTime(moment(0).utc()),
-          duration: this.formatDuration(404),
+          time: Format.formatTime(moment(0).utc()),
+          duration: Format.formatDuration(404),
         },
       ],
     };
     this.pathfindInstanceId = null;
-    this.isWithinPlayArea = this.isWithinPlayArea.bind(this);
     this.moveFood = this.moveFood.bind(this);
     this.checkIfAteFood = this.checkIfAteFood.bind(this);
     this.startGame = this.startGame.bind(this);
     this.endGame = this.endGame.bind(this);
     this.moveSnake = this.moveSnake.bind(this);
-    this.ateItself = this.ateItself.bind(this);
     this.inputDirection = this.inputDirection.bind(this);
     this.removeTimers = this.removeTimers.bind(this);
     this.pathfind = this.pathfind.bind(this);
@@ -102,7 +102,10 @@ class SnakeGame extends Component {
       if (acc) {
         return acc;
       }
-      if (this.isWithinPlayArea(position) && !this.isColliding(position, snake)) {
+      if (
+        PositionUtil.isWithinPlayArea(position, this.numCols, this.numRows) &&
+        !PositionUtil.isColliding(position, snake)
+      ) {
         return { ...food, ...position };
         // absorb the food's style
       }
@@ -192,8 +195,8 @@ class SnakeGame extends Component {
     const score = {
       score: this.state.score,
       name: this.state.playerName,
-      time: this.formatTime(moment()),
-      duration: this.formatDuration(durationMillis),
+      time: Format.formatTime(moment()),
+      duration: Format.formatDuration(durationMillis),
     };
     const orderedScores = _.orderBy([...this.state.highScores, score], ['score'], ['desc']);
     this.setState({
@@ -206,35 +209,6 @@ class SnakeGame extends Component {
     }
     this.removeTimers();
     this.restartGame();
-  }
-
-  formatDuration(durationMillis) {
-    const momentDuration = moment.duration({ millisecond: durationMillis });
-    return `${
-      momentDuration.minutes() ? `${momentDuration.minutes()}m ` : ''
-    }${momentDuration.seconds()}.${momentDuration.milliseconds()}s`;
-  }
-
-  formatTime(aMoment) {
-    return aMoment.format('MMM Do YY, h:mm:ss a');
-  }
-
-  isColliding(position, snake) {
-    return snake.reduce((acc, snakeLocation) => {
-      if (acc) {
-        return acc;
-      }
-      return this.isSamePosition(snakeLocation, position);
-    }, false);
-  }
-
-  isSamePosition(position1, position2) {
-    return position1.x === position2.x && position1.y === position2.y;
-  }
-
-  // is the cell's position inside the grid?
-  isWithinPlayArea(cell) {
-    return cell.x > -1 && cell.y > -1 && cell.x < this.numCols && cell.y < this.numRows;
   }
 
   inputDirection({ keyCode }) {
@@ -270,7 +244,7 @@ class SnakeGame extends Component {
       const y = _.random(1, this.numRows - 2);
       // don't put food along the very edge of the play surface
       position = Position(x, y);
-    } while (this.isColliding(position, this.state.snake));
+    } while (PositionUtil.isColliding(position, this.state.snake));
     const theme = techTheme[FOOD_THEMES[_.random(0, FOOD_THEMES.length)]];
     this.setState({
       food: {
@@ -330,46 +304,14 @@ class SnakeGame extends Component {
 
     this.setState({ snake: newSnake });
     this.checkIfAteFood(newSnake);
-    if (!this.isWithinPlayArea(newSnake[0]) || this.ateItself(newSnake)) {
+    if (
+      !PositionUtil.isWithinPlayArea(newSnake[0], this.numCols, this.numRows) ||
+      PositionUtil.ateItself(newSnake)
+    ) {
       this.endGame();
     } else if (this.state.enableAI) {
       this.pathfind(newSnake);
     }
-  }
-
-  createSurroundingNodes(x, y, grid) {
-    const newGrid = _.map(grid, _.clone);
-    if (newGrid[y + 1] && Number.isInteger(newGrid[y + 1][x])) {
-      newGrid[y + 1][x] =
-        newGrid[y + 1][x] === GridState.WALKABLE ? GridState.WALKABLE_PENALTY : newGrid[y + 1][x];
-    }
-    if (newGrid[y + 1] && Number.isInteger(newGrid[y + 1][x + 1])) {
-      newGrid[y + 1][x + 1] =
-        newGrid[y + 1][x + 1] === GridState.WALKABLE
-          ? GridState.WALKABLE_PENALTY
-          : newGrid[y + 1][x + 1];
-    }
-    if (newGrid[y] && Number.isInteger(newGrid[y][x + 1])) {
-      newGrid[y][x + 1] =
-        newGrid[y][x + 1] === GridState.WALKABLE ? GridState.WALKABLE_PENALTY : newGrid[y][x + 1];
-    }
-    if (newGrid[y - 1] && Number.isInteger(newGrid[y - 1][x + 1])) {
-      newGrid[y - 1][x + 1] =
-        newGrid[y - 1][x + 1] === GridState.WALKABLE
-          ? GridState.WALKABLE_PENALTY
-          : newGrid[y - 1][x + 1];
-    }
-    if (newGrid[y - 1] && Number.isInteger(newGrid[y - 1][x - 1])) {
-      newGrid[y - 1][x - 1] =
-        newGrid[y - 1][x - 1] === GridState.WALKABLE
-          ? GridState.WALKABLE_PENALTY
-          : newGrid[y - 1][x - 1];
-    }
-    if (newGrid[y] && Number.isInteger(newGrid[y][x - 1])) {
-      newGrid[y][x - 1] =
-        newGrid[y][x - 1] === GridState.WALKABLE ? GridState.WALKABLE_PENALTY : newGrid[y][x - 1];
-    }
-    return newGrid;
   }
 
   pathfind(newSnake) {
@@ -410,7 +352,7 @@ class SnakeGame extends Component {
       (accGrid, snake) => {
         const cloned = _.map(accGrid, _.clone);
         cloned[snake.y][snake.x] = GridState.OBSTRUCTED;
-        return this.createSurroundingNodes(snake.x, snake.y, cloned);
+        return PositionUtil.createSurroundingNodes(snake.x, snake.y, cloned);
       },
       grid,
     );
@@ -497,16 +439,6 @@ class SnakeGame extends Component {
       },
     );
     aStar.calculate();
-  }
-
-  ateItself(snake) {
-    const head = snake[0];
-    return snake.slice(1).reduce((acc, bodyPiece) => {
-      if (acc) {
-        return acc;
-      }
-      return this.isSamePosition(head, bodyPiece);
-    }, false);
   }
 
   startGame() {
