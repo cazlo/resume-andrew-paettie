@@ -114,12 +114,15 @@ class SnakeGame extends Component {
   endGame() {
     // todo get name somehow?
     // console.info(`Ended game with score ${this.state.score}`);
-    const durationSeconds = moment().unix() - this.state.startTime;
+    const durationSeconds = moment().valueOf() - this.state.startTime;
+    const momentDuration = moment.duration({ millisecond: durationSeconds });
     const score = {
       score: this.state.score,
       name: 'SKYNET',
       time: moment().format('MMM Do YY, h:mm:ss a'),
-      duration: moment.duration({ seconds: durationSeconds }).seconds(),
+      duration: `${
+        momentDuration.minutes() ? `${momentDuration.minutes()}m ` : ''
+      }${momentDuration.seconds()}.${momentDuration.milliseconds()}s`,
     };
     const orderedScores = _.orderBy([...this.state.highScores, score], ['score'], ['desc']);
     this.setState({
@@ -441,7 +444,7 @@ class SnakeGame extends Component {
 
   startGame() {
     this.setState({
-      startTime: moment().unix(),
+      startTime: moment().valueOf(),
     });
     this.removeTimers();
     this.moveSnakeInterval = setInterval(this.moveSnake, MOVE_SNAKE_TIMEOUT);
