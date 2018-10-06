@@ -5,6 +5,8 @@ import * as PropTypes from 'prop-types';
 import Easystarjs from 'easystarjs';
 import moment from 'moment';
 
+import Button from '@material-ui/core/Button/Button';
+
 import GridCell from './GridCell';
 import Scoreboard from './Scoreboard';
 import Direction from './util/Direction';
@@ -14,18 +16,25 @@ import withWindowSize from '../../components/Home/GridBackground/withWindowSize'
 
 import './SnakeGame.css';
 import GridState from './util/GridState';
+import ConfigDialog from './ConfigDialog';
 
+const NEW_GAME_TIMEOUT = 3000;
 const FOOD_TIMEOUT = 7000;
 const MOVE_SNAKE_TIMEOUT = 90;
 const BOX_SIZE = 80;
 
 const INITIAL_STATE = {
-  snake: [{ ...techTheme.java, ...Position(10, 5) }],
+  snake: [{ ...techTheme.java, ...Position(5, 5) }],
   food: { ...techTheme.nodeJs, ...Position(4, 2) },
   path: [],
   direction: Direction.RIGHT,
   score: 0,
   highScores: [],
+  dialogOpen: false,
+  playerName: 'SKYNET',
+  enableAIChecked: true,
+  enableAI: true,
+  gameOver: false,
 };
 
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'java']));
@@ -62,6 +71,12 @@ class SnakeGame extends Component {
     this.inputDirection = this.inputDirection.bind(this);
     this.removeTimers = this.removeTimers.bind(this);
     this.pathfind = this.pathfind.bind(this);
+    this.closeSettings = this.closeSettings.bind(this);
+    this.closeAndSaveSettings = this.closeAndSaveSettings.bind(this);
+    this.checkEnableAiToggled = this.checkEnableAiToggled.bind(this);
+    this.clickDialogButton = this.clickDialogButton.bind(this);
+
+    this.playerNameRef = React.createRef();
   }
   componentDidMount() {
     this.startGame();
@@ -125,32 +140,72 @@ class SnakeGame extends Component {
     return true;
   }
 
+  checkEnableAiToggled(event) {
+    this.setState({ enableAIChecked: event.target.checked });
+  }
+
+  closeAndSaveSettings() {
+    const playerName = this.playerNameRef.current;
+    if (playerName && playerName.value) {
+      this.setState({
+        playerName: playerName.value,
+      });
+    }
+    if (this.state.enableAI !== this.state.enableAIChecked) {
+      this.setState({
+        enableAI: this.state.enableAIChecked,
+      });
+      this.endGame();
+    }
+    this.closeSettings();
+  }
+
+  closeSettings() {
+    this.setState({ dialogOpen: !this.state.dialogOpen, enableAIChecked: this.state.enableAI });
+    if (this.state.gameOver) {
+      this.restartGame();
+    }
+  }
+
+  clickDialogButton() {
+    if (this.restartGameTimeout) {
+      clearTimeout(this.restartGameTimeout);
+    }
+    this.setState({ dialogOpen: !this.state.dialogOpen });
+  }
+
+  restartGame() {
+    this.restartGameTimeout = setTimeout(() => {
+      this.setState({
+        ...INITIAL_STATE,
+        highScores: this.state.highScores,
+        enableAI: this.state.enableAI,
+        enableAIChecked: this.state.enableAI,
+        playerName: this.state.playerName,
+      });
+      this.startGame();
+    }, NEW_GAME_TIMEOUT);
+  }
+
   endGame() {
-    // todo get name somehow?
-    // console.info(`Ended game with score ${this.state.score}`);
     const durationMillis = moment().valueOf() - this.state.startTime;
     const score = {
       score: this.state.score,
-      name: 'SKYNET',
+      name: this.state.playerName,
       time: this.formatTime(moment()),
       duration: this.formatDuration(durationMillis),
     };
     const orderedScores = _.orderBy([...this.state.highScores, score], ['score'], ['desc']);
     this.setState({
       highScores: orderedScores,
+      gameOver: true,
     });
 
     if (this.pathfindInstanceId) {
       aStar.cancelPath(this.pathfindInstanceId);
     }
     this.removeTimers();
-    setTimeout(() => {
-      this.setState({
-        ...INITIAL_STATE,
-        highScores: orderedScores,
-      });
-      this.startGame();
-    }, 3000);
+    this.restartGame();
   }
 
   formatDuration(durationMillis) {
@@ -205,6 +260,9 @@ class SnakeGame extends Component {
 
   // randomly place snake food
   moveFood() {
+    if (this.state.dialogOpen) {
+      return;
+    }
     if (this.moveFoodTimeout) clearTimeout(this.moveFoodTimeout);
     let position = {};
     do {
@@ -222,10 +280,15 @@ class SnakeGame extends Component {
       },
     });
     this.moveFoodTimeout = setTimeout(this.moveFood, FOOD_TIMEOUT);
-    this.pathfind(this.state.snake);
+    if (this.state.enableAI) {
+      this.pathfind(this.state.snake);
+    }
   }
 
   moveSnake() {
+    if (this.state.dialogOpen) {
+      return;
+    }
     const newSnake = [];
     // set in the new "head" of the snake
     const snakeHead = this.state.snake[0];
@@ -269,7 +332,7 @@ class SnakeGame extends Component {
     this.checkIfAteFood(newSnake);
     if (!this.isWithinPlayArea(newSnake[0]) || this.ateItself(newSnake)) {
       this.endGame();
-    } else {
+    } else if (this.state.enableAI) {
       this.pathfind(newSnake);
     }
   }
@@ -458,6 +521,7 @@ class SnakeGame extends Component {
   removeTimers() {
     if (this.moveSnakeInterval) clearInterval(this.moveSnakeInterval);
     if (this.moveFoodTimeout) clearTimeout(this.moveFoodTimeout);
+    if (this.restartGameTimeout) clearTimeout(this.restartGameTimeout);
   }
 
   render() {
@@ -512,6 +576,16 @@ class SnakeGame extends Component {
         >
           {cells}
         </div>
+        <Button onClick={this.clickDialogButton}>Configure Snake</Button>
+        <ConfigDialog
+          dialogOpen={this.state.dialogOpen}
+          enableAIChecked={this.state.enableAIChecked}
+          playerName={this.state.playerName}
+          playerNameRef={this.playerNameRef}
+          checkEnableAiToggled={this.checkEnableAiToggled}
+          closeSettings={this.closeSettings}
+          closeAndSaveSettings={this.closeAndSaveSettings}
+        />
         <Scoreboard scores={this.state.highScores} />
       </div>
     );
