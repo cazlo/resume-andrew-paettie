@@ -1,0 +1,15 @@
+* {
+    box-sizing: border-box;
+}
+
+.SnakeGame {
+    box-sizing: border-box;
+    position: relative;
+    margin: 10px auto;
+}
+.grid-cell .SVGInline svg path,
+.grid-cell .SVGInline svg g {
+    opacity: 0.65;
+
+    fill: #fff !important;
+}
