@@ -318,7 +318,7 @@ class SnakeGame extends Component {
     if (!path) {
       return false;
     }
-    const firstMove = path[1] || path[0]; // todo this hack
+    const firstMove = path[1] || path[0]; // idx 0 is usually the current node the snake is on
     let directionToMove = null;
     if (firstMove.x !== head.x) {
       if (firstMove.x < head.x) {
