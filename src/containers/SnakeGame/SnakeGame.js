@@ -182,17 +182,25 @@ class SnakeGame extends Component {
     return cell.x > -1 && cell.y > -1 && cell.x < this.numCols && cell.y < this.numRows;
   }
 
-  // todo this implementation is terrible
   inputDirection({ keyCode }) {
+    if (this.state.snake.length === 1) {
+      // if only head, do not restrict movements at all
+      this.setState({ direction: keyCode });
+      return true;
+    }
     // if it's the same direction or simply reversing, ignore
     let changeDirection = true;
-    [[38, 40], [37, 39]].forEach(dir => {
-      if (dir.indexOf(this.state.direction) > -1 && dir.indexOf(keyCode) > -1) {
+    [[Direction.UP, Direction.DOWN], [Direction.LEFT, Direction.RIGHT]].forEach(dir => {
+      if (dir.includes(this.state.direction) && dir.includes(keyCode)) {
         changeDirection = false;
       }
     });
 
-    if (changeDirection) this.setState({ direction: keyCode });
+    if (changeDirection) {
+      this.setState({ direction: keyCode });
+      return true;
+    }
+    return false;
   }
 
   // randomly place snake food
@@ -343,32 +351,6 @@ class SnakeGame extends Component {
       },
       grid,
     );
-    if (newSnake.length === 1) {
-      switch (this.state.direction) {
-        case Direction.UP:
-          if (newGrid[head.y + 1]) {
-            newGrid[head.y + 1][head.x] = GridState.OBSTRUCTED;
-          }
-          break;
-        case Direction.DOWN:
-          if (newGrid[head.y - 1]) {
-            newGrid[head.y - 1][head.x] = GridState.OBSTRUCTED;
-          }
-          break;
-        case Direction.LEFT:
-          if (newGrid[head.x + 1]) {
-            newGrid[head.y][head.x + 1] = GridState.OBSTRUCTED;
-          }
-          break;
-        case Direction.RIGHT:
-          if (newGrid[head.x - 1]) {
-            newGrid[head.y][head.x - 1] = GridState.OBSTRUCTED;
-          }
-          break;
-        default:
-          throw new Error('Unknown direction');
-      }
-    }
     aStar.setGrid(newGrid);
     const allowedStates = [0, 1];
     aStar.setAcceptableTiles(allowedStates);
