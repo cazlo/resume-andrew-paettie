@@ -4,6 +4,7 @@ import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';
 import agent007Image from '../data/agent-007.gif';
+import snakeImage from '../data/snake.gif';
 
 export default {
   educations: [
@@ -76,6 +77,38 @@ export default {
     </span>
   ),
   projects: [
+    {
+      title: 'React Snake',
+      subtitle: '404 for AndrewPaettie.com',
+      date: 'October 2018',
+      techTheme: techTheme.react,
+      links: [
+        {
+          url: 'https://andrewpaettie.com/snake',
+          text: 'Site',
+        },
+        {
+          url:
+            'https://github.com/cazlo/resume-andrew-paettie/tree/master/src/containers/SnakeGame',
+          text: 'View source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'React',
+          icon: techTheme.react.icon,
+        },
+        {
+          name: 'AWS',
+          icon: techTheme.aws.icon,
+        },
+        {
+          name: 'CircleCI',
+        },
+      ],
+      content: 'A snake game and AI implemented to solve the game in an optimized way',
+      image: snakeImage,
+    },
     {
       title: 'AndrewPaettie.com',
       subtitle: 'My résumé',

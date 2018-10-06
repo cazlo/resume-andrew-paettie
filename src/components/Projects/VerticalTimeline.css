@@ -173,6 +173,7 @@
 }
 
 .vertical-timeline-element-content {
+    box-sizing: content-box;
     position: relative;
     margin-left: 60px;
     background: #fff;

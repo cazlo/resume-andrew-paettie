@@ -9,7 +9,11 @@ import DockerIcon from 'react-devicon/docker/plain';
 import GithubIcon from 'react-devicon/github/original';
 import PostgresIcon from 'react-devicon/postgresql/plain';
 import PythonIcon from 'react-devicon/python/plain';
-import AndroidIcon from 'react-devicon/android/original';
+import AndroidIcon from 'react-devicon/android/plain';
+import AngularIcon from 'react-devicon/angularjs/plain';
+import SlackIcon from 'react-devicon/slack/original';
+import LinuxIcon from 'react-devicon/linux/plain';
+import UbuntuIcon from 'react-devicon/ubuntu/plain';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 // todo CircleCI, Jest, Kotlin
 
@@ -60,6 +64,9 @@ const techTheme = {
       background: '#99c034',
       color: '#fff',
     },
+    iconStyle: {
+      background: '#303233',
+    },
     className: 'vertical-timeline-element--android',
     icon: <AndroidIcon />,
   },
@@ -102,6 +109,34 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--python',
     icon: <PythonIcon />,
+  },
+  angular: {
+    style: {
+      background: '#91324f',
+      color: '#fff',
+    },
+    icon: <AngularIcon />,
+  },
+  slack: {
+    style: {
+      background: '#7dcfb1',
+      color: '#fff',
+    },
+    icon: <SlackIcon />,
+  },
+  linux: {
+    style: {
+      background: '#e9b32a',
+      color: '#fff',
+    },
+    icon: <LinuxIcon />,
+  },
+  ubuntu: {
+    style: {
+      background: '#e6692b',
+      color: '#fff',
+    },
+    icon: <UbuntuIcon />,
   },
   others: {
     style: {
