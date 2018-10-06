@@ -238,22 +238,34 @@ class SnakeGame extends Component {
   createSurroundingNodes(x, y, grid) {
     const newGrid = _.map(grid, _.clone);
     if (newGrid[y + 1] && Number.isInteger(newGrid[y + 1][x])) {
-      newGrid[y + 1][x] = newGrid[y + 1][x] === 0 ? 1 : newGrid[y + 1][x];
+      newGrid[y + 1][x] =
+        newGrid[y + 1][x] === GridState.WALKABLE ? GridState.WALKABLE_PENALTY : newGrid[y + 1][x];
     }
     if (newGrid[y + 1] && Number.isInteger(newGrid[y + 1][x + 1])) {
-      newGrid[y + 1][x + 1] = newGrid[y + 1][x + 1] === 0 ? 1 : newGrid[y + 1][x + 1];
+      newGrid[y + 1][x + 1] =
+        newGrid[y + 1][x + 1] === GridState.WALKABLE
+          ? GridState.WALKABLE_PENALTY
+          : newGrid[y + 1][x + 1];
     }
     if (newGrid[y] && Number.isInteger(newGrid[y][x + 1])) {
-      newGrid[y][x + 1] = newGrid[y][x + 1] === 0 ? 1 : newGrid[y][x + 1];
+      newGrid[y][x + 1] =
+        newGrid[y][x + 1] === GridState.WALKABLE ? GridState.WALKABLE_PENALTY : newGrid[y][x + 1];
     }
     if (newGrid[y - 1] && Number.isInteger(newGrid[y - 1][x + 1])) {
-      newGrid[y - 1][x + 1] = newGrid[y - 1][x + 1] === 0 ? 1 : newGrid[y - 1][x + 1];
+      newGrid[y - 1][x + 1] =
+        newGrid[y - 1][x + 1] === GridState.WALKABLE
+          ? GridState.WALKABLE_PENALTY
+          : newGrid[y - 1][x + 1];
     }
     if (newGrid[y - 1] && Number.isInteger(newGrid[y - 1][x - 1])) {
-      newGrid[y - 1][x - 1] = newGrid[y - 1][x - 1] === 0 ? 1 : newGrid[y - 1][x - 1];
+      newGrid[y - 1][x - 1] =
+        newGrid[y - 1][x - 1] === GridState.WALKABLE
+          ? GridState.WALKABLE_PENALTY
+          : newGrid[y - 1][x - 1];
     }
     if (newGrid[y] && Number.isInteger(newGrid[y][x - 1])) {
-      newGrid[y][x - 1] = newGrid[y][x - 1] === 0 ? 1 : newGrid[y][x - 1];
+      newGrid[y][x - 1] =
+        newGrid[y][x - 1] === GridState.WALKABLE ? GridState.WALKABLE_PENALTY : newGrid[y][x - 1];
     }
     return newGrid;
   }
@@ -286,12 +298,14 @@ class SnakeGame extends Component {
         // console.warn('Path is noop somehow');
       }
     }
-    const grid = _.map(_.range(this.numRows), () => _.map(_.range(this.numCols), () => 0));
+    const grid = _.map(_.range(this.numRows), () =>
+      _.map(_.range(this.numCols), () => GridState.WALKABLE),
+    );
     const newGrid = _.reduce(
       newSnake,
       (accGrid, snake) => {
         const cloned = _.map(accGrid, _.clone);
-        cloned[snake.y][snake.x] = 2;
+        cloned[snake.y][snake.x] = GridState.OBSTRUCTED;
         return this.createSurroundingNodes(snake.x, snake.y, cloned);
       },
       grid,
