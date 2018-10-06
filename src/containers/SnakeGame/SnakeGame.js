@@ -50,9 +50,7 @@ const aStar = new Easystarjs.js();
 class SnakeGame extends Component {
   constructor(props) {
     super(props);
-    // const { innerHeight, innerWidth } = this.props;
-    const innerHeight = BOX_SIZE * BOARD_SIZE;
-    const innerWidth = BOX_SIZE * BOARD_SIZE;
+    const { innerHeight = BOX_SIZE * BOARD_SIZE, innerWidth = BOX_SIZE * BOARD_SIZE } = this.props;
 
     const numCols = Math.floor(innerWidth / BOX_SIZE);
     const numRows = Math.floor(innerHeight / BOX_SIZE);

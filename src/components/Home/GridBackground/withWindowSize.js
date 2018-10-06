@@ -5,7 +5,7 @@ function withWindowSize(WrappedComponent) {
   return class WindowSizeProvider extends React.Component {
     componentWillMount() {
       this.setState({
-        innerWidth: 1280,
+        innerWidth: 800,
         innerHeight: 800,
       });
     }
