@@ -13,6 +13,7 @@ import techTheme from '../../common/techTheme';
 import withWindowSize from '../../components/Home/GridBackground/withWindowSize';
 
 import './SnakeGame.css';
+import GridState from './util/GridState';
 
 const FOOD_TIMEOUT = 7000;
 const MOVE_SNAKE_TIMEOUT = 90;
@@ -281,6 +282,8 @@ class SnakeGame extends Component {
     }
     const head = newSnake[0];
     if (this.state.path && this.state.path.length && this.state.path.length > 1) {
+      // if there is already a path, dispatch that move now, to avoid a potentially costly wait for
+      // pathfinding re-calculation to occur
       const firstMove = this.state.path[1] || this.state.path[0]; // todo this hack
       let directionToMove = null;
       if (firstMove.x !== head.x) {
@@ -315,6 +318,32 @@ class SnakeGame extends Component {
       },
       grid,
     );
+    if (newSnake.length === 1) {
+      switch (this.state.direction) {
+        case Direction.UP:
+          if (newGrid[head.y + 1]) {
+            newGrid[head.y + 1][head.x] = GridState.OBSTRUCTED;
+          }
+          break;
+        case Direction.DOWN:
+          if (newGrid[head.y - 1]) {
+            newGrid[head.y - 1][head.x] = GridState.OBSTRUCTED;
+          }
+          break;
+        case Direction.LEFT:
+          if (newGrid[head.x + 1]) {
+            newGrid[head.y][head.x + 1] = GridState.OBSTRUCTED;
+          }
+          break;
+        case Direction.RIGHT:
+          if (newGrid[head.x - 1]) {
+            newGrid[head.y][head.x - 1] = GridState.OBSTRUCTED;
+          }
+          break;
+        default:
+          throw new Error('Unknown direction');
+      }
+    }
     aStar.setGrid(newGrid);
     const allowedStates = [0, 1];
     aStar.setAcceptableTiles(allowedStates);
