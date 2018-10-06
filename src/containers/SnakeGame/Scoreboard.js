@@ -29,8 +29,9 @@ const Scoreboard = props => {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
+            <TableCell>Player Name</TableCell>
             <TableCell numeric>Score</TableCell>
+            <TableCell numeric>Duration (s)</TableCell>
             <TableCell>Time</TableCell>
           </TableRow>
         </TableHead>
@@ -41,6 +42,7 @@ const Scoreboard = props => {
                 {row.name}
               </TableCell>
               <TableCell numeric>{row.score}</TableCell>
+              <TableCell numeric>{row.duration}</TableCell>
               <TableCell numeric>{row.time}</TableCell>
             </TableRow>
           ))}
