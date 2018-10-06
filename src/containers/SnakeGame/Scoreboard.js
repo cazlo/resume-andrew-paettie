@@ -7,8 +7,19 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import grey from '@material-ui/core/colors/grey';
 
 import './GridCell.css';
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: grey.A700,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
 const styles = theme => ({
   root: {
@@ -18,6 +29,11 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700,
+  },
+  row: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    },
   },
 });
 
@@ -29,21 +45,21 @@ const Scoreboard = props => {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Player Name</TableCell>
-            <TableCell numeric>Score</TableCell>
-            <TableCell numeric>Duration (s)</TableCell>
-            <TableCell>Time</TableCell>
+            <CustomTableCell>Player Name</CustomTableCell>
+            <CustomTableCell numeric>Score</CustomTableCell>
+            <CustomTableCell numeric>Duration</CustomTableCell>
+            <CustomTableCell>Time</CustomTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {scores.map(row => (
-            <TableRow key={`${row.time} ${row.score}`}>
-              <TableCell component="th" scope="row">
+            <TableRow className={classes.row} key={`${row.time} ${row.score}`}>
+              <CustomTableCell component="th" scope="row">
                 {row.name}
-              </TableCell>
-              <TableCell numeric>{row.score}</TableCell>
-              <TableCell numeric>{row.duration}</TableCell>
-              <TableCell numeric>{row.time}</TableCell>
+              </CustomTableCell>
+              <CustomTableCell numeric>{row.score}</CustomTableCell>
+              <CustomTableCell numeric>{row.duration}</CustomTableCell>
+              <CustomTableCell numeric>{row.time}</CustomTableCell>
             </TableRow>
           ))}
         </TableBody>
