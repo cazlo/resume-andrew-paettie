@@ -36,7 +36,21 @@ const aStar = new Easystarjs.js();
 class SnakeGame extends Component {
   constructor(props) {
     super(props);
-    this.state = INITIAL_STATE;
+    const { innerHeight, innerWidth } = this.props;
+    this.numCols = Math.floor(innerWidth / BOX_SIZE);
+    this.numRows = Math.floor(innerHeight / BOX_SIZE);
+    const boardArea = this.numCols * this.numRows;
+    this.state = {
+      ...INITIAL_STATE,
+      highScores: [
+        {
+          score: boardArea - 1, // -1 because the head occupies 1 space
+          name: 'Perfect score',
+          time: this.formatTime(moment(0).utc()),
+          duration: this.formatDuration(404),
+        },
+      ],
+    };
     this.pathfindInstanceId = null;
     this.isWithinPlayArea = this.isWithinPlayArea.bind(this);
     this.moveFood = this.moveFood.bind(this);
@@ -114,15 +128,12 @@ class SnakeGame extends Component {
   endGame() {
     // todo get name somehow?
     // console.info(`Ended game with score ${this.state.score}`);
-    const durationSeconds = moment().valueOf() - this.state.startTime;
-    const momentDuration = moment.duration({ millisecond: durationSeconds });
+    const durationMillis = moment().valueOf() - this.state.startTime;
     const score = {
       score: this.state.score,
       name: 'SKYNET',
-      time: moment().format('MMM Do YY, h:mm:ss a'),
-      duration: `${
-        momentDuration.minutes() ? `${momentDuration.minutes()}m ` : ''
-      }${momentDuration.seconds()}.${momentDuration.milliseconds()}s`,
+      time: this.formatTime(moment()),
+      duration: this.formatDuration(durationMillis),
     };
     const orderedScores = _.orderBy([...this.state.highScores, score], ['score'], ['desc']);
     this.setState({
@@ -140,6 +151,17 @@ class SnakeGame extends Component {
       });
       this.startGame();
     }, 3000);
+  }
+
+  formatDuration(durationMillis) {
+    const momentDuration = moment.duration({ millisecond: durationMillis });
+    return `${
+      momentDuration.minutes() ? `${momentDuration.minutes()}m ` : ''
+    }${momentDuration.seconds()}.${momentDuration.milliseconds()}s`;
+  }
+
+  formatTime(aMoment) {
+    return aMoment.format('MMM Do YY, h:mm:ss a');
   }
 
   isColliding(position, snake) {
