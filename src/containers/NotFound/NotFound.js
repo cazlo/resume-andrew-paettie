@@ -18,8 +18,6 @@ class NotFound extends Component {
     return (
       <ScreenBlock className="NotFoundBlock">
         <div className="container">
-          <SnakeGame />
-
           <Paper className="NotFoundPaper">
             <div className="heading">
               <h2>404 Not Found</h2>
@@ -33,6 +31,7 @@ class NotFound extends Component {
               Resume
             </Button>
           </Paper>
+          <SnakeGame />
         </div>
       </ScreenBlock>
     );

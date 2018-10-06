@@ -3,8 +3,10 @@ import _ from 'lodash';
 import flow from 'lodash/flow';
 import * as PropTypes from 'prop-types';
 import Easystarjs from 'easystarjs';
+import moment from 'moment';
 
 import GridCell from './GridCell';
+import Scoreboard from './Scoreboard';
 import Direction from './util/Direction';
 import Position from './util/Position';
 import techTheme from '../../common/techTheme';
@@ -17,11 +19,12 @@ const MOVE_SNAKE_TIMEOUT = 90;
 const BOX_SIZE = 80;
 
 const INITIAL_STATE = {
-  snake: [{ ...techTheme.java, ...Position(5, 5) }],
+  snake: [{ ...techTheme.java, ...Position(10, 5) }],
   food: { ...techTheme.nodeJs, ...Position(4, 2) },
   path: [],
   direction: Direction.RIGHT,
   score: 0,
+  highScores: [],
 };
 
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'java']));
@@ -108,12 +111,26 @@ class SnakeGame extends Component {
   }
 
   endGame() {
+    // todo get name somehow?
     // console.info(`Ended game with score ${this.state.score}`);
+    const score = {
+      score: this.state.score,
+      name: 'SKYNET',
+      time: moment().format('MMM Do YY, h:mm:ss a'),
+    };
+    const orderedScores = _.orderBy([...this.state.highScores, score], ['score'], ['desc']);
     if (this.pathfindInstanceId) {
       aStar.cancelPath(this.pathfindInstanceId);
     }
-    this.setState(INITIAL_STATE);
-    this.startGame();
+
+    this.removeTimers();
+    setTimeout(() => {
+      this.setState({
+        ...INITIAL_STATE,
+        highScores: orderedScores,
+      });
+      this.startGame();
+    }, 3000);
   }
 
   isColliding(position, snake) {
@@ -246,6 +263,29 @@ class SnakeGame extends Component {
       return;
     }
     const head = newSnake[0];
+    if (this.state.path && this.state.path.length && this.state.path.length > 1) {
+      const firstMove = this.state.path[1] || this.state.path[0]; // todo this hack
+      let directionToMove = null;
+      if (firstMove.x !== head.x) {
+        if (firstMove.x < head.x) {
+          directionToMove = Direction.LEFT;
+        } else {
+          directionToMove = Direction.RIGHT;
+        }
+      } else if (firstMove.y !== head.y) {
+        if (firstMove.y < head.y) {
+          directionToMove = Direction.UP;
+        } else {
+          directionToMove = Direction.DOWN;
+        }
+      }
+      if (directionToMove) {
+        // console.debug(`Ramdom fallback successful to (${randomX}, ${randomY})`);
+        this.inputDirection({ keyCode: directionToMove });
+      } else {
+        // console.warn('Path is noop somehow');
+      }
+    }
     const grid = _.map(_.range(this.numRows), () => _.map(_.range(this.numCols), () => 0));
     const newGrid = _.reduce(
       newSnake,
@@ -414,6 +454,7 @@ class SnakeGame extends Component {
         >
           {cells}
         </div>
+        <Scoreboard scores={this.state.highScores} />
       </div>
     );
   }
