@@ -382,7 +382,7 @@ class SnakeGame extends Component {
         const pathCells = this.state.path.filter(s => s.x === x && s.y === y);
         const pathCell =
           pathCells.length && pathCells[0]
-            ? { ...pathCells[0], style: techTheme.react.style }
+            ? { ...pathCells[0], style: techTheme.slack.style }
             : false;
 
         return (
