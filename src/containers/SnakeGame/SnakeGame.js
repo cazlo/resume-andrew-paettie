@@ -23,7 +23,8 @@ import ConfigDialog from './ConfigDialog';
 const NEW_GAME_TIMEOUT = 3000;
 const FOOD_TIMEOUT = 7000;
 const MOVE_SNAKE_TIMEOUT = 90;
-const BOX_SIZE = 80;
+const BOX_SIZE = 40; // pixels
+const BOARD_SIZE = 20;
 
 const INITIAL_STATE = {
   snake: [{ ...techTheme.java, ...Position(5, 5) }],
@@ -47,12 +48,19 @@ const aStar = new Easystarjs.js();
 class SnakeGame extends Component {
   constructor(props) {
     super(props);
-    const { innerHeight, innerWidth } = this.props;
-    this.numCols = Math.floor(innerWidth / BOX_SIZE);
-    this.numRows = Math.floor(innerHeight / BOX_SIZE);
-    const boardArea = this.numCols * this.numRows;
+    // const { innerHeight, innerWidth } = this.props;
+    const innerHeight = BOX_SIZE * BOARD_SIZE;
+    const innerWidth = BOX_SIZE * BOARD_SIZE;
+
+    const numCols = Math.floor(innerWidth / BOX_SIZE);
+    const numRows = Math.floor(innerHeight / BOX_SIZE);
+    const boardArea = numCols * numRows;
     this.state = {
       ...INITIAL_STATE,
+      innerHeight,
+      innerWidth,
+      numCols,
+      numRows,
       highScores: [
         {
           score: boardArea - 1, // -1 because the head occupies 1 space
@@ -81,6 +89,39 @@ class SnakeGame extends Component {
   componentDidMount() {
     this.startGame();
   }
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.innerHeight !== nextProps.innerHeight ||
+      this.props.innerWidth !== nextProps.innerWidth
+    ) {
+      const { innerHeight, innerWidth } = this.props;
+      // const innerHeight = 800, innerWidth = 800;
+      // - set numcols/numrows
+      const numCols = Math.floor(innerWidth / BOX_SIZE);
+      const numRows = Math.floor(innerHeight / BOX_SIZE);
+      const boardArea = numCols * numRows;
+      // - re-start game
+      this.removeTimers();
+      this.restartGame();
+      // - reset "Perfect Score"
+      const state = {
+        ...INITIAL_STATE,
+        innerHeight,
+        innerWidth,
+        numCols,
+        numRows,
+        highScores: [
+          {
+            score: boardArea - 1, // -1 because the head occupies 1 space
+            name: 'Perfect score',
+            time: Format.formatTime(moment(0).utc()),
+            duration: Format.formatDuration(404),
+          },
+        ],
+      };
+      this.setState(state);
+    }
+  }
   componentWillUnmount() {
     this.removeTimers();
   }
@@ -103,7 +144,7 @@ class SnakeGame extends Component {
         return acc;
       }
       if (
-        PositionUtil.isWithinPlayArea(position, this.numCols, this.numRows) &&
+        PositionUtil.isWithinPlayArea(position, this.state.numCols, this.state.numRows) &&
         !PositionUtil.isColliding(position, snake)
       ) {
         return { ...food, ...position };
@@ -240,8 +281,8 @@ class SnakeGame extends Component {
     if (this.moveFoodTimeout) clearTimeout(this.moveFoodTimeout);
     let position = {};
     do {
-      const x = _.random(1, this.numCols - 2);
-      const y = _.random(1, this.numRows - 2);
+      const x = _.random(1, this.state.numCols - 2);
+      const y = _.random(1, this.state.numRows - 2);
       // don't put food along the very edge of the play surface
       position = Position(x, y);
     } while (PositionUtil.isColliding(position, this.state.snake));
@@ -305,7 +346,7 @@ class SnakeGame extends Component {
     this.setState({ snake: newSnake });
     this.checkIfAteFood(newSnake);
     if (
-      !PositionUtil.isWithinPlayArea(newSnake[0], this.numCols, this.numRows) ||
+      !PositionUtil.isWithinPlayArea(newSnake[0], this.state.numCols, this.state.numRows) ||
       PositionUtil.ateItself(newSnake)
     ) {
       this.endGame();
@@ -352,8 +393,8 @@ class SnakeGame extends Component {
       // pathfinding re-calculation to occur
       this.moveFromPath(this.state.path, head);
     }
-    const grid = _.map(_.range(this.numRows), () =>
-      _.map(_.range(this.numCols), () => GridState.WALKABLE),
+    const grid = _.map(_.range(this.state.numRows), () =>
+      _.map(_.range(this.state.numCols), () => GridState.WALKABLE),
     );
     const newGrid = _.reduce(
       newSnake,
@@ -382,8 +423,8 @@ class SnakeGame extends Component {
           let randomX;
           let randomY;
           do {
-            randomX = _.random(1, this.numCols - 1);
-            randomY = _.random(1, this.numRows - 1);
+            randomX = _.random(1, this.state.numCols - 1);
+            randomY = _.random(1, this.state.numRows - 1);
           } while (!allowedStates.includes(grid[randomY][randomX]));
           this.pathfindInstanceId = aStar.findPath(head.x, head.y, randomX, randomY, newPath => {
             if (newPath === null || !newPath.length) {
@@ -418,16 +459,9 @@ class SnakeGame extends Component {
     if (this.restartGameTimeout) clearTimeout(this.restartGameTimeout);
   }
 
-  render() {
-    const { innerHeight, innerWidth } = this.props;
-    // each cell should be approximately 15px wide, so calculate how many we need
-    this.numCols = Math.floor(innerWidth / BOX_SIZE);
-    this.numRows = Math.floor(innerHeight / BOX_SIZE);
-
-    // const cellSize = Math.floor(size / numCells);
-    // const cellIndexes = Array.from(Array(numCells).keys());
-    const cells = _.map(_.range(this.numRows), y =>
-      _.map(_.range(this.numCols), x => {
+  renderGameCells() {
+    return _.map(_.range(this.state.numRows), y =>
+      _.map(_.range(this.state.numCols), x => {
         const foodCell =
           this.state.food.x === x && this.state.food.y === y ? this.state.food : false;
         const snakeCells = this.state.snake.filter(s => s.x === x && s.y === y);
@@ -449,26 +483,21 @@ class SnakeGame extends Component {
         );
       }),
     );
+  }
 
+  render() {
+    const { innerHeight, innerWidth } = this.state;
+    const style = { height: `${innerHeight}px`, width: `${innerWidth}px` };
     return (
       <div
         className="SnakeGame"
         onKeyDown={this.inputDirection}
         role="presentation"
-        style={{
-          width: `${innerWidth}px`,
-          height: `${innerHeight}px`,
-        }}
         tabIndex={-1}
+        style={style}
       >
-        <div
-          className="grid"
-          style={{
-            width: `${innerWidth}px`,
-            height: `${innerHeight}px`,
-          }}
-        >
-          {cells}
+        <div className="grid" style={style}>
+          {this.renderGameCells()}
         </div>
         <Button onClick={this.clickDialogButton}>Configure Snake</Button>
         <ConfigDialog
