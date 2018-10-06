@@ -26,6 +26,7 @@ const INITIAL_STATE = {
 
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'java']));
 
+// eslint-disable-next-line new-cap
 const aStar = new Easystarjs.js();
 
 class SnakeGame extends Component {
@@ -58,20 +59,22 @@ class SnakeGame extends Component {
     }
     const lastSection = snake[snake.length - 1];
 
-    let newSection;
     const possibleNewPositions = [
       Position(lastSection.x - 1, lastSection.y),
       Position(lastSection.x, lastSection.y - 1),
       Position(lastSection.x + 1, lastSection.y),
       Position(lastSection.x, lastSection.y + 1),
     ];
-    for (const position of possibleNewPositions) {
-      if (this.isWithinPlayArea(position) && !this.isColliding(position, snake)) {
-        newSection = { ...food, ...position };
-        // absorb the food's style
-        break;
+    const newSection = possibleNewPositions.reduce((acc, position) => {
+      if (acc) {
+        return acc;
       }
-    }
+      if (this.isWithinPlayArea(position) && !this.isColliding(position, snake)) {
+        return { ...food, ...position };
+        // absorb the food's style
+      }
+      return acc;
+    }, null);
     const catSnake = snake.concat(newSection).slice(1);
     const newSnake = [];
     for (let i = catSnake.length - 1; i >= 0; i -= 1) {
@@ -105,7 +108,7 @@ class SnakeGame extends Component {
   }
 
   endGame() {
-    console.info(`Ended game with score ${this.state.score}`);
+    // console.info(`Ended game with score ${this.state.score}`);
     if (this.pathfindInstanceId) {
       aStar.cancelPath(this.pathfindInstanceId);
     }
@@ -114,12 +117,12 @@ class SnakeGame extends Component {
   }
 
   isColliding(position, snake) {
-    for (const snakeLocation of snake) {
-      if (this.isSamePosition(snakeLocation, position)) {
-        return true;
+    return snake.reduce((acc, snakeLocation) => {
+      if (acc) {
+        return acc;
       }
-    }
-    return false;
+      return this.isSamePosition(snakeLocation, position);
+    }, false);
   }
 
   isSamePosition(position1, position2) {
@@ -279,7 +282,7 @@ class SnakeGame extends Component {
             randomY,
             newPath => {
               if (newPath === null || !newPath.length) {
-                console.debug(`Ramdom fallback failed to (${randomX}, ${randomY})`);
+                // console.debug(`Ramdom fallback failed to (${randomX}, ${randomY})`);
               } else {
                 this.setState({ path: newPath.slice(1, newPath.length - 1) });
 
@@ -299,10 +302,10 @@ class SnakeGame extends Component {
                   }
                 }
                 if (directionToMove) {
-                  console.debug(`Ramdom fallback successful to (${randomX}, ${randomY})`);
+                  // console.debug(`Ramdom fallback successful to (${randomX}, ${randomY})`);
                   this.inputDirection({ keyCode: directionToMove });
                 } else {
-                  console.warn('Path is noop somehow');
+                  // console.warn('Path is noop somehow');
                 }
               }
             },
@@ -330,7 +333,7 @@ class SnakeGame extends Component {
           if (directionToMove) {
             this.inputDirection({ keyCode: directionToMove });
           } else {
-            console.log('Path is noop somehow');
+            // console.log('Path is noop somehow');
           }
         }
       },
@@ -340,25 +343,18 @@ class SnakeGame extends Component {
 
   ateItself(snake) {
     const head = snake[0];
-    for (const bodyPiece of snake.slice(1)) {
-      if (this.isSamePosition(head, bodyPiece)) {
-        return true;
+    return snake.slice(1).reduce((acc, bodyPiece) => {
+      if (acc) {
+        return acc;
       }
-    }
-    return false;
+      return this.isSamePosition(head, bodyPiece);
+    }, false);
   }
 
   startGame() {
     this.removeTimers();
     this.moveSnakeInterval = setInterval(this.moveSnake, MOVE_SNAKE_TIMEOUT);
     this.moveFood();
-
-    // this.setState({
-    //   snake: [[5, 5]],
-    //   food: [10, 10],
-    // });
-    // need to focus so keydown listener will work!
-    // this.el.focus();
   }
 
   removeTimers() {
@@ -366,7 +362,8 @@ class SnakeGame extends Component {
     if (this.moveFoodTimeout) clearTimeout(this.moveFoodTimeout);
   }
 
-  render({ innerHeight, innerWidth } = this.props) {
+  render() {
+    const { innerHeight, innerWidth } = this.props;
     // each cell should be approximately 15px wide, so calculate how many we need
     this.numCols = Math.floor(innerWidth / BOX_SIZE);
     this.numRows = Math.floor(innerHeight / BOX_SIZE);
@@ -406,7 +403,6 @@ class SnakeGame extends Component {
           width: `${innerWidth}px`,
           height: `${innerHeight}px`,
         }}
-        // ref={el => (this.el = el)}
         tabIndex={-1}
       >
         <div
