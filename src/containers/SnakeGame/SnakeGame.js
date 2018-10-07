@@ -295,9 +295,6 @@ class SnakeGame extends Component {
       },
     });
     this.moveFoodTimeout = setTimeout(this.moveFood, FOOD_TIMEOUT);
-    if (this.state.enableAI) {
-      this.pathfind(this.state.snake);
-    }
   }
 
   moveSnake() {
@@ -416,6 +413,7 @@ class SnakeGame extends Component {
       this.state.food.y,
       path => {
         if (path === null || !path.length) {
+          this.moveFood();
           this.setState({ path: [] });
           // if there is no path available, try and calculate one to a random point as a last
           // ditch effort
