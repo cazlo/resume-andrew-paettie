@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 
 import ReactIcon from 'react-devicon/react/original';
@@ -8,7 +9,7 @@ import AwsIcon from 'react-devicon/amazonwebservices/original';
 import DockerIcon from 'react-devicon/docker/plain';
 import GithubIcon from 'react-devicon/github/original';
 import PostgresIcon from 'react-devicon/postgresql/plain';
-import PythonIcon from 'react-devicon/python/plain';
+import PythonIcon from 'react-devicon/python/original';
 import AndroidIcon from 'react-devicon/android/plain';
 import AngularIcon from 'react-devicon/angularjs/plain';
 import SlackIcon from 'react-devicon/slack/original';
@@ -16,12 +17,46 @@ import LinuxIcon from 'react-devicon/linux/plain';
 import UbuntuIcon from 'react-devicon/ubuntu/plain';
 import NpmIcon from 'react-devicon/npm/original-wordmark';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import DebianIcon from 'react-devicon/debian/plain';
+import CplusplusIcon from 'react-devicon/cplusplus/plain';
+
 import JestSvg from '../data/jest.svg';
+import CircleciSvg from '../data/circleci.svg';
 
 /**
  * A centralized place to organize the style + icons of various technologies
  * */
 const techTheme = {
+  cplusplus: {
+    style: {
+      background: '#3b4aa4',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: <CplusplusIcon />,
+  },
+  circleci: {
+    style: {
+      background: '#f7f7f7',
+      color: '#000',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: <span dangerouslySetInnerHTML={{ __html: CircleciSvg }} />,
+  },
+  debian: {
+    style: {
+      background: '#9e0031',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: <DebianIcon />,
+  },
   npm: {
     style: {
       background: '#c42939',
@@ -40,7 +75,6 @@ const techTheme = {
     iconStyle: {
       background: '#303233',
     },
-    // eslint-disable-next-line react/no-danger
     icon: <span dangerouslySetInnerHTML={{ __html: JestSvg }} />,
   },
   react: {
@@ -97,6 +131,9 @@ const techTheme = {
       background: '#af0930',
       color: '#fff',
     },
+    iconStyle: {
+      background: '#eeeeee',
+    },
     className: 'vertical-timeline-element--java',
     icon: <JavaIcon />,
   },
@@ -128,6 +165,9 @@ const techTheme = {
     style: {
       background: '#4075a3',
       color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
     },
     className: 'vertical-timeline-element--python',
     icon: <PythonIcon />,

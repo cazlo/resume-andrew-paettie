@@ -1,10 +1,15 @@
 import React from 'react';
+import { GoGraph } from 'react-icons/go';
+import { FaRobot } from 'react-icons/fa';
 
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';
 import agent007Image from '../data/agent-007.gif';
 import snakeImage from '../data/snake.gif';
+
+const AiIcon = FaRobot;
+const MlIcon = GoGraph;
 
 export default {
   educations: [
@@ -99,11 +104,8 @@ export default {
           icon: techTheme.react.icon,
         },
         {
-          name: 'AWS',
-          icon: techTheme.aws.icon,
-        },
-        {
-          name: 'CircleCI',
+          name: 'AI',
+          icon: <AiIcon />,
         },
       ],
       content: 'A snake game and AI implemented to solve the game in an optimized way',
@@ -130,11 +132,16 @@ export default {
           icon: techTheme.react.icon,
         },
         {
+          name: 'Jest',
+          icon: techTheme.jest.icon,
+        },
+        {
           name: 'AWS',
           icon: techTheme.aws.icon,
         },
         {
           name: 'CircleCI',
+          icon: techTheme.circleci.icon,
         },
       ],
       content: 'A simple portfolio site to show some projects I have done',
@@ -179,6 +186,7 @@ export default {
         },
         {
           name: 'AI',
+          icon: <AiIcon />,
         },
       ],
       content: `An AI agent implemented in Java used to compete against other agents in a simple capture 
@@ -204,6 +212,7 @@ export default {
         },
         {
           name: 'AI',
+          icon: <AiIcon />,
         },
       ],
       content: `Some homework for an AI class I took, implementing search and constraint solving
@@ -228,6 +237,7 @@ export default {
         },
         {
           name: 'ML',
+          icon: <MlIcon />,
         },
       ],
       content: `Some homework for a machine learning class I took, aimed towards implementing and using
@@ -252,6 +262,7 @@ export default {
         },
         {
           name: 'C++',
+          icon: techTheme.cplusplus.icon,
         },
       ],
       content: `Just some random things I've made for school. Pictured is a loan amortization calculator featuring
