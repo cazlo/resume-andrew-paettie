@@ -14,13 +14,35 @@ import AngularIcon from 'react-devicon/angularjs/plain';
 import SlackIcon from 'react-devicon/slack/original';
 import LinuxIcon from 'react-devicon/linux/plain';
 import UbuntuIcon from 'react-devicon/ubuntu/plain';
+import NpmIcon from 'react-devicon/npm/original-wordmark';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-// todo CircleCI, Jest, Kotlin
+import JestSvg from '../data/jest.svg';
 
 /**
  * A centralized place to organize the style + icons of various technologies
  * */
 const techTheme = {
+  npm: {
+    style: {
+      background: '#c42939',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: <NpmIcon />,
+  },
+  jest: {
+    style: {
+      background: '#903b58',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    // eslint-disable-next-line react/no-danger
+    icon: <span dangerouslySetInnerHTML={{ __html: JestSvg }} />,
+  },
   react: {
     style: {
       background: '#61DAFB',
