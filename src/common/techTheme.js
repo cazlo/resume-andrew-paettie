@@ -22,11 +22,30 @@ import CplusplusIcon from 'react-devicon/cplusplus/plain';
 
 import JestSvg from '../data/jest.svg';
 import CircleciSvg from '../data/circleci.svg';
+import SpringSvg from '../data/spring.svg';
+import RabbitmqSvg from '../data/rabbitmq.svg';
 
 /**
  * A centralized place to organize the style + icons of various technologies
  * */
 const techTheme = {
+  rabbitmq: {
+    style: {
+      background: '#e8772d',
+      color: '#fff',
+    },
+    icon: <span dangerouslySetInnerHTML={{ __html: RabbitmqSvg }} />,
+  },
+  spring: {
+    style: {
+      background: '#70bd4d',
+      color: '#fff',
+    },
+    // iconStyle: {
+    //   background: '#303233',
+    // },
+    icon: <span dangerouslySetInnerHTML={{ __html: SpringSvg }} className="SpringIcon" />,
+  },
   cplusplus: {
     style: {
       background: '#3b4aa4',
@@ -39,12 +58,12 @@ const techTheme = {
   },
   circleci: {
     style: {
-      background: '#f7f7f7',
-      color: '#000',
+      background: '#163947',
+      color: '#fff',
     },
-    iconStyle: {
-      background: '#303233',
-    },
+    // iconStyle: {
+    //   background: '#303233',
+    // },
     icon: <span dangerouslySetInnerHTML={{ __html: CircleciSvg }} />,
   },
   debian: {
@@ -75,7 +94,7 @@ const techTheme = {
     iconStyle: {
       background: '#303233',
     },
-    icon: <span dangerouslySetInnerHTML={{ __html: JestSvg }} />,
+    icon: <span dangerouslySetInnerHTML={{ __html: JestSvg }} className="JestIcon" />,
   },
   react: {
     style: {
@@ -135,7 +154,7 @@ const techTheme = {
       background: '#eeeeee',
     },
     className: 'vertical-timeline-element--java',
-    icon: <JavaIcon />,
+    icon: <JavaIcon className="JavaIcon" />,
   },
   aws: {
     style: {
