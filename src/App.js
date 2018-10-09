@@ -6,7 +6,6 @@ import red from '@material-ui/core/colors/red';
 
 import Resume from './containers/Resume/Resume';
 import NotFound from './components/NotFound/NotFound';
-import Copyright from './components/Copyright/Copyright';
 
 const theme = createMuiTheme({
   palette: {
@@ -20,10 +19,12 @@ const App = () => (
     <div className="App">
       <Switch>
         <Route exact path="/" component={Resume} />
+        <Route exact path="/about" component={() => <Resume scrollTo="ResumeAboutMe" />} />
+        <Route exact path="/experience" component={() => <Resume scrollTo="ResumeExperience" />} />
+        <Route exact path="/skills" component={() => <Resume scrollTo="ResumeSkills" />} />
+        <Route exact path="/projects" component={() => <Resume scrollTo="ResumeProjects" />} />
         <Route component={NotFound} />
       </Switch>
-      <br />
-      <Copyright />
     </div>
   </MuiThemeProvider>
 );

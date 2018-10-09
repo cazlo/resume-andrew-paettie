@@ -29,12 +29,12 @@ const buttons = [
   },
   {
     label: 'About Me',
-    name: 'Resume-aboutMe',
+    name: 'ResumeAboutMe',
     icon: <FaceIcon />,
   },
   {
     label: 'Work Experience',
-    name: 'Resume-work',
+    name: 'ResumeExperience',
     icon: <WorkIcon />,
   },
   {
@@ -45,12 +45,12 @@ const buttons = [
   },
   {
     label: 'Skills',
-    name: 'Resume-skills',
+    name: 'ResumeSkills',
     icon: <SettingsIcon />,
   },
   {
     label: 'Projects',
-    name: 'Resume-projects',
+    name: 'ResumeProjects',
     icon: <CodeIcon />,
   },
   // {
