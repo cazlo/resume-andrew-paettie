@@ -13,7 +13,9 @@ import CodeIcon from '@material-ui/icons/Code';
 import './BottomNav.css';
 
 const Link = props => {
+// eslint-disable-next-line no-unused-vars
   const { showLabel, ...rest } = props;
+  // here showLabel is stripped off to avoid a console.error message
   return <Scroll.Link {...rest} />;
 };
 
@@ -29,12 +31,12 @@ const buttons = [
   },
   {
     label: 'About Me',
-    name: 'Resume-aboutMe',
+    name: 'ResumeAboutMe',
     icon: <FaceIcon />,
   },
   {
     label: 'Work Experience',
-    name: 'Resume-work',
+    name: 'ResumeExperience',
     icon: <WorkIcon />,
   },
   {
@@ -45,12 +47,12 @@ const buttons = [
   },
   {
     label: 'Skills',
-    name: 'Resume-skills',
+    name: 'ResumeSkills',
     icon: <SettingsIcon />,
   },
   {
     label: 'Projects',
-    name: 'Resume-projects',
+    name: 'ResumeProjects',
     icon: <CodeIcon />,
   },
   // {

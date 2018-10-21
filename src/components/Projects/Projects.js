@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 // import { FaGithub, FaHashtag } from 'react-icons/lib/fa';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import './VerticalTimeline.css';
@@ -34,7 +35,12 @@ const Projects = ({ projects, style }) => (
                 <h4 className="vertical-timeline-element-subtitle">{project.subtitle}</h4>
                 <div className="ProjectsBlock-technologies">
                   {project.technologies.map((technology, j) => (
-                    <Chip key={j} label={technology.name} /> // eslint-disable-line react/no-array-index-key
+                    <Chip
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={j}
+                      label={technology.name}
+                      avatar={technology.icon ? <Avatar>{technology.icon}</Avatar> : null}
+                    />
                   ))}
                 </div>
               </div>

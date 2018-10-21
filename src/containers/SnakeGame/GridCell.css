@@ -11,5 +11,70 @@
 .grid-cell {
     border-left: 1px solid lightgray;
     border-bottom: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.GridCellContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-cell svg path,
+.grid-cell svg g,
+.grid-cell .SVGInline svg path,
+.grid-cell .SVGInline svg g {
+    opacity: 0.65;
+    fill: #fff !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-cell .JestIcon path,
+.grid-cell .JestIcon g {
+    opacity: 0.35;
+}
+
+.grid-cell .SpringIcon path,
+.grid-cell .SpringIcon g {
+    opacity: 1%;
+}
+
+.grid-cell .SpringIcon svg .st0{
+    fill: #68bd45 !important;
+}
+.grid-cell .SpringIcon svg .st1{
+    fill: #fff !important;
+}
+
+.grid-cell .JavaIcon svg path,
+.grid-cell .JavaIcon svg g {
+    opacity: 1;
+}
+
+.grid-cell svg,
+.grid-cell .SVGInline svg{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-cell .Food svg,
+.grid-cell .Food .SVGInline svg{
+    width: 75% !important;
+    height: 75% !important;
+}
+.grid-cell .Food {
+    animation: App-logo-spin infinite 1s linear;
+}
+
+@keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }

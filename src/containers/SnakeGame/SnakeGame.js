@@ -27,6 +27,7 @@ const FOOD_TIMEOUT = 7000;
 const MOVE_SNAKE_TIMEOUT = 90;
 const BOX_SIZE = 40; // pixels
 const BOARD_SIZE = 20;
+const WALKABLE_PENALTY_MULTIPLIER = 99999999999;
 
 const INITIAL_STATE = {
   snake: [{ ...techTheme.java, ...Position(5, 5) }],
@@ -89,7 +90,7 @@ class SnakeGame extends Component {
   componentDidMount() {
     this.startGame();
   }
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     if (
       this.props.innerHeight !== nextProps.innerHeight ||
       this.props.innerWidth !== nextProps.innerWidth
@@ -295,9 +296,6 @@ class SnakeGame extends Component {
       },
     });
     this.moveFoodTimeout = setTimeout(this.moveFood, FOOD_TIMEOUT);
-    if (this.state.enableAI) {
-      this.pathfind(this.state.snake);
-    }
   }
 
   moveSnake() {
@@ -383,6 +381,17 @@ class SnakeGame extends Component {
     return false;
   }
 
+  increaseWeightOfNodesSurroundingSnake(newSnake, grid) {
+    return _.reduce(
+      newSnake,
+      (accGrid, snake) => {
+        const cloned = _.map(accGrid, _.clone);
+        cloned[snake.y][snake.x] = GridState.OBSTRUCTED;
+        return PositionUtil.createSurroundingNodes(snake.x, snake.y, cloned);
+      },
+      grid,
+    );
+  }
   pathfind(newSnake) {
     if (!newSnake[0]) {
       return;
@@ -396,19 +405,12 @@ class SnakeGame extends Component {
     const grid = _.map(_.range(this.state.numRows), () =>
       _.map(_.range(this.state.numCols), () => GridState.WALKABLE),
     );
-    const newGrid = _.reduce(
-      newSnake,
-      (accGrid, snake) => {
-        const cloned = _.map(accGrid, _.clone);
-        cloned[snake.y][snake.x] = GridState.OBSTRUCTED;
-        return PositionUtil.createSurroundingNodes(snake.x, snake.y, cloned);
-      },
-      grid,
-    );
+    const newGrid =
+      newSnake.length === 1 ? grid : this.increaseWeightOfNodesSurroundingSnake(newSnake, grid);
     aStar.setGrid(newGrid);
     const allowedStates = [GridState.WALKABLE, GridState.WALKABLE_PENALTY];
     aStar.setAcceptableTiles(allowedStates);
-    aStar.setTileCost(GridState.WALKABLE_PENALTY, 5);
+    aStar.setTileCost(GridState.WALKABLE_PENALTY, WALKABLE_PENALTY_MULTIPLIER);
     this.pathfindInstanceId = aStar.findPath(
       head.x,
       head.y,
@@ -416,6 +418,7 @@ class SnakeGame extends Component {
       this.state.food.y,
       path => {
         if (path === null || !path.length) {
+          this.moveFood();
           this.setState({ path: [] });
           // if there is no path available, try and calculate one to a random point as a last
           // ditch effort

@@ -1,7 +1,9 @@
-import React from 'react';
-import flow from 'lodash/flow';
-import { withTheme } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+// import flow from 'lodash/flow';
+// import { withTheme } from '@material-ui/core/styles';
 import { sortBy } from 'lodash';
+import Scroll from 'react-scroll';
+import * as PropTypes from 'prop-types';
 
 import Home from '../../components/Home/Home';
 import AboutMe from '../../components/AboutMe/AboutMe';
@@ -14,6 +16,8 @@ import content from '../../common/content';
 import techTheme from '../../common/techTheme';
 
 import './Resume.css';
+
+const { Element } = Scroll;
 
 const getSkillsByLanguages = skills => {
   const skillsByLanguages = skills.reduce((obj, item) => {
@@ -29,18 +33,42 @@ const getSkillsByLanguages = skills => {
   return Object.keys(skillsByLanguages).map(key => skillsByLanguages[key]);
 };
 
-const Resume = () => (
-  <div className="Resume">
-    <Home />
-    <AboutMe style={techTheme.github.style} />
-    <WorkAndEducation educations={content.educations} positions={content.positions} />
-    <Skills skills={getSkillsByLanguages(content.skills)} tools={content.tools} />
-    <Projects projects={content.projects} />
-    <Copyright />
-    <BottomNav />
-  </div>
-);
+class Resume extends Component {
+  componentDidMount() {
+    if (this.props.scrollTo) {
+      Scroll.scroller.scrollTo(this.props.scrollTo);
+    }
+  }
 
-const decorators = flow([withTheme()]);
+  render() {
+    return (
+      <div className="Resume">
+        <Element>
+          <Home />
+        </Element>
+        <Element name="ResumeAboutMe">
+          <AboutMe style={techTheme.github.style} />
+        </Element>
+        <Element name="ResumeExperience">
+          <WorkAndEducation educations={content.educations} positions={content.positions} />
+        </Element>
+        <Element name="ResumeSkills">
+          <Skills skills={getSkillsByLanguages(content.skills)} tools={content.tools} />
+        </Element>
+        <Element name="ResumeProjects">
+          <Projects projects={content.projects} />
+        </Element>
+        <Copyright />
+        <BottomNav />
+      </div>
+    );
+  }
+}
 
-export default decorators(Resume);
+Resume.propTypes = {
+  scrollTo: PropTypes.string,
+};
+
+// const decorators = flow([withTheme()]);
+
+export default Resume;
