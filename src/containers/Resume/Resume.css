@@ -7,7 +7,7 @@
     padding-bottom: 69px;
 }
 
-.Resume .ScreenBlockContainer:nth-child(odd) .ScreenBlock {
+.Resume div:nth-child(odd) .ScreenBlockContainer .ScreenBlock {
     background: #aaaeb0;
 }
 

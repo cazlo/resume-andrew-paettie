@@ -1,6 +1,4 @@
 import React from 'react';
-// eslint-disable-next-line
-import {Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 
@@ -12,12 +10,6 @@ import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 const Intro = ({ style }) => (
   <ScreenBlock id="Resume-aboutMe" className="ResumeAboutMeBlock" style={style}>
     <div id="" className="Resume-aboutMe container">
-      {/* <Jumbotron> */}
-      {/* <Media> */}
-      {/* <Row className="justify-content-center"> */}
-      {/* <Col xs="12" sm="6" lg="8" className="justify-content-center"> */}
-      {/* <Media body> */}
-      {/* <Media heading> */}
       <div className="heading">
         <h2 className="ResumeAboutMe" style={{ color: '#fff' }}>
           About Me
