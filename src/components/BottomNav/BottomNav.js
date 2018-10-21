@@ -13,7 +13,9 @@ import CodeIcon from '@material-ui/icons/Code';
 import './BottomNav.css';
 
 const Link = props => {
+// eslint-disable-next-line no-unused-vars
   const { showLabel, ...rest } = props;
+  // here showLabel is stripped off to avoid a console.error message
   return <Scroll.Link {...rest} />;
 };
 

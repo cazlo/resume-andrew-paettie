@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 
 function withWindowSize(WrappedComponent) {
   return class WindowSizeProvider extends React.Component {
-    componentWillMount() {
-      this.setState({
+    constructor(props) {
+      super(props);
+      this.state = {
         innerWidth: 800,
         innerHeight: 800,
-      });
+      };
     }
 
     componentDidMount() {
@@ -38,6 +39,7 @@ function withWindowSize(WrappedComponent) {
           ref={node => {
             this.node = node;
           }}
+          key={`${this.state.innerHeight} ${this.state.innerWidth}`}
           {...this.props}
           {...this.state}
         />

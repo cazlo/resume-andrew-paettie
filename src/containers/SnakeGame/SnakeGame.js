@@ -90,7 +90,7 @@ class SnakeGame extends Component {
   componentDidMount() {
     this.startGame();
   }
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(nextProps) {
     if (
       this.props.innerHeight !== nextProps.innerHeight ||
       this.props.innerWidth !== nextProps.innerWidth

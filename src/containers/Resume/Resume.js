@@ -43,7 +43,9 @@ class Resume extends Component {
   render() {
     return (
       <div className="Resume">
-        <Home />
+        <Element>
+          <Home />
+        </Element>
         <Element name="ResumeAboutMe">
           <AboutMe style={techTheme.github.style} />
         </Element>

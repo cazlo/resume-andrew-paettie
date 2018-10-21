@@ -17,15 +17,6 @@ class GridBackground extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.props.innerHeight !== nextProps.innerHeight ||
-      this.props.innerWidth !== nextProps.innerWidth
-    ) {
-      this.processSize(nextProps);
-    }
-  }
-
   calcItemWidth = (innerWidth, innerHeight) => {
     if (innerHeight === 0) return 0;
 
