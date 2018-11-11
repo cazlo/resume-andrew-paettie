@@ -9,6 +9,8 @@ import { FaHome } from 'react-icons/fa';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import SnakeGame from '../../containers/SnakeGame/SnakeGame';
 import techTheme from '../../common/techTheme';
+import { Provider } from 'react-redux'
+import configureStore from '../../containers/SnakeGame/store';
 
 const styles = theme => ({
   NotFoundPaper: {
@@ -46,7 +48,9 @@ const NotFound = props => {
             <FaHome size="2em" />
           </Button>
         </Paper>
-        <SnakeGame />
+        <Provider store={configureStore()}>
+          <SnakeGame />
+        </Provider>
       </div>
     </ScreenBlock>
   );

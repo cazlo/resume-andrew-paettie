@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import Dialog from '@material-ui/core/Dialog/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent/DialogContent';
@@ -9,16 +12,17 @@ import Switch from '@material-ui/core/Switch/Switch';
 import TextField from '@material-ui/core/TextField/TextField';
 import DialogActions from '@material-ui/core/DialogActions/DialogActions';
 import Button from '@material-ui/core/Button/Button';
+import { saveConfigDialog, toggleEnableAI, toggleConfigDialog, changeName } from './actions/aiConfigAction';
 
 const ConfigDialog = props => {
   const {
     dialogOpen,
-    enableAIChecked,
+    enableAI,
     playerName,
-    playerNameRef,
-    checkEnableAiToggled,
-    closeSettings,
-    closeAndSaveSettings,
+    saveConfigDialog,
+    toggleEnableAI,
+    toggleConfigDialog,
+    changeName,
   } = props;
 
   return (
@@ -31,8 +35,8 @@ const ConfigDialog = props => {
           control={
             <Switch
               value="checkedEnableAI"
-              checked={enableAIChecked}
-              onChange={checkEnableAiToggled}
+              checked={enableAI}
+              onChange={(event) => toggleEnableAI(event)}
             />
           }
         />
@@ -44,14 +48,15 @@ const ConfigDialog = props => {
           type="name"
           defaultValue={playerName}
           fullWidth
-          inputRef={playerNameRef}
+          // inputRef={playerNameRef}
+          onChange={(event) => changeName(event)}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeSettings} color="primary">
+        <Button onClick={toggleConfigDialog} color="primary">
           Cancel
         </Button>
-        <Button onClick={closeAndSaveSettings} color="primary">
+        <Button onClick={saveConfigDialog} color="primary">
           Save
         </Button>
       </DialogActions>
@@ -62,11 +67,23 @@ const ConfigDialog = props => {
 ConfigDialog.propTypes = {
   playerName: PropTypes.string.isRequired,
   dialogOpen: PropTypes.bool.isRequired,
-  enableAIChecked: PropTypes.bool.isRequired,
-  playerNameRef: PropTypes.object.isRequired,
-  checkEnableAiToggled: PropTypes.func.isRequired,
-  closeSettings: PropTypes.func.isRequired,
-  closeAndSaveSettings: PropTypes.func.isRequired,
+  enableAI: PropTypes.bool.isRequired,
+  saveConfigDialog: PropTypes.func.isRequired,
+  toggleEnableAI: PropTypes.func.isRequired,
+  toggleConfigDialog: PropTypes.func.isRequired,
+  changeName: PropTypes.func.isRequired,
 };
 
-export default ConfigDialog;
+const mapDispatchToProps = dispatch => bindActionCreators({
+  saveConfigDialog,
+  toggleEnableAI,
+  toggleConfigDialog,
+  changeName,
+}, dispatch);
+
+const mapStateToProps = state => ({
+  ...state.aiConfig,
+  ...state.aiConfig.userInput,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigDialog);

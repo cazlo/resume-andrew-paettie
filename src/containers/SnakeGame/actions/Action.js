@@ -1,0 +1,29 @@
+const Action = {
+  // AI config
+  TOGGLE_CONFIG_DIALOG: "TOGGLE_CONFIG_DIALOG",
+  SAVE_CONFIG_DIALOG: "SAVE_CONFIG_DIALOG",
+  TOGGLE_ENABLE_AI: "TOGGLE_ENABLE_AI",
+  CHANGE_NAME: "CHANGE_NAME",
+  // Food
+  MOVE_FOOD: "MOVE_FOOD",
+  // Game
+  INCREASE_SCORE: "INCREASE_SCORE",
+  RESET_SCORE: "RESET_SCORE",
+  DIRECTION_INPUT: "DIRECTION_INPUT",
+  PLAYER_NAME_INPUT: "PLAYER_NAME_INPUT",
+  TOGGLE_PAUSED: "TOGGLE_PAUSED",
+  // High Score
+  CLEAR_SCORES: "CLEAR_SCORES",
+  ADD_SCORE: "ADD_SCORE",
+  ADD_PERFECT_SCORE: "ADD_PERFECT_SCORE",
+  // Path Finding
+  START_PATH_FIND: "START_PATH_FIND",
+  START_SURVIVAL_MODE_PATH_FIND: "START_SURVIVAL_MODE_PATH_FIND", // todo: implement this feature where once food is eaten enter into this mode to just try and survive until there is a successful path found to food
+  LOAD_PATH_FIND: "LOAD_PATH_FIND",
+  PATH_NOT_FOUND: "PATH_NOT_FOUND",
+  // Snake
+  MOVE_SNAKE: "MOVE_SNAKE",
+  ADD_SECTION: "ADD_SECTION"
+};
+
+export default Action;
