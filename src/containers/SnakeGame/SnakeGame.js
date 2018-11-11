@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import _ from 'lodash';
 import flow from 'lodash/flow';
 import * as PropTypes from 'prop-types';
@@ -9,6 +11,7 @@ import Button from '@material-ui/core/Button/Button';
 import Chip from '@material-ui/core/Chip/Chip';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 
+import withWindowSize from '../../components/Home/GridBackground/withWindowSize';
 import GridCell from './GridCell';
 import Scoreboard from './Scoreboard';
 import Direction from './util/Direction';
@@ -16,11 +19,12 @@ import Position from './util/Position';
 import PositionUtil from './util/PositionUtil';
 import Format from './util/Format';
 import techTheme from '../../common/techTheme';
-import withWindowSize from '../../components/Home/GridBackground/withWindowSize';
 
 import './SnakeGame.css';
 import GridState from './util/GridState';
 import ConfigDialog from './ConfigDialog';
+import { bindActionCreators } from 'redux';
+import { changeName, saveConfigDialog, toggleConfigDialog, toggleEnableAI } from './actions/aiConfigAction';
 
 const NEW_GAME_TIMEOUT = 3000;
 const FOOD_TIMEOUT = 7000;
@@ -30,17 +34,17 @@ const BOARD_SIZE = 20;
 const WALKABLE_PENALTY_MULTIPLIER = 99999999999;
 
 const INITIAL_STATE = {
-  snake: [{ ...techTheme.java, ...Position(5, 5) }],
-  food: { ...techTheme.nodeJs, ...Position(4, 2) },
-  path: [],
-  direction: Direction.RIGHT,
-  score: 0,
-  highScores: [],
-  dialogOpen: false,
-  playerName: 'SKYNET',
-  enableAIChecked: true,
-  enableAI: true,
-  gameOver: false,
+  snake: [{ ...techTheme.java, ...Position(5, 5) }],// todo  snake
+  food: { ...techTheme.nodeJs, ...Position(4, 2) }, // todo    food
+  path: [],   //todo move to                                 path finding
+  direction: Direction.RIGHT, // todo move to                   game
+  score: 0, // todo move to                                     game
+  highScores: [], // todo move to                                  high score
+  // dialogOpen: false, // todo move to                           config
+  // playerName: 'SKYNET', // todo move to                        config
+  // enableAIChecked: true, // todo move to                       config
+  // enableAI: true, // todo move to                              config
+  gameOver: false, // todo move to                              game
 };
 
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'java']));
@@ -80,12 +84,6 @@ class SnakeGame extends Component {
     this.inputDirection = this.inputDirection.bind(this);
     this.removeTimers = this.removeTimers.bind(this);
     this.pathfind = this.pathfind.bind(this);
-    this.closeSettings = this.closeSettings.bind(this);
-    this.closeAndSaveSettings = this.closeAndSaveSettings.bind(this);
-    this.checkEnableAiToggled = this.checkEnableAiToggled.bind(this);
-    this.clickDialogButton = this.clickDialogButton.bind(this);
-
-    this.playerNameRef = React.createRef();
   }
   componentDidMount() {
     this.startGame();
@@ -184,49 +182,34 @@ class SnakeGame extends Component {
     this.moveFood();
     return true;
   }
+  //
+  // checkEnableAiToggled(event) {
+  //   this.setState({ enableAIChecked: event.target.checked });
+  // }
 
-  checkEnableAiToggled(event) {
-    this.setState({ enableAIChecked: event.target.checked });
-  }
-
-  closeAndSaveSettings() {
-    const playerName = this.playerNameRef.current;
-    if (playerName && playerName.value) {
-      this.setState({
-        playerName: playerName.value,
-      });
-    }
-    if (this.state.enableAI !== this.state.enableAIChecked) {
-      this.setState({
-        enableAI: this.state.enableAIChecked,
-      });
-      this.endGame();
-    }
-    this.closeSettings();
-  }
-
-  closeSettings() {
-    this.setState({ dialogOpen: !this.state.dialogOpen, enableAIChecked: this.state.enableAI });
-    if (this.state.gameOver) {
-      this.restartGame();
-    }
-  }
-
-  clickDialogButton() {
-    if (this.restartGameTimeout) {
-      clearTimeout(this.restartGameTimeout);
-    }
-    this.setState({ dialogOpen: !this.state.dialogOpen });
-  }
+  // closeAndSaveSettings() {
+  //   const playerName = this.playerNameRef.current;
+  //   if (playerName && playerName.value) {
+  //     this.setState({
+  //       playerName: playerName.value,
+  //     });
+  //   }
+  //   if (this.state.enableAI !== this.state.enableAIChecked) {
+  //     this.setState({
+  //       enableAI: this.state.enableAIChecked,
+  //     });
+  //     this.endGame();
+  //   }
+  //   this.closeSettings();
+  // }
 
   restartGame() {
     this.restartGameTimeout = setTimeout(() => {
       this.setState({
         ...INITIAL_STATE,
         highScores: this.state.highScores,
-        enableAI: this.state.enableAI,
-        enableAIChecked: this.state.enableAI,
-        playerName: this.state.playerName,
+        enableAI: this.props.aiConfig.enableAI,
+        playerName: this.props.aiConfig.playerName,
       });
       this.startGame();
     }, NEW_GAME_TIMEOUT);
@@ -236,7 +219,7 @@ class SnakeGame extends Component {
     const durationMillis = moment().valueOf() - this.state.startTime;
     const score = {
       score: this.state.score,
-      name: this.state.playerName,
+      name: this.props.aiConfig.playerName,
       time: Format.formatTime(moment()),
       duration: Format.formatDuration(durationMillis),
     };
@@ -276,7 +259,7 @@ class SnakeGame extends Component {
 
   // randomly place snake food
   moveFood() {
-    if (this.state.dialogOpen) {
+    if (this.props.aiConfig.dialogOpen) { // todo implement this behavior somehow
       return;
     }
     if (this.moveFoodTimeout) clearTimeout(this.moveFoodTimeout);
@@ -299,7 +282,7 @@ class SnakeGame extends Component {
   }
 
   moveSnake() {
-    if (this.state.dialogOpen) {
+    if (this.props.aiConfig.dialogOpen) { // todo implement this behavior somehow
       return;
     }
     const newSnake = [];
@@ -348,7 +331,7 @@ class SnakeGame extends Component {
       PositionUtil.ateItself(newSnake)
     ) {
       this.endGame();
-    } else if (this.state.enableAI) {
+    } else if (this.props.aiConfig.enableAI) {
       this.pathfind(newSnake);
     }
   }
@@ -503,24 +486,19 @@ class SnakeGame extends Component {
         <div className="grid" style={style}>
           {this.renderGameCells()}
         </div>
-        <Button onClick={this.clickDialogButton}>Configure Snake</Button>
-        <ConfigDialog
-          dialogOpen={this.state.dialogOpen}
-          enableAIChecked={this.state.enableAIChecked}
-          playerName={this.state.playerName}
-          playerNameRef={this.playerNameRef}
-          checkEnableAiToggled={this.checkEnableAiToggled}
-          closeSettings={this.closeSettings}
-          closeAndSaveSettings={this.closeAndSaveSettings}
-        />
+        <Button onClick={this.props.toggleConfigDialog}>Configure Snake</Button>
+        <ConfigDialog/>
         <Scoreboard scores={this.state.highScores} />
       </div>
     );
   }
 }
 SnakeGame.propTypes = {
+  //state
   innerHeight: PropTypes.number,
   innerWidth: PropTypes.number,
+  //dispatches
+  toggleConfigDialog: PropTypes.func,
 };
 
 SnakeGame.defaultPropTypes = {
@@ -528,6 +506,14 @@ SnakeGame.defaultPropTypes = {
   innerWidth: 0,
 };
 
-const decorators = flow([withWindowSize]);
+const mapDispatchToProps = dispatch =>  bindActionCreators({
+  toggleConfigDialog,
+}, dispatch);
+
+const mapStateToProps = state => ({
+  ...state
+});
+
+const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withWindowSize]);
 
 export default decorators(SnakeGame);
