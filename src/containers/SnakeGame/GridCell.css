@@ -2,15 +2,12 @@
  /*we don't want borders to factor into the size, so that grid calculations can be exact, so use content-box sizing*/
     box-sizing: content-box;
     padding: 0;
-    border-top: 1px solid lightgray;
-    border-right: 1px solid lightgray;
     display: flex;
     flex-wrap: wrap;
+    background-color: gainsboro;
 }
 
 .grid-cell {
-    border-left: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
     display: flex;
     align-items: center;
     justify-content: center;

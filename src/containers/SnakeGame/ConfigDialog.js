@@ -3,87 +3,111 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Dialog from '@material-ui/core/Dialog/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText/DialogContentText';
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
 import TextField from '@material-ui/core/TextField/TextField';
-import DialogActions from '@material-ui/core/DialogActions/DialogActions';
-import Button from '@material-ui/core/Button/Button';
-import { saveConfigDialog, toggleEnableAI, toggleConfigDialog, changeName } from './actions/aiConfigAction';
+import Grid from '@material-ui/core/Grid';
 
-const ConfigDialog = props => {
+import {
+  toggleEnableAI, changeName,
+  changeDotCostMultiplier, changeNormalCostMultiplier, changeSurroundingCostMultiplier
+} from './actions/aiConfigAction';
+import Slider from '@material-ui/lab/Slider/Slider';
+import Typography from '@material-ui/core/Typography/Typography';
+
+const ConfigPanel = props => {
   const {
-    dialogOpen,
     enableAI,
     playerName,
-    saveConfigDialog,
-    toggleEnableAI,
-    toggleConfigDialog,
-    changeName,
+    nodesSurroundingSnakeCostMultiplier,
+    nodesInCurrentDirectionOfTravelCostMultiplier,
+    normalNodeCostMultiplier,
   } = props;
 
   return (
-    <Dialog open={dialogOpen} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Game Controls</DialogTitle>
-      <DialogContent>
-        <DialogContentText>Adjust settings for this game</DialogContentText>
-        <FormControlLabel
-          label="Enable AI"
-          control={
-            <Switch
-              value="checkedEnableAI"
-              checked={enableAI}
-              onChange={(event) => toggleEnableAI(event)}
-            />
-          }
+    <Grid container spacing={24} direction={'column'} style={{margin:"2px"}}>
+      <Grid item xs={12}><h2>Game Controls</h2></Grid>
+      <Grid item xs={12}><h3>Adjust settings for this game</h3></Grid>
+      <Grid item xs={12}>
+        <form noValidate autoComplete="off">
+          <FormControlLabel
+            label="Enable AI"
+            control={
+              <Switch
+                value="checkedEnableAI"
+                checked={enableAI}
+                onChange={props.toggleEnableAI}
+              />
+            }
+          />
+          <TextField
+            // autoFocus
+            margin="dense"
+            id="playerName"
+            label="Player Name"
+            type="name"
+            placeholder={playerName}
+            value={playerName}
+            // fullWidth
+            variant="outlined"
+            disabled={false}
+            onChange={props.changeName}
+          />
+        </form>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography>Weight of nodes surrounding snake</Typography>
+        <Slider
+          min={1} max={1000}
+          onChange={(e,v) => props.changeSurroundingCostMultiplier(v)}
+          value={nodesSurroundingSnakeCostMultiplier}
+          style={{width:"95%"}}
         />
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Player Name"
-          type="name"
-          defaultValue={playerName}
-          fullWidth
-          // inputRef={playerNameRef}
-          onChange={(event) => changeName(event)}
+      </Grid>
+      <Grid item xs={12}>
+        <Typography>Weight of nodes in the snake{"'"}s current direction of travel</Typography>
+        <Slider
+          min={1} max={1000}
+          onChange={(e,v) => props.changeDotCostMultiplier(v)}
+          value={nodesInCurrentDirectionOfTravelCostMultiplier}
+          style={{width:"95%"}}
         />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={toggleConfigDialog} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={saveConfigDialog} color="primary">
-          Save
-        </Button>
-      </DialogActions>
-    </Dialog>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography>Weight of any other walkable nodes</Typography>
+        <Slider
+          min={1} max={1000}
+          onChange={(e,v) => props.changeNormalCostMultiplier(v)}
+          value={normalNodeCostMultiplier}
+          style={{width:"95%"}}
+        />
+      </Grid>
+      </Grid>
   );
 };
 
-ConfigDialog.propTypes = {
+ConfigPanel.propTypes = {
   playerName: PropTypes.string.isRequired,
-  dialogOpen: PropTypes.bool.isRequired,
   enableAI: PropTypes.bool.isRequired,
-  saveConfigDialog: PropTypes.func.isRequired,
+  nodesSurroundingSnakeCostMultiplier: PropTypes.number.isRequired,
+  nodesInCurrentDirectionOfTravelCostMultiplier: PropTypes.number.isRequired,
+  normalNodeCostMultiplier: PropTypes.number.isRequired,
+
   toggleEnableAI: PropTypes.func.isRequired,
-  toggleConfigDialog: PropTypes.func.isRequired,
   changeName: PropTypes.func.isRequired,
+  changeDotCostMultiplier: PropTypes.func.isRequired,
+  changeNormalCostMultiplier: PropTypes.func.isRequired,
+  changeSurroundingCostMultiplier: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  saveConfigDialog,
   toggleEnableAI,
-  toggleConfigDialog,
   changeName,
+  changeDotCostMultiplier, changeNormalCostMultiplier, changeSurroundingCostMultiplier,
 }, dispatch);
 
 const mapStateToProps = state => ({
-  ...state.aiConfig,
-  ...state.aiConfig.userInput,
+  ...state.aiConfig
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfigDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfigPanel);

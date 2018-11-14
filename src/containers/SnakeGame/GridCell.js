@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 
 import './GridCell.css';
+import Grid from './util/Grid';
+import techTheme from '../../common/techTheme';
 
 const GridCell = props => {
   const gridCellClass = `grid-cell`;
@@ -10,6 +12,11 @@ const GridCell = props => {
   let style = {
     height: `${props.size}px`,
     width: `${props.size}px`,
+    position: 'absolute',
+    display: 'inline-block',
+    left: props.x * Grid.BOX_SIZE,
+    top: (props.y * Grid.BOX_SIZE) + 14,
+    // borderRadius: '20%',
   };
   // todo clean this up with, probably with withStyles decorator
   if (props.foodCell) {
@@ -25,7 +32,7 @@ const GridCell = props => {
     style = { ...style, ...props.snakeCell.style };
   }
   if (props.pathCell) {
-    style = { ...style, ...props.pathCell.style, opacity: '0.15' };
+    style = { ...style, ...techTheme.react.style, opacity: '0.15' };
   }
   return (
     <div
@@ -52,6 +59,8 @@ GridCell.propTypes = {
   snakeCell: PropTypes.any,
   pathCell: PropTypes.any,
   size: PropTypes.number,
+  x: PropTypes.number,
+  y: PropTypes.number,
 };
 
 GridCell.defaultPropTypes = {
