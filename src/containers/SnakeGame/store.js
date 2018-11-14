@@ -1,11 +1,17 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from './reducers';
+import { configureStore, getDefaultMiddleware } from 'redux-starter-kit'
+import createSagaMiddleware from 'redux-saga'
 
-export default function configureStore() {
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  return createStore(
-    rootReducer,
-    composeEnhancers(applyMiddleware(thunk))
-  );
+import rootReducer from './reducers';
+import gameSaga from './sagas/gameSagas';
+const sagaMiddleware = createSagaMiddleware();
+
+export default function createStore() {
+  const middleware = [...getDefaultMiddleware(), sagaMiddleware];
+  const store = configureStore({
+    reducer: rootReducer,
+    middleware,
+    devTools: process.env.NODE_ENV !== 'production',
+  });
+  sagaMiddleware.run(gameSaga);
+  return store;
 }

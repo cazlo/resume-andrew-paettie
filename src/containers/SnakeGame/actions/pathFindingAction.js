@@ -1,8 +1,8 @@
+import { createAction } from 'redux-starter-kit'
+
 import Action from "./Action";
 
-export const simpleAction = () => dispatch => {
-  dispatch({
-    type: 'SIMPLE_ACTION',
-    payload: 'result_of_simple_action'
-  })
-}
+export const startPathFind = createAction(Action.START_PATH_FIND);
+export const finishPathFind = createAction(Action.FINISH_PATH_FIND);
+export const pathNotFound = createAction(Action.PATH_NOT_FOUND);
+export const ignoringStaleResult = createAction(Action.IGNORE_STALE_RESULT);
