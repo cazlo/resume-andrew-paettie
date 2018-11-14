@@ -12,6 +12,9 @@ const theme = createMuiTheme({
     primary: blue,
     error: red,
   },
+  typography: {
+    useNextVariants: true,
+  }
 });
 
 const App = () => (

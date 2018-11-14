@@ -1,14 +1,5 @@
 import Action from "./Action";
 
-export const toggleConfigDialog = () => dispatch => {
-  dispatch({
-    type: Action.TOGGLE_CONFIG_DIALOG
-  });
-  dispatch({
-    type: Action.TOGGLE_PAUSED
-  });
-};
-
 export const toggleEnableAI = (event) => dispatch => {
   dispatch({
     type: Action.TOGGLE_ENABLE_AI,
@@ -18,18 +9,30 @@ export const toggleEnableAI = (event) => dispatch => {
 
 export const changeName = (event) => dispatch => {
   const playerName = event.target.value;
+  alert(playerName)
   dispatch({
     type: Action.CHANGE_NAME,
-    name: playerName
+    playerName
   })
 };
 
-export const saveConfigDialog = () => dispatch => {
+export const changeSurroundingCostMultiplier = (multiplier) => dispatch => {
   dispatch({
-    type: Action.TOGGLE_CONFIG_DIALOG
-  });
-  // todo need to dispatch a restart game event if the ai config has changed in a specific way ?
+    type: Action.CHANGE_SURROUNDING_MULTIPLIER,
+    multiplier
+  })
+};
+
+export const changeDotCostMultiplier = (multiplier) => dispatch => {
   dispatch({
-    type: Action.SAVE_CONFIG_DIALOG
+    type: Action.CHANGE_DOT_COST_MULTIPLIER,
+    multiplier
+  })
+};
+
+export const changeNormalCostMultiplier = (multiplier) => dispatch => {
+  dispatch({
+    type: Action.CHANGE_NORMAL_COST_MULTIPLIER,
+    multiplier
   })
 };

@@ -1,7 +1,10 @@
+import Position from './Position';
+
+export const UP = Position(  0, -1 );
+export const DOWN = Position( 0,  1 );
+export const RIGHT = Position(  1,  0 );
+export const LEFT = Position(  -1,  0 );
+
 export default {
-  // mapping directions to keycodes for arrow keys
-  UP: 38,
-  DOWN: 40,
-  RIGHT: 39,
-  LEFT: 37,
-};
+  UP,DOWN,RIGHT,LEFT
+}
