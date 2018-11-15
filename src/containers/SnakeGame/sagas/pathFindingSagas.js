@@ -8,9 +8,6 @@ import { changeDirection } from '../actions/gameAction';
 import Action from '../actions/Action';
 import { finishPathFind, pathNotFound, startPathFind, ignoringStaleResult } from '../actions/pathFindingAction';
 
-// eslint-disable-next-line new-cap
-const aStar = new Easystarjs.js();
-
 // todo the return values here are not actually used, only yield. this is weird
 function* moveFromPath (path, head) {
   if (!path || (path && path.length === 0)) {
@@ -57,6 +54,8 @@ const pathFindPromise = ({
     nodesSurroundingSnakeCostMultiplier, normalNodeCostMultiplier
 }) => new Promise(resolve => {
   const head = newSnake[0];
+  // eslint-disable-next-line new-cap
+  const aStar = new Easystarjs.js();
   aStar.setGrid(newGrid);
   const allowedStates = [GridState.WALKABLE, GridState.WALKABLE_PENALTY];
   aStar.setAcceptableTiles(allowedStates);
