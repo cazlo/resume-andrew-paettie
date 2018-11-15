@@ -61,10 +61,13 @@ const ateItself = snake => {
 const isWithinPlayArea = (cell, numCols, numRows) =>
   cell.x > -1 && cell.y > -1 && cell.x < numCols && cell.y < numRows;
 
+const oppositeDirection = (d1, d2) => (d1.x+d2.x===0 && d1.y+d2.y===0);
+
 export default {
   isColliding,
   isSamePosition,
   createSurroundingNodes,
   ateItself,
   isWithinPlayArea,
+  oppositeDirection,
 };
