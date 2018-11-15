@@ -35,7 +35,9 @@ const styles = theme => ({
   column: {
     flexDirection: 'column',
   },
-
+  slider: {
+    padding: '22px 0px',
+  },
 });
 
 const ConfigPanel = props => {
@@ -87,6 +89,7 @@ const ConfigPanel = props => {
         </div>
         <Typography>Weight of nodes surrounding snake</Typography>
         <Slider
+          classes={{ container: classes.slider }}
           min={1} max={1000}
           onChange={(e,v) => props.changeSurroundingCostMultiplier(v)}
           value={nodesSurroundingSnakeCostMultiplier}
@@ -94,6 +97,7 @@ const ConfigPanel = props => {
         />
         <Typography>Weight of nodes in the snake{"'"}s current direction of travel</Typography>
         <Slider
+          classes={{ container: classes.slider }}
           min={1} max={1000}
           onChange={(e,v) => props.changeDotCostMultiplier(v)}
           value={nodesInCurrentDirectionOfTravelCostMultiplier}
@@ -101,6 +105,7 @@ const ConfigPanel = props => {
         />
         <Typography>Weight of any other walkable nodes</Typography>
         <Slider
+          classes={{ container: classes.slider }}
           min={1} max={1000}
           onChange={(e,v) => props.changeNormalCostMultiplier(v)}
           value={normalNodeCostMultiplier}
