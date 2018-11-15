@@ -16,11 +16,31 @@ import Scoreboard from './Scoreboard';
 import './SnakeGame.css';
 import ConfigDialog from './ConfigDialog';
 import { bindActionCreators } from 'redux';
-import { play, setSize } from './actions/gameAction';
+import { play, setSize, changeDirection } from './actions/gameAction';
 import Paper from '@material-ui/core/Paper/Paper';
+import { LEFT, RIGHT, DOWN, UP } from './util/Direction';
 
 const BOX_SIZE = 40; // pixels
 const BOARD_SIZE = 20;
+
+const inputDirection = (keyCode, changeDirectionFn) => {
+  switch (keyCode) {
+    case 37:
+      changeDirectionFn(LEFT);
+      break;
+    case 38:
+      changeDirectionFn(UP);
+      break;
+    case 39:
+      changeDirectionFn(RIGHT);
+      break;
+    case 40:
+      changeDirectionFn(DOWN);
+      break;
+    default:
+      break;
+  }
+}
 
 class SnakeGame extends Component {
   constructor(props) {
@@ -30,9 +50,11 @@ class SnakeGame extends Component {
     const numCols = Math.floor(innerWidth / BOX_SIZE);
     const numRows = Math.floor(innerHeight / BOX_SIZE);
     this.props.setSize({numRows, numCols });
+
   }
   componentDidMount() {
     this.props.play();
+    this.gridRef.focus();
   }
   // componentDidUpdate(nextProps) {
   //   if (
@@ -49,7 +71,9 @@ class SnakeGame extends Component {
     // }
   // }
 
-  render() {
+
+
+  render(){
     const { innerHeight = BOX_SIZE * BOARD_SIZE, innerWidth = BOX_SIZE * BOARD_SIZE } = this.props;
     const style = { height: `${innerHeight}px`, width: `${innerWidth}px` };
     return (
@@ -63,7 +87,10 @@ class SnakeGame extends Component {
         <Grid container spacing={24}>
           <Grid item xs={12}>
             <Paper>
-            <div className="grid" style={style}>
+            <div className="grid" style={style}
+                 ref={(r) => { this.gridRef = r; }}
+                 onKeyDown={(e) => inputDirection(e.keyCode, this.props.changeDirection)}
+            >
               {/*{this.renderGameCells()}*/}
               {_.map(this.props.food || [], (f, idx) =>
                 <GridCell
@@ -118,6 +145,7 @@ SnakeGame.propTypes = {
   //dispatches
   setSize: PropTypes.func,
   play: PropTypes.func,
+  changeDirection: PropTypes.func,
 };
 
 SnakeGame.defaultPropTypes = {
@@ -126,7 +154,7 @@ SnakeGame.defaultPropTypes = {
 };
 
 const mapDispatchToProps = dispatch =>  bindActionCreators({
-  play, setSize
+  play, setSize, changeDirection
 }, dispatch);
 
 const mapStateToProps = state => ({

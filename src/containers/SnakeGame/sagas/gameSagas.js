@@ -2,8 +2,7 @@ import { delay } from 'redux-saga'
 import { take, put, call, fork, cancel, select } from 'redux-saga/effects'
 
 import Action from'../actions/Action';
-import { play, changeDirection, eatFood, gameOver, move, reset, spawnFood, tick, addScore} from '../actions/gameAction';
-import { UP, DOWN, LEFT, RIGHT} from '../util/Direction';
+import { play, eatFood, gameOver, move, reset, spawnFood, tick, addScore} from '../actions/gameAction';
 import PositionUtil from '../util/PositionUtil';
 import { pathFindingSaga } from './pathFindingSagas';
 
@@ -11,48 +10,6 @@ const randomPosition = ({numRows, numCols}) => ({
   x: Math.floor(numCols * Math.random()),
   y: Math.floor(numRows * Math.random())
 });
-
-const input = (() => {
-  // It gotta be possible creating this more efficiently, without
-  // adding and removing event listeners all the time...
-  const createPromise = () => (new Promise(resolve => {
-    const onInput = e => {
-      e.preventDefault();
-
-      resolve(e.keyCode);
-      promise = createPromise();
-
-      document.removeEventListener('keydown', onInput);
-    };
-    document.addEventListener('keydown', onInput);
-  }));
-
-  let promise = createPromise();
-
-  return () => promise;
-})();
-
-export function* inputSaga() {
-  while (true) {
-    const type = yield input();
-    switch (type) {
-      case 37:
-        yield put(changeDirection(LEFT));
-        break;
-      case 38:
-        yield put(changeDirection(UP));
-        break;
-      case 39:
-        yield put(changeDirection(RIGHT));
-        break;
-      case 40:
-        yield put(changeDirection(DOWN));
-        break;
-      default:
-        break;
-    }
-  }
-}
 
 export function* snakeSaga() {
   while (true) {
@@ -124,7 +81,6 @@ export default function* gameSaga() {
     running.push(yield fork(gameLoop));
     running.push(yield fork(foodSaga));
     running.push(yield fork(snakeSaga));
-    running.push(yield fork(inputSaga));
     running.push(yield fork(pathFindingSaga));
     yield put(reset());
     yield take(Action.GAME_OVER);

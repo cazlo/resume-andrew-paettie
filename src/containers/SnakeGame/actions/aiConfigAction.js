@@ -9,7 +9,6 @@ export const toggleEnableAI = (event) => dispatch => {
 
 export const changeName = (event) => dispatch => {
   const playerName = event.target.value;
-  alert(playerName)
   dispatch({
     type: Action.CHANGE_NAME,
     playerName
