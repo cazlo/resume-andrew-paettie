@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {  put, select, take, takeLatest } from 'redux-saga/effects';
+import {  put, select, take } from 'redux-saga/effects';
 import Easystarjs from 'easystarjs';
 
 import Action from '../actions/Action';
@@ -108,7 +108,7 @@ const pathFindPromise = ({
 
 function* pathfind (newSnake, food, numRows, numCols, aiConfig){
   if (!newSnake[0]) {
-    return;
+    return [];
   }
   // todo implement some kind of wrapping awareness
   // could probably just build up an extended array as such (assuming 0 is bad space and a 4x4 board):
@@ -132,32 +132,15 @@ function* pathfind (newSnake, food, numRows, numCols, aiConfig){
   );
   const newGrid =
     newSnake.length === 1 ? grid : increaseWeightOfNodesSurroundingSnake(newSnake, grid);
-  yield put(startPathFind(newGrid));
-  const path = yield pathFindPromise({
+  // yield put(startPathFind(newGrid));
+  return yield pathFindPromise({
     ...aiConfig,
     newSnake, food, newGrid,
   });
-  if (path === null || !path.length) {
-    yield put(pathNotFound())
-  } else {
-    yield put(finishPathFind(path));
-  }
-}
-
-export function* pathFindMover(action) {
-  const s = yield select();
-  const currentHead = s.game.snake.parts[0];
-  const direction = s.game.snake.direction;
-  const pathHead = action.payload[0];
-  if (s.pathFinding.path.length && (pathHead.x !== currentHead.x && pathHead.y !== currentHead.y)){
-    yield put(ignoringStaleResult({currentHead, direction, pathHead}));
-  } else {
-    yield moveFromPath(s.pathFinding.path, s.game.snake.parts, direction);
-  }
 }
 
 export function* pathFindingSaga() {
-  yield takeLatest(finishPathFind.toString(),  pathFindMover);
+  // yield takeLatest(finishPathFind.toString(),  pathFindMover);
   while (true) {
     yield take([Action.MOVE]);
     const state = yield select();
@@ -172,13 +155,14 @@ export function* pathFindingSaga() {
         // todo survival mode?
         continue;
       }
-      yield pathfind(snake, food[0], numRows, numCols, state.aiConfig);
-      // const s = yield select();
-      // yield takeLatest(
-      //   finishPathFind.toString(),
-      //   moveFromPath, s.pathFinding.path, s.game.snake.parts[0]
-      // );
-      // yield moveFromPath(s.pathFinding.path, s.game.snake.parts[0]
+      const path = yield pathfind(snake, food[0], numRows, numCols, state.aiConfig);
+      if (path === null || !path.length) {
+        yield put(pathNotFound())
+        // todo survival mode?
+      } else {
+        yield put(finishPathFind(path));
+        yield moveFromPath(path, snake, state.game.snake.direction);
+      }
     }
   }
 }
