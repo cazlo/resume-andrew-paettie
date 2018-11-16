@@ -70,24 +70,28 @@ export function* gameLoop() {
 }
 
 export function* gameResetter() {
+  yield put(reset());
   yield call(delay, 1000);
   yield put(play());
 }
 
+export function* runGame() {
+  yield take(Action.PLAY);
+  const running = [];
+  running.push(yield fork(gameLoop));
+  running.push(yield fork(foodSaga));
+  running.push(yield fork(snakeSaga));
+  running.push(yield fork(pathFindingSaga));
+  yield put(reset());
+  yield take(Action.GAME_OVER);
+  yield cancel(...running);
+  const state = yield select();
+  yield put(addScore(state.game.game));
+}
+
 export default function* gameSaga() {
   while (true) {
-    yield take(Action.PLAY);
-    const running = [];
-    running.push(yield fork(gameLoop));
-    running.push(yield fork(foodSaga));
-    running.push(yield fork(snakeSaga));
-    running.push(yield fork(pathFindingSaga));
-    yield put(reset());
-    yield take(Action.GAME_OVER);
-    yield cancel(...running);
-    const state = yield select();
-    yield put(addScore(state.game.game));
-    yield put(reset());
+    yield runGame();
     yield fork(gameResetter);
   }
 }
