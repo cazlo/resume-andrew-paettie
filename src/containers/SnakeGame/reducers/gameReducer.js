@@ -2,14 +2,14 @@
 import { combineReducers } from 'redux';
 import { createReducer } from 'redux-starter-kit'
 import moment from 'moment';
+import _ from 'lodash';
 
 import Action from "../actions/Action";
 import techTheme from '../../../common/techTheme';
 import { RIGHT } from '../util/Direction';
 import Format from "../util/Format";
-import _ from 'lodash';
+import { DEFAULT_BOARD_SIZE } from '../util/Grid';
 
-const BOARD_SIZE = 20;
 const HEAD_THEME = techTheme.nodeJs;
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'nodeJs']));
 
@@ -17,7 +17,7 @@ const MAX_SPEED = process.env.NODE_ENV === 'production' ? 5 : 0;
 const SPEED_MULTIPLIER= process.env.NODE_ENV === 'production' ? 50 : 1;
 const INITIAL_SPEED = MAX_SPEED * SPEED_MULTIPLIER;
 
-const wrap = x => (x < 0 ? x + BOARD_SIZE : x % BOARD_SIZE);
+const wrap = (point, size) => (point < 0 ? point + size : point % size);
 
 // reducer for game state
 export const state = (state = 'PLAYING', action) => {
@@ -53,7 +53,7 @@ export const score = (state = 0, action) => {
   }
 };
 // reducer for game column width
-export const numCols = (state = BOARD_SIZE, action) => {
+export const numCols = (state = DEFAULT_BOARD_SIZE, action) => {
   switch (action.type) {
     case Action.SET_SIZE:
       return action.numCols;
@@ -62,7 +62,7 @@ export const numCols = (state = BOARD_SIZE, action) => {
   }
 };
 // reducer for game column width
-export const numRows = (state = BOARD_SIZE, action) => {
+export const numRows = (state = DEFAULT_BOARD_SIZE, action) => {
   switch (action.type) {
     case Action.SET_SIZE:
       return action.numRows;
@@ -122,11 +122,11 @@ export const direction = (state = RIGHT, action) => {
 export const parts = (state = [{ x: 1, y: 1, ...HEAD_THEME }], action) => {
   switch (action.type) {
     case Action.MOVE:
-      const { direction } = action;
+      const { direction, numRows, numCols } = action;
       const head = {
         ...state[0],
-        x: wrap(state[0].x + direction.x),
-        y: wrap(state[0].y + direction.y)
+        x: wrap(state[0].x + direction.x, numCols),
+        y: wrap(state[0].y + direction.y, numRows)
       };
       state = state.slice(0, -1);
       state.unshift(head);
