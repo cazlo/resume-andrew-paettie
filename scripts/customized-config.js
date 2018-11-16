@@ -11,31 +11,38 @@
     webpackConfig.module.rules[0].use[0].options.useEslintrc = true;
   };
 */
-var rewire = require('rewire');
-var proxyquire = require('proxyquire');
+const rewire = require('rewire');
+const proxyquire = require('proxyquire');
 
 switch(process.argv[2]) {
   // The "start" script is run during development mode
   case 'start':
-    rewireModule('react-scripts/scripts/start.js', loadCustomizer('../config-overrides.dev'));
+    rewireModule('react-scripts/scripts/start.js', loadCustomizer('./config-overrides-dev'));
     break;
   // The "build" script is run to produce a production bundle
   case 'build':
-    rewireModule('react-scripts/scripts/build.js', loadCustomizer('../config-overrides.prod'));
+    rewireModule('react-scripts/scripts/build.js', loadCustomizer('./config-overrides-prod'));
     break;
   // The "test" script runs all the tests with Jest
   case 'test':
+    // break;
+  case 'int':
     // Load customizations from the config-overrides.testing file.
     // That file should export a single function that takes a config and returns a config
-    let customizer = loadCustomizer('../config-overrides.testing');
+    let customizer = process.argv[2] === 'int'
+      ? loadCustomizer('./config-overrides-int')
+      : loadCustomizer('./config-overrides-test');
     proxyquire('react-scripts/scripts/test.js', {
       // When test.js asks for '../utils/createJestConfig' it will get this instead:
-      // '../utils/createJestConfig': (...args) => {
+      './utils/createJestConfig': (...args) => {
         // Use the existing createJestConfig function to create a config, then pass
         // it through the customizer
-        // var createJestConfig = require('react-scripts/utils/createJestConfig');
-        // return customizer(createJestConfig(...args));
-      // }
+        const createJestConfig = require('react-scripts/scripts/utils/createJestConfig');
+        const config = createJestConfig(...args);
+        const customConfig = customizer(config);
+        // console.log(customConfig);
+        return customConfig;
+      }
     });
     break;
   default:

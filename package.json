@@ -9,6 +9,8 @@
     "@material-ui/lab": "^3.0.0-alpha.23",
     "bluebird": "^3.5.3",
     "global": "^4.3.2",
+    "jest-junit": "^5.2.0",
+    "jest-runner-eslint": "^0.7.1",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "ngraph.graph": "0.0.14",
@@ -48,15 +50,26 @@
     "start": "node scripts/customized-config  start",
     "build": "npm run fix-normalize-css-unit && node scripts/customized-config build",
     "build-run": "npm run build && serve -s build",
-    "test": "react-scripts test",
+    "test": "react-scripts test ",
+    "int-test": "node scripts/customized-config int --ci",
+    "test-ci": "jest -c jest.config.js",
+    "int-test-ci": "jest -c integration-test.config.js",
     "eject": "react-scripts eject",
     "lint": "eslint src/",
-    "lint-fix": "eslint --fix --ignore-path .eslintignore src/"
+    "lint-fix": "jest -c lint.config.js --watch"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "jest-junit": {
+    "ouputDirectory": "./coverage"
+  },
+  "jest-runner-eslint": {
+    "cliOptions": {
+      "fix": true
+    }
+  }
 }
