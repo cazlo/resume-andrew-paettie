@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga'
-import { take, put, call, fork, cancel, select } from 'redux-saga/effects'
+import { take, put, call, fork, cancel, select, takeLatest } from 'redux-saga/effects'
 
 import Action from'../actions/Action';
 import { play, eatFood, gameOver, move, reset, spawnFood, tick, addScore} from '../actions/gameAction';
@@ -72,12 +72,14 @@ export function* gameLoop() {
 
 export function* gameResetter() {
   yield put(reset());
-  yield call(delay, 1000);
+  yield call(delay, 4200);
   yield put(play());
 }
 
-export function* runGame() {
-  yield take(Action.PLAY);
+export function* runGame(waitOnPlay = true) {
+  if (waitOnPlay) {
+    yield take(Action.PLAY);
+  }
   const running = [];
   running.push(yield fork(gameLoop));
   running.push(yield fork(foodSaga));
@@ -90,9 +92,11 @@ export function* runGame() {
   yield put(addScore(state.game.game));
 }
 
+function* handlePlayAction() {
+  yield runGame(false);
+  yield fork(gameResetter);
+}
+
 export default function* gameSaga() {
-  while (true) {
-    yield runGame();
-    yield fork(gameResetter);
-  }
+  yield takeLatest(Action.PLAY, handlePlayAction)
 }
