@@ -4,132 +4,75 @@
 #
 version: 2
 jobs:
-  install:
+  build:
     docker:
+      # specify the version you desire here
       - image: circleci/node:8.12-browsers
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
     working_directory: ~/resume-andrew-paettie
 
     steps:
       - checkout
+
+      - run:
+          command: |
+            sudo apt-get install python-dev python-pip
+            sudo pip install awscli
+
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+          - v1-dependencies-{{ checksum "package.json" }}
 
       - run: npm install
 
       - save_cache:
           paths:
-          - node_modules
-          key: dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
-  lint:
-    docker:
-      - image: circleci/node:8.12-browsers
-    working_directory: ~/resume-andrew-paettie
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run tests!
+      - run: npm test
       - run: npm run lint
-  unit-test:
-    docker:
-      - image: circleci/node:8.12-browsers
-    working_directory: ~/resume-andrew-paettie
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
-      - run: npm run test
-  build:
-    docker:
-      - image: circleci/node:8.12-browsers
-    working_directory: ~/resume-andrew-paettie
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
       - run: npm run build
-      - persist_to_workspace:
-          root: ~/resume-andrew-paettie/
-          paths:
-            - build/*
-  deploy-test:
-    docker:
-      - image: circleci/node:8.12-browsers
-    working_directory: ~/resume-andrew-paettie
-    steps:
-      - run:
-          command: |
-            sudo apt-get install python-dev python-pip
-            sudo pip install awscli
-      - run:
-          command: |
-            aws s3 sync build s3://andrewpaettie.test.com --delete --acl public-read
 
-  deploy-prod:
-    docker:
-      - image: circleci/node:8.12-browsers
-    working_directory: ~/resume-andrew-paettie
-    steps:
-      - run:
-          command: |
-            sudo apt-get install python-dev python-pip
-            sudo pip install awscli
-      - run:
-          command: |
-            aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=604800;
-            aws configure set preview.cloudfront true;
-            aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths \
-             /asset-manifest.json \
-             /manifest.json \
-             /manifest.png \
-             /robots.txt \
-             /favicon.ico \
-             /service-worker.js \
-             /200.html \
-             /index.html \
-             /img/flappy.jpg \
-             /img/react-logo.svg \
-             /img/ml-stats.png \
-             /img/pdf.png \
-             /img/loan-amortization.png \
-             /img/ctf.png \
-             /img/heli-game.png \
-             /img/ai-brain.jpg \
-             /img/andrew-paettie-having-fun.jpg \
-             /img/Mars-moo.png \
-             /img/this-site.png \
-             /projects/index.html \
-             /resume/index.html \
-             /static/resume/resume-Andrew-Paettie.docx \
-             /static/resume/resume-Andrew-Paettie.pdf
-
-workflows:
-  version: 2
-  test_build_deploy:
-    - install
-    - lint:
-        requires:
-          - install
-    - unit-test:
-        requires:
-          - install
-    - build:
-        requires:
-          - install
-    - deploy-test:
-        requires:
-          - lint
-          - unit-test
-          - build
-#    - deploy-prod:
-#        requires:
-#        - lint
-#        - unit-test
-#        - build
-#        filters:
-#          branches:
-#            only: master
+      - deploy:
+           name: Deploy to S3 (test if not master branch)
+           command: |
+             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+               echo "=====  Deploying MASTER to PROD  ====="
+               aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=604800
+               aws configure set preview.cloudfront true
+               aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths \
+                /asset-manifest.json \
+                /manifest.json \
+                /manifest.png \
+                /robots.txt \
+                /favicon.ico \
+                /service-worker.js \
+                /200.html \
+                /index.html \
+                /img/flappy.jpg \
+                /img/react-logo.svg \
+                /img/ml-stats.png \
+                /img/pdf.png \
+                /img/loan-amortization.png \
+                /img/ctf.png \
+                /img/heli-game.png \
+                /img/ai-brain.jpg \
+                /img/andrew-paettie-having-fun.jpg \
+                /img/Mars-moo.png \
+                /img/this-site.png \
+                /projects/index.html \
+                /resume/index.html \
+                /static/resume/resume-Andrew-Paettie.docx \
+                /static/resume/resume-Andrew-Paettie.pdf
+             else
+               echo "=====  Deploying ${CIRCLE_BRANCH} to TEST  ====="
+               aws s3 sync build s3://andrewpaettie.test.com --delete --acl public-read
+             fi
