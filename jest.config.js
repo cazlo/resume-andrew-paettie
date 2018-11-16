@@ -3,13 +3,14 @@
 module.exports = {
   // testMatch: defaults.testMatch,
   collectCoverage: true,
+  coverageDirectory: "./reports/coverage",
   coveragePathIgnorePatterns: ["/node_modules/", "src/data/*"],
   reporters: [
     "default",
     [ "jest-junit", {
       suiteName: "{filename}",
-      outputDirectory: "./coverage",
-      outputName: "./junit.xml",
+      outputDirectory: "./reports/junit/jest",
+      outputName: "./results.xml",
       classNameTemplate: "{classname}",
       titleTemplate: "{title}",
       ancestorSeparator: " › ",
