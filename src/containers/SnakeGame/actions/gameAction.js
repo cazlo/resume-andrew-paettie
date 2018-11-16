@@ -19,9 +19,10 @@ export const gameOver = () => ({
   endTime: moment().valueOf()
 });
 
-export const move = direction => ({
+export const move = ({direction,numRows,numCols}) => ({
   type: Action.MOVE,
-  direction
+  direction,
+  numRows,numCols
 });
 
 export const changeDirection = direction => ({

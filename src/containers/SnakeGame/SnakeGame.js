@@ -19,9 +19,7 @@ import { bindActionCreators } from 'redux';
 import { play, setSize, changeDirection } from './actions/gameAction';
 import Paper from '@material-ui/core/Paper/Paper';
 import { LEFT, RIGHT, DOWN, UP } from './util/Direction';
-
-const BOX_SIZE = 40; // pixels
-const BOARD_SIZE = 20;
+import { DEFAULT_BOARD_SIZE, DEFAULT_BOX_SIZE } from './util/Grid';
 
 const inputDirection = (keyCode, changeDirectionFn) => {
   switch (keyCode) {
@@ -45,10 +43,10 @@ const inputDirection = (keyCode, changeDirectionFn) => {
 class SnakeGame extends Component {
   constructor(props) {
     super(props);
-    const { innerHeight = BOX_SIZE * BOARD_SIZE, innerWidth = BOX_SIZE * BOARD_SIZE } = this.props;
+    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } = this.props;
 
-    const numCols = Math.floor(innerWidth / BOX_SIZE);
-    const numRows = Math.floor(innerHeight / BOX_SIZE);
+    const numCols = Math.floor(innerWidth / DEFAULT_BOX_SIZE);
+    const numRows = Math.floor(innerHeight / DEFAULT_BOX_SIZE);
     this.props.setSize({numRows, numCols });
 
   }
@@ -74,7 +72,7 @@ class SnakeGame extends Component {
 
 
   render(){
-    const { innerHeight = BOX_SIZE * BOARD_SIZE, innerWidth = BOX_SIZE * BOARD_SIZE } = this.props;
+    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } = this.props;
     const style = { height: `${innerHeight}px`, width: `${innerWidth}px` };
     return (
       <div
@@ -95,7 +93,7 @@ class SnakeGame extends Component {
               {_.map(this.props.food || [], (f, idx) =>
                 <GridCell
                   foodCell={f}
-                  size={BOX_SIZE}
+                  size={DEFAULT_BOX_SIZE}
                   key={`food-${idx}-x${f.x}-y${f.y}`}
                   x={f.x}
                   y={f.y}
@@ -103,7 +101,7 @@ class SnakeGame extends Component {
               {_.map(this.props.snake ? this.props.snake.parts : [], (s, idx) =>
                 <GridCell
                   snakeCell={s}
-                  size={BOX_SIZE}
+                  size={DEFAULT_BOX_SIZE}
                   key={`snake-${idx}-x${s.x}-y${s.y}`}
                   x={s.x}
                   y={s.y}
@@ -111,7 +109,7 @@ class SnakeGame extends Component {
               {_.map(this.props.path ? this.props.path : [], (p, idx) =>
                 <GridCell
                   pathCell={p}
-                  size={BOX_SIZE}
+                  size={DEFAULT_BOX_SIZE}
                   key={`path-${idx}-x${p.x}-y${p.y}`}
                   x={p.x}
                   y={p.y}

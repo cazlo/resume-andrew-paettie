@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 
-import './GridCell.css';
-import Grid from './util/Grid';
+import { DEFAULT_BOX_SIZE } from './util/Grid';
 import techTheme from '../../common/techTheme';
+
+import './GridCell.css';
 
 const GridCell = props => {
   const gridCellClass = `grid-cell`;
@@ -14,8 +15,8 @@ const GridCell = props => {
     width: `${props.size}px`,
     position: 'absolute',
     display: 'inline-block',
-    left: props.x * Grid.BOX_SIZE,
-    top: (props.y * Grid.BOX_SIZE) + 14,
+    left: props.x * DEFAULT_BOX_SIZE,
+    top: (props.y * DEFAULT_BOX_SIZE) + 14,
     // borderRadius: '20%',
   };
   // todo clean this up with, probably with withStyles decorator
