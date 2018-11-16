@@ -1,8 +1,8 @@
 import { configureStore, getDefaultMiddleware } from 'redux-starter-kit'
 import createSagaMiddleware from 'redux-saga'
-
 import rootReducer from './reducers';
 import gameSaga from './sagas/gameSagas';
+
 const sagaMiddleware = createSagaMiddleware();
 
 export default function createStore() {
