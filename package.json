@@ -7,6 +7,7 @@
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^2.0.0",
     "@material-ui/lab": "^3.0.0-alpha.23",
+    "bluebird": "^3.5.3",
     "global": "^4.3.2",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",

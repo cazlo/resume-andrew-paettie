@@ -13,7 +13,7 @@ const BOARD_SIZE = 20;
 const HEAD_THEME = techTheme.nodeJs;
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'nodeJs']));
 
-const MAX_SPEED = 5;
+const MAX_SPEED = process.env.NODE_ENV === 'production' ? 5 : 0;
 const SPEED_MULTIPLIER= process.env.NODE_ENV === 'production' ? 50 : 1;
 const INITIAL_SPEED = MAX_SPEED * SPEED_MULTIPLIER;
 

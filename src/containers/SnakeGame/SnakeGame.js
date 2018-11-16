@@ -40,7 +40,7 @@ const inputDirection = (keyCode, changeDirectionFn) => {
     default:
       break;
   }
-}
+};
 
 class SnakeGame extends Component {
   constructor(props) {
