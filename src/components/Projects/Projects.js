@@ -62,7 +62,7 @@ const Projects = ({ projects, style }) => (
                   key={j} // eslint-disable-line react/no-array-index-key
                   variant="outlined"
                   color="default"
-                  target="_blank"
+                  target={link.url.includes("http")?"_blank":""}
                   href={link.url}
                 >
                   {link.text}
