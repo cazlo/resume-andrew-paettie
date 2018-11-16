@@ -1,167 +1,185 @@
 import _ from 'lodash';
 import {  put, select, take } from 'redux-saga/effects';
-import Easystarjs from 'easystarjs';
-
+import createGraph from "ngraph.graph";
+import * as pathFinder from "ngraph.path";
 import Action from '../actions/Action';
 import { changeDirection } from '../actions/gameAction';
-import { finishPathFind, pathNotFound, startPathFind, ignoringStaleResult } from '../actions/pathFindingAction';
+import { finishPathFind, pathNotFound } from '../actions/pathFindingAction';
 import Direction from '../util/Direction';
-import GridState from '../util/GridState';
-import Position from '../util/Position';
 import PositionUtil from '../util/PositionUtil';
 
-// eslint-disable-next-line new-cap
-const aStar = new Easystarjs.js();
+const getNeighboringNodeDirections = ({x,y, numRows, numCols}) => ([{
+    x: x-1 < 0 ? numRows-1 : x-1,
+    y,
+    direction: Direction.LEFT
+  },
+  {
+    x: x+1 > numRows-1 ? 0 : x+1,
+    y,
+    direction: Direction.RIGHT
+  },
+  {
+    y: y-1 < 0 ? numCols-1 : y-1,
+    x,
+    direction: Direction.UP
+  },
+  {
+    y: y+1 > numCols-1 ? 0 : y+1,
+    x,
+    direction: Direction.DOWN
+  }
+]);
 
 // todo the return values here are not actually used, only yield. this is weird
-function* moveFromPath (path, snake, snakeDirection) {
+export function* moveFromPath (path, snake, snakeDirection, numRows, numCols) {
   if (!path || (path && path.length === 0)) {
-    return false;
+    return;
   }
   const head = snake[0];
-  const firstMove = path[1] || path[0]; // idx 0 is usually the current node the snake is on
-  let directionsToMove = [];
-  if (firstMove.x !== head.x) {
-    if (firstMove.x < head.x) {
-      directionsToMove.push(Direction.LEFT);
-    } else {
-      directionsToMove.push(Direction.RIGHT);
+  const firstMove =  path[0];
+  const neighbors = getNeighboringNodeDirections({x:head.x, y:head.y, numRows, numCols});
+  for (const n of neighbors){
+    if (firstMove.x === n.x && firstMove.y === n.y){
+      yield put(changeDirection(n.direction));
     }
   }
-  if (firstMove.y !== head.y) {
-    if (firstMove.y < head.y) {
-      directionsToMove.push(Direction.UP);
-    } else {
-      directionsToMove.push(Direction.DOWN);
-    }
-  }
-  if (directionsToMove.length) {
-    // don't allow the snake to make a move that would eat itself
-    if (snake.length > 1) {
-      const validDs = directionsToMove.filter(d => !PositionUtil.oppositeDirection(d, snakeDirection));
-      for (const directionToMove of validDs) {
-        if (!validDs.length) {
-          // console.log("No valid non-opposite direction moves found for path");
-          yield put(ignoringStaleResult({ currentHead: head, direction: snakeDirection, pathHead: path[0] }));
-          continue;
-        }
-        const newHeadPosition = Position(head.x + directionToMove.x, head.y + directionsToMove.y);
-        const collisions = snake.filter(s => PositionUtil.isSamePosition(s, newHeadPosition));
-        if (collisions.length) {
-          // console.log("About to make move that would cause collision");
-          yield put(ignoringStaleResult({ currentHead: head, direction: snakeDirection, pathHead: path[0] }));
-        }else  if (PositionUtil.isSamePosition(snakeDirection, directionsToMove)) {
-          // console.log("Ignore NOOP change direction");
-        } else {
-          yield put(changeDirection(directionToMove));
-        }
-      }
-    } else {
-      // not any need to do collision detection or avoid reversing direction if the snake's length
-      // is exactly 1 (moving just a head has no restrictions within the game)
-      yield put(changeDirection(directionsToMove[0]));
-    }
 
-  }
-  // console.warn('Path is noop somehow');
-  return false;
 }
 
-const increaseWeightOfNodesSurroundingSnake = (newSnake, grid) => {
-  return _.reduce(
-    newSnake,
-    (accGrid, snake) => {
-      const cloned = _.map(accGrid, _.clone);
-      cloned[snake.y][snake.x] = GridState.OBSTRUCTED;
-      // todo make the weights configurable based on current state select
-      return PositionUtil.createSurroundingNodes(snake.x, snake.y, cloned);
-    },
-    grid,
-  );
-};
+const positionId = ({x,y}) => (`x${x}y${y}`);
 
-const pathFindPromise = ({
-    newSnake, food, newGrid,
-    nodesSurroundingSnakeCostMultiplier, normalNodeCostMultiplier
-}) => new Promise(resolve => {
-  const head = newSnake[0];
+// this computes the shortest distance taking into account wrapping of the playarea
+// const computeBestDistance = (dx, width) => {
+//   return Math.min(Math.abs(dx), Math.abs(dx + width), Math.abs(dx - width));
+// };
+//
+// const heuristic = (fromNode, toNode, numRows, numCols) => {
+//   const dx = fromNode.data.x - toNode.data.x;
+//   const dy = fromNode.data.y - toNode.data.y;
+//   const modifiedDx = computeBestDistance(dx, numCols);
+//   const modifiedDy = computeBestDistance(dy, numRows);
+//
+//   return Math.sqrt(modifiedDx * modifiedDx + modifiedDy * modifiedDy);
+// };
 
-  aStar.setGrid(newGrid);
-  const allowedStates = [GridState.WALKABLE, GridState.WALKABLE_PENALTY];
-  aStar.setAcceptableTiles(allowedStates);
-  // nodesSurroundingSnakeCostMultiplier
-  // nodesInCurrentDirectionOfTravelCostMultiplier
-  // normalNodeCostMultiplier
-  aStar.setTileCost(GridState.WALKABLE_PENALTY, nodesSurroundingSnakeCostMultiplier);
-  aStar.setTileCost(GridState.WALKABLE, normalNodeCostMultiplier);
-  aStar.findPath(
-    head.x,
-    head.y,
-    food.x,
-    food.y,
-    (path) => {
-      resolve(path);
-    },
-  );
-  aStar.calculate();
+const getNeighboringNodes = ({x,y, numRows, numCols}) => ({
+  left: positionId({
+    x: x-1 < 0 ? numRows-1 : x-1,
+    y
+  }),
+  right: positionId({
+    x: x+1 > numRows-1 ? 0 : x+1,
+    y
+  }),
+  up: positionId({
+    y: y-1 < 0 ? numCols-1 : y-1,
+    x
+  }),
+  down: positionId({
+    y: y+1 > numCols-1 ? 0 : y+1,
+    x
+  })
 });
 
-function* pathfind (newSnake, food, numRows, numCols, aiConfig){
-  if (!newSnake[0]) {
+export const pathfind = (snake, food, numRows, numCols, aiConfig) => {
+  if (!snake.parts[0]) {
     return [];
   }
-  // todo implement some kind of wrapping awareness
-  // could probably just build up an extended array as such (assuming 0 is bad space and a 4x4 board):
-  // | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-  // | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-  // | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-  // | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-  // | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-  // | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 1 | 1 | 0 | 0 | 1 |
-  // | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-  // | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
-  // | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-  // | 0 | 0 | 0 | 0 | 1 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
-  // | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-  // | 0 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 0 |
-  // so basically add 4 identical maps around each side of the original play area and make the
-  // diagonals non-enterable
+  const [head, ...tailParts] = snake.parts;
 
-  const grid = _.map(_.range(numRows), () =>
-    _.map(_.range(numCols), () => GridState.WALKABLE),
-  );
-  const newGrid =
-    newSnake.length === 1 ? grid : increaseWeightOfNodesSurroundingSnake(newSnake, grid);
-  // yield put(startPathFind(newGrid));
-  return yield pathFindPromise({
-    ...aiConfig,
-    newSnake, food, newGrid,
+  const graph = createGraph();
+  // create a node for each x,y position in the play area
+  for (let x = 0; x < numRows; x+=1){
+    for (let y = 0; y < numCols; y+=1){
+      const position = {x,y};
+      const posId = positionId(position);
+      const matchingSnake = _.filter(tailParts, t => t.x === x && t.y === y);//todo may want to dictionary this for O(1)
+      const isHead = head.x === x && head.y === y;
+      const isSnake = matchingSnake.length > 0 || isHead;
+      graph.addNode(posId, { position, isSnake, isHead });
+    }
+  }
+  // link up the nodes
+  graph.forEachNode((node) => {
+    const { position, isSnake, isHead } = node.data;
+    const nodeId = positionId(position);
+    const { left, right, up, down } = getNeighboringNodes({...position, numRows, numCols});
+    const linksToAdd = [];
+    if (isHead){
+      // here need to add links to everything except for nodes which are themselves snakes
+      for (const neighbor of [left, right, up, down]){
+        if (!graph.getNode(neighbor).data.isSnake){
+          linksToAdd.push(neighbor);
+        }
+      }
+    } else if (isSnake) {
+      // tail sections need no links
+    } else {
+      for (const neighbor of [left, right, up, down]){
+        const neighborNode = graph.getNode(neighbor).data;
+        if (!neighborNode.isSnake || neighborNode.isHead){
+          linksToAdd.push(neighbor);
+        }
+      }
+    }
+    for (const link of linksToAdd){
+      graph.addLink(nodeId, link);
+    }
   });
+
+  // todo add weighting to the stuff somehow (custom heuristic for use in heuristic fn?)
+  const searcher = pathFinder.aStar(graph, {
+    // distance: (from, to) => distance(from, to, numRows, numCols),
+    // heuristic: (from, to) => heuristic(from, to, numRows, numCols),
+  });
+  const path = searcher.find(positionId(food), positionId(head));
+  const pathPositions = _.map(path, p => p.data.position);
+  if (pathPositions.length && pathPositions[0].x===head.x && pathPositions[0].y===head.y){
+    return pathPositions.slice(1);
+  }
+  return pathPositions;
+};
+
+// if it has no food to pathfind to, just try not to collide with itself
+export function* survivalMode(snake, numRows, numCols) {
+  const head = snake.parts[0];
+  const neighbors = getNeighboringNodeDirections({x:head.x, y:head.y, numRows, numCols});
+  for (const n of neighbors){
+    const snakeMatches = snake.parts.filter(s => s.x === n.x && s.y === n.y);
+    if (!snakeMatches.length){
+      yield put(changeDirection(n.direction));
+    }
+  }
 }
 
 export function* pathFindingSaga() {
-  // yield takeLatest(finishPathFind.toString(),  pathFindMover);
   while (true) {
     yield take([Action.MOVE]);
     const state = yield select();
     if (state.aiConfig.enableAI) {
-      const snake = state.game.snake.parts;
+      const snake = state.game.snake;
       const food = state.game.food;
       const { numRows, numCols } = state.game.game;
       if (food.length > 1){
         // console.warn("TOO MUCH FOOD!!!")
       }else if (food.length === 0){
         // console.warn("No food found to path find to");
-        // todo survival mode?
-        continue;
+        yield survivalMode(snake, numRows, numCols)
       }
-      const path = yield pathfind(snake, food[0], numRows, numCols, state.aiConfig);
-      if (path === null || !path.length) {
-        yield put(pathNotFound())
-        // todo survival mode?
+      const head = snake.parts[0];
+      if (PositionUtil.isSamePosition(head, food[0])){
+        yield survivalMode(snake, numRows, numCols)
       } else {
-        yield put(finishPathFind(path));
-        yield moveFromPath(path, snake, state.game.snake.direction);
+        // here hoping at least most of the time pathfind will return before the board state changes
+        // because of a tick/move or something similar
+        const path = pathfind(snake, food[0], numRows, numCols, state.aiConfig);
+        if (path === null || !path.length) {
+          yield put(pathNotFound());
+          yield survivalMode(snake, numRows, numCols)
+        } else {
+          yield put(finishPathFind(path));
+          yield moveFromPath(path, snake.parts, state.game.snake.direction, numRows, numCols);
+        }
       }
     }
   }
