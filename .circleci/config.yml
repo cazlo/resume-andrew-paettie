@@ -43,6 +43,11 @@ jobs:
           keys:
           - dependencies-{{ checksum "package.json" }}
       - run: npm run test-ci $(circleci tests glob "src/**/*.test.js" | circleci tests split )
+      - store_artifacts:
+          path: /tmp/resume-andrew-paettie/reports
+      - store_test_results:
+          path: /tmp/resume-andrew-paettie/reports/junit
+
   integration-test:
     docker:
       - image: circleci/node:10.13-browsers
@@ -54,6 +59,10 @@ jobs:
           keys:
           - dependencies-{{ checksum "package.json" }}
       - run: npm run int-test-ci $(circleci tests glob "src/**/*.int.js" | circleci tests split )
+      - store_artifacts:
+          path: /tmp/resume-andrew-paettie/reports
+      - store_test_results:
+          path: /tmp/resume-andrew-paettie/reports/junit
 
   build:
     docker:
