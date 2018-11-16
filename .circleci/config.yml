@@ -6,7 +6,7 @@ version: 2
 jobs:
   install:
     docker:
-      - image: circleci/node:8.12-browsers
+      - image: circleci/node:10.13-browsers
     working_directory: ~/resume-andrew-paettie
 
     steps:
@@ -24,7 +24,7 @@ jobs:
           key: dependencies-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
   lint:
     docker:
-      - image: circleci/node:8.12-browsers
+      - image: circleci/node:10.13-browsers
     working_directory: ~/resume-andrew-paettie
     steps:
       - checkout
@@ -34,7 +34,7 @@ jobs:
       - run: npm run lint
   unit-test:
     docker:
-      - image: circleci/node:8.12-browsers
+      - image: circleci/node:10.13-browsers
     working_directory: ~/resume-andrew-paettie
     steps:
       - checkout
@@ -44,7 +44,7 @@ jobs:
       - run: npm run test
   build:
     docker:
-      - image: circleci/node:8.12-browsers
+      - image: circleci/node:10.13-browsers
     working_directory: ~/resume-andrew-paettie
     steps:
       - checkout
@@ -58,7 +58,7 @@ jobs:
             - build/*
   deploy-test:
     docker:
-      - image: circleci/node:8.12-browsers
+      - image: circleci/node:10.13-browsers
     working_directory: ~/resume-andrew-paettie
     steps:
       - run:
@@ -71,7 +71,7 @@ jobs:
 
   deploy-prod:
     docker:
-      - image: circleci/node:8.12-browsers
+      - image: circleci/node:10.13-browsers
     working_directory: ~/resume-andrew-paettie
     steps:
       - run:
