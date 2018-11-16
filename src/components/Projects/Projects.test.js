@@ -2,14 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 
-import ResumeProjectsBlock from './Projects';
+import Projects from './Projects';
+import content from '../../common/content';
 
-it('renders without crashing', () => {
+it('renders nothing without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
     <MemoryRouter location="someLocation" context={{}}>
-      <ResumeProjectsBlock projects={[]} style={{}} formatDate={() => {}} />
+      <Projects projects={[]} style={{}} />
     </MemoryRouter>,
     div,
   );
 });
+
+it('renders content without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(
+    <MemoryRouter location="someLocation" context={{}}>
+      <Projects projects={content.projects} style={{}} />
+    </MemoryRouter>,
+    div,
+  );
+});
+

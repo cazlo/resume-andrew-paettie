@@ -89,7 +89,7 @@ export default {
       techTheme: techTheme.react,
       links: [
         {
-          url: 'https://andrewpaettie.com/snake',
+          url: '/snake',
           text: 'Site',
         },
         {
