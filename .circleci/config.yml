@@ -110,26 +110,27 @@ jobs:
 workflows:
   version: 2
   test_build_deploy:
-    - install
-    - lint:
-        requires:
-          - install
-    - unit-test:
-        requires:
-          - install
-    - build:
-        requires:
-          - install
-    - deploy-test:
-        requires:
-          - lint
-          - unit-test
-          - build
-#    - deploy-prod:
-#        requires:
-#        - lint
-#        - unit-test
-#        - build
-#        filters:
-#          branches:
-#            only: master
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - unit-test:
+          requires:
+            - install
+      - build:
+          requires:
+            - install
+      - deploy-test:
+          requires:
+            - lint
+            - unit-test
+            - build
+  #    - deploy-prod:
+  #        requires:
+  #        - lint
+  #        - unit-test
+  #        - build
+  #        filters:
+  #          branches:
+  #            only: master
