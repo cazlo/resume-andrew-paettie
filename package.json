@@ -51,7 +51,7 @@
     "build": "npm run fix-normalize-css-unit && node scripts/customized-config build",
     "build-run": "npm run build && serve -s build",
     "test": "react-scripts test ",
-    "int-test": "node scripts/customized-config int --ci",
+    "int-test": "node scripts/customized-config int",
     "test-ci": "jest -c jest.config.js",
     "int-test-ci": "jest -c integration-test.config.js",
     "eject": "react-scripts eject",

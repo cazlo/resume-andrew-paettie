@@ -42,7 +42,7 @@ jobs:
       - restore_cache:
           keys:
           - dependencies-{{ checksum "package.json" }}
-      - run: npm run test-ci ${circleci tests glob "**/*.test.js" | circleci tests split }
+      - run: npm run test-ci $(circleci tests glob "src/**/*.test.js" | circleci tests split )
   integration-test:
     docker:
       - image: circleci/node:10.13-browsers
@@ -53,7 +53,7 @@ jobs:
       - restore_cache:
           keys:
           - dependencies-{{ checksum "package.json" }}
-      - run: npm run int-test-ci ${circleci tests glob "**/*.int.js" | circleci tests split }
+      - run: npm run int-test-ci $(circleci tests glob "src/**/*.int.js" | circleci tests split )
 
   build:
     docker:
@@ -135,6 +135,9 @@ workflows:
       - unit-test:
           requires:
             - install
+      - integration-test:
+          requires:
+          - install
       - build:
           requires:
             - install
