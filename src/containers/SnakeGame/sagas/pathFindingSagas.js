@@ -81,7 +81,7 @@ const getNeighboringNodes = ({x,y, numRows, numCols}) => ({
   })
 });
 
-export const pathfind = (snake, food, numRows, numCols, aiConfig) => {
+export const pathfind = (snake, food, numRows, numCols) => {
   if (!snake.parts[0]) {
     return [];
   }
@@ -172,7 +172,7 @@ export function* pathFindingSaga() {
       } else {
         // here hoping at least most of the time pathfind will return before the board state changes
         // because of a tick/move or something similar
-        const path = pathfind(snake, food[0], numRows, numCols, state.aiConfig);
+        const path = pathfind(snake, food[0], numRows, numCols);
         if (path === null || !path.length) {
           yield put(pathNotFound());
           yield survivalMode(snake, numRows, numCols)
