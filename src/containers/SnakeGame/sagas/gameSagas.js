@@ -22,7 +22,8 @@ export function* snakeSaga() {
         }
       }
     } =  state;
-    yield put(move(direction));
+    const {numRows,numCols} = state.game.game;
+    yield put(move({direction,numRows,numCols}));
     const {
       game: {
         snake: {

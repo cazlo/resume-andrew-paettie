@@ -1,4 +1,3 @@
-export default {
-  BOX_SIZE: 40, // pixels
-  BOARD_SIZE: 20,
-};
+export const
+  DEFAULT_BOX_SIZE= 40, // pixels
+  DEFAULT_BOARD_SIZE= 20;

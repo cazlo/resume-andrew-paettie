@@ -35,7 +35,7 @@ jobs:
   unit-test:
     docker:
       - image: circleci/node:10.13-browsers
-    parallelism: 2
+    parallelism: 1
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
@@ -58,7 +58,7 @@ jobs:
       - restore_cache:
           keys:
           - dependencies-{{ checksum "package.json" }}
-      - run: npm run int-test-ci $(circleci tests glob "src/**/*.int.js" | circleci tests split )
+      - run: npm run int-test-ci $(circleci tests glob "src/**/*.int.js" | circleci tests split --split-by=timings)
       - store_artifacts:
           path: /tmp/resume-andrew-paettie/reports
       - store_test_results:
