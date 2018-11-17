@@ -5,40 +5,22 @@ const defaultSettings = {
   enableAI : false,
   greedyShortestPathToTail: true,
   playerName: "SKYNET",
-  nodesSurroundingSnakeCostMultiplier: 1,
-  nodesInCurrentDirectionOfTravelCostMultiplier: 1,
-  normalNodeCostMultiplier: 1000
 };
 
 export const enableAI = createReducer(defaultSettings.enableAI, {
-  [Action.TOGGLE_ENABLE_AI]: (state, action) => action.checked,
+  [Action.TOGGLE_ENABLE_A_STAR]: (state, action) => action.checked,
   [Action.TOGGLE_GREEDY_SP_TAIL]: (state, action) => action.checked ? false : state,
 });
 export const greedyShortestPathToTail = createReducer(defaultSettings.greedyShortestPathToTail, {
   [Action.TOGGLE_GREEDY_SP_TAIL]: (state, action) => action.checked,
-  [Action.TOGGLE_ENABLE_AI]: (state, action) => action.checked ? false : state,
+  [Action.TOGGLE_ENABLE_A_STAR]: (state, action) => action.checked ? false : state,
 });
 export const playerName = createReducer(defaultSettings.playerName, {
   [Action.CHANGE_NAME]: (state, action) => action.playerName,
 });
-export const nodesSurroundingSnakeCostMultiplier =
-  createReducer(defaultSettings.nodesSurroundingSnakeCostMultiplier, {
-    [Action.CHANGE_SURROUNDING_MULTIPLIER]: (state, action) => action.multiplier,
-  });
-export const nodesInCurrentDirectionOfTravelCostMultiplier =
-  createReducer(defaultSettings.nodesInCurrentDirectionOfTravelCostMultiplier, {
-    [Action.CHANGE_DOT_COST_MULTIPLIER]: (state, action) => action.multiplier,
-  });
-export const normalNodeCostMultiplier =
-  createReducer(defaultSettings.normalNodeCostMultiplier, {
-    [Action.CHANGE_NORMAL_COST_MULTIPLIER]: (state, action) => action.multiplier,
-  });
 
 export default combineReducers({
   enableAI,
   greedyShortestPathToTail,
   playerName,
-  nodesSurroundingSnakeCostMultiplier,
-  nodesInCurrentDirectionOfTravelCostMultiplier,
-  normalNodeCostMultiplier
 });
