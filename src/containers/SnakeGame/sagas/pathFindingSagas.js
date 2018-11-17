@@ -126,6 +126,17 @@ export const pathfind = (snake, food, numRows, numCols) => {
       graph.addLink(nodeId, link);
     }
   });
+  if (tailParts.length > 0 && allowTail) {
+    const tail = tailParts[tailParts.length - 1];
+    const tailId = positionId(tail);
+    const { left, right, up, down } = getNeighboringNodes({...tail, numRows, numCols});
+    for (const neighbor of [left, right, up, down]){
+      const neighborNode = graph.getNode(neighbor).data;
+      if (!neighborNode.isSnake || neighborNode.isHead){
+        graph.addLink(tailId, neighbor);
+      }
+    }
+  }
 
   // todo add weighting to the stuff somehow (custom heuristic for use in heuristic fn?)
   const searcher = pathFinder.aStar(graph, {
@@ -152,6 +163,50 @@ export function* survivalMode(snake, numRows, numCols) {
   }
 }
 
+const tryPathFindingToTail = (snake, numRows, numCols) => {
+  const pathToTail = pathfind(snake, snake.parts[snake.parts.length-1], numRows, numCols, true);
+  if (!pathToTail || pathToTail.length <=1) {
+    const head = snake.parts[0];
+    const neighbors = getNeighboringNodeDirections({x:head.x, y:head.y, numRows, numCols});
+    for (const n of neighbors){
+      // todo weigh this choice somehow, e.g. prefer moving away from food
+      const snakeMatches = snake.parts.filter(s => s.x === n.x && s.y === n.y);
+      if (!snakeMatches.length){
+        return [n];
+      }
+    }
+    // console.log("no neighbor fallback found :(");
+    return [];
+  } else {
+    return pathToTail;
+  }
+};
+
+export const pathfindGreedy = (snake, food, numRows, numCols) => {
+  const pathToFood = pathfind(snake, food, numRows, numCols);
+  if (pathToFood === null || !pathToFood.length) {
+    return tryPathFindingToTail(snake, numRows, numCols);
+  } else if (snake.parts.length >= 5 ) {
+    const snakeArr = _.clone(snake.parts);
+    const snakeLen = snakeArr.length;
+    let newSnake;
+    const reversedPath = _.reverse(_.clone(pathToFood));
+    if (pathToFood.length >= snakeLen){
+      newSnake = reversedPath.slice(0, snakeLen)
+    } else {
+      newSnake = [...reversedPath, ...snakeArr].slice(0, snakeLen);
+    }
+    const pathToShiftedSnakeTail = tryPathFindingToTail({ parts: newSnake }, numRows, numCols);
+    if (pathToShiftedSnakeTail.length > 1){
+      return pathToFood;
+    }else{
+      return tryPathFindingToTail(snake, numRows, numCols);
+    }
+  } else {
+    return pathToFood;
+  }
+};
+
 export function* pathFindingSaga() {
   while (true) {
     yield take([Action.MOVE]);
@@ -163,7 +218,8 @@ export function* pathFindingSaga() {
       if (food.length > 1){
         // console.warn("TOO MUCH FOOD!!!")
       }else if (food.length === 0){
-        // console.warn("No food found to path find to");
+        // this case doesn't seem to happen because of the current order of events
+        // leaving here in case this chages in the future...
         yield survivalMode(snake, numRows, numCols)
       }
       const head = snake.parts[0];
@@ -180,6 +236,18 @@ export function* pathFindingSaga() {
           yield put(finishPathFind(path));
           yield moveFromPath(path, snake.parts, state.game.snake.direction, numRows, numCols);
         }
+      }
+    } else if (state.aiConfig.greedyShortestPathToTail) {
+      const snake = state.game.snake;
+      const food = state.game.food;
+      const { numRows, numCols } = state.game.game;
+      const pathToFood = pathfindGreedy(snake, food[0], numRows, numCols);
+      if (pathToFood === null || !pathToFood.length) {
+        yield put(pathNotFound());
+        yield survivalMode(snake, numRows, numCols)
+      } else {
+        yield put(finishPathFind(pathToFood));
+        yield moveFromPath(pathToFood, snake.parts, state.game.snake.direction, numRows, numCols);
       }
     }
   }

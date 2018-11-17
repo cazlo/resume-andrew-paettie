@@ -17,7 +17,7 @@ import Slider from '@material-ui/lab/Slider/Slider';
 import { withStyles } from '@material-ui/core/styles';
 
 import {
-toggleEnableAI, changeName,
+toggleEnableAI, toggleGreedyShortestPathToTail, changeName,
 changeDotCostMultiplier, changeNormalCostMultiplier, changeSurroundingCostMultiplier
 } from './actions/aiConfigAction';
 
@@ -43,6 +43,7 @@ const styles = theme => ({
 const ConfigPanel = props => {
   const {
     enableAI,
+    greedyShortestPathToTail,
     playerName,
     nodesSurroundingSnakeCostMultiplier,
     nodesInCurrentDirectionOfTravelCostMultiplier,
@@ -63,12 +64,20 @@ const ConfigPanel = props => {
 
         <form noValidate autoComplete="off">
           <FormControlLabel
-            label="Enable AI"
+            label="A* shortest path"
             control={
               <Switch
-                value="checkedEnableAI"
                 checked={enableAI}
                 onChange={props.toggleEnableAI}
+              />
+            }
+          />
+          <FormControlLabel
+            label="Greedy Shortest Path to Tail"
+            control={
+              <Switch
+                checked={greedyShortestPathToTail}
+                onChange={props.toggleGreedyShortestPathToTail}
               />
             }
           />
@@ -120,12 +129,14 @@ const ConfigPanel = props => {
 ConfigPanel.propTypes = {
   playerName: PropTypes.string.isRequired,
   enableAI: PropTypes.bool.isRequired,
+  greedyShortestPathToTail: PropTypes.bool.isRequired,
   nodesSurroundingSnakeCostMultiplier: PropTypes.number.isRequired,
   nodesInCurrentDirectionOfTravelCostMultiplier: PropTypes.number.isRequired,
   normalNodeCostMultiplier: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
 
   toggleEnableAI: PropTypes.func.isRequired,
+  toggleGreedyShortestPathToTail: PropTypes.func.isRequired,
   changeName: PropTypes.func.isRequired,
   changeDotCostMultiplier: PropTypes.func.isRequired,
   changeNormalCostMultiplier: PropTypes.func.isRequired,
@@ -134,6 +145,7 @@ ConfigPanel.propTypes = {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   toggleEnableAI,
+  toggleGreedyShortestPathToTail,
   changeName,
   changeDotCostMultiplier, changeNormalCostMultiplier, changeSurroundingCostMultiplier,
 }, dispatch);
