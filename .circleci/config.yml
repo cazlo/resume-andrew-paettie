@@ -156,12 +156,12 @@ workflows:
             - unit-test
             - integration-test
             - build
-  #    - deploy-prod:
-  #        requires:
-  #        - lint
-  #        - unit-test
-  #        - int-test
-  #        - build
-  #        filters:
-  #          branches:
-  #            only: master
+      - deploy-prod:
+          requires:
+            - lint
+            - unit-test
+            - integration-test
+            - build
+          filters:
+            branches:
+              only: master
