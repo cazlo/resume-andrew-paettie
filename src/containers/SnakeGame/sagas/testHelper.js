@@ -40,7 +40,7 @@ export const playGame = ({ size }) => {
 // here avgThreshold is expected to be the % of perfect score which should be achieved on avg
 export const performanceTest = ({ gamesToSimulate, avgThreshold, size=10}) => {
   const threshold = perfectScore(size) * avgThreshold;
-  return describe(`Performance criteria (${gamesToSimulate} games: ${threshold.toFixed(2)} avg score)`, () => {
+  return describe(`Performance criteria (${gamesToSimulate} games: ${threshold.toFixed(2)} avg score expected)`, () => {
     let results = [];
     let scores = [];
     beforeAll(async () => {
