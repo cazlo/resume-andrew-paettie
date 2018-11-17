@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from '@material-ui/core/Avatar/Avatar';
+// import Avatar from '@material-ui/core/Avatar/Avatar';
 
 import { DEFAULT_BOX_SIZE } from './util/Grid';
 import techTheme from '../../common/techTheme';
@@ -44,12 +44,12 @@ const GridCell = props => {
       }}
     >
       <div className={containerClasses} style={style}>
-        {props.foodCell && props.foodCell.icon ? (
-          <Avatar style={props.foodCell.style}>{props.foodCell.icon}</Avatar>
-        ) : (
-          ''
-        )}
-        {props.snakeCell && props.snakeCell.icon ? props.snakeCell.icon : ''}
+        {/*{props.foodCell && props.foodCell.icon ? (*/}
+          {/*<Avatar style={props.foodCell.style}>{props.foodCell.icon}</Avatar>*/}
+        {/*) : (*/}
+          {/*''*/}
+        {/*)}*/}
+        {/*{props.snakeCell && props.snakeCell.icon ? props.snakeCell.icon : ''}*/}
       </div>
     </div>
   );
