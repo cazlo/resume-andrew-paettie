@@ -21,11 +21,12 @@ const createStore = (sagaMiddleware) => {
 
 export const perfectScore =(size) => (size*size)-1;
 
-export const playGame = ({ size }) => {
+export const playGame = ({ size, aiAction }) => {
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(sagaMiddleware);
   const saga = sagaMiddleware.run(runGame);
   store.dispatch(setSize({numRows:size, numCols:size}));
+  store.dispatch(aiAction({target:{checked:true}}));
   store.dispatch(play());
   return saga.done.then(() => {
     // assertions
@@ -38,13 +39,13 @@ export const playGame = ({ size }) => {
 };
 
 // here avgThreshold is expected to be the % of perfect score which should be achieved on avg
-export const performanceTest = ({ gamesToSimulate, avgThreshold, size=10}) => {
+export const performanceTest = ({ gamesToSimulate, avgThreshold, size=10, aiAction, name}) => {
   const threshold = perfectScore(size) * avgThreshold;
-  return describe(`Performance criteria (${gamesToSimulate} games: ${threshold.toFixed(2)} avg score expected)`, () => {
+  return describe(name, () => {
     let results = [];
     let scores = [];
     beforeAll(async () => {
-      results = await Promise.map(new Array(gamesToSimulate), () => playGame({size}));
+      results = await Promise.map(new Array(gamesToSimulate), () => playGame({size, aiAction}));
       scores = results.map(s => s.score)
     }, 600000);
 
