@@ -81,13 +81,20 @@ const getNeighboringNodes = ({x,y, numRows, numCols}) => ({
   })
 });
 
-export const pathfind = (snake, food, numRows, numCols) => {
+const graph = createGraph();
+// todo add weighting to the stuff somehow (custom heuristic for use in heuristic fn?)
+const searcher = pathFinder.nba(graph, {
+  // distance: (from, to) => distance(from, to, numRows, numCols),
+  // heuristic: (from, to) => heuristic(from, to, numRows, numCols),
+});
+
+export const pathfind = (snake, food, numRows, numCols, allowTail = false) => {
   if (!snake.parts[0]) {
     return [];
   }
   const [head, ...tailParts] = snake.parts;
 
-  const graph = createGraph();
+  graph.clear();
   // create a node for each x,y position in the play area
   for (let x = 0; x < numRows; x+=1){
     for (let y = 0; y < numCols; y+=1){
@@ -138,11 +145,6 @@ export const pathfind = (snake, food, numRows, numCols) => {
     }
   }
 
-  // todo add weighting to the stuff somehow (custom heuristic for use in heuristic fn?)
-  const searcher = pathFinder.aStar(graph, {
-    // distance: (from, to) => distance(from, to, numRows, numCols),
-    // heuristic: (from, to) => heuristic(from, to, numRows, numCols),
-  });
   const path = searcher.find(positionId(food), positionId(head));
   const pathPositions = _.map(path, p => p.data.position);
   if (pathPositions.length && pathPositions[0].x===head.x && pathPositions[0].y===head.y){
