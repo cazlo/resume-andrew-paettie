@@ -13,12 +13,10 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Slider from '@material-ui/lab/Slider/Slider';
 import { withStyles } from '@material-ui/core/styles';
 
 import {
-toggleEnableAI, toggleGreedyShortestPathToTail, changeName,
-changeDotCostMultiplier, changeNormalCostMultiplier, changeSurroundingCostMultiplier
+toggleEnableAstar, toggleGreedyShortestPathToTail, changeName,
 } from './actions/aiConfigAction';
 
 const styles = theme => ({
@@ -45,9 +43,6 @@ const ConfigPanel = props => {
     enableAI,
     greedyShortestPathToTail,
     playerName,
-    nodesSurroundingSnakeCostMultiplier,
-    nodesInCurrentDirectionOfTravelCostMultiplier,
-    normalNodeCostMultiplier,
     classes
   } = props;
 
@@ -96,30 +91,6 @@ const ConfigPanel = props => {
           />
         </form>
         </div>
-        <Typography>Weight of nodes surrounding snake</Typography>
-        <Slider
-          classes={{ container: classes.slider }}
-          min={1} max={1000}
-          onChange={(e,v) => props.changeSurroundingCostMultiplier(v)}
-          value={nodesSurroundingSnakeCostMultiplier}
-          style={{width:"95%"}}
-        />
-        <Typography>Weight of nodes in the snake{"'"}s current direction of travel</Typography>
-        <Slider
-          classes={{ container: classes.slider }}
-          min={1} max={1000}
-          onChange={(e,v) => props.changeDotCostMultiplier(v)}
-          value={nodesInCurrentDirectionOfTravelCostMultiplier}
-          style={{width:"95%"}}
-        />
-        <Typography>Weight of any other walkable nodes</Typography>
-        <Slider
-          classes={{ container: classes.slider }}
-          min={1} max={1000}
-          onChange={(e,v) => props.changeNormalCostMultiplier(v)}
-          value={normalNodeCostMultiplier}
-          style={{width:"95%"}}
-        />
       </ExpansionPanelDetails>
     </ExpansionPanel>
     </div>
@@ -138,16 +109,12 @@ ConfigPanel.propTypes = {
   toggleEnableAI: PropTypes.func.isRequired,
   toggleGreedyShortestPathToTail: PropTypes.func.isRequired,
   changeName: PropTypes.func.isRequired,
-  changeDotCostMultiplier: PropTypes.func.isRequired,
-  changeNormalCostMultiplier: PropTypes.func.isRequired,
-  changeSurroundingCostMultiplier: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  toggleEnableAI,
+  toggleEnableAI: toggleEnableAstar,
   toggleGreedyShortestPathToTail,
   changeName,
-  changeDotCostMultiplier, changeNormalCostMultiplier, changeSurroundingCostMultiplier,
 }, dispatch);
 
 const mapStateToProps = state => ({
