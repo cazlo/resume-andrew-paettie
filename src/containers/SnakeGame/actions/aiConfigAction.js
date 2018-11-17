@@ -7,6 +7,13 @@ export const toggleEnableAI = (event) => dispatch => {
   })
 };
 
+export const toggleGreedyShortestPathToTail = (event) => dispatch => {
+  dispatch({
+    type: Action.TOGGLE_GREEDY_SP_TAIL,
+    checked: event.target.checked
+  })
+};
+
 export const changeName = (event) => dispatch => {
   const playerName = event.target.value;
   dispatch({
