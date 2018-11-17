@@ -1,3 +1,3 @@
 export const
-  DEFAULT_BOX_SIZE= 40, // pixels
-  DEFAULT_BOARD_SIZE= 20;
+  DEFAULT_BOX_SIZE= 50, // pixels
+  DEFAULT_BOARD_SIZE= 16;
