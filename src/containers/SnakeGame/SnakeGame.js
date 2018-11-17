@@ -14,7 +14,7 @@ import GridCell from './GridCell';
 import Scoreboard from './Scoreboard';
 
 import './SnakeGame.css';
-import ConfigDialog from './ConfigDialog';
+import ConfigDialog from './ConfigPanel';
 import { bindActionCreators } from 'redux';
 import { play, setSize, changeDirection } from './actions/gameAction';
 import Paper from '@material-ui/core/Paper/Paper';
