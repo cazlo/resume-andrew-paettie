@@ -2,7 +2,7 @@ import { pathfind, moveFromPath } from './pathFindingSagas';
 import Position from '../util/Position';
 import Direction from '../util/Direction';
 import Action from '../actions/Action';
-const p = Position;// alias because it is long TODO find a better way
+const p = Position;// alias because 'Position' it is long
 
 describe('Path finding wrap behavior',() => {
   it('does not choose wrap path when it is obstructed', () => {
