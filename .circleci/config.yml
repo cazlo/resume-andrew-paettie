@@ -154,7 +154,7 @@ workflows:
           requires:
             - lint
             - unit-test
-            - int-test
+            - integration-test
             - build
   #    - deploy-prod:
   #        requires:
