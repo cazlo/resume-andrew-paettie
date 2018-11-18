@@ -51,7 +51,7 @@ const ConfigPanel = props => {
     <ExpansionPanel>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
         <div className={classes.column}>
-          <Typography>Game Controls</Typography>
+          <Typography>Controls</Typography>
         </div>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className={classes.column}>
@@ -101,9 +101,6 @@ ConfigPanel.propTypes = {
   playerName: PropTypes.string.isRequired,
   enableAI: PropTypes.bool.isRequired,
   greedyShortestPathToTail: PropTypes.bool.isRequired,
-  nodesSurroundingSnakeCostMultiplier: PropTypes.number.isRequired,
-  nodesInCurrentDirectionOfTravelCostMultiplier: PropTypes.number.isRequired,
-  normalNodeCostMultiplier: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
 
   toggleEnableAI: PropTypes.func.isRequired,

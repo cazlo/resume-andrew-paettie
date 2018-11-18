@@ -52,21 +52,21 @@ export const performanceTest = ({ gamesToSimulate, avgThreshold, size=10, aiActi
     it("average score at or above threshold", async () => {
       const avg = _.sum(scores) / gamesToSimulate;
       expect(avg).toBeGreaterThanOrEqual(threshold);
-      console.log(`avg: ${avg}`);
+      console.log(`${name} ${size}X${size} avg: ${avg}`);
       const avgD = (_.sum(results.map(r => r.duration)) / gamesToSimulate).toFixed(0);
-      console.log(`avgDuration: ${Format.formatDuration(avgD)}`)
+      console.log(`${name} ${size}X${size} avgDuration: ${Format.formatDuration(avgD)}`)
     });
 
     it("min is at least 2 (the worst game possible if there is input)", async () => {
       const min = _.min(scores);
       expect(min).toBeGreaterThanOrEqual(2);
-      console.log(`min: ${min}`)
+      console.log(`${name} ${size}X${size} min: ${min}`)
     });
 
     it("max is less than perfect score (sanity check)", async () => {
       const max = _.max(scores);
       expect(max).toBeLessThanOrEqual(perfectScore(size));
-      console.log(`max: ${max}`)
+      console.log(`${name} ${size}X${size} max: ${max}`)
     });
   });
 };
