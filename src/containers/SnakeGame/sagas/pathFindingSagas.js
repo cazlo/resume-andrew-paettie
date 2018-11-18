@@ -177,7 +177,6 @@ const tryPathFindingToTail = (snake, numRows, numCols) => {
         return [n];
       }
     }
-    // console.log("no neighbor fallback found :(");
     return [];
   } else {
     return pathToTail;
