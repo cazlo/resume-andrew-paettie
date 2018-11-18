@@ -71,8 +71,8 @@ export function* gameLoop() {
 }
 
 export function* gameResetter() {
-  yield put(reset());
   yield call(delay, 4200);
+  yield put(reset());
   yield put(play());
 }
 
