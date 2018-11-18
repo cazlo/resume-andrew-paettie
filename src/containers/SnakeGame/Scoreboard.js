@@ -9,8 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import grey from '@material-ui/core/colors/grey';
 
-import './GridCell.css';
-
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: grey.A700,

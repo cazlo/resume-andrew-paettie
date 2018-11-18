@@ -1,43 +1,66 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import _ from 'lodash';
 import flow from 'lodash/flow';
 import * as PropTypes from 'prop-types';
 
 import Chip from '@material-ui/core/Chip/Chip';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper/Paper';
 
 import withWindowSize from '../../components/Home/GridBackground/withWindowSize';
-import GridCell from './GridCell';
 import Scoreboard from './Scoreboard';
 
 import './SnakeGame.css';
 import ConfigDialog from './ConfigPanel';
-import { bindActionCreators } from 'redux';
 import { play, setSize, changeDirection } from './actions/gameAction';
-import Paper from '@material-ui/core/Paper/Paper';
-import { LEFT, RIGHT, DOWN, UP } from './util/Direction';
 import { DEFAULT_BOARD_SIZE, DEFAULT_BOX_SIZE } from './util/Grid';
+import techTheme from '../../common/techTheme';
 
-const inputDirection = (keyCode, changeDirectionFn) => {
-  switch (keyCode) {
-    case 37:
-      changeDirectionFn(LEFT);
-      break;
-    case 38:
-      changeDirectionFn(UP);
-      break;
-    case 39:
-      changeDirectionFn(RIGHT);
-      break;
-    case 40:
-      changeDirectionFn(DOWN);
-      break;
-    default:
-      break;
+const updateCanvas = (ctx, props) => {
+  const { innerHeight,
+    innerWidth,
+    snake,
+    food,
+    path } = props;
+  ctx.fillStyle = "#000";
+  ctx.globalAlpha = 0.2;
+  // fill background with some alpha so that we get some transition between frames
+  // e.g. with alpha 0.2, it takes approx 5 frames for a rectangle to completely dissapear
+  // with alpha 1, the animation is not as smooth
+  ctx.fillRect(0, 0, innerWidth, innerHeight);
+
+  const [head, ...tail] = snake.parts;
+  ctx.fillStyle = techTheme.nodeJs.style.background;
+  for(const i in tail){
+    ctx.globalAlpha =  (snake.parts.length - i) / snake.parts.length / 2 + .5;
+    const t = tail[i];
+    ctx.fillRect(t.x * DEFAULT_BOX_SIZE, t.y * DEFAULT_BOX_SIZE,
+      DEFAULT_BOX_SIZE*((Math.max(95 -i, 50) )/100), DEFAULT_BOX_SIZE*((Math.max(95 -i, 50) )/100));
   }
+  ctx.globalAlpha = 1;
+  ctx.fillRect(head.x * DEFAULT_BOX_SIZE * 0.99, head.y * DEFAULT_BOX_SIZE * 0.99, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
+  // todo head direction vector arrow?
+
+  ctx.fillStyle = techTheme.react.style.background;
+  for(const i in path){
+    ctx.globalAlpha =  (path.length - i) / path.length / 2;
+    const p = path[i];
+    ctx.fillRect(p.x*DEFAULT_BOX_SIZE, p.y*DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
+  }
+
+  ctx.globalAlpha = 1;
+  for (const f of food){
+    ctx.fillStyle = f.style.background;
+    ctx.beginPath();
+    ctx.arc((f.x * DEFAULT_BOX_SIZE) + 0.5 * DEFAULT_BOX_SIZE,
+      (f.y * DEFAULT_BOX_SIZE) + 0.5 * DEFAULT_BOX_SIZE,
+      DEFAULT_BOX_SIZE / 2, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
 };
 
 class SnakeGame extends Component {
@@ -52,24 +75,15 @@ class SnakeGame extends Component {
   }
   componentDidMount() {
     this.props.play();
-    this.gridRef.focus();
+    const ctx = this.snakeCanvas.getContext('2d');
+    requestAnimationFrame(() =>updateCanvas(ctx, this.props));
   }
-  // componentDidUpdate(nextProps) {
-  //   if (
-  //     this.props.innerHeight !== nextProps.innerHeight ||
-  //     this.props.innerWidth !== nextProps.innerWidth
-  //   ) {
-  //     const { innerHeight, innerWidth } = this.props;
-      // const innerHeight = 800, innerWidth = 800;
-      // - set numcols/numrows
-      // const numCols = Math.floor(innerWidth / BOX_SIZE);
-      // const numRows = Math.floor(innerHeight / BOX_SIZE);
-      // const boardArea = numCols * numRows;
-      // todo handle/dispatch resize event
-    // }
-  // }
-
-
+  // eslint-disable-next-line no-unused-vars
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const ctx = this.snakeCanvas.getContext('2d');
+    requestAnimationFrame(() => updateCanvas(ctx, this.props));
+    //todo handle/dispatch resize event
+  }
 
   render(){
     const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } = this.props;
@@ -84,38 +98,7 @@ class SnakeGame extends Component {
       >
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Paper>
-            <div className="grid" style={style}
-                 ref={(r) => { this.gridRef = r; }}
-                 onKeyDown={(e) => inputDirection(e.keyCode, this.props.changeDirection)}
-            >
-              {/*{this.renderGameCells()}*/}
-              {_.map(this.props.food || [], (f, idx) =>
-                <GridCell
-                  foodCell={f}
-                  size={DEFAULT_BOX_SIZE}
-                  key={`food-${idx}-x${f.x}-y${f.y}`}
-                  x={f.x}
-                  y={f.y}
-                />)}
-              {_.map(this.props.snake ? this.props.snake.parts : [], (s, idx) =>
-                <GridCell
-                  snakeCell={s}
-                  size={DEFAULT_BOX_SIZE}
-                  key={`snake-${idx}-x${s.x}-y${s.y}`}
-                  x={s.x}
-                  y={s.y}
-                />)}
-              {_.map(this.props.path ? this.props.path : [], (p, idx) =>
-                <GridCell
-                  pathCell={p}
-                  size={DEFAULT_BOX_SIZE}
-                  key={`path-${idx}-x${p.x}-y${p.y}`}
-                  x={p.x}
-                  y={p.y}
-                />)}
-            </div>
-            </Paper>
+            <canvas ref={(r) => this.snakeCanvas = r} width={innerWidth} height={innerHeight} />
           </Grid>
 
           <Grid item xs>
