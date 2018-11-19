@@ -44,6 +44,10 @@ export const setSize = ({numRows, numCols}) => ({
   type: Action.SET_SIZE,
   numRows, numCols
 });
+export const setFps = ({fps}) => ({
+  type: Action.SET_FPS,
+  fps
+});
 export const addScore = ({score, playerName, startTime, endTime, frameCount}) => ({
   type: Action.ADD_SCORE,
   score, playerName, startTime, endTime, frameCount

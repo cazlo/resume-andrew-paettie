@@ -13,6 +13,7 @@ const Action = {
   SPAWN_FOOD: 'SPAWN_FOOD',
   EAT_FOOD: 'EAT_FOOD',
   SET_SIZE: "SET_SIZE",
+  SET_FPS: "SET_FPS",
   // High Score
   ADD_SCORE: "ADD_SCORE",
   // Path Finding,

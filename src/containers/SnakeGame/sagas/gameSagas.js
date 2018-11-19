@@ -2,7 +2,7 @@ import { delay } from 'redux-saga'
 import { take, put, call, fork, cancel, select, takeLatest } from 'redux-saga/effects'
 
 import Action from'../actions/Action';
-import { play, eatFood, gameOver, move, reset, spawnFood, tick, addScore} from '../actions/gameAction';
+import { play, eatFood, gameOver, move, reset, spawnFood, tick, addScore, setFps} from '../actions/gameAction';
 import PositionUtil from '../util/PositionUtil';
 import { pathFindingSaga } from './pathFindingSagas';
 
@@ -79,6 +79,18 @@ export function* gameLoop() {
   }
 }
 
+export function* fpsSaga() {
+  while (true) {
+    const state = yield select();
+    const { frameCount } = state.game.game;
+    yield call(delay, 1000);
+    const stateAfter = yield select();
+    const frameCountAfter = stateAfter.game.game.frameCount;
+    const fps = frameCountAfter - frameCount;
+    yield put(setFps({ fps }));
+  }
+}
+
 export function* gameResetter() {
   yield call(delay, 4200);
   yield put(reset());
@@ -91,6 +103,7 @@ export function* runGame(waitOnPlay = true) {
   }
   const running = [];
   running.push(yield fork(gameLoop));
+  running.push(yield fork(fpsSaga));
   running.push(yield fork(foodSaga));
   running.push(yield fork(snakeSaga));
   running.push(yield fork(pathFindingSaga));
