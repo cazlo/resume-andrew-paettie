@@ -26,23 +26,29 @@ const updateCanvas = (ctx, props) => {
     food,
     path } = props;
   ctx.fillStyle = "#000";
-  ctx.globalAlpha = 0.2;
+  ctx.globalAlpha = 1;// 0.2;
   // fill background with some alpha so that we get some transition between frames
   // e.g. with alpha 0.2, it takes approx 5 frames for a rectangle to completely dissapear
   // with alpha 1, the animation is not as smooth
   ctx.fillRect(0, 0, innerWidth, innerHeight);
 
   const [head, ...tail] = snake.parts;
-  ctx.fillStyle = techTheme.nodeJs.style.background;
-  for(const i in tail){
+
+  ctx.fillStyle = techTheme.spring.style.background;
+  ctx.globalAlpha = 1;
+  ctx.fillRect(head.x * DEFAULT_BOX_SIZE * 0.99, head.y * DEFAULT_BOX_SIZE * 0.99, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
+  // todo head direction vector arrow?
+
+  for(let i = 0; i < tail.length; i+=1){
+    ctx.fillStyle = i === tail.length - 1
+      ? "#fcda7c"
+      : techTheme.nodeJs.style.background;
     ctx.globalAlpha =  (snake.parts.length - i) / snake.parts.length / 2 + .5;
     const t = tail[i];
     ctx.fillRect(t.x * DEFAULT_BOX_SIZE, t.y * DEFAULT_BOX_SIZE,
       DEFAULT_BOX_SIZE*((Math.max(95 -i, 50) )/100), DEFAULT_BOX_SIZE*((Math.max(95 -i, 50) )/100));
   }
-  ctx.globalAlpha = 1;
-  ctx.fillRect(head.x * DEFAULT_BOX_SIZE * 0.99, head.y * DEFAULT_BOX_SIZE * 0.99, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
-  // todo head direction vector arrow?
+
 
   ctx.fillStyle = techTheme.react.style.background;
   for(const i in path){
@@ -103,6 +109,7 @@ class SnakeGame extends Component {
 
           <Grid item xs>
             <Chip label="Score" avatar={<Avatar>{this.props.game.score}</Avatar>} color="primary" />
+            <Chip label="Frame Count" avatar={<Avatar>{this.props.game.frameCount}</Avatar>} color="primary" />
             <Paper>
               <ConfigDialog/>
             </Paper>
