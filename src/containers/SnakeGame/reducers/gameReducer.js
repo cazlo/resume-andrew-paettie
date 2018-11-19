@@ -14,7 +14,7 @@ const HEAD_THEME = techTheme.nodeJs;
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'nodeJs']));
 
 const MAX_SPEED = process.env.NODE_ENV === 'production' ? 5 : 0;
-const SPEED_MULTIPLIER= process.env.NODE_ENV === 'production' ? 50 : 1;
+const SPEED_MULTIPLIER= process.env.NODE_ENV === 'production' ? 42 : 0;
 const INITIAL_SPEED = MAX_SPEED * SPEED_MULTIPLIER;
 
 const wrap = (point, size) => (point < 0 ? point + size : point % size);
@@ -96,6 +96,11 @@ export const endTime = (state = null, action) => {
   }
 };
 
+export const frameCount = createReducer(0, {
+  [Action.TICK]: (state) => state + 1,
+  [Action.RESET]: () => 0,
+});
+
 // combined reducer for overall game state
 export const game = combineReducers({
   state,
@@ -105,7 +110,8 @@ export const game = combineReducers({
   numRows,
   playerName,
   startTime,
-  endTime
+  endTime,
+  frameCount
 });
 // reducer for snake direction
 export const direction = (state = RIGHT, action) => {
@@ -176,6 +182,7 @@ export const highScores = createReducer([], {
     score: action.score,
     name: action.playerName,
     duration: Format.formatDuration(action.endTime - action.startTime),
+    frameCount: action.frameCount,
     time: Format.formatTime(moment()),
   }], ['score'], ['desc'])),
   [Action.SET_SIZE]: (state, action) => {

@@ -46,6 +46,7 @@ const Scoreboard = props => {
             <CustomTableCell>Player Name</CustomTableCell>
             <CustomTableCell numeric>Score</CustomTableCell>
             <CustomTableCell numeric>Duration</CustomTableCell>
+            <CustomTableCell numeric>Frame Count</CustomTableCell>
             <CustomTableCell>Time</CustomTableCell>
           </TableRow>
         </TableHead>
@@ -57,6 +58,7 @@ const Scoreboard = props => {
               </CustomTableCell>
               <CustomTableCell numeric>{row.score}</CustomTableCell>
               <CustomTableCell numeric>{row.duration}</CustomTableCell>
+              <CustomTableCell numeric>{row.frameCount}</CustomTableCell>
               <CustomTableCell numeric>{row.time}</CustomTableCell>
             </TableRow>
           ))}
