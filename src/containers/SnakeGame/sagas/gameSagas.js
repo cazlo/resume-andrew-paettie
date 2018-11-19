@@ -19,10 +19,17 @@ export function* snakeSaga() {
       game: {
         snake: {
           direction
-        }
+        },
+        frameCount
       }
     } =  state;
     const {numRows,numCols} = state.game.game;
+    // worst case scenario is all nodes are traversed once for each food spawned
+    // so timeout the game if the framecount reaches this
+    const worstCaseScore = (numRows * numCols) * (numRows * numCols);
+    if (frameCount > worstCaseScore){
+      yield put(gameOver());
+    }
     yield put(move({direction,numRows,numCols}));
     const {
       game: {
@@ -54,11 +61,13 @@ export function* foodSaga() {
     yield take([Action.PLAY, Action.EAT_FOOD, Action.RESET]);
     const state = yield select();
     const {numRows,numCols} = state.game.game;
-    let position = {};
-    do {
-      position = randomPosition({numRows,numCols});
-    } while (PositionUtil.isColliding(position, state.game.snake.parts));
-    yield put(spawnFood(position.x, position.y));
+    if (state.game.snake.parts.length <= (numRows*numCols) - 1){
+      let position = {};
+      do {
+        position = randomPosition({numRows,numCols});
+      } while (PositionUtil.isColliding(position, state.game.snake.parts));
+      yield put(spawnFood(position.x, position.y));
+    }
   }
 }
 
