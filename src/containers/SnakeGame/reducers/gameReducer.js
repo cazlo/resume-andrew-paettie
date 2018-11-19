@@ -101,6 +101,11 @@ export const frameCount = createReducer(0, {
   [Action.RESET]: () => 0,
 });
 
+export const fps = createReducer(0, {
+  [Action.SET_FPS]: (state, action) => action.fps,
+  [Action.RESET]: () => 0,
+});
+
 // combined reducer for overall game state
 export const game = combineReducers({
   state,
@@ -111,7 +116,8 @@ export const game = combineReducers({
   playerName,
   startTime,
   endTime,
-  frameCount
+  frameCount,
+  fps,
 });
 // reducer for snake direction
 export const direction = (state = RIGHT, action) => {
