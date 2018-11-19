@@ -1,16 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FaHome } from 'react-icons/fa';
+
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { FaHome } from 'react-icons/fa';
+import Typography from '@material-ui/core/Typography/Typography';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import SnakeGame from '../../containers/SnakeGame/SnakeGame';
 import techTheme from '../../common/techTheme';
 import { Provider } from 'react-redux'
 import createStore from '../../containers/SnakeGame/store';
+
+const theme = createMuiTheme({
+  type: 'dark',
+  palette: {
+    primary: {
+      main: '#689f38',
+    },
+    secondary: {
+      main: '#64dd17',
+    }
+  },
+  typography: {
+    useNextVariants: true,
+  }
+});
 
 const styles = theme => ({
   NotFoundPaper: {
@@ -20,7 +37,11 @@ const styles = theme => ({
     width: '100%',
     textAlign: 'center',
     marginBottom: '15px',
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#424242'
+  },
+  Heading: {
+    fontSize: theme.typography.pxToRem(40),
+    color: theme.palette.text.primary,
   },
   NotFoundButton: {
     ...techTheme.android.style,
@@ -32,12 +53,11 @@ const NotFound = props => {
   const { classes } = props;
 
   return (
-    <ScreenBlock className="NotFoundBlock">
-      <div className="container">
+    <MuiThemeProvider theme={theme}>
+      {/*<ScreenBlock className="NotFoundBlock">*/}
+      {/*<div className="container">*/}
         <Paper className={classes.NotFoundPaper}>
-          <div className="heading">
-            <h2>404 Not Found</h2>
-          </div>
+          <Typography className={classes.Heading}>404 Not Found</Typography>
           <Button
             component={Link}
             variant="contained"
@@ -51,8 +71,9 @@ const NotFound = props => {
         <Provider store={createStore()}>
           <SnakeGame />
         </Provider>
-      </div>
-    </ScreenBlock>
+      {/*</div>*/}
+    {/*</ScreenBlock>*/}
+    </MuiThemeProvider>
   );
 };
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline/CssBaseline';
 import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
 
@@ -9,8 +11,9 @@ import NotFound from './components/NotFound/NotFound';
 
 const theme = createMuiTheme({
   palette: {
+    type: 'dark',
     primary: blue,
-    error: red,
+    secondary: red
   },
   typography: {
     useNextVariants: true,
@@ -19,6 +22,7 @@ const theme = createMuiTheme({
 
 const App = () => (
   <MuiThemeProvider theme={theme}>
+    <CssBaseline />
     <div className="App">
       <Switch>
         <Route exact path="/" component={Resume} />

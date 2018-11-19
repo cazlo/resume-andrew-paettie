@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoGraph } from 'react-icons/go';
-import { FaRobot } from 'react-icons/fa';
+import { FaRobot, FaLaptopCode, FaCodeBranch, FaRegFileCode, FaCloud, FaCheckDouble, FaJedi } from 'react-icons/fa';
 
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
@@ -66,21 +66,58 @@ export default {
       company: 'CapitalSoft',
     },
   ],
-  tools: (
-    <span>
-      Operating system: Linux
-      <br />
-      IDE: Webstorm / Intellij
-      <br />
-      Containerization: Docker <br />
-      Continuous integration software: Jenkins / CircleCI
-      <br />
-      Project Management Software: Rally / Github / Trello
-      <br />
-      Version control system software: Github
-      <br />
-    </span>
-  ),
+  tools: [
+    {
+    category: "Operating System",
+    categoryIcon: <FaLaptopCode/>,
+    name: "Linux",
+    icon: techTheme.linux.icon,
+  },{
+    category: "IDE",
+    categoryIcon: <FaRegFileCode/>,
+    name: "Webstorm",
+    icon: techTheme.webstorm.icon,
+  },{
+    category: "IDE",
+    categoryIcon: <FaRegFileCode/>,
+    name: "Intellij",
+    icon: techTheme.intellij.icon,
+  },{
+    category: "Containerization",
+    categoryIcon: <FaCloud/>,
+    name: "Docker",
+    icon: techTheme.docker.icon,
+  },{
+    category: "CI/CD",
+    categoryIcon: <FaCheckDouble/>,
+    name: "CircleCI",
+    icon: techTheme.circleci.icon,
+  },{
+    category: "CI/CD",
+    categoryIcon: <FaCheckDouble/>,
+    name: "Jenkins",
+    icon: techTheme.jenkins.icon,
+  },{
+    category: "Project Management",
+    categoryIcon: <FaJedi/>,
+    name: "Github (Enterprise)",
+    icon: techTheme.github.icon,
+  },{
+    category: "Project Management",
+    categoryIcon: <FaJedi/>,
+    name: "Trello",
+    icon: techTheme.trello.icon,
+  },{
+    category: "Project Management",
+    categoryIcon: <FaJedi/>,
+    name: "Slack",
+    icon: techTheme.slack.icon,
+  },{
+    category: "Version Control",
+    categoryIcon: <FaCodeBranch/>,
+    name: "Git",
+    icon: techTheme.git.icon,
+  }],
   projects: [
     {
       title: 'React Snake',
@@ -468,7 +505,7 @@ export default {
       },
     },
     {
-      name: 'JQUERY',
+      name: 'JQuery',
       language: {
         name: 'Javascript',
         style: techTheme.javascript,
