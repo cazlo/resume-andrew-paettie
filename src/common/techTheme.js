@@ -16,9 +16,14 @@ import SlackIcon from 'react-devicon/slack/original';
 import LinuxIcon from 'react-devicon/linux/plain';
 import UbuntuIcon from 'react-devicon/ubuntu/plain';
 import NpmIcon from 'react-devicon/npm/original-wordmark';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import DebianIcon from 'react-devicon/debian/plain';
 import CplusplusIcon from 'react-devicon/cplusplus/plain';
+import IntellijIcon from 'react-devicon/intellij/plain';
+import WebstormIcon from 'react-devicon/webstorm/plain';
+import TrelloIcon from 'react-devicon/trello/plain';
+import GitIcon from 'react-devicon/git/plain';
+
+import { FaJenkins, FaEllipsisH } from "react-icons/fa";
 
 import JestSvg from '../data/jest.svg';
 import CircleciSvg from '../data/circleci.svg';
@@ -225,7 +230,42 @@ const techTheme = {
       color: '#fff',
     },
     className: 'vertical-timeline-element--others',
-    icon: <MoreHorizIcon />,
+    icon: <FaEllipsisH />,
+  },
+  git: {
+    style: {
+      background: '#e24036',
+      color: '#fff',
+    },
+    icon: <GitIcon />,
+  },
+  trello: {
+    style: {
+      background: '#2478b7',
+      color: '#fff',
+    },
+    icon: <TrelloIcon />,
+  },
+  intellij: {
+    style: {
+      background: '#175589',
+      color: '#fff',
+    },
+    icon: <IntellijIcon />,
+  },
+  webstorm: {
+    style: {
+      background: '#3bc9d0',
+      color: '#fff',
+    },
+    icon: <WebstormIcon />,
+  },
+  jenkins: {
+    style: {
+      background: '#c62634',
+      color: '#fff',
+    },
+    icon: <FaJenkins />,
   },
 };
 

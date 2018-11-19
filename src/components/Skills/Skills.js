@@ -1,23 +1,61 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import { sortBy } from 'lodash';
+
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography/Typography';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import Grid from '@material-ui/core/Grid/Grid';
+import Chip from '@material-ui/core/Chip/Chip';
 
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 
 import './Skills.css';
 
-const Skills = ({ skills, tools }) => (
-  <ScreenBlock id="Resume-skills" className="ResumeSkillsBlock">
-    <div className="container">
-      <div className="heading">
-        <h2>Skills</h2>
-        <p>I can say i’m quite good at</p>
-      </div>
+export const getSkillsByLanguages = skills => {
+  const skillsByLanguages = skills.reduce((obj, item) => {
+    const newObj = obj;
+    if (item.language) {
+      newObj[item.language.name] = newObj[item.language.name] || [];
+      newObj[item.language.name].push(item);
+      newObj[item.language.name] = sortBy(newObj[item.language.name], [x => x.name]);
+    }
+    return newObj;
+  }, {});
 
-      <div className="ResumeSkillsBlock-skills">
-        {skills.map((skillCategory, i) => (
+  return Object.keys(skillsByLanguages).map(key => skillsByLanguages[key]);
+};
+
+export const getToolsByCategory = tools => {
+  const toolsByCategory = tools.reduce((obj, item) => {
+    const newObj = obj;
+    if (item.category) {
+      newObj[item.category] = newObj[item.category] || [];
+      newObj[item.category].push(item);
+      newObj[item.category] = sortBy(newObj[item.category], [x => x.category]);
+    }
+    return newObj;
+  }, {});
+
+  return Object.keys(toolsByCategory).map(key => toolsByCategory[key]);
+};
+
+const Skills = ({ skills, tools }) => (
+  <ScreenBlock id="Resume-skills" className="ResumeSkillsBlock container">
+    <Grid container spacing={16} >
+      <Grid item xs={12} className="heading">
+        <h2>Skills</h2>
+        <Typography>I can say i’m quite good at</Typography>
+      </Grid>
+
+      <Grid item className="ResumeSkillsBlock-skills" xs={12}>
+        {getSkillsByLanguages(skills).map((skillCategory, i) => (
           // eslint-disable-next-line react/no-array-index-key
           <Card key={i}>
             <CardContent>
@@ -40,30 +78,47 @@ const Skills = ({ skills, tools }) => (
               </h3>
               {skillCategory.map((skill, j) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <div key={j}>{skill.name}</div>
+                <div key={j} style={{
+                  color: skillCategory[0].language.style.style.background,
+                }}>{skill.name}</div>
               ))}
             </CardContent>
           </Card>
         ))}
-      </div>
 
-      <br />
+        <br />
+      </Grid>
 
-      <div className="heading">
+      <Grid item xs={12} className="heading">
         <h2>Tools</h2>
-        <p>My favorites tools</p>
-      </div>
+        <Typography>My favorite tools</Typography>
+      </Grid>
 
-      <div className="ResumeSkillsBlock-tools">
-        <p>{tools}</p>
-      </div>
-    </div>
+      <Grid item className="ResumeSkillsBlock-tools" xs={12}>
+        <Table>
+          <TableBody>
+          {getToolsByCategory(tools).map((category, i) => (
+            <TableRow key={`${category[0].category}-${i}`}>
+              <TableCell>
+                <Chip avatar={<Avatar >{category[0].categoryIcon}</Avatar>} label={category[0].category}/>
+              </TableCell>
+              <TableCell style={{textAlign:"right"}}>
+                {category.map((tool, j) => (
+                   <Chip avatar={<Avatar>{tool.icon}</Avatar>} label={tool.name} key={`${tool.name}-${j}`}/>
+                ))}
+              </TableCell>
+            </TableRow>
+          ))}
+          </TableBody>
+        </Table>
+      </Grid>
+    </Grid>
   </ScreenBlock>
 );
 
 Skills.propTypes = {
   skills: PropTypes.array.isRequired,
-  tools: PropTypes.element.isRequired,
+  tools: PropTypes.array.isRequired,
 };
 
 export default Skills;

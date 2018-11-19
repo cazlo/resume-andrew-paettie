@@ -1,22 +1,22 @@
 .VerticalTimeline {
     margin: 0 auto !important;
     max-width: 1250px;
-    color: #ffffff
+    /*color: #ffffff*/
 }
 
 .ProjectsBlock .vertical-timeline-element {
     box-sizing: content-box;
-    color: #ffffff
+    /*color: #ffffff*/
 }
 
 .ProjectDate .vertical-timeline-element-content .vertical-timeline-element-date  {
-    color: #ffffff;
+    /*color: #ffffff;*/
 }
 
 
 .ProjectsBlock > .vertical-timeline-element-date {
     box-sizing: content-box;
-    color: #ffffff;
+    /*color: #ffffff;*/
 }
 
 .VerticalTimelineElement .vertical-timeline-element-title {
@@ -69,7 +69,7 @@ svg.SVGInline-devicon.ReactOriginal-devicon.VerticalTimelineElement-devicon {
 
 .VerticalTimelineElement .vertical-timeline-element-icon .SVGInline svg path,
 .VerticalTimelineElement .vertical-timeline-element-icon .SVGInline svg g {
-    fill: #fff !important;
+    /*fill: #fff !important;*/
 }
 
 @media only screen and (max-width: 1170px) {
