@@ -48,6 +48,43 @@ export function* moveFromPath (path, snake, snakeDirection, numRows, numCols) {
 
 const positionId = ({x,y}) => (`x${x}y${y}`);
 
+const findLongestPathReduce = (path, p1, idx) => {
+  const {didExpand, pathSoFar, totalExpansions, numRows, numCols } = path;
+  if (didExpand){ return path; }// only allow one path modification per run
+  if (pathSoFar[idx+1]){
+    const p2 = pathSoFar[idx+1];
+    // see if we can expand both of these nodes in the any direction
+    //  criteria:
+    //    they are connected (the difference between their coords is one of the unit vectors)
+    //    they are not occupied with snake (will mean suboptimal path but easier stuff later)
+    //    the node attempting to be expanded to is not already in the path
+    const p1Neighbors = getNeighboringNodes({...p1.data.position, numRows, numCols});
+    const p2Neighbors = getNeighboringNodes({...p2.data.position, numRows, numCols});
+
+    // try and move up
+    for (const d of ["up","down","left","right"]) {
+      if (graph.getLink(p1.id, p1Neighbors[d]) && graph.getLink(p2.id, p2Neighbors[d])) {
+        const p1N = graph.getNode(p1Neighbors[d]);
+        const p2N = graph.getNode(p2Neighbors[d]);
+        if (graph.getLink(p1N.id, p2N.id) || graph.getLink(p2N.id, p1N.id)) {
+          const inPathSoFar = pathSoFar.filter(p => p.id === p1N.id || p.id === p2N.id);
+          if (!inPathSoFar.length) {
+            pathSoFar.splice(idx+1, 0, p1N, p2N);
+            return {
+              ...path,
+              didExpand: true,
+              totalExpansions: totalExpansions + 1,
+              pathSoFar,
+            }
+          }
+        }
+      }
+    }
+
+  }
+  return path;
+};
+
 // this computes the shortest distance taking into account wrapping of the playarea
 // const computeBestDistance = (dx, width) => {
 //   return Math.min(Math.abs(dx), Math.abs(dx + width), Math.abs(dx - width));
@@ -88,11 +125,12 @@ const searcher = pathFinder.nba(graph, {
   // heuristic: (from, to) => heuristic(from, to, numRows, numCols),
 });
 
-export const pathfind = (snake, food, numRows, numCols, allowTail = false) => {
+export const pathfind = (snake, food, numRows, numCols, allowTail = false, returnEarly = false) => {
   if (!snake.parts[0]) {
     return [];
   }
   const [head, ...tailParts] = snake.parts;
+  const tail = snake.parts[snake.parts.length-1];
 
   graph.clear();
   // create a node for each x,y position in the play area
@@ -103,7 +141,8 @@ export const pathfind = (snake, food, numRows, numCols, allowTail = false) => {
       const matchingSnake = _.filter(tailParts, t => t.x === x && t.y === y);//todo may want to dictionary this for O(1)
       const isHead = head.x === x && head.y === y;
       const isSnake = matchingSnake.length > 0 || isHead;
-      graph.addNode(posId, { position, isSnake, isHead });
+      const isTail = tail.x === x && tail.y === y;
+      graph.addNode(posId, { position, isSnake, isHead, isTail });
     }
   }
   // link up the nodes
@@ -134,9 +173,9 @@ export const pathfind = (snake, food, numRows, numCols, allowTail = false) => {
     }
   });
   if (tailParts.length > 0 && allowTail) {
-    const tail = tailParts[tailParts.length - 1];
-    const tailId = positionId(tail);
-    const { left, right, up, down } = getNeighboringNodes({...tail, numRows, numCols});
+    const tailPart = tailParts[tailParts.length - 1];
+    const tailId = positionId(tailPart);
+    const { left, right, up, down } = getNeighboringNodes({...tailPart, numRows, numCols});
     for (const neighbor of [left, right, up, down]){
       const neighborNode = graph.getNode(neighbor).data;
       if (!neighborNode.isSnake || neighborNode.isHead){
@@ -146,6 +185,21 @@ export const pathfind = (snake, food, numRows, numCols, allowTail = false) => {
   }
 
   const path = searcher.find(positionId(food), positionId(head));
+  if (path.length >= 2 && allowTail && !returnEarly){
+    let modifiedPath = {didExpand:false, pathSoFar:path, totalExpansions:0, numRows, numCols };
+    do {
+      modifiedPath = _.reduce(path, findLongestPathReduce, {...modifiedPath, didExpand:false});
+    }while(modifiedPath.didExpand && modifiedPath.totalExpansions < 4);
+    // since we really only care about the first move, most of the "longest path"
+    // will not matter for this context, so break early to avoid unnecessary computations
+
+    const pathPositions = _.map(modifiedPath.pathSoFar, p => p.data.position);
+    if (pathPositions.length && pathPositions[0].x===head.x && pathPositions[0].y===head.y){
+      return pathPositions.slice(1);
+    }
+    return pathPositions;
+  }
+
   const pathPositions = _.map(path, p => p.data.position);
   if (pathPositions.length && pathPositions[0].x===head.x && pathPositions[0].y===head.y){
     return pathPositions.slice(1);
@@ -165,18 +219,18 @@ export function* survivalMode(snake, numRows, numCols) {
   }
 }
 
-const tryPathFindingToTail = (snake, numRows, numCols) => {
-  const pathToTail = pathfind(snake, snake.parts[snake.parts.length-1], numRows, numCols, true);
-  if (!pathToTail || pathToTail.length <=1) {
-    const head = snake.parts[0];
-    const neighbors = getNeighboringNodeDirections({x:head.x, y:head.y, numRows, numCols});
-    for (const n of neighbors){
-      // todo weigh this choice somehow, e.g. prefer moving away from food
-      const snakeMatches = snake.parts.filter(s => s.x === n.x && s.y === n.y);
-      if (!snakeMatches.length){
-        return [n];
-      }
-    }
+export const tryPathFindingToTail = (snake, numRows, numCols, returnEarly = false) => {
+  const pathToTail = pathfind(snake, snake.parts[snake.parts.length-1], numRows, numCols, true, returnEarly);
+  if (!pathToTail || pathToTail.length <= 0) {
+    // const head = snake.parts[0];
+    // const neighbors = getNeighboringNodeDirections({x:head.x, y:head.y, numRows, numCols});
+    // for (const n of neighbors){
+    //   // todo weigh this choice somehow, e.g. prefer moving away from food
+    //   const snakeMatches = snake.parts.filter(s => s.x === n.x && s.y === n.y);
+    //   if (!snakeMatches.length){
+    //     return [n];
+    //   }
+    // }
     return [];
   } else {
     return pathToTail;
@@ -184,10 +238,20 @@ const tryPathFindingToTail = (snake, numRows, numCols) => {
 };
 
 export const pathfindGreedy = (snake, food, numRows, numCols) => {
+  if (!food){return[];}
+  if (snake.parts[0].x === food.x && snake.parts[0].y === food.y
+      && snake.parts.length >= 4){
+    return tryPathFindingToTail(snake, numRows, numCols);
+  }
   const pathToFood = pathfind(snake, food, numRows, numCols);
   if (pathToFood === null || !pathToFood.length) {
     return tryPathFindingToTail(snake, numRows, numCols);
-  } else if (snake.parts.length >= 5 ) {
+  } else if (snake.parts.length >= 4) {
+    if (snake.parts.length >= (numRows*numCols*0.9) && pathToFood.length === 1){
+      // console.log("NOM> NOM> NOM>");
+      // get more risky as the body fills up more to avoid infinite looping
+      return pathToFood;
+    }
     const snakeArr = _.clone(snake.parts);
     const snakeLen = snakeArr.length;
     let newSnake;
@@ -197,7 +261,8 @@ export const pathfindGreedy = (snake, food, numRows, numCols) => {
     } else {
       newSnake = [...reversedPath, ...snakeArr].slice(0, snakeLen);
     }
-    const pathToShiftedSnakeTail = tryPathFindingToTail({ parts: newSnake }, numRows, numCols);
+    // todo: as an optimization we don't need to do the longest path search here; SP is good enough
+    const pathToShiftedSnakeTail = tryPathFindingToTail({ parts: newSnake }, numRows, numCols, true);
     if (pathToShiftedSnakeTail.length > 1){
       return pathToFood;
     }else{
