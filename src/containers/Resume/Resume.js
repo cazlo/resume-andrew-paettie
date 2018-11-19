@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-// import flow from 'lodash/flow';
-// import { withTheme } from '@material-ui/core/styles';
-import { sortBy } from 'lodash';
 import Scroll from 'react-scroll';
 import * as PropTypes from 'prop-types';
 
@@ -18,20 +15,6 @@ import techTheme from '../../common/techTheme';
 import './Resume.css';
 
 const { Element } = Scroll;
-
-const getSkillsByLanguages = skills => {
-  const skillsByLanguages = skills.reduce((obj, item) => {
-    const newObj = obj;
-    if (item.language) {
-      newObj[item.language.name] = newObj[item.language.name] || [];
-      newObj[item.language.name].push(item);
-      newObj[item.language.name] = sortBy(newObj[item.language.name], [x => x.name]);
-    }
-    return newObj;
-  }, {});
-
-  return Object.keys(skillsByLanguages).map(key => skillsByLanguages[key]);
-};
 
 class Resume extends Component {
   componentDidMount() {
@@ -53,7 +36,7 @@ class Resume extends Component {
           <WorkAndEducation educations={content.educations} positions={content.positions} />
         </Element>
         <Element name="ResumeSkills">
-          <Skills skills={getSkillsByLanguages(content.skills)} tools={content.tools} />
+          <Skills skills={content.skills} tools={content.tools} />
         </Element>
         <Element name="ResumeProjects">
           <Projects projects={content.projects} />
