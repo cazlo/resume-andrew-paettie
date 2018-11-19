@@ -44,9 +44,9 @@ export const setSize = ({numRows, numCols}) => ({
   type: Action.SET_SIZE,
   numRows, numCols
 });
-export const addScore = ({score, playerName, startTime, endTime}) => ({
+export const addScore = ({score, playerName, startTime, endTime, frameCount}) => ({
   type: Action.ADD_SCORE,
-  score, playerName, startTime, endTime
+  score, playerName, startTime, endTime, frameCount
 });
 export const changeName = ({playerName}) => ({
   type: Action.CHANGE_NAME,
