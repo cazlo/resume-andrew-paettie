@@ -9,6 +9,9 @@ import Chip from '@material-ui/core/Chip/Chip';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper/Paper';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { MdLocalPizza, MdTimer } from "react-icons/md";
+import { withStyles } from '@material-ui/core/styles';
 
 import withWindowSize from '../../components/Home/GridBackground/withWindowSize';
 import Scoreboard from './Scoreboard';
@@ -18,6 +21,12 @@ import ConfigDialog from './ConfigPanel';
 import { play, setSize, changeDirection } from './actions/gameAction';
 import { DEFAULT_BOARD_SIZE, DEFAULT_BOX_SIZE } from './util/Grid';
 import techTheme from '../../common/techTheme';
+
+const styles = () => ({
+  progress: {
+    margin: '0.5em',
+  },
+});
 
 const updateCanvas = (ctx, props) => {
   const { innerHeight,
@@ -46,7 +55,7 @@ const updateCanvas = (ctx, props) => {
     ctx.globalAlpha =  (snake.parts.length - i) / snake.parts.length / 2 + .5;
     const t = tail[i];
     ctx.fillRect(t.x * DEFAULT_BOX_SIZE, t.y * DEFAULT_BOX_SIZE,
-      DEFAULT_BOX_SIZE*((Math.max(95 -i, 50) )/100), DEFAULT_BOX_SIZE*((Math.max(95 -i, 50) )/100));
+      DEFAULT_BOX_SIZE*((Math.max(98-(i*0.5), 30 ) )/100), DEFAULT_BOX_SIZE*((Math.max(98-(i*0.5), 30) )/100));
   }
 
 
@@ -68,6 +77,8 @@ const updateCanvas = (ctx, props) => {
   }
 
 };
+
+const normalise = (value, min, max) => (value - min) * 100 / (max - min);
 
 class SnakeGame extends Component {
   constructor(props) {
@@ -92,8 +103,11 @@ class SnakeGame extends Component {
   }
 
   render(){
-    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } = this.props;
+    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, classes } = this.props;
+    const {score, frameCount, numRows, numCols, fps } = this.props.game;
     const style = { height: `${innerHeight}px`, width: `${innerWidth}px` };
+    const maxScore = (numRows*numCols)-1;
+    const maxFrames = ((numRows*numCols)*(maxScore))/6;
     return (
       <div
         className="SnakeGame"
@@ -102,20 +116,58 @@ class SnakeGame extends Component {
         tabIndex={-1}
         style={style}
       >
-        <Grid container spacing={24}>
+        <Grid container spacing={8}>
           <Grid item xs={12}>
             <canvas ref={(r) => this.snakeCanvas = r} width={innerWidth} height={innerHeight} />
           </Grid>
-
-          <Grid item xs>
-            <Chip label="Score" avatar={<Avatar>{this.props.game.score}</Avatar>} color="primary" />
-            <Chip label="Frame Count" avatar={<Avatar>{this.props.game.frameCount}</Avatar>} color="primary" />
+          <Grid item xs={6}>
+            <Grid container direction={'column'}>
+              <Grid item xs={12}>
+                <Grid container direction={'row'}>
+                  <Grid item xs={8}>
+                    <Chip label={`Score: ${score}`} avatar={<Avatar><MdLocalPizza/></Avatar>} color="primary" />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Chip label={`Max Score: ${maxScore}`} color="primary" />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <LinearProgress variant="determinate" value={normalise(score, 0, maxScore)} className={classes.progress} color="primary"/>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={6}>
+            <Grid container direction={'column'}>
+              <Grid item xs={12}>
+                <Grid container direction={'row'}>
+                  <Grid item xs={5}>
+                    <Chip label={`Frame #: ${frameCount}`} avatar={<Avatar><MdTimer/></Avatar>} color="secondary" />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Chip label={`FPS: ${fps}`} color="secondary" />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Chip label={`Max Frames: ${maxFrames}`} color="secondary" />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <LinearProgress variant="determinate" value={normalise(frameCount, 0, maxFrames)} className={classes.progress} color="secondary"/>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
             <Paper>
               <ConfigDialog/>
             </Paper>
           </Grid>
+          <Grid item xs>
+            <Paper>
+            <Scoreboard scores={this.props.highScores} />
+            </Paper>
+          </Grid>
         </Grid>
-        <Scoreboard scores={this.props.highScores} />
       </div>
     );
   }
@@ -130,6 +182,7 @@ SnakeGame.propTypes = {
   food: PropTypes.arrayOf(Object),
   path: PropTypes.arrayOf(Object),
   grid: PropTypes.arrayOf(Object),
+  classes: PropTypes.object,
   //dispatches
   setSize: PropTypes.func,
   play: PropTypes.func,
@@ -150,6 +203,6 @@ const mapStateToProps = state => ({
   ...state.pathFinding
 });
 
-const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withWindowSize]);
+const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withStyles(styles), withWindowSize]);
 
 export default decorators(SnakeGame);
