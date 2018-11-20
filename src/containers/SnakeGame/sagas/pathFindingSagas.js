@@ -9,22 +9,22 @@ import Direction from '../util/Direction';
 import PositionUtil from '../util/PositionUtil';
 
 const getNeighboringNodeDirections = ({x,y, numRows, numCols}) => ([{
-    x: x-1 < 0 ? numRows-1 : x-1,
+    x: x-1 < 0 ? numCols-1 : x-1,
     y,
     direction: Direction.LEFT
   },
   {
-    x: x+1 > numRows-1 ? 0 : x+1,
+    x: x+1 > numCols-1 ? 0 : x+1,
     y,
     direction: Direction.RIGHT
   },
   {
-    y: y-1 < 0 ? numCols-1 : y-1,
+    y: y-1 < 0 ? numRows-1 : y-1,
     x,
     direction: Direction.UP
   },
   {
-    y: y+1 > numCols-1 ? 0 : y+1,
+    y: y+1 > numRows-1 ? 0 : y+1,
     x,
     direction: Direction.DOWN
   }
@@ -101,19 +101,19 @@ const findLongestPathReduce = (path, p1, idx) => {
 
 const getNeighboringNodes = ({x,y, numRows, numCols}) => ({
   left: positionId({
-    x: x-1 < 0 ? numRows-1 : x-1,
+    x: x-1 < 0 ? numCols-1 : x-1,
     y
   }),
   right: positionId({
-    x: x+1 > numRows-1 ? 0 : x+1,
+    x: x+1 > numCols-1 ? 0 : x+1,
     y
   }),
   up: positionId({
-    y: y-1 < 0 ? numCols-1 : y-1,
+    y: y-1 < 0 ? numRows-1 : y-1,
     x
   }),
   down: positionId({
-    y: y+1 > numCols-1 ? 0 : y+1,
+    y: y+1 > numRows-1 ? 0 : y+1,
     x
   })
 });
@@ -134,8 +134,8 @@ export const pathfind = (snake, food, numRows, numCols, allowTail = false, retur
 
   graph.clear();
   // create a node for each x,y position in the play area
-  for (let x = 0; x < numRows; x+=1){
-    for (let y = 0; y < numCols; y+=1){
+  for (let x = 0; x < numCols; x+=1){
+    for (let y = 0; y < numRows; y+=1){
       const position = {x,y};
       const posId = positionId(position);
       const matchingSnake = _.filter(tailParts, t => t.x === x && t.y === y);//todo may want to dictionary this for O(1)
