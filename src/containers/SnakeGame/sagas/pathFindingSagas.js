@@ -279,7 +279,8 @@ export function* pathFindingSaga() {
       }else if (food.length === 0){
         // this case doesn't seem to happen because of the current order of events
         // leaving here in case this chages in the future...
-        yield survivalMode(snake, {numRows, numCols, wallsAreFatal})
+        yield survivalMode(snake, {numRows, numCols, wallsAreFatal});
+        continue; // don't do logic which requires food being present
       }
       const head = snake.parts[0];
       if (PositionUtil.isSamePosition(head, food[0])){
