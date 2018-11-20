@@ -38,14 +38,12 @@ export function* snakeSaga() {
     // bounds check
     if (head.x < 0 || head.x >=numCols || head.y < 0 || head.y >= numRows) {
       yield put(gameOver());
-      // yield put(play())
     }
     // collision with tail
     for (let i = 0; i < tail.length; i++) {
       const { x, y } = tail[i];
       if (x === head.x && y === head.y) {
         yield put(gameOver());
-        // yield put(play())
       }
     }
     // collision with food
