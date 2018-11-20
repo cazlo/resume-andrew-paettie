@@ -19,7 +19,7 @@ import ListSubheader from '@material-ui/core/ListSubheader/ListSubheader';
 import { withStyles } from '@material-ui/core/styles';
 
 import {
-toggleEnableAstar, toggleGreedyShortestPathToTail, changeName,
+toggleEnableAstar, toggleGreedyShortestPathToTail, changeName, toggleShowPath
 } from './actions/aiConfigAction';
 
 const styles = theme => ({
@@ -52,7 +52,8 @@ const ConfigPanel = props => {
     enableAI,
     greedyShortestPathToTail,
     playerName,
-    classes
+    classes,
+    showPath
   } = props;
 
   return (
@@ -88,8 +89,18 @@ const ConfigPanel = props => {
               }
             />
             </GridListTile>
+            <GridListTile cols={1}>
+              <FormControlLabel
+                label="Show Path"
+                control={
+                  <Switch
+                    checked={showPath}
+                    onChange={props.toggleShowPath}
+                  />
+                }
+              />
+            </GridListTile>
           </form>
-
           <GridListTile cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div">Game Settings</ListSubheader>
           </GridListTile>
@@ -119,17 +130,20 @@ const ConfigPanel = props => {
 ConfigPanel.propTypes = {
   playerName: PropTypes.string.isRequired,
   enableAI: PropTypes.bool.isRequired,
+  showPath: PropTypes.bool.isRequired,
   greedyShortestPathToTail: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
 
   toggleEnableAI: PropTypes.func.isRequired,
   toggleGreedyShortestPathToTail: PropTypes.func.isRequired,
   changeName: PropTypes.func.isRequired,
+  toggleShowPath: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   toggleEnableAI: toggleEnableAstar,
   toggleGreedyShortestPathToTail,
+  toggleShowPath,
   changeName,
 }, dispatch);
 

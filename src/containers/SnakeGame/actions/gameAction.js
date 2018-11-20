@@ -52,7 +52,3 @@ export const addScore = ({score, playerName, startTime, endTime, frameCount}) =>
   type: Action.ADD_SCORE,
   score, playerName, startTime, endTime, frameCount
 });
-export const changeName = ({playerName}) => ({
-  type: Action.CHANGE_NAME,
-  playerName
-});

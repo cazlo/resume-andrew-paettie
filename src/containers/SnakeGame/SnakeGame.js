@@ -58,12 +58,13 @@ const updateCanvas = (ctx, props) => {
       DEFAULT_BOX_SIZE*((Math.max(98-(i*0.5), 30 ) )/100), DEFAULT_BOX_SIZE*((Math.max(98-(i*0.5), 30) )/100));
   }
 
-
-  ctx.fillStyle = techTheme.react.style.background;
-  for(const i in path){
-    ctx.globalAlpha =  (path.length - i) / path.length / 2;
-    const p = path[i];
-    ctx.fillRect(p.x*DEFAULT_BOX_SIZE, p.y*DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
+  if (props.aiConfig.showPath) {
+    ctx.fillStyle = techTheme.react.style.background;
+    for (const i in path) {
+      ctx.globalAlpha = (path.length - i) / path.length / 2;
+      const p = path[i];
+      ctx.fillRect(p.x * DEFAULT_BOX_SIZE, p.y * DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
+    }
   }
 
   ctx.globalAlpha = 1;
@@ -176,10 +177,10 @@ SnakeGame.propTypes = {
   innerWidth: PropTypes.number,
   snake: PropTypes.object,
   game: PropTypes.object,
+  aiConfig: PropTypes.object,
   highScores: PropTypes.arrayOf(Object),
   food: PropTypes.arrayOf(Object),
   path: PropTypes.arrayOf(Object),
-  grid: PropTypes.arrayOf(Object),
   classes: PropTypes.object,
   //dispatches
   setSize: PropTypes.func,
@@ -198,7 +199,8 @@ const mapDispatchToProps = dispatch =>  bindActionCreators({
 
 const mapStateToProps = state => ({
   ...state.game,
-  ...state.pathFinding
+  ...state.pathFinding,
+  aiConfig: state.aiConfig
 });
 
 const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withStyles(styles), withWindowSize]);
