@@ -1,251 +1,192 @@
 /* eslint-disable no-case-declarations */
-import { combineReducers } from 'redux';
-import { createReducer } from 'redux-starter-kit'
+import { combineReducers, createReducer } from 'redux-starter-kit';
 import moment from 'moment';
 import _ from 'lodash';
 
-import Action from "../actions/Action";
+import Action from '../actions/Action';
 import techTheme from '../../../common/techTheme';
 import { RIGHT } from '../util/Direction';
-import Format from "../util/Format";
+import Format from '../util/Format';
 import { DEFAULT_BOARD_SIZE } from '../util/Grid';
 
 const HEAD_THEME = techTheme.nodeJs;
-const FOOD_THEMES = _.keys(_.omit(techTheme, ['others', 'nodeJs']));
+const FOOD_THEMES = _.keys(_.omit(techTheme, ['nodeJs']));
 
 const MAX_SPEED = process.env.NODE_ENV === 'production' ? 5 : 0;
-const SPEED_MULTIPLIER= process.env.NODE_ENV === 'production' ? 42 : 0;
+const SPEED_MULTIPLIER = process.env.NODE_ENV === 'production' ? 42 : 0;
 const INITIAL_SPEED = MAX_SPEED * SPEED_MULTIPLIER;
 
 const wrap = (point, size) => (point < 0 ? point + size : point % size);
 
-// reducer for game state
-export const state = (state = 'PLAYING', action) => {
-  switch (action.type) {
-    case Action.PLAY:
-      return 'PLAYING';
-    case Action.GAME_OVER:
-      return 'GAME_OVER';
-    default:
-      return state;
-  }
-};
-// reducer for tick speed (ms per tick)
-export const speed = (state = INITIAL_SPEED, action) => {
-  switch (action.type) {
-    case Action.EAT_FOOD:
-      return Math.max(Math.floor(0.9 * state), MAX_SPEED);
-    case Action.RESET:
-      return INITIAL_SPEED;
-    default:
-      return state;
-  }
-};
-// reducer for game score
-export const score = (state = 0, action) => {
-  switch (action.type) {
-    case Action.EAT_FOOD:
-      return state + 1;
-    case Action.RESET:
-      return 0;
-    default:
-      return state;
-  }
-};
-// reducer for game column width
-export const numCols = (state = DEFAULT_BOARD_SIZE, action) => {
-  switch (action.type) {
-    case Action.SET_SIZE:
-      return action.numCols;
-    default:
-      return state;
-  }
-};
-// reducer for game column width
-export const numRows = (state = DEFAULT_BOARD_SIZE, action) => {
-  switch (action.type) {
-    case Action.SET_SIZE:
-      return action.numRows;
-    default:
-      return state;
-  }
+const computePerfectScore = (w,h) => (w*h)-1; // -1 because the head occupies 1 space
+const computeFrameTimeout = (w,h) => ((w*h)*(w*h)-1)/6;
+// ^^ a large number that is not near worst case but long enough for sane algorithms to finish
+
+const DEFAULT_PERFECT_SCORE = computePerfectScore(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);
+const DEFAULT_FRAME_TIMEOUT = computeFrameTimeout(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);
+
+const defaults = {
+  game: {
+    state: 'PLAYING',
+    speed: INITIAL_SPEED, //(ms delay between frames)
+    score: 0,
+    numRows: DEFAULT_BOARD_SIZE,
+    numCols: DEFAULT_BOARD_SIZE,
+    playerName: 'SKYNET',
+    startTime: null,
+    endTime: null,
+    frameCount: 0,
+    fps: 0,
+    wallsAreFatal: false, // todo
+    perfectScore: DEFAULT_PERFECT_SCORE,
+    frameTimeout: DEFAULT_FRAME_TIMEOUT,
+  },
+  snake: {
+    parts: [
+      {
+        x: 1,
+        y: 1,
+        ...HEAD_THEME,
+      },
+    ],
+    direction: RIGHT,
+  },
+  food: [],
+  highScores: [
+    {
+      score: 42,
+      name: 'Perfect score',
+      time: Format.formatTime(moment(0).utc()),
+    },
+  ],
 };
 
-export const playerName = (state = "SKYNET", action) => {
-  switch (action.type) {
-    case Action.CHANGE_NAME:
-      return action.playerName;
-    default:
-      return state;
-  }
-};
-export const startTime = (state = null, action) => {
-  switch (action.type){
-    case Action.PLAY:
-      return action.startTime;
-    default:
-      return state;
-  }
-};
-export const endTime = (state = null, action) => {
-  switch (action.type){
-    case Action.GAME_OVER:
-      return action.endTime;
-    default:
-      return state;
-  }
-};
-
-export const frameCount = createReducer(0, {
+// ----------------- "internal" game state -------------------
+export const state = createReducer(defaults.game.state, {
+  [Action.PLAY]: () => 'PLAYING',
+  [Action.GAME_OVER]: () => 'GAME_OVER',
+});
+// tick speed (ms per tick)
+export const speed = createReducer(defaults.game.speed, {
+  [Action.EAT_FOOD]: (state) => Math.max(Math.floor(0.9 * state), MAX_SPEED),
+  [Action.RESET]: () => INITIAL_SPEED,
+});
+export const score = createReducer(defaults.game.score, {
+  [Action.EAT_FOOD]: (state) => state + 1,
+  [Action.RESET]: () => 0,
+});
+export const numCols = createReducer(defaults.game.numCols, {
+  [Action.SET_SIZE]: (state, action) => action.numCols,
+});
+export const numRows = createReducer(defaults.game.numRows, {
+  [Action.SET_SIZE]: (state, action) => action.numRows,
+});
+export const playerName = createReducer(defaults.game.playerName, {
+  [Action.CHANGE_NAME]: (state, action) => action.playerName,
+});
+export const startTime = createReducer(defaults.game.startTime, {
+  [Action.PLAY]: (state, action) => action.startTime,
+});
+export const endTime = createReducer(defaults.game.endTime, {
+  [Action.GAME_OVER]: (state, action) => action.endTime,
+});
+export const frameCount = createReducer(defaults.game.frameCount, {
   [Action.TICK]: (state) => state + 1,
   [Action.RESET]: () => 0,
 });
-
-export const fps = createReducer(0, {
+export const fps = createReducer(defaults.game.fps, {
   [Action.SET_FPS]: (state, action) => action.fps,
   [Action.RESET]: () => 0,
 });
-
-// combined reducer for overall game state
-export const game = combineReducers({
-  state,
-  speed,
-  score,
-  numCols,
-  numRows,
-  playerName,
-  startTime,
-  endTime,
-  frameCount,
-  fps,
+export const perfectScore = createReducer(defaults.game.perfectScore, {
+  [Action.SET_SIZE]: (state, action) => computePerfectScore(action.numRows, action.numCols),
 });
-// reducer for snake direction
-export const direction = (state = RIGHT, action) => {
-  switch (action.type) {
-    case Action.CHANGE_DIRECTION:
-      return action.direction;
-    case Action.RESET:
-      return RIGHT;
-    default:
-      return state;
-  }
-};
-// reducer for snake parts
-export const parts = (state = [{ x: 1, y: 1, ...HEAD_THEME }], action) => {
-  switch (action.type) {
-    case Action.MOVE:
-      const { direction, numRows, numCols } = action;
-      const head = {
-        ...state[0],
-        x: wrap(state[0].x + direction.x, numCols),
-        y: wrap(state[0].y + direction.y, numRows)
-      };
-      state = state.slice(0, -1);
-      state.unshift(head);
-      return state;
-    case Action.EAT_FOOD:
-      return [
-        ...state,
-        state[state.length - 1]
-      ];
-    case Action.RESET:
-      return [{ x: 1, y: 1, ...HEAD_THEME }];
-    default:
-      return state;
-  }
-};
-// combined reducer for the snake
-export const snake = combineReducers({
-  direction,
-  parts
+export const frameTimeout = createReducer(defaults.game.frameTimeout, {
+  [Action.SET_SIZE]: (state, action) => computeFrameTimeout(action.numRows, action.numCols),
 });
-// reducer for the food
-export const food = (state = [], action) => {
-  switch (action.type) {
-    case Action.SPAWN_FOOD:
-      const themeName = FOOD_THEMES[_.random(0, FOOD_THEMES.length - 1)];
-      const theme = techTheme[themeName];
-      return [
-        ...state,
-        {
-          ...theme,
-          themeName,
-          x: action.x,
-          y: action.y
-        }
-      ];
-    case Action.EAT_FOOD:
-      return state.filter(({ x, y }) => (x !== action.x || y !== action.y));
-    case Action.GAME_OVER:
-      return [];
-    default:
-      return state;
-  }
-};
 
-export const highScores = createReducer([], {
-  [Action.ADD_SCORE]: (state, action) => (_.orderBy([...state,{
+// ----------------- snake -------------------
+
+export const direction = createReducer(defaults.snake.direction, {
+  [Action.CHANGE_DIRECTION]: (state, action) => action.direction,
+  [Action.RESET]: () => RIGHT,
+});
+export const parts = createReducer(defaults.snake.parts, {
+  [Action.MOVE]: (state, action) => {
+    const { direction, numRows, numCols } = action;
+    const head = {
+      ...state[0],
+      x: wrap(state[0].x + direction.x, numCols),
+      y: wrap(state[0].y + direction.y, numRows),
+    };
+    state = state.slice(0, -1);
+    state.unshift(head);
+    return state;
+  },
+  [Action.EAT_FOOD]: (state) => [...state, state[state.length - 1]],
+  [Action.RESET]: () => defaults.snake.parts,
+});
+
+// ----------------- food -------------------
+
+export const food = createReducer(defaults.food, {
+  [Action.SPAWN_FOOD]: (state, action) => {
+    const themeName = FOOD_THEMES[_.random(0, FOOD_THEMES.length - 1)];
+    const theme = techTheme[themeName];
+    return [
+      ...state,
+      {
+        ...theme,
+        themeName,
+        x: action.x,
+        y: action.y,
+      },
+    ];
+  },
+  [Action.EAT_FOOD]: (state, action) => state.filter(({ x, y }) => (x !== action.x || y !== action.y)),
+  [Action.GAME_OVER]: () => [],
+});
+
+// ----------------- highscores -------------------
+
+export const highScores = createReducer(defaults.highScores, {
+  [Action.ADD_SCORE]: (state, action) => (_.orderBy([...state, {
     score: action.score,
     name: action.playerName,
     duration: Format.formatDuration(action.endTime - action.startTime),
     frameCount: action.frameCount,
     time: Format.formatTime(moment()),
   }], ['score'], ['desc'])),
-  [Action.SET_SIZE]: (state, action) => {
-    const { numCols, numRows} = action;
-    const boardArea = numCols * numRows;
+  [Action.SET_SIZE]: (state, {numRows, numCols}) => {
+    const score = computePerfectScore(numCols, numRows);
     return [{
-      score: boardArea - 1, // -1 because the head occupies 1 space
+      score,
       name: 'Perfect score',
       duration: Format.formatDuration(404),
       time: Format.formatTime(moment(0).utc()),
-    }]
-  }
+    }];
+  },
 });
-// root reducer
+
 export default combineReducers({
-  game,
-  snake,
+  game: combineReducers({
+    state,
+    speed,
+    score,
+    numCols,
+    numRows,
+    playerName,
+    startTime,
+    endTime,
+    frameCount,
+    fps,
+    perfectScore,
+    frameTimeout,
+  }),
+  snake: combineReducers({
+    direction,
+    parts,
+  }),
   food,
-  highScores
+  highScores,
 });
-/**
- * will be available in store as
- * game: {
- *   game: {
- *    state: "PLAY",
- *    speed: 500, (ms delay between frames)
- *    score: 0,
- *    numRows: 20,
- *    numCols: 20,
- *    playerName: "SKYNET"
- *   },
- *   snake: {
- *     parts: [
- *       x: 1,
- *       y: 1,
- *       style: {(CSS)},
- *       icon: {(SVG)}
- *     ],
- *     direction: (
- *      x: -1,
- *      y: 0
- *     )
- *   },
- *   food: [
- *     {
- *       x: 4,
- *       y: 2,
- *       style: {(CSS)},
- *       icon: {(SVG)}
- *     }
- *   ],
- *   highScores: [
- *     {
- *       score: 42
- *       name: 'Perfect score',
- *       time: Format.formatTime(moment(0).utc()),
- *     }
- *   ]
- * }
- * */
