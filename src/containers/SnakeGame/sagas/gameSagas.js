@@ -97,7 +97,7 @@ export function* gameResetter() {
   yield put(play());
 }
 
-export function* runGame(waitOnPlay = true) {
+export function* runGame({waitOnPlay = true, doReset = true}) {
   if (waitOnPlay) {
     // this is configurable to facilitate testing
     yield take(Action.PLAY);
@@ -109,7 +109,9 @@ export function* runGame(waitOnPlay = true) {
   running.push(yield takeLatest([Action.SET_SIZE], gameEnder));
   running.push(yield fork(snakeSaga));
   running.push(yield fork(pathFindingSaga));
-  yield put(reset());
+  if (doReset) {
+    yield put(reset());
+  }
   yield take(Action.GAME_OVER);
   yield cancel(...running);
   const state = yield select();
@@ -117,7 +119,7 @@ export function* runGame(waitOnPlay = true) {
 }
 
 function* handlePlayAction() {
-  yield runGame(false);
+  yield runGame({ waitOnPlay: false });
   yield fork(gameResetter);
 }
 

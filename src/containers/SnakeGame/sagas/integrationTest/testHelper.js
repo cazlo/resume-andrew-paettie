@@ -24,7 +24,7 @@ const createStore = (sagaMiddleware) => {
 export const playGame = ({ size, aiAction, limit, wallsAreFatal = false }) => {
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(sagaMiddleware);
-  const saga = sagaMiddleware.run(runGame);
+  const saga = sagaMiddleware.run(() => runGame({}));
   store.dispatch(setSize({numRows:size, numCols:size}));
   store.dispatch(aiAction({target:{checked:true}}));
   if (limit) {
