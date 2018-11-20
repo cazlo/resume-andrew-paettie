@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_BOX_SIZE } from './Grid';
 
 function withWindowSize(WrappedComponent) {
   return class WindowSizeProvider extends React.Component {
@@ -25,8 +26,8 @@ function withWindowSize(WrappedComponent) {
       if (!this.mounted) return;
 
       this.setState({
-        innerWidth: window.innerWidth * 0.98,
-        innerHeight: window.innerHeight * 0.70,
+        innerWidth: Math.floor(window.innerWidth * 0.98 / DEFAULT_BOX_SIZE) * DEFAULT_BOX_SIZE,
+        innerHeight: Math.floor(window.innerHeight * 0.70 / DEFAULT_BOX_SIZE) * DEFAULT_BOX_SIZE,
       });
     };
 
