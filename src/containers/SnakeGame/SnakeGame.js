@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 
 import flow from 'lodash/flow';
 import * as PropTypes from 'prop-types';
+import { MdLocalPizza, MdTimer } from "react-icons/md";
 
 import Chip from '@material-ui/core/Chip/Chip';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper/Paper';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { MdLocalPizza, MdTimer } from "react-icons/md";
+import Hidden from '@material-ui/core/Hidden';
 import { withStyles } from '@material-ui/core/styles';
 
 import "./SnakeGame.css" // todo remove this
@@ -117,9 +118,7 @@ class SnakeGame extends Component {
     return (
       <div
         className="SnakeGame"
-        // onKeyDown={this.inputDirection}
         role="presentation"
-        tabIndex={-1}
         style={style}
       >
         <Grid container spacing={8}>
@@ -134,7 +133,9 @@ class SnakeGame extends Component {
                     <Chip label={`Score: ${score}`} avatar={<Avatar><MdLocalPizza/></Avatar>} color="primary" />
                   </Grid>
                   <Grid item xs={2}>
+                    <Hidden xsDown>
                     <Chip label={`Max Score: ${perfectScore}`} color="primary" />
+                    </Hidden>
                   </Grid>
                 </Grid>
               </Grid>
@@ -147,15 +148,19 @@ class SnakeGame extends Component {
             <Grid container direction={'column'}>
               <Grid item xs={12}>
                 <Grid container direction={'row'}>
-                  <Grid item xs={5}>
+                  <Grid item xs={6} >
                     <Chip label={`Frame #: ${frameCount}`} avatar={<Avatar><MdTimer/></Avatar>} color="secondary" />
                   </Grid>
-                  <Grid item xs={3}>
-                    <Chip label={`FPS: ${fps}`} color="secondary" />
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Chip label={`Max Frames: ${frameTimeout.toFixed(0)}`} color="secondary" />
-                  </Grid>
+                  <Hidden xsDown>
+                    <Grid item sm={2}>
+                      <Chip label={`FPS: ${fps}`} color="secondary" />
+                    </Grid>
+                  </Hidden>
+                  <Hidden smDown>
+                    <Grid item md={4}>
+                        <Chip label={`Max Frames: ${frameTimeout.toFixed(0)}`} color="secondary" />
+                    </Grid>
+                  </Hidden>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
