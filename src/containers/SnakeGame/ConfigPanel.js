@@ -19,7 +19,7 @@ import ListSubheader from '@material-ui/core/ListSubheader/ListSubheader';
 import { withStyles } from '@material-ui/core/styles';
 
 import {
-toggleEnableAstar, toggleGreedyShortestPathToTail, changeName, toggleShowPath
+  toggleEnableAstar, toggleGreedy, changeName, toggleShowPath
 } from './actions/aiConfigAction';
 
 const styles = theme => ({
@@ -49,8 +49,8 @@ const styles = theme => ({
 
 const ConfigPanel = props => {
   const {
-    enableAI,
-    greedyShortestPathToTail,
+    aStar,
+    greedy,
     playerName,
     classes,
     showPath
@@ -66,14 +66,13 @@ const ConfigPanel = props => {
           <GridListTile cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div">Path Finding</ListSubheader>
           </GridListTile>
-          <form noValidate autoComplete="off">
             <GridListTile cols={1}>
             <FormControlLabel
               label="A* shortest path to food"
               control={
                 <Switch
-                  checked={enableAI}
-                  onChange={props.toggleEnableAI}
+                  checked={aStar}
+                  onChange={props.toggleEnableAstar}
                 />
               }
             />
@@ -83,8 +82,8 @@ const ConfigPanel = props => {
               label="Shortest Path To Food Else Longest Path To Tail"
               control={
                 <Switch
-                  checked={greedyShortestPathToTail}
-                  onChange={props.toggleGreedyShortestPathToTail}
+                  checked={greedy}
+                  onChange={props.toggleGreedy}
                 />
               }
             />
@@ -100,7 +99,6 @@ const ConfigPanel = props => {
                 }
               />
             </GridListTile>
-          </form>
           <GridListTile cols={2} style={{ height: 'auto' }}>
             <ListSubheader component="div">Game Settings</ListSubheader>
           </GridListTile>
@@ -121,6 +119,17 @@ const ConfigPanel = props => {
               />
             </form>
           </GridListTile>
+          <GridListTile cols={1}>
+            <FormControlLabel
+              label="Enable world wrapping"
+              control={
+                <Switch
+                  // checked={showPath}
+                  // onChange={props.toggleShowPath}
+                />
+              }
+            />
+          </GridListTile>
         </GridList>
       </ExpansionPanelDetails>
     </ExpansionPanel>
@@ -128,21 +137,21 @@ const ConfigPanel = props => {
 };
 
 ConfigPanel.propTypes = {
+  aStar: PropTypes.bool.isRequired,
+  greedy: PropTypes.bool.isRequired,
   playerName: PropTypes.string.isRequired,
-  enableAI: PropTypes.bool.isRequired,
   showPath: PropTypes.bool.isRequired,
-  greedyShortestPathToTail: PropTypes.bool.isRequired,
   classes: PropTypes.object.isRequired,
 
-  toggleEnableAI: PropTypes.func.isRequired,
-  toggleGreedyShortestPathToTail: PropTypes.func.isRequired,
+  toggleEnableAstar: PropTypes.func.isRequired,
+  toggleGreedy: PropTypes.func.isRequired,
   changeName: PropTypes.func.isRequired,
   toggleShowPath: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  toggleEnableAI: toggleEnableAstar,
-  toggleGreedyShortestPathToTail,
+  toggleEnableAstar,
+  toggleGreedy,
   toggleShowPath,
   changeName,
 }, dispatch);

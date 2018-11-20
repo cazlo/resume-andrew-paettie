@@ -277,7 +277,7 @@ export function* pathFindingSaga() {
   while (true) {
     yield take([Action.MOVE]);
     const state = yield select();
-    if (state.aiConfig.enableAI) {
+    if (state.aiConfig.aStar) {
       const snake = state.game.snake;
       const food = state.game.food;
       const { numRows, numCols } = state.game.game;
@@ -303,7 +303,7 @@ export function* pathFindingSaga() {
           yield moveFromPath(path, snake.parts, state.game.snake.direction, numRows, numCols);
         }
       }
-    } else if (state.aiConfig.greedyShortestPathToTail) {
+    } else if (state.aiConfig.greedy) {
       const snake = state.game.snake;
       const food = state.game.food;
       const { numRows, numCols } = state.game.game;
