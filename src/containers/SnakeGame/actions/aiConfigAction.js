@@ -7,9 +7,9 @@ export const toggleEnableAstar = (event) => dispatch => {
   })
 };
 
-export const toggleGreedyShortestPathToTail = (event) => dispatch => {
+export const toggleGreedy = (event) => dispatch => {
   dispatch({
-    type: Action.TOGGLE_GREEDY_SP_TAIL,
+    type: Action.TOGGLE_GREEDY,
     checked: event.target.checked
   })
 };
