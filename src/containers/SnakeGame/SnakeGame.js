@@ -13,13 +13,13 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { MdLocalPizza, MdTimer } from "react-icons/md";
 import { withStyles } from '@material-ui/core/styles';
 
-import withWindowSize from '../../components/Home/GridBackground/withWindowSize';
+import "./SnakeGame.css" // todo remove this
+import withWindowSize from './util/withWindowSize';
 import Scoreboard from './Scoreboard';
-
-import './SnakeGame.css';
 import ConfigDialog from './ConfigPanel';
-import { play, setSize, changeDirection } from './actions/gameAction';
+import { play, setSize, changeDirection, gameOver } from './actions/gameAction';
 import { DEFAULT_BOARD_SIZE, DEFAULT_BOX_SIZE } from './util/Grid';
+import { PLAYING } from './util/GameState';
 import techTheme from '../../common/techTheme';
 
 const styles = () => ({
@@ -82,25 +82,32 @@ const updateCanvas = (ctx, props) => {
 const normalise = (value, min, max) => (value - min) * 100 / (max - min);
 
 class SnakeGame extends Component {
-  constructor(props) {
-    super(props);
-    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } = this.props;
 
+  componentDidMount() {
+    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } = this.props;
     const numCols = Math.floor(innerWidth / DEFAULT_BOX_SIZE);
     const numRows = Math.floor(innerHeight / DEFAULT_BOX_SIZE);
+    if (this.props.game.state === PLAYING) {
+      this.props.gameOver();
+    }
     this.props.setSize({numRows, numCols });
-
-  }
-  componentDidMount() {
     this.props.play();
     const ctx = this.snakeCanvas.getContext('2d');
     requestAnimationFrame(() =>updateCanvas(ctx, this.props));
   }
   // eslint-disable-next-line no-unused-vars
   componentDidUpdate(prevProps, prevState, snapshot) {
+    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } = this.props;
+    if (innerHeight !== prevProps.innerHeight && innerWidth !== prevProps.innerWidth) {
+      const numCols = Math.floor(innerWidth / DEFAULT_BOX_SIZE);
+      const numRows = Math.floor(innerHeight / DEFAULT_BOX_SIZE);
+      this.props.gameOver();
+      this.props.setSize({ numRows, numCols });
+      this.props.play();
+
+    }
     const ctx = this.snakeCanvas.getContext('2d');
     requestAnimationFrame(() => updateCanvas(ctx, this.props));
-    //todo handle/dispatch resize event
   }
 
   render(){
@@ -186,15 +193,11 @@ SnakeGame.propTypes = {
   setSize: PropTypes.func,
   play: PropTypes.func,
   changeDirection: PropTypes.func,
-};
-
-SnakeGame.defaultPropTypes = {
-  innerHeight: 0,
-  innerWidth: 0,
+  gameOver: PropTypes.func,
 };
 
 const mapDispatchToProps = dispatch =>  bindActionCreators({
-  play, setSize, changeDirection
+  play, setSize, changeDirection, gameOver
 }, dispatch);
 
 const mapStateToProps = state => ({
