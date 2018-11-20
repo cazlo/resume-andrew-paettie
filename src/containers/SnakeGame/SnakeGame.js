@@ -14,7 +14,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Hidden from '@material-ui/core/Hidden';
 import { withStyles } from '@material-ui/core/styles';
 
-import "./SnakeGame.css" // todo remove this
 import withWindowSize from './util/withWindowSize';
 import Scoreboard from './Scoreboard';
 import ConfigDialog from './ConfigPanel';
@@ -27,6 +26,13 @@ const styles = () => ({
   progress: {
     margin: '0.5em',
   },
+  canvasContainer: {
+    textAlign: "center"
+  },
+  root: {
+    margin: "10px auto",
+    width: "98%"
+  }
 });
 
 const updateCanvas = (ctx, props) => {
@@ -88,13 +94,15 @@ class SnakeGame extends Component {
     const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } = this.props;
     const numCols = Math.floor(innerWidth / DEFAULT_BOX_SIZE);
     const numRows = Math.floor(innerHeight / DEFAULT_BOX_SIZE);
+    const innerHeightOverride = DEFAULT_BOX_SIZE * numRows;
+    const innerWidthOverride = DEFAULT_BOX_SIZE * numCols;
     if (this.props.game.state === PLAYING) {
       this.props.gameOver();
     }
     this.props.setSize({numRows, numCols });
     this.props.play();
     const ctx = this.snakeCanvas.getContext('2d');
-    requestAnimationFrame(() =>updateCanvas(ctx, this.props));
+    requestAnimationFrame(() =>updateCanvas(ctx, {...this.props, innerHeight:innerHeightOverride, innerWidth:innerWidthOverride}));
   }
   // eslint-disable-next-line no-unused-vars
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -105,24 +113,33 @@ class SnakeGame extends Component {
       this.props.gameOver();
       this.props.setSize({ numRows, numCols });
       this.props.play();
-
+      const innerHeightOverride = DEFAULT_BOX_SIZE * numRows;
+      const innerWidthOverride = DEFAULT_BOX_SIZE * numCols;
+      const ctx = this.snakeCanvas.getContext('2d');
+      requestAnimationFrame(() => updateCanvas(ctx, {...this.props, innerHeight:innerHeightOverride, innerWidth:innerWidthOverride}));
+    }else{
+      const { numRows, numCols } = this.props.game;
+      const innerHeightOverride = DEFAULT_BOX_SIZE * numRows;
+      const innerWidthOverride = DEFAULT_BOX_SIZE * numCols;
+      const ctx = this.snakeCanvas.getContext('2d');
+      requestAnimationFrame(() => updateCanvas(ctx, {...this.props, innerHeight:innerHeightOverride, innerWidth:innerWidthOverride}));
     }
-    const ctx = this.snakeCanvas.getContext('2d');
-    requestAnimationFrame(() => updateCanvas(ctx, this.props));
+
   }
 
   render(){
-    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, classes } = this.props;
-    const {score, frameCount, fps, frameTimeout, perfectScore } = this.props.game;
-    const style = { height: `${innerHeight}px`, width: `${innerWidth}px` };
+    const { classes } = this.props;
+    const { score, frameCount, fps, frameTimeout, perfectScore, numRows, numCols } = this.props.game;
+    const innerHeight = DEFAULT_BOX_SIZE * numRows;
+    const innerWidth = DEFAULT_BOX_SIZE * numCols;
     return (
       <div
-        className="SnakeGame"
+        className={classes.root}
         role="presentation"
-        style={style}
+        // style={style}
       >
         <Grid container spacing={8}>
-          <Grid item xs={12}>
+          <Grid item xs={12} className={classes.canvasContainer}>
             <canvas ref={(r) => this.snakeCanvas = r} width={innerWidth} height={innerHeight} />
           </Grid>
           <Grid item xs={6}>

@@ -13,9 +13,9 @@ import { PLAYING, GAME_OVER } from '../util/GameState';
 const HEAD_THEME = techTheme.nodeJs;
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['nodeJs']));
 
-const MAX_SPEED = process.env.NODE_ENV === 'production' ? 5 : 0;
-const SPEED_MULTIPLIER = process.env.NODE_ENV === 'production' ? 42 : 0;
-const INITIAL_SPEED = MAX_SPEED * SPEED_MULTIPLIER;
+const MAX_SPEED = 0;
+// const SPEED_MULTIPLIER = process.env.NODE_ENV === 'production' ? 42 : 0;
+// const INITIAL_SPEED = MAX_SPEED * SPEED_MULTIPLIER;
 
 const wrap = (point, size) => (point < 0 ? point + size : point % size);
 
@@ -29,7 +29,7 @@ const DEFAULT_FRAME_TIMEOUT = computeFrameTimeout(DEFAULT_BOARD_SIZE, DEFAULT_BO
 const defaults = {
   game: {
     state: PLAYING,
-    speed: INITIAL_SPEED, //(ms delay between frames)
+    speed: MAX_SPEED, //(ms delay between frames)
     score: 0,
     numRows: DEFAULT_BOARD_SIZE,
     numCols: DEFAULT_BOARD_SIZE,
@@ -38,7 +38,7 @@ const defaults = {
     endTime: null,
     frameCount: 0,
     fps: 0,
-    wallsAreFatal: false, // todo
+    wallsAreFatal: true,
     perfectScore: DEFAULT_PERFECT_SCORE,
     frameTimeout: DEFAULT_FRAME_TIMEOUT,
   },
@@ -69,8 +69,9 @@ export const state = createReducer(defaults.game.state, {
 });
 // tick speed (ms per tick)
 export const speed = createReducer(defaults.game.speed, {
-  [Action.EAT_FOOD]: (state) => Math.max(Math.floor(0.9 * state), MAX_SPEED),
-  [Action.RESET]: () => INITIAL_SPEED,
+  [Action.SET_SPEED]: (state, action) => Math.max(action.speed, MAX_SPEED),
+  // [Action.EAT_FOOD]: (state) => Math.max(Math.floor(0.9 * state), MAX_SPEED),
+  // [Action.RESET]: () => INITIAL_SPEED,
 });
 export const score = createReducer(defaults.game.score, {
   [Action.EAT_FOOD]: (state) => state + 1,
@@ -104,6 +105,13 @@ export const perfectScore = createReducer(defaults.game.perfectScore, {
 });
 export const frameTimeout = createReducer(defaults.game.frameTimeout, {
   [Action.SET_SIZE]: (state, action) => computeFrameTimeout(action.numRows, action.numCols),
+  [Action.SET_FRAME_TIMEOUT]: (state, action) => action.limit,
+});
+export const computedFrameTimeout = createReducer(defaults.game.frameTimeout, {
+  [Action.SET_SIZE]: (state, action) => computeFrameTimeout(action.numRows, action.numCols),
+});
+export const wallsAreFatal = createReducer(defaults.game.wallsAreFatal, {
+  [Action.TOGGLE_WALLS_ARE_FATAL]: (state, action) => action.checked,
 });
 
 // ----------------- snake -------------------
@@ -114,11 +122,13 @@ export const direction = createReducer(defaults.snake.direction, {
 });
 export const parts = createReducer(defaults.snake.parts, {
   [Action.MOVE]: (state, action) => {
-    const { direction, numRows, numCols } = action;
+    const { direction, numRows, numCols, wallsAreFatal } = action;
+    const x = state[0].x + direction.x;
+    const y = state[0].y + direction.y;
     const head = {
       ...state[0],
-      x: wrap(state[0].x + direction.x, numCols),
-      y: wrap(state[0].y + direction.y, numRows),
+      x: wallsAreFatal ? x: wrap(x, numCols),
+      y: wallsAreFatal ? y: wrap(y, numRows),
     };
     state = state.slice(0, -1);
     state.unshift(head);
@@ -183,6 +193,8 @@ export default combineReducers({
     fps,
     perfectScore,
     frameTimeout,
+    computedFrameTimeout,
+    wallsAreFatal,
   }),
   snake: combineReducers({
     direction,

@@ -14,7 +14,7 @@ describe('Path find to tail does not take the shortest path',() => {
     }
   ].map(({snake, name}, idx) => it(`${name} (${idx})`, () => {
     // does not try and wrap around when that move is blocked by the snake itself
-    const path = tryPathFindingToTail(snake, 4, 4);
+    const path = tryPathFindingToTail(snake, {numRows:4, numCols:4, wallsAreFatal: false});
     expect(path).toBeDefined();
     expect(path.length).toBeGreaterThan(2);
     expect(path[0]).not.toEqual(expect.objectContaining(snake.parts[0]));
