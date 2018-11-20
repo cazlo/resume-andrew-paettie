@@ -6,8 +6,12 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import grey from '@material-ui/core/colors/grey';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Typography from '@material-ui/core/Typography/Typography';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -22,8 +26,9 @@ const CustomTableCell = withStyles(theme => ({
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    // marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    backgroundColor: theme.palette.grey["500"],
   },
   table: {
     minWidth: 700,
@@ -39,32 +44,37 @@ const Scoreboard = props => {
   const { classes, scores } = props;
 
   return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <CustomTableCell>Player Name</CustomTableCell>
-            <CustomTableCell numeric>Score</CustomTableCell>
-            <CustomTableCell numeric>Duration</CustomTableCell>
-            <CustomTableCell numeric>Frame Count</CustomTableCell>
-            <CustomTableCell>Time</CustomTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {scores.map(row => (
-            <TableRow className={classes.row} key={`${row.time} ${row.score}`}>
-              <CustomTableCell component="th" scope="row">
-                {row.name}
-              </CustomTableCell>
-              <CustomTableCell numeric>{row.score}</CustomTableCell>
-              <CustomTableCell numeric>{row.duration}</CustomTableCell>
-              <CustomTableCell numeric>{row.frameCount}</CustomTableCell>
-              <CustomTableCell numeric>{row.time}</CustomTableCell>
+    <ExpansionPanel className={classes.root}>
+      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} className={classes.root}>
+        <Typography variant={"h6"}>High Scores</Typography>
+      </ExpansionPanelSummary>
+      <ExpansionPanelDetails className={classes.column}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <CustomTableCell>Player Name</CustomTableCell>
+              <CustomTableCell numeric>Score</CustomTableCell>
+              <CustomTableCell numeric>Duration</CustomTableCell>
+              <CustomTableCell numeric>Frame Count</CustomTableCell>
+              <CustomTableCell>Time</CustomTableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
+          </TableHead>
+          <TableBody>
+            {scores.map(row => (
+              <TableRow className={classes.row} key={`${row.time} ${row.score}`}>
+                <CustomTableCell component="th" scope="row">
+                  {row.name}
+                </CustomTableCell>
+                <CustomTableCell numeric>{row.score}</CustomTableCell>
+                <CustomTableCell numeric>{row.duration}</CustomTableCell>
+                <CustomTableCell numeric>{row.frameCount}</CustomTableCell>
+                <CustomTableCell numeric>{row.time}</CustomTableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </ExpansionPanelDetails>
+    </ExpansionPanel>
   );
 };
 

@@ -25,6 +25,9 @@ toggleEnableAstar, toggleGreedyShortestPathToTail, changeName,
 const styles = theme => ({
   root: {
     width: '100%',
+    overflowX: 'auto',
+    backgroundColor: theme.palette.grey["500"],
+
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -53,12 +56,9 @@ const ConfigPanel = props => {
   } = props;
 
   return (
-    <div className={classes.root}>
-    <ExpansionPanel>
+    <ExpansionPanel className={classes.root}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-        <div className={classes.column}>
-          <Typography>Controls</Typography>
-        </div>
+          <Typography variant={"h6"}>Controls</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className={classes.column}>
         <GridList className={classes.gridList}>
@@ -113,7 +113,6 @@ const ConfigPanel = props => {
         </GridList>
       </ExpansionPanelDetails>
     </ExpansionPanel>
-    </div>
   );
 };
 
@@ -137,6 +136,6 @@ const mapDispatchToProps = dispatch => bindActionCreators({
 const mapStateToProps = state => ({
   ...state.aiConfig
 });
-const decorators = flow([withStyles(styles), connect(mapStateToProps, mapDispatchToProps)]);
+const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withStyles(styles)]);
 
 export default decorators(ConfigPanel);
