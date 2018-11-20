@@ -14,6 +14,13 @@ export const toggleGreedyShortestPathToTail = (event) => dispatch => {
   })
 };
 
+export const toggleShowPath = (event) => dispatch => {
+  dispatch({
+    type: Action.TOGGLE_SHOW_PATH,
+    checked: event.target.checked
+  })
+};
+
 export const changeName = (event) => dispatch => {
   const playerName = event.target.value;
   dispatch({
