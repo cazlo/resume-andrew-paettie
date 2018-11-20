@@ -261,7 +261,7 @@ export const pathfindGreedy = (snake, food, numRows, numCols) => {
     } else {
       newSnake = [...reversedPath, ...snakeArr].slice(0, snakeLen);
     }
-    // todo: as an optimization we don't need to do the longest path search here; SP is good enough
+    // as an optimization we don't need to do the longest path search here; SP is good enough
     const pathToShiftedSnakeTail = tryPathFindingToTail({ parts: newSnake }, numRows, numCols, true);
     if (pathToShiftedSnakeTail.length > 1){
       return pathToFood;

@@ -104,10 +104,8 @@ class SnakeGame extends Component {
 
   render(){
     const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, classes } = this.props;
-    const {score, frameCount, numRows, numCols, fps } = this.props.game;
+    const {score, frameCount, fps, frameTimeout, perfectScore } = this.props.game;
     const style = { height: `${innerHeight}px`, width: `${innerWidth}px` };
-    const maxScore = (numRows*numCols)-1;
-    const maxFrames = ((numRows*numCols)*(maxScore))/6;
     return (
       <div
         className="SnakeGame"
@@ -128,12 +126,12 @@ class SnakeGame extends Component {
                     <Chip label={`Score: ${score}`} avatar={<Avatar><MdLocalPizza/></Avatar>} color="primary" />
                   </Grid>
                   <Grid item xs={2}>
-                    <Chip label={`Max Score: ${maxScore}`} color="primary" />
+                    <Chip label={`Max Score: ${perfectScore}`} color="primary" />
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                <LinearProgress variant="determinate" value={normalise(score, 0, maxScore)} className={classes.progress} color="primary"/>
+                <LinearProgress variant="determinate" value={normalise(score, 0, perfectScore)} className={classes.progress} color="primary"/>
               </Grid>
             </Grid>
           </Grid>
@@ -148,12 +146,12 @@ class SnakeGame extends Component {
                     <Chip label={`FPS: ${fps}`} color="secondary" />
                   </Grid>
                   <Grid item xs={2}>
-                    <Chip label={`Max Frames: ${maxFrames}`} color="secondary" />
+                    <Chip label={`Max Frames: ${frameTimeout.toFixed(0)}`} color="secondary" />
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
-                <LinearProgress variant="determinate" value={normalise(frameCount, 0, maxFrames)} className={classes.progress} color="secondary"/>
+                <LinearProgress variant="determinate" value={normalise(frameCount, 0, frameTimeout)} className={classes.progress} color="secondary"/>
               </Grid>
             </Grid>
           </Grid>

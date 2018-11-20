@@ -23,11 +23,8 @@ export function* snakeSaga() {
         frameCount
       }
     } =  state;
-    const {numRows,numCols} = state.game.game;
-    // worst case scenario is all nodes are traversed once for each food spawned
-    // so timeout the game if the framecount reaches this
-    const worstCaseScore = (numRows * numCols) * (numRows * numCols);
-    if (frameCount > worstCaseScore){
+    const {numRows,numCols,frameTimeout} = state.game.game;
+    if (frameCount > frameTimeout){
       yield put(gameOver());
     }
     yield put(move({direction,numRows,numCols}));
@@ -60,8 +57,8 @@ export function* foodSaga() {
   while (true) {
     yield take([Action.PLAY, Action.EAT_FOOD, Action.RESET]);
     const state = yield select();
-    const {numRows,numCols} = state.game.game;
-    if (state.game.snake.parts.length <= (numRows*numCols) - 1){
+    const {numRows,numCols, perfectScore} = state.game.game;
+    if (state.game.snake.parts.length <= perfectScore){
       let position = {};
       do {
         position = randomPosition({numRows,numCols});
@@ -99,6 +96,7 @@ export function* gameResetter() {
 
 export function* runGame(waitOnPlay = true) {
   if (waitOnPlay) {
+    // this is configurable to facilitate testing
     yield take(Action.PLAY);
   }
   const running = [];
