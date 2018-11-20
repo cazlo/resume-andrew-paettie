@@ -1,5 +1,5 @@
 import { performanceTest } from './testHelper';
-import { toggleGreedy, toggleEnableAstar } from '../actions/aiConfigAction'
+import { toggleGreedy, toggleEnableAstar } from '../../actions/aiConfigAction'
 
 // 12 % avg seems to be a bit better than current performance, so should be able to be used to spot
 // performance regressions

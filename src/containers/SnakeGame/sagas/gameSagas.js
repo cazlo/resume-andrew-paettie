@@ -20,14 +20,13 @@ export function* snakeSaga() {
         snake: {
           direction
         },
-        frameCount
       }
     } =  state;
-    const {numRows,numCols,frameTimeout} = state.game.game;
+    const {numRows,numCols,frameTimeout,frameCount,wallsAreFatal} = state.game.game;
     if (frameCount > frameTimeout){
       yield put(gameOver());
     }
-    yield put(move({direction,numRows,numCols}));
+    yield put(move({direction,numRows,numCols,wallsAreFatal}));
     const {
       game: {
         snake: {
@@ -36,12 +35,17 @@ export function* snakeSaga() {
         food
       }
     } =  yield select();
+    // bounds check
+    if (head.x < 0 || head.x >=numCols || head.y < 0 || head.y >= numRows) {
+      yield put(gameOver());
+      // yield put(play())
+    }
     // collision with tail
     for (let i = 0; i < tail.length; i++) {
       const { x, y } = tail[i];
       if (x === head.x && y === head.y) {
         yield put(gameOver());
-        yield put(play())
+        // yield put(play())
       }
     }
     // collision with food
@@ -85,6 +89,10 @@ export function* fpsSaga() {
   }
 }
 
+export function* gameEnder() {
+  yield put(gameOver());
+}
+
 export function* gameResetter() {
   yield call(delay, 4200);
   yield put(reset());
@@ -100,6 +108,7 @@ export function* runGame(waitOnPlay = true) {
   running.push(yield fork(gameLoop));
   running.push(yield fork(fpsSaga));
   running.push(yield takeLatest([Action.PLAY, Action.EAT_FOOD, Action.RESET], foodSaga));
+  running.push(yield takeLatest([Action.SET_SIZE], gameEnder));
   running.push(yield fork(snakeSaga));
   running.push(yield fork(pathFindingSaga));
   yield put(reset());
