@@ -9,6 +9,7 @@ import rootReducer from '../reducers';
 import { runGame } from './gameSagas';
 import { play, setSize } from '../actions/gameAction';
 import Action from '../actions/Action';
+import { computePerfectScore } from '../reducers/gameReducer';
 
 const createStore = (sagaMiddleware) => {
   const middleware = [...getDefaultMiddleware(), sagaMiddleware];
@@ -19,7 +20,6 @@ const createStore = (sagaMiddleware) => {
   });
 };
 
-export const perfectScore =(size) => (size*size)-1;
 
 export const playGame = ({ size, aiAction }) => {
   const sagaMiddleware = createSagaMiddleware();
@@ -40,7 +40,7 @@ export const playGame = ({ size, aiAction }) => {
 
 // here avgThreshold is expected to be the % of perfect score which should be achieved on avg
 export const performanceTest = ({ gamesToSimulate, avgThreshold, size=10, aiAction, name}) => {
-  const threshold = perfectScore(size) * avgThreshold;
+  const threshold = computePerfectScore(size,size) * avgThreshold;
   return describe(name, () => {
     let results = [];
     let scores = [];
@@ -65,7 +65,7 @@ export const performanceTest = ({ gamesToSimulate, avgThreshold, size=10, aiActi
 
     it("max is less than perfect score (sanity check)", async () => {
       const max = _.max(scores);
-      expect(max).toBeLessThanOrEqual(perfectScore(size));
+      expect(max).toBeLessThanOrEqual(computePerfectScore(size,size));
       console.log(`${name} ${size}X${size} max: ${max}`)
     });
   });
