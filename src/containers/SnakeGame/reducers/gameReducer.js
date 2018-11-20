@@ -8,6 +8,7 @@ import techTheme from '../../../common/techTheme';
 import { RIGHT } from '../util/Direction';
 import Format from '../util/Format';
 import { DEFAULT_BOARD_SIZE } from '../util/Grid';
+import { PLAYING, GAME_OVER } from '../util/GameState';
 
 const HEAD_THEME = techTheme.nodeJs;
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['nodeJs']));
@@ -27,7 +28,7 @@ const DEFAULT_FRAME_TIMEOUT = computeFrameTimeout(DEFAULT_BOARD_SIZE, DEFAULT_BO
 
 const defaults = {
   game: {
-    state: 'PLAYING',
+    state: PLAYING,
     speed: INITIAL_SPEED, //(ms delay between frames)
     score: 0,
     numRows: DEFAULT_BOARD_SIZE,
@@ -63,8 +64,8 @@ const defaults = {
 
 // ----------------- "internal" game state -------------------
 export const state = createReducer(defaults.game.state, {
-  [Action.PLAY]: () => 'PLAYING',
-  [Action.GAME_OVER]: () => 'GAME_OVER',
+  [Action.PLAY]: () => PLAYING,
+  [Action.GAME_OVER]: () => GAME_OVER,
 });
 // tick speed (ms per tick)
 export const speed = createReducer(defaults.game.speed, {

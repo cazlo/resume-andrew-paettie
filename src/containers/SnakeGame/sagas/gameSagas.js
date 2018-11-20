@@ -54,17 +54,14 @@ export function* snakeSaga() {
   }
 }
 export function* foodSaga() {
-  while (true) {
-    yield take([Action.PLAY, Action.EAT_FOOD, Action.RESET]);
-    const state = yield select();
-    const {numRows,numCols, perfectScore} = state.game.game;
-    if (state.game.snake.parts.length <= perfectScore){
-      let position = {};
-      do {
-        position = randomPosition({numRows,numCols});
-      } while (PositionUtil.isColliding(position, state.game.snake.parts));
-      yield put(spawnFood(position.x, position.y));
-    }
+  const state = yield select();
+  const {numRows,numCols, perfectScore} = state.game.game;
+  if (state.game.snake.parts.length <= perfectScore){
+    let position = {};
+    do {
+      position = randomPosition({numRows,numCols});
+    } while (PositionUtil.isColliding(position, state.game.snake.parts));
+    yield put(spawnFood(position.x, position.y));
   }
 }
 
@@ -102,7 +99,7 @@ export function* runGame(waitOnPlay = true) {
   const running = [];
   running.push(yield fork(gameLoop));
   running.push(yield fork(fpsSaga));
-  running.push(yield fork(foodSaga));
+  running.push(yield takeLatest([Action.PLAY, Action.EAT_FOOD, Action.RESET], foodSaga));
   running.push(yield fork(snakeSaga));
   running.push(yield fork(pathFindingSaga));
   yield put(reset());
