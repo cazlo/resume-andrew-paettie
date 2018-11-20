@@ -19,7 +19,7 @@ const INITIAL_SPEED = MAX_SPEED * SPEED_MULTIPLIER;
 
 const wrap = (point, size) => (point < 0 ? point + size : point % size);
 
-const computePerfectScore = (w,h) => (w*h)-1; // -1 because the head occupies 1 space
+export const computePerfectScore = (w,h) => (w*h)-1; // -1 because the head occupies 1 space
 const computeFrameTimeout = (w,h) => ((w*h)*(w*h)-1)/6;
 // ^^ a large number that is not near worst case but long enough for sane algorithms to finish
 
@@ -55,7 +55,7 @@ const defaults = {
   food: [],
   highScores: [
     {
-      score: 42,
+      score: DEFAULT_PERFECT_SCORE,
       name: 'Perfect score',
       time: Format.formatTime(moment(0).utc()),
     },
