@@ -22,7 +22,7 @@ describe('Path finding trap avoidance',() => {
     // todo trap to food and no path to tail
   ].map(({snake, food, name}, idx) => it(`${name} (${idx})`, () => {
     // does not try and wrap around when that move is blocked by the snake itself
-    const path = pathfindGreedy(snake, food, 4, 5);
+    const path = pathfindGreedy(snake, food, {numRows:4, numCols:5, wallsAreFatal: false});
     expect(path).toBeDefined();
     expect(path.length).toBeGreaterThanOrEqual(1);
     expect(path[path.length-1]).not.toEqual(expect.objectContaining(food));

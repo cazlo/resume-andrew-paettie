@@ -1,9 +1,0 @@
-* {
-    box-sizing: border-box;
-}
-
-.SnakeGame {
-    box-sizing: border-box;
-    position: relative;
-    margin: 10px auto;
-}

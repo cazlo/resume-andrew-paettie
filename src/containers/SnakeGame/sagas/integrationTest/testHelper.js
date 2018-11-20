@@ -4,12 +4,12 @@ import createSagaMiddleware from 'redux-saga'
 import * as Promise from 'bluebird';
 import _ from 'lodash';
 
-import Format from '../util/Format'
-import rootReducer from '../reducers';
-import { runGame } from './gameSagas';
-import { play, setSize } from '../actions/gameAction';
-import Action from '../actions/Action';
-import { computePerfectScore } from '../reducers/gameReducer';
+import Format from '../../util/Format'
+import rootReducer from '../../reducers/index';
+import { runGame } from '../gameSagas';
+import { play, setSize, setFrameLimit, toggleWallsAreFatal } from '../../actions/gameAction';
+import Action from '../../actions/Action';
+import { computePerfectScore } from '../../reducers/gameReducer';
 
 const createStore = (sagaMiddleware) => {
   const middleware = [...getDefaultMiddleware(), sagaMiddleware];
@@ -21,12 +21,16 @@ const createStore = (sagaMiddleware) => {
 };
 
 
-export const playGame = ({ size, aiAction }) => {
+export const playGame = ({ size, aiAction, limit, wallsAreFatal = false }) => {
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(sagaMiddleware);
   const saga = sagaMiddleware.run(runGame);
   store.dispatch(setSize({numRows:size, numCols:size}));
   store.dispatch(aiAction({target:{checked:true}}));
+  if (limit) {
+    store.dispatch(setFrameLimit({limit}))
+  }
+  store.dispatch(toggleWallsAreFatal({target:{checked:wallsAreFatal}}))
   store.dispatch(play());
   return saga.done.then(() => {
     // assertions
@@ -34,6 +38,9 @@ export const playGame = ({ size, aiAction }) => {
     const { game } = state;
     expect(game.state).toEqual(Action.GAME_OVER);
     expect(game.score).toBeGreaterThan(0);
+    if (limit) {
+      expect(game.frameCount).toBeLessThanOrEqual(limit + 1);//allow it to go 1 tick beyond
+    }
     return({ duration: game.endTime - game.startTime, score: game.score })
   });
 };
@@ -47,7 +54,7 @@ export const performanceTest = ({ gamesToSimulate, avgThreshold, size=10, aiActi
     beforeAll(async () => {
       results = await Promise.map(new Array(gamesToSimulate), () => playGame({size, aiAction}));
       scores = results.map(s => s.score)
-    }, 600000);
+    }, 60000);
 
     it("average score at or above threshold", async () => {
       const avg = _.sum(scores) / gamesToSimulate;
