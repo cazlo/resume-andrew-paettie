@@ -240,11 +240,6 @@ export const pathfindGreedy = (snake, food, {numRows, numCols, wallsAreFatal}) =
   if (pathToFood === null || !pathToFood.length) {
     return tryPathFindingToTail(snake, {numRows, numCols, wallsAreFatal});
   } else if (snake.parts.length >= 4) {
-    if (snake.parts.length >= (numRows*numCols*0.9) && pathToFood.length === 1){
-      // console.log("NOM> NOM> NOM>");
-      // get more risky as the body fills up more to avoid infinite looping
-      return pathToFood;
-    }
     const snakeArr = _.clone(snake.parts);
     const snakeLen = snakeArr.length;
     let newSnake;
