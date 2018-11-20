@@ -117,7 +117,10 @@ export const pathfind = (snake, food, {numRows, numCols, wallsAreFatal}, allowTa
   }
   const [head, ...tailParts] = snake.parts;
   const tail = snake.parts[snake.parts.length-1];
-
+  if (wallsAreFatal && (head.x < 0 || head.x >=numCols || head.y < 0 || head.y >= numRows)) {
+    // don't attempt pathfinding if we are already out of bounds
+    return [];
+  }
   graph.clear();
   // create a node for each x,y position in the play area
   for (let x = 0; x < numCols; x+=1){
