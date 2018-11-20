@@ -6,7 +6,7 @@ export const path = createReducer([], {
   [Action.PATH_NOT_FOUND]: () => [],
   [Action.GAME_OVER]: () => [],
   [Action.TOGGLE_ENABLE_A_STAR]: () => [],
-  [Action.TOGGLE_GREEDY_SP_TAIL]: () => [],
+  [Action.TOGGLE_GREEDY]: () => [],
   [Action.FINISH_PATH_FIND]: (state, action) => action.payload,
 });
 export const grid = createReducer([], {

@@ -2,30 +2,30 @@ import Action from "../actions/Action"
 import { combineReducers, createReducer } from 'redux-starter-kit';
 
 const defaultSettings = {
-  enableAI : false,
+  aStar : false,
   showPath: false,
-  greedyShortestPathToTail: true,
+  greedy: true,
   playerName: "SKYNET",
 };
 
-export const enableAI = createReducer(defaultSettings.enableAI, {
+export const aStar = createReducer(defaultSettings.aStar, {
   [Action.TOGGLE_ENABLE_A_STAR]: (state, action) => action.checked,
-  [Action.TOGGLE_GREEDY_SP_TAIL]: (state, action) => action.checked ? false : state,
+  [Action.TOGGLE_GREEDY]: (state, action) => action.checked ? false : state,
 });
 export const showPath = createReducer(defaultSettings.showPath, {
   [Action.TOGGLE_SHOW_PATH]: (state, action) => action.checked,
 });
 
-export const greedyShortestPathToTail = createReducer(defaultSettings.greedyShortestPathToTail, {
-  [Action.TOGGLE_GREEDY_SP_TAIL]: (state, action) => action.checked,
+export const greedy = createReducer(defaultSettings.greedy, {
+  [Action.TOGGLE_GREEDY]: (state, action) => action.checked,
   [Action.TOGGLE_ENABLE_A_STAR]: (state, action) => action.checked ? false : state,
 });
 export const playerName = createReducer(defaultSettings.playerName, {
   [Action.CHANGE_NAME]: (state, action) => action.playerName,
 });
 export default combineReducers({
-  enableAI,
+  aStar,
   showPath,
-  greedyShortestPathToTail,
+  greedy,
   playerName,
 });
