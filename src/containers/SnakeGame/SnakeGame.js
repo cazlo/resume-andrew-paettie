@@ -41,8 +41,8 @@ const updateCanvas = (ctx, props) => {
     snake,
     food,
     path } = props;
-  ctx.fillStyle = "#000";
-  ctx.globalAlpha = 1;// 0.2;
+  ctx.fillStyle = "#303030";
+  ctx.globalAlpha =  0.42;
   // fill background with some alpha so that we get some transition between frames
   // e.g. with alpha 0.2, it takes approx 5 frames for a rectangle to completely dissapear
   // with alpha 1, the animation is not as smooth
@@ -50,19 +50,22 @@ const updateCanvas = (ctx, props) => {
 
   const [head, ...tail] = snake.parts;
 
-  ctx.fillStyle = techTheme.spring.style.background;
+  ctx.fillStyle = techTheme.nodeJs.style.background;
   ctx.globalAlpha = 1;
-  ctx.fillRect(head.x * DEFAULT_BOX_SIZE * 0.99, head.y * DEFAULT_BOX_SIZE * 0.99, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
+  ctx.fillRect(head.x * DEFAULT_BOX_SIZE, head.y * DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
   // todo head direction vector arrow?
 
   for(let i = 0; i < tail.length; i+=1){
-    ctx.fillStyle = i === tail.length - 1
+    ctx.fillStyle = /*i === tail.length - 1
       ? "#fcda7c"
-      : techTheme.nodeJs.style.background;
+      : */techTheme.nodeJs.style.background;
     ctx.globalAlpha =  (snake.parts.length - i) / snake.parts.length / 2 + .5;
     const t = tail[i];
-    ctx.fillRect(t.x * DEFAULT_BOX_SIZE, t.y * DEFAULT_BOX_SIZE,
-      DEFAULT_BOX_SIZE*((Math.max(98-(i*0.5), 30 ) )/100), DEFAULT_BOX_SIZE*((Math.max(98-(i*0.5), 30) )/100));
+    const scalingMultiplier = (Math.max(99-(i*0.42), 42 ) )/100;
+    const centeringFactor = (DEFAULT_BOX_SIZE - (DEFAULT_BOX_SIZE * scalingMultiplier)) / 2;
+    const x = (t.x * DEFAULT_BOX_SIZE) + centeringFactor;
+    const y = (t.y * DEFAULT_BOX_SIZE) + centeringFactor;
+    ctx.fillRect(x, y, DEFAULT_BOX_SIZE*scalingMultiplier, DEFAULT_BOX_SIZE*scalingMultiplier);
   }
 
   if (props.aiConfig.showPath) {
