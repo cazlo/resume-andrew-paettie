@@ -138,9 +138,9 @@ const ConfigPanel = props => {
         <Slider
           classes={{ container: classes.slider }}
           value={frameTimeout}
-          max={computedFrameTimeout}
+          max={computedFrameTimeout * 2}
           min={1000}
-          step={1000}
+          step={100}
           aria-labelledby="label"
           onChange={(e, v) => props.setFrameLimit({ limit: v })}
         />
