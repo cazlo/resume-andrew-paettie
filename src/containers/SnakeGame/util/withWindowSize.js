@@ -1,13 +1,13 @@
 import React from 'react';
-import { DEFAULT_BOX_SIZE } from './Grid';
+import { DEFAULT_BOX_SIZE, DEFAULT_BOARD_SIZE } from './Grid';
 
 function withWindowSize(WrappedComponent) {
   return class WindowSizeProvider extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        innerWidth: 800,
-        innerHeight: 800,
+        innerWidth: DEFAULT_BOARD_SIZE * DEFAULT_BOX_SIZE,
+        innerHeight: DEFAULT_BOARD_SIZE * DEFAULT_BOX_SIZE,
       };
     }
 
