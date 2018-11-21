@@ -45,9 +45,9 @@ describe('Direction changing behavior', () => {
   it ('moves toward the other side of the world', () => {
     const path = [p(0,0), p(19,0)];
     const snake = [p(1,0)];
-    const moveCommand = moveFromPath(path, snake, {numRows:20, numCols:20, wallsAreFatal: false}).next();
+    const moveCommand = moveFromPath(path, snake, {numRows:20, numCols:20, wallsAreFatal: false});
     expect(moveCommand).toBeDefined();
-    const action = moveCommand.value.PUT.action;
+    const action = moveCommand.PUT.action;
     expect(action).toBeDefined();
     expect(action.type).toEqual(Action.CHANGE_DIRECTION);
     expect(action.direction).toEqual(Direction.LEFT);
@@ -56,9 +56,9 @@ describe('Direction changing behavior', () => {
   it ('moves all the way to the other side of the world', () => {
     const path = [p(19,0)];
     const snake = [p(0,0)];
-    const moveCommand = moveFromPath(path, snake, {numRows:20, numCols:20, wallsAreFatal: false}).next();
+    const moveCommand = moveFromPath(path, snake, {numRows:20, numCols:20, wallsAreFatal: false});
     expect(moveCommand).toBeDefined();
-    const action = moveCommand.value.PUT.action;
+    const action = moveCommand.PUT.action;
     expect(action).toBeDefined();
     expect(action.type).toEqual(Action.CHANGE_DIRECTION);
     expect(action.direction).toEqual(Direction.LEFT);
