@@ -113,13 +113,18 @@ class SnakeGame extends Component {
     if (innerHeight !== prevProps.innerHeight && innerWidth !== prevProps.innerWidth) {
       const numCols = Math.floor(innerWidth / DEFAULT_BOX_SIZE);
       const numRows = Math.floor(innerHeight / DEFAULT_BOX_SIZE);
-      this.props.gameOver();
-      this.props.setSize({ numRows, numCols });
-      this.props.play();
+      if (numCols !== this.props.game.numCols && numRows !== this.props.game.numRows) {
+        this.props.gameOver();
+        this.props.setSize({ numRows, numCols });
+      }
       const innerHeightOverride = DEFAULT_BOX_SIZE * numRows;
       const innerWidthOverride = DEFAULT_BOX_SIZE * numCols;
       const ctx = this.snakeCanvas.getContext('2d');
-      requestAnimationFrame(() => updateCanvas(ctx, {...this.props, innerHeight:innerHeightOverride, innerWidth:innerWidthOverride}));
+      requestAnimationFrame(() => updateCanvas(ctx, {
+        ...this.props,
+        innerHeight: innerHeightOverride,
+        innerWidth: innerWidthOverride
+      }));
     }else{
       const { numRows, numCols } = this.props.game;
       const innerHeightOverride = DEFAULT_BOX_SIZE * numRows;
