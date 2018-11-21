@@ -20,6 +20,9 @@ export const move = ({direction,numRows,numCols,wallsAreFatal}) => ({
   direction,
   numRows,numCols, wallsAreFatal
 });
+export const moveFinished = () => ({
+  type: Action.MOVE_FINISHED
+});
 export const changeDirection = direction => ({
   type: Action.CHANGE_DIRECTION,
   direction
