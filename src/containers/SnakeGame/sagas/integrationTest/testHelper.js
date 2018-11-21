@@ -52,7 +52,7 @@ export const performanceTest = ({ gamesToSimulate, avgThreshold, size=10, aiActi
     let results = [];
     let scores = [];
     beforeAll(async () => {
-      results = await Promise.map(new Array(gamesToSimulate), () => playGame({size, aiAction}));
+      results = await Promise.map(new Array(gamesToSimulate), () => playGame({size, aiAction}), {concurrency:5});
       scores = results.map(s => s.score)
     }, 60000);
 

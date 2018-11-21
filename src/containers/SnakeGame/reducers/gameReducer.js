@@ -20,7 +20,7 @@ const MAX_SPEED = 0;
 const wrap = (point, size) => (point < 0 ? point + size : point % size);
 
 export const computePerfectScore = (w,h) => (w*h)-1; // -1 because the head occupies 1 space
-const computeFrameTimeout = (w,h) => ((w*h)*(w*h)-1)/6;
+const computeFrameTimeout = (w,h) => ((w*h)*(w*h)-1)/4;
 // ^^ a large number that is not near worst case but long enough for sane algorithms to finish
 
 const DEFAULT_PERFECT_SCORE = computePerfectScore(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);
