@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import flow from 'lodash/flow';
+import { FaRegHourglass, FaArrowsAltH, FaArrowsAltV } from 'react-icons/fa';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
@@ -13,6 +14,11 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Slider from '@material-ui/lab/Slider/Slider';
+import Chip from '@material-ui/core/Chip/Chip';
+import { MdTimer } from 'react-icons/md';
+import Avatar from '@material-ui/core/Avatar/Avatar';
+import Grid from '@material-ui/core/Grid/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
 import {
@@ -21,13 +27,12 @@ import {
 import {
   toggleWallsAreFatal, setSize, setFrameLimit, setSpeed,
 } from './actions/gameAction';
-import Slider from '@material-ui/lab/Slider/Slider';
 
 const styles = theme => ({
   root: {
     width: '100%',
     overflowX: 'hidden',
-    backgroundColor: theme.palette.grey["500"],
+    backgroundColor: theme.palette.grey['500'],
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -41,23 +46,71 @@ const styles = theme => ({
   },
   slider: {
     width: '100%',
-    padding: '22px 0px'
+    padding: '22px 0px',
+  },
+  chipCell: {
+    width: '50%',
+  },
+  settingsSubSection: {
+    width: '95%',
+    marginLeft: '1em',
   },
 });
 
+const sliders = (props) => {
+  const {
+    speed, numRows, numCols, frameTimeout, computedFrameTimeout,
+  } = props;
+
+  const setSpeedOnChange = (e, v) => props.setSpeed({ speed: v });
+  const setMaxFrameOnChange = (e, v) => props.setFrameLimit({ limit: v });
+  const setWidthOnChange = (e, v) => props.setSize({ numRows, numCols: v });
+  const setHeightOnChange = (e, v) => props.setSize({ numRows: v, numCols });
+
+  return [
+    {
+      label: 'Speed (ms between frames)',
+      value: speed,
+      onChange: setSpeedOnChange,
+      max: 0,
+      min: 200,
+      step: 1,
+      avatar: <MdTimer/>,
+    },
+    {
+      label: 'Max Frames Timeout',
+      value: frameTimeout,
+      onChange: setMaxFrameOnChange,
+      max: computedFrameTimeout * 2,
+      min: 100,
+      step: 100,
+      avatar: <FaRegHourglass/>,
+    },
+    {
+      label: 'Game Width',
+      value: numCols,
+      onChange: setWidthOnChange,
+      max: 50,
+      min: 6,
+      step: 1,
+      avatar: <FaArrowsAltH/>,
+    },
+    {
+      label: 'Game Height',
+      value: numRows,
+      onChange: setHeightOnChange,
+      max: 50,
+      min: 6,
+      step: 1,
+      avatar: <FaArrowsAltV/>,
+    },
+  ];
+};
+
 const ConfigPanel = props => {
   const {
-    aStar,
-    greedy,
-    playerName,
+    aStar, greedy, playerName, showPath, wallsAreFatal,
     classes,
-    showPath,
-    wallsAreFatal,
-    speed,
-    numRows,
-    numCols,
-    frameTimeout,
-    computedFrameTimeout
   } = props;
 
   return (
@@ -66,106 +119,97 @@ const ConfigPanel = props => {
         <Typography variant={'h6'}>Settings</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className={classes.column}>
-        <Typography variant="subtitle1">           Pathfinding Settings            </Typography>
-
-        <FormControlLabel
-          label="Shortest Path to Food"
-          control={
-            <Switch
-              checked={aStar}
-              onChange={props.toggleEnableAstar}
+        <Typography variant="subtitle1"> Pathfinding Settings </Typography>
+        <Grid container spacing={8} direction={'row'} className={classes.settingsSubSection}>
+          <Grid item xs>
+            <FormControlLabel
+              label="Shortest Path to Food"
+              control={
+                <Switch
+                  checked={aStar}
+                  onChange={props.toggleEnableAstar}
+                />
+              }
             />
-          }
-        />
-        <FormControlLabel
-          label="Shortest Path to Food Else Longest Path to Tail"
-          control={
-            <Switch
-              checked={greedy}
-              onChange={props.toggleGreedy}
+          </Grid>
+          <Grid item xs>
+            <FormControlLabel
+              label="Shortest Path to Food Else Longest Path to Tail"
+              control={
+                <Switch
+                  checked={greedy}
+                  onChange={props.toggleGreedy}
+                />
+              }
             />
-          }
-        />
-        <FormControlLabel
-          label="Show Path"
-          control={
-            <Switch
-              checked={showPath}
-              onChange={props.toggleShowPath}
+          </Grid>
+          <Grid>
+            <FormControlLabel
+              label="Show Path"
+              control={
+                <Switch
+                  checked={showPath}
+                  onChange={props.toggleShowPath}
+                />
+              }
             />
-          }
-        />
+          </Grid>
+        </Grid>
 
-        <Typography variant="subtitle1">             Game Settings            </Typography>
-
-        <form noValidate autoComplete="off">
-          <TextField
-            // autoFocus
-            margin="dense"
-            id="playerName"
-            label="AI Name"
-            type="name"
-            placeholder={playerName}
-            value={playerName}
-            // fullWidth
-            variant="outlined"
-            disabled={false}
-            onChange={props.changeName}
-          />
-        </form>
-
-        <FormControlLabel
-          label="Moving Beyond World Boundary Kills Snake"
-          control={
-            <Switch
-              checked={wallsAreFatal}
-              onChange={props.toggleWallsAreFatal}
+        <Typography variant="subtitle1"> Game Settings </Typography>
+        <Grid container spacing={8} direction={'row'} className={classes.settingsSubSection}>
+          <Grid item xs>
+            <form noValidate autoComplete="off">
+              <TextField
+                // autoFocus
+                margin="dense"
+                id="playerName"
+                label="Name"
+                type="name"
+                placeholder={playerName}
+                value={playerName}
+                // fullWidth
+                variant="outlined"
+                disabled={false}
+                onChange={props.changeName}
+              />
+            </form>
+          </Grid>
+          <Grid item xs>
+            <FormControlLabel
+              label="Boundary Kills Snake"
+              control={
+                <Switch
+                  checked={wallsAreFatal}
+                  onChange={props.toggleWallsAreFatal}
+                />
+              }
             />
-          }
-        />
+          </Grid>
+          <Grid container spacing={8} direction={'column'}>
+            {sliders(props).map((slider, i) => (
+              <Grid key={`${slider.label}-${i}`} container direction={'column'}>
+                <Grid item xs={4}>
+                  <Chip label={`${slider.label}: ${slider.value.toFixed(0)}`} color="primary"
+                        avatar={<Avatar>{slider.avatar}</Avatar>}/>
+                </Grid>
+                <Grid item xs>
+                  <Slider
+                    classes={{ container: classes.slider }}
+                    value={slider.value}
+                    max={slider.max}
+                    min={slider.min}
+                    step={slider.step}
+                    aria-labelledby="`${slider.label}: ${slider.value}`"
+                    onChange={slider.onChange}
+                  />
+                </Grid>
+              </Grid>
+            ))
+            }
+          </Grid>
+        </Grid>
 
-        <Typography id="label">Speed </Typography>
-        <Slider
-          classes={{ container: classes.slider }}
-          value={speed}
-          max={0}
-          min={200}
-          aria-labelledby="label"
-          onChange={(e, v) => props.setSpeed({ speed: v })}
-        />
-
-        <Typography id="label">Max Frame Count Timeout</Typography>
-        <Slider
-          classes={{ container: classes.slider }}
-          value={frameTimeout}
-          max={computedFrameTimeout * 2}
-          min={1000}
-          step={100}
-          aria-labelledby="label"
-          onChange={(e, v) => props.setFrameLimit({ limit: v })}
-        />
-
-        <Typography id="label">Game Width</Typography>
-        <Slider
-          classes={{ container: classes.slider }}
-          value={numCols}
-          max={50}
-          min={6}
-          step={1}
-          aria-labelledby="label"
-          onChange={(e,v) => props.setSize({ numRows, numCols : v })}
-        />
-
-        <Typography id="label">Game Height</Typography>
-        <Slider
-          classes={{ container: classes.slider }}
-          value={numRows}
-          max={50}
-          min={6}
-          step={1}
-          aria-labelledby="label"
-          onChange={(e, v) => props.setSize({ numRows: v, numCols })}
-        />
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
