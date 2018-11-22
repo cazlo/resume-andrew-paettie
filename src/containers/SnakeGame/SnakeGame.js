@@ -181,11 +181,6 @@ class SnakeGame extends Component {
                       <Chip label={`FPS: ${fps}`} color="secondary" />
                     </Grid>
                   </Hidden>
-                  <Hidden smDown>
-                    <Grid item md={4}>
-                        <Chip label={`Max Frames: ${frameTimeout.toFixed(0)}`} color="secondary" />
-                    </Grid>
-                  </Hidden>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
