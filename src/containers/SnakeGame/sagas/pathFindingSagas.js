@@ -220,6 +220,7 @@ export const tryPathFindingToTail = (snake, {numRows, numCols, wallsAreFatal}, r
     return [];
   } else {
     if (pathToTail && pathToTail.length === 1 && lookForAlternates){
+      // todo it looks like this behavior should happen even if the length is up to like 5 or so :|
       // try and see if there is any other safe move that can be made other than directly chasing the tail
       // this sometimes has the effect of removing cycles at the end of the game
       const [head] = snake.parts;
@@ -240,6 +241,8 @@ export const tryPathFindingToTail = (snake, {numRows, numCols, wallsAreFatal}, r
           const pathToShiftedSnakeTail = pathfind({parts:newSnake}, newSnake[newSnake.length-1],{numRows, numCols, wallsAreFatal}, true, returnEarly);
           if (pathToShiftedSnakeTail.length >=1 && !isFood(n, food)){
             // console.log("Found alternate path to tail...");
+            // todo it would be better to collect up these choices and compare them to pathToTail
+            //  maybe only take alternative if it moves you further away from food the the tail?
             return [{x:n.x,y:n.y}];
           }
         }
