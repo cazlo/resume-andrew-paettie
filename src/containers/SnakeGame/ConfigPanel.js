@@ -200,7 +200,7 @@ const ConfigPanel = props => {
                     max={slider.max}
                     min={slider.min}
                     step={slider.step}
-                    aria-labelledby="`${slider.label}: ${slider.value}`"
+                    aria-labelledby={`${slider.label}: ${slider.value}`}
                     onChange={slider.onChange}
                   />
                 </Grid>
