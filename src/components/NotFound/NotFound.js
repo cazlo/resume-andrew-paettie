@@ -40,7 +40,11 @@ const styles = theme => ({
     backgroundColor: '#424242'
   },
   Heading: {
-    fontSize: theme.typography.pxToRem(40),
+    fontSize: theme.typography.pxToRem(42),
+    color: theme.palette.text.primary,
+  },
+  SubHeading: {
+    fontSize: theme.typography.pxToRem(21),
     color: theme.palette.text.primary,
   },
   NotFoundButton: {
@@ -57,7 +61,6 @@ const NotFound = props => {
       {/*<ScreenBlock className="NotFoundBlock">*/}
       {/*<div className="container">*/}
         <Paper className={classes.NotFoundPaper}>
-          <Typography className={classes.Heading}>404 Not Found</Typography>
           <Button
             component={Link}
             variant="contained"
@@ -67,6 +70,8 @@ const NotFound = props => {
           >
             <FaHome size="2em" />
           </Button>
+          <Typography className={classes.Heading}>Path Not Found</Typography>
+          <Typography className={classes.SubHeading}>Commence path finding...</Typography>
         </Paper>
         <Provider store={createStore()}>
           <SnakeGame />
