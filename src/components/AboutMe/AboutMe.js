@@ -23,11 +23,13 @@ const Intro = ({ style }) => (
           <h3>Andrew Paettie</h3>
           <h4>Senior Software Engineer</h4>
           <p className="Resume-summary" />I am an experienced and capable full stack software
-          engineer with leadership experience.
+          engineer with leadership experience.  I am currently acting as tech lead for multiple
+          teams of engineers, driving design decisions and technical excellence.
           <br />
           <br />
-          If you are interested in hiring a full stack software engineer, out my resume and projects
-          and feel free to contact me via one of the listed methods.
+          If you are interested in hiring a full stack software engineer, check out my resume and
+          projects.  Feel free to contact me via one of the listed methods
+          (serious inquiries only please).
           <br />
           <br />
           <div className="ResumeAboutMeBlock-links">
