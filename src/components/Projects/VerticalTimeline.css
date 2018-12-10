@@ -176,7 +176,7 @@
     box-sizing: content-box;
     position: relative;
     margin-left: 60px;
-    background: #424242;
+    background: #616161;
     border-radius: .25em;
     padding: 1em;
 }
@@ -265,7 +265,7 @@
         top: 24px;
         left: 100%;
         border-color: transparent;
-        border-left-color: #424242
+        border-left-color: #616161
     }
 
     .vertical-timeline-element-content .vertical-timeline-element-date {
@@ -285,7 +285,7 @@
         left: auto;
         right: 100%;
         border-color: transparent;
-        border-right-color: #424242
+        border-right-color: #616161
     }
 
     .vertical-timeline-element.vertical-timeline-element--right .vertical-timeline-element-content .vertical-timeline-element-date, .vertical-timeline-element:nth-child(even):not(.vertical-timeline-element--left) .vertical-timeline-element-content .vertical-timeline-element-date {

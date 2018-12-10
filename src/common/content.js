@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoGraph } from 'react-icons/go';
-import { FaRobot, FaLaptopCode, FaCodeBranch, FaRegFileCode, FaCloud, FaCheckDouble, FaJedi } from 'react-icons/fa';
+import { FaRobot, FaLaptopCode, FaCodeBranch, FaRegFileCode, FaCloud, FaCheckDouble, FaJedi, FaMicrochip } from 'react-icons/fa';
 
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
@@ -343,6 +343,7 @@ export default {
       technologies: [
         {
           name: 'MIPS',
+          icon: <FaMicrochip />
         },
       ],
       content: `An implementation of the game moo in the MIPS assembly lanuage.  
