@@ -16,7 +16,7 @@ const Projects = ({ projects, style }) => (
         <h2 className="projectsHeading">Projects</h2>
         <p className="projectsHeading">Showcase of my latest builds</p>
       </div>
-      <VerticalTimeline className="VerticalTimeline">
+      <VerticalTimeline className="VerticalTimeline" animate={false}>
         {projects.map((project, i) => (
           <VerticalTimelineElement
             style={{
