@@ -30,7 +30,7 @@ const WorkAndEducation = ({ positions, educations }) => (
         <p>My previous jobs and my qualifications.</p>
       </div>
 
-      <VerticalTimeline>
+      <VerticalTimeline animate={false}>
         {positions.map((position, i) => (
           // let picture = null;
           // if (position.picture) {
@@ -67,7 +67,7 @@ const WorkAndEducation = ({ positions, educations }) => (
       </VerticalTimeline>
 
       <div id="Resume-education">
-        <VerticalTimeline>
+        <VerticalTimeline animate={false}>
           {educations.map((education, i) => (
             <VerticalTimelineElement
               position={i % 2 ? 'left' : 'right'}

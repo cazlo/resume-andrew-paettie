@@ -68,7 +68,7 @@ export default {
   ],
   tools: [
     {
-    category: "Operating System",
+    category: "O/S",
     categoryIcon: <FaLaptopCode/>,
     name: "Linux",
     icon: techTheme.linux.icon,
@@ -83,7 +83,7 @@ export default {
     name: "Intellij",
     icon: techTheme.intellij.icon,
   },{
-    category: "Containerization",
+    category: "Containerz",
     categoryIcon: <FaCloud/>,
     name: "Docker",
     icon: techTheme.docker.icon,
@@ -98,22 +98,22 @@ export default {
     name: "Jenkins",
     icon: techTheme.jenkins.icon,
   },{
-    category: "Project Management",
+    category: "Project Mgmt",
     categoryIcon: <FaJedi/>,
-    name: "Github (Enterprise)",
+    name: "Github",
     icon: techTheme.github.icon,
   },{
-    category: "Project Management",
+    category: "Project Mgmt",
     categoryIcon: <FaJedi/>,
     name: "Trello",
     icon: techTheme.trello.icon,
   },{
-    category: "Project Management",
+    category: "Project Mgmt",
     categoryIcon: <FaJedi/>,
     name: "Slack",
     icon: techTheme.slack.icon,
   },{
-    category: "Version Control",
+    category: "VCS",
     categoryIcon: <FaCodeBranch/>,
     name: "Git",
     icon: techTheme.git.icon,
@@ -121,7 +121,7 @@ export default {
   projects: [
     {
       title: 'React Snake',
-      subtitle: '404 for AndrewPaettie.com',
+      subtitle: '404 for this site',
       date: 'October 2018',
       techTheme: techTheme.react,
       links: [

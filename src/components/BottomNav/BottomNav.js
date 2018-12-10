@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import HomeIcon from '@material-ui/icons/Home';
 import WorkIcon from '@material-ui/icons/Work';
@@ -9,19 +8,45 @@ import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/SettingsApplications';
 // import ToysIcon from '@material-ui/icons/Toys';
 import CodeIcon from '@material-ui/icons/Code';
+import { withStyles } from '@material-ui/core';
 
-import './BottomNav.css';
+import { Link } from './BottomNavLink';
 
-const Link = props => {
-// eslint-disable-next-line no-unused-vars
-  const { showLabel, ...rest } = props;
-  // here showLabel is stripped off to avoid a console.error message
-  return <Scroll.Link {...rest} />;
-};
+const styles = (theme) => ({
+  BottomNav: {
+    width: "100%",
+    position: "fixed",
+    bottom: 0,
 
-Link.propTypes = {
-  showLabel: PropTypes.bool,
-};
+    display: "flex",
+    flexFlow: "row wrap",
+    justifyContent: "space-around",
+    [theme.breakpoints.down('md')]: {
+      height: "auto !important",
+    },
+  },
+  BottomNavLink: {
+    width: "100%",
+    minWidth: "60px",
+    maxWidth: "168px",
+    flex: 1,
+    display: "inline-flex",
+    alignItems: "center",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    color: "#e9e9e9",
+    cursor: "pointer",
+    outline: "none",
+    transition: "color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+
+    [theme.breakpoints.down('md')]: {
+      fontSize: 0,
+      minWidth: "25%",
+      paddingTop: "10px",
+      paddingBottom: "10px",
+    },
+  },
+});
 
 const buttons = [
   {
@@ -43,7 +68,7 @@ const buttons = [
     label: 'Education',
     name: 'Resume-education',
     icon: <SchoolIcon />,
-    offset: -16,
+    // offset: -16,
   },
   {
     label: 'Skills',
@@ -55,19 +80,14 @@ const buttons = [
     name: 'ResumeProjects',
     icon: <CodeIcon />,
   },
-  // {
-  //   label: 'Hobbies',
-  //   name: 'Resume-hobbies',
-  //   icon: <ToysIcon />,
-  // },
 ];
 
-const SimpleBottomNavigation = () => (
-  <BottomNavigation value="0" className="BottomNavigation">
+const SimpleBottomNavigation = ({ classes }) => (
+  <BottomNavigation value="0" className={classes.BottomNav}>
     {buttons.map((button, j) => (
       <Link
         key={j} // eslint-disable-line react/no-array-index-key
-        className="BottomNavigation-link"
+        className={classes.BottomNavLink}
         to={button.name}
         activeClass="active"
         spy
@@ -82,4 +102,8 @@ const SimpleBottomNavigation = () => (
   </BottomNavigation>
 );
 
-export default SimpleBottomNavigation;
+SimpleBottomNavigation.propTypes = {
+  classes: PropTypes.object,
+};
+
+export default withStyles(styles)(SimpleBottomNavigation);
