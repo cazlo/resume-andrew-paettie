@@ -25,6 +25,7 @@
 }
 
 .ResumeSkillsBlock-tools {
+    justify-content: center;
     text-align: center;
 }
 
@@ -55,5 +56,13 @@
     .ResumeSkillsBlock-skills svg {
         width: 60px;
         height: 60px;
+    }
+
+    .ResumeSkillsBlock-tools {
+        padding: 0;
+    }
+
+    .ResumeSkillsBlock-tools-cell {
+        padding: 0 !important;
     }
 }

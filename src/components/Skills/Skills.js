@@ -99,10 +99,10 @@ const Skills = ({ skills, tools }) => (
           <TableBody>
           {getToolsByCategory(tools).map((category, i) => (
             <TableRow key={`${category[0].category}-${i}`}>
-              <TableCell>
+              <TableCell className="ResumeSkillsBlock-tools-cell">
                 <Chip avatar={<Avatar >{category[0].categoryIcon}</Avatar>} label={category[0].category}/>
               </TableCell>
-              <TableCell style={{textAlign:"right"}}>
+              <TableCell style={{textAlign:"right"}} className="ResumeSkillsBlock-tools-cell">
                 {category.map((tool, j) => (
                    <Chip avatar={<Avatar>{tool.icon}</Avatar>} label={tool.name} key={`${tool.name}-${j}`}/>
                 ))}
