@@ -2,53 +2,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SchoolIcon from '@material-ui/icons/School';
 import WorkIcon from '@material-ui/icons/Work';
-// import { FaGithub, FaHashtag } from 'react-icons/lib/fa';
+import Typography from '@material-ui/core/Typography/Typography';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 import techTheme from '../../common/techTheme';
 import './WorkAndEducation.css';
 
-const formatPeriod = (start, end) => {
-  const isToday = end === 'Today' || end === "Aujourd'hui" || end === '今';
-
-  const period = (isToday ? new Date().getFullYear() : parseInt(end, 10)) - parseInt(start, 10);
-
-  if (period <= 1) {
-    return `${start} – ${end}`;
-  }
-
-  return `${start} – ${end}`;
-};
+const formatPeriod = (start, end) => `${start} – ${end}`;
 
 // positions and educations will like be common/content.projects
 const WorkAndEducation = ({ positions, educations }) => (
   <ScreenBlock id="Resume-work" className="ResumeWorkAndEducationBlock">
     <div className="container">
       <div className="heading">
-        <h2>Work experience & Education</h2>
-        <p>My previous jobs and my qualifications.</p>
+        <Typography variant={'h4'}>Work experience & Education</Typography>
+        <Typography variant={'subtitle1'}>My previous jobs and my qualifications.</Typography>
       </div>
 
       <VerticalTimeline animate={false}>
         {positions.map((position, i) => (
-          // let picture = null;
-          // if (position.picture) {
-          //   picture = require(`../../data/img/${position.picture}`); // eslint-disable-line global-require
-          // }
           <VerticalTimelineElement
             className="Resume-position"
             key={i} // eslint-disable-line react/no-array-index-key
             icon={<WorkIcon />}
             iconStyle={techTheme.postgres.style}
-            date={formatPeriod(position.startDate, position.endDate)}
+            date={<Typography variant={'subtitle1'}>{formatPeriod(position.startDate, position.endDate)}</Typography>}
           >
-            {/* {picture && ( */}
-            {/* <img className="ResumeWorkAndEducationBlock-picture" alt="" src={picture} /> */}
-            {/* )} */}
-            <h3 className="vertical-timeline-element-title">
-              {position.title} @{position.company}
-            </h3>
+            <Typography variant={'h5'}>{position.title} @{position.company}</Typography>
             {position.keywords && (
               <div className="ResumeWorkAndEducationBlock-keywords">
                 {position.keywords.map((keyword, j) => (
@@ -56,7 +37,7 @@ const WorkAndEducation = ({ positions, educations }) => (
                 ))}
               </div>
             )}
-            <p>{position.summary}</p>
+            <Typography variant={'subtitle2'}>{position.summary}</Typography>
             {/* {position.more && ( */}
             {/* <ShowMore> */}
             {/* <p dangerouslySetInnerHTML={{ __html: position.more }} /> */}
@@ -76,21 +57,21 @@ const WorkAndEducation = ({ positions, educations }) => (
               key={i} // eslint-disable-line react/no-array-index-key
               icon={<SchoolIcon />}
               iconStyle={techTheme.java.style}
-              date={formatPeriod(education.startDate, education.endDate)}
+              date={<Typography variant={'subtitle1'}>{formatPeriod(education.startDate, education.endDate)}</Typography>}
             >
-              <h3 className="vertical-timeline-element-title">{education.fieldOfStudy}</h3>
-              <h4 className="vertical-timeline-element-subtitle">{education.degree}</h4>
+              <Typography variant={'h5'}>{education.fieldOfStudy}</Typography>
+              <Typography variant={'h6'}>{education.degree}</Typography>
               {education.activities &&
-                !Array.isArray(education.activities) && <p>{education.activities}</p>}
-              {education.activities &&
-                Array.isArray(education.activities) && (
-                  <div className="ResumeWorkAndEducationBlock-keywords">
-                    {education.activities.map((activity, j) => (
-                      <span key={j}> {activity.name} </span> // eslint-disable-line react/no-array-index-key
-                    ))}
-                  </div>
-                )}
-              {education.summary && <p>{education.summary}</p>}
+                !Array.isArray(education.activities) && <Typography variant={'subtitle2'}>{education.activities}</Typography>}
+              {/*{education.activities &&*/}
+                {/*Array.isArray(education.activities) && (*/}
+                  {/*<Typography variant={'subtitle2'}>*/}
+                    {/*{education.activities.map((activity, j) => (*/}
+                      {/*<span key={j}> {activity.name} </span> // eslint-disable-line react/no-array-index-key*/}
+                    {/*))}*/}
+                  {/*</Typography>*/}
+                {/*)}*/}
+              {education.summary && <Typography variant={'subtitle1'}>{education.summary}</Typography>}
             </VerticalTimelineElement>
           ))}
         </VerticalTimeline>

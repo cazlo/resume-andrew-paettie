@@ -3,36 +3,32 @@ import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-// import { FaGithub, FaHashtag } from 'react-icons/lib/fa';
+import Typography from '@material-ui/core/Typography/Typography';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import './VerticalTimeline.css';
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
+
+import './VerticalTimeline.css'; // todo this should be overwrriten from base pkg
 
 // projects will like be common/content.projects
 const Projects = ({ projects, style }) => (
   <ScreenBlock className="Resume-projects" id="Resume-projects" style={style}>
     <div className=" container">
       <div className="Resume-projects heading">
-        <h2 className="projectsHeading">Projects</h2>
-        <p className="projectsHeading">Showcase of my latest builds</p>
+        <h2 >Projects</h2>
+        <Typography>Showcase of my latest builds</Typography>
       </div>
       <VerticalTimeline className="VerticalTimeline" animate={false}>
         {projects.map((project, i) => (
           <VerticalTimelineElement
-            style={{
-              borderTop: `3px solid ${project.techTheme.border}`,
-              boxSizing: 'content-box',
-            }}
-            className={`ProjectsBlock ${project.techTheme.className} VerticalTimelineElement`}
             key={i} // eslint-disable-line react/no-array-index-key
             icon={project.techTheme.icon}
             iconStyle={project.techTheme.iconStyle || project.techTheme.style}
-            date={project.date}
+            date={<Typography variant={'subtitle1'}>{project.date}</Typography>}
           >
             <div style={{ display: 'flex' }} className="">
               <div style={{}}>
-                <h3 className="vertical-timeline-element-title">{project.title}</h3>
-                <h4 className="vertical-timeline-element-subtitle">{project.subtitle}</h4>
+                <Typography variant={'h6'}>{project.title}</Typography>
+                <Typography variant={'subtitle1'}>{project.subtitle}</Typography>
                 <div className="ProjectsBlock-technologies">
                   {project.technologies.map((technology, j) => (
                     <Chip
@@ -53,7 +49,7 @@ const Projects = ({ projects, style }) => (
               )}
             </div>
 
-            <p>{project.content}</p>
+            <Typography variant={'subtitle2'}>{project.content}</Typography>
 
             <br />
             <div className="ProjectsBlock-links">
