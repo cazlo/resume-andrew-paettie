@@ -8,11 +8,12 @@ import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeli
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 import techTheme from '../../common/techTheme';
 import './WorkAndEducation.css';
+import withWidth from '@material-ui/core/withWidth/withWidth';
 
 const formatPeriod = (start, end) => `${start} – ${end}`;
 
 // positions and educations will like be common/content.projects
-const WorkAndEducation = ({ positions, educations }) => (
+const WorkAndEducation = ({ positions, educations, width }) => (
   <ScreenBlock id="Resume-work" className="ResumeWorkAndEducationBlock">
     <div className="container">
       <div className="heading">
@@ -20,7 +21,7 @@ const WorkAndEducation = ({ positions, educations }) => (
         <Typography variant={'subtitle1'}>My previous jobs and my qualifications.</Typography>
       </div>
 
-      <VerticalTimeline animate={false}>
+      <VerticalTimeline animate={width === 'lg' || width === 'xl'}>
         {positions.map((position, i) => (
           <VerticalTimelineElement
             className="Resume-position"
@@ -48,7 +49,7 @@ const WorkAndEducation = ({ positions, educations }) => (
       </VerticalTimeline>
 
       <div id="Resume-education">
-        <VerticalTimeline animate={false}>
+        <VerticalTimeline animate={width === 'lg' || width === 'xl'}>
           {educations.map((education, i) => (
             <VerticalTimelineElement
               position={i % 2 ? 'left' : 'right'}
@@ -83,6 +84,7 @@ const WorkAndEducation = ({ positions, educations }) => (
 WorkAndEducation.propTypes = {
   positions: PropTypes.array.isRequired,
   educations: PropTypes.array.isRequired,
+  width: PropTypes.string.isRequired,
 };
 
-export default WorkAndEducation;
+export default  withWidth()(WorkAndEducation);

@@ -4,20 +4,22 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography/Typography';
+import withWidth from '@material-ui/core/withWidth';
+
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
 
 import './VerticalTimeline.css'; // todo this should be overwrriten from base pkg
 
 // projects will like be common/content.projects
-const Projects = ({ projects, style }) => (
+const Projects = ({ projects, style, width }) => (
   <ScreenBlock className="Resume-projects" id="Resume-projects" style={style}>
     <div className=" container">
       <div className="Resume-projects heading">
         <h2 >Projects</h2>
         <Typography>Showcase of my latest builds</Typography>
       </div>
-      <VerticalTimeline className="VerticalTimeline" animate={false}>
+      <VerticalTimeline className="VerticalTimeline" animate={width === 'lg' || width === 'xl'}>
         {projects.map((project, i) => (
           <VerticalTimelineElement
             key={i} // eslint-disable-line react/no-array-index-key
@@ -75,6 +77,7 @@ const Projects = ({ projects, style }) => (
 Projects.propTypes = {
   projects: PropTypes.array.isRequired,
   style: PropTypes.object,
+  width: PropTypes.string
 };
 
-export default Projects;
+export default withWidth()(Projects);
