@@ -102,6 +102,7 @@ jobs:
           at: /tmp/resume-andrew-paettie/
       - run:
           command: |
+            sudo apt-get update
             sudo apt-get install python-dev python-pip
             sudo pip install awscli
       - run:
