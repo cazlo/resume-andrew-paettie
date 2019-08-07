@@ -52,7 +52,7 @@
     "build": "npm run fix-normalize-css-unit && react-app-rewired build",
     "build-run": "npm run build && serve -s build",
     "test": "react-app-rewired test --env=jsdom",
-    "int-test": "node scripts/customized-config int",
+    "int-test": "jest -c integration-test.config.js --watch",
     "test-ci": "jest -c jest.config.js",
     "int-test-ci": "jest -c integration-test.config.js",
     "eject": "react-scripts eject",
