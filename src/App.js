@@ -13,11 +13,11 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: blue,
-    secondary: red
+    secondary: red,
   },
   typography: {
     useNextVariants: true,
-  }
+  },
 });
 
 const App = () => (

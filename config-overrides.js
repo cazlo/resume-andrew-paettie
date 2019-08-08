@@ -1,6 +1,6 @@
 module.exports = {
   // The Webpack config to use when compiling your react app for development or production.
-  webpack: function(config, env) {
+  webpack(config) {
     // Add the svg loader
     const loaderList = config.module.rules[2].oneOf;
     loaderList.splice(loaderList.length - 1, 0, {
@@ -11,13 +11,13 @@ module.exports = {
   },
   // The Jest config to use when running your jest tests - note that the normal rewires do not
   // work here.
-  jest: function(config) {
+  jest(config) {
     // todo all of this was copy pasta.  will need to run int tests only if we have that set somehow
     // ...add your jest config customisation...
     // Example: enable/disable some tests based on environment variables in the .env file.
-    if (!config.testPathIgnorePatterns) {
-      config.testPathIgnorePatterns = [];
-    }
+    // if (!config.testPathIgnorePatterns) {
+    //   config.testPathIgnorePatterns = [];
+    // }
     // if (!process.env.RUN_COMPONENT_TESTS) {
     //   config.testPathIgnorePatterns.push('<rootDir>/src/components/**/*.test.js');
     // }
@@ -25,5 +25,5 @@ module.exports = {
     //   config.testPathIgnorePatterns.push('<rootDir>/src/reducers/**/*.test.js');
     // }
     return config;
-  }
+  },
 };

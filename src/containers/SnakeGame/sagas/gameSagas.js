@@ -26,9 +26,7 @@ export function* snakeSaga() {
   const state = yield select();
   const {
     game: {
-      snake: {
-        direction,
-      },
+      snake: { direction },
     },
   } = state;
   const { numRows, numCols, frameTimeout, frameCount, wallsAreFatal } = state.game.game;
@@ -50,7 +48,7 @@ export function* snakeSaga() {
     yield put(gameOver());
   }
   // collision with tail
-  for (let i = 0; i < tail.length; i++) {
+  for (let i = 0; i < tail.length; i += 1) {
     const { x, y } = tail[i];
     if (x === head.x && y === head.y) {
       // console.log(`Collided with tail index ${i} (tail size:${tail.length})`);
@@ -58,7 +56,7 @@ export function* snakeSaga() {
     }
   }
   // collision with food
-  for (let i = 0; i < food.length; i++) {
+  for (let i = 0; i < food.length; i += 1) {
     const { x, y } = food[i];
     if (x === head.x && y === head.y) {
       yield put(eatFood(x, y));

@@ -1,6 +1,6 @@
-import { createAction } from 'redux-starter-kit'
+import { createAction } from 'redux-starter-kit';
 
-import Action from "./Action";
+import Action from './Action';
 
 export const startPathFind = createAction(Action.START_PATH_FIND);
 export const finishPathFind = createAction(Action.FINISH_PATH_FIND);

@@ -10,40 +10,40 @@ import SettingsIcon from '@material-ui/icons/SettingsApplications';
 import CodeIcon from '@material-ui/icons/Code';
 import { withStyles } from '@material-ui/core';
 
-import { Link } from './BottomNavLink';
+import Link from './BottomNavLink';
 
-const styles = (theme) => ({
+const styles = theme => ({
   BottomNav: {
-    width: "100%",
-    position: "fixed",
+    width: '100%',
+    position: 'fixed',
     bottom: 0,
 
-    display: "flex",
-    flexFlow: "row wrap",
-    justifyContent: "space-around",
+    display: 'flex',
+    flexFlow: 'row wrap',
+    justifyContent: 'space-around',
     [theme.breakpoints.down('md')]: {
-      height: "auto !important",
+      height: 'auto !important',
     },
   },
   BottomNavLink: {
-    width: "100%",
-    minWidth: "60px",
-    maxWidth: "168px",
+    width: '100%',
+    minWidth: '60px',
+    maxWidth: '168px',
     flex: 1,
-    display: "inline-flex",
-    alignItems: "center",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-    color: "#e9e9e9",
-    cursor: "pointer",
-    outline: "none",
-    transition: "color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    color: '#e9e9e9',
+    cursor: 'pointer',
+    outline: 'none',
+    transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
 
     [theme.breakpoints.down('md')]: {
       fontSize: 0,
-      minWidth: "25%",
-      paddingTop: "10px",
-      paddingBottom: "10px",
+      minWidth: '25%',
+      paddingTop: '10px',
+      paddingBottom: '10px',
     },
   },
 });
@@ -103,7 +103,7 @@ const SimpleBottomNavigation = ({ classes }) => (
 );
 
 SimpleBottomNavigation.propTypes = {
-  classes: PropTypes.object,
+  classes: PropTypes.shape({}).isRequired,
 };
 
 export default withStyles(styles)(SimpleBottomNavigation);

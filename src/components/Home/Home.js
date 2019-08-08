@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import GridBackground from './GridBackground/GridBackground';
-import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
+import ScreenBlock from '../ScreenBlock/ScreenBlock';
 
 import appTheme from '../../common/techTheme';
 import './Home.css';
 
-export const Home = ({ style }) => (
+const Home = ({ style }) => (
   <ScreenBlock id="Resume-home" style={style} className="ResumeHomeBlock">
     <div className="ResumeHomeBlock-headline-container">
       <div className="ResumeHomeBlock-headline">
         <h1 className="Resume.im">Andrew Paettie</h1>
-        <h2>Full-stack web engineer in Dallas</h2>
+        <h2>Full-stack web engineer in Portland</h2>
       </div>
     </div>
 
@@ -30,10 +30,10 @@ export const Home = ({ style }) => (
 );
 
 Home.propTypes = {
-  style: PropTypes.object,
+  style: PropTypes.shape({}),
 };
 
-Home.defaultPropTypes = {
+Home.defaultProps = {
   style: {},
 };
 

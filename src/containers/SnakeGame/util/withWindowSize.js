@@ -1,5 +1,7 @@
 import React from 'react';
-import { DEFAULT_BOX_SIZE, DEFAULT_BOARD_SIZE } from './Grid';
+import Grid from './Grid';
+
+const { DEFAULT_BOX_SIZE, DEFAULT_BOARD_SIZE } = Grid;
 
 function withWindowSize(WrappedComponent) {
   return class WindowSizeProvider extends React.Component {
@@ -26,18 +28,19 @@ function withWindowSize(WrappedComponent) {
       if (!this.mounted) return;
 
       this.setState({
-        innerWidth: Math.floor(window.innerWidth * 0.98 / DEFAULT_BOX_SIZE) * DEFAULT_BOX_SIZE,
-        innerHeight: Math.floor(window.innerHeight * 0.70 / DEFAULT_BOX_SIZE) * DEFAULT_BOX_SIZE,
+        innerWidth: Math.floor((window.innerWidth * 0.98) / DEFAULT_BOX_SIZE) * DEFAULT_BOX_SIZE,
+        innerHeight: Math.floor((window.innerHeight * 0.7) / DEFAULT_BOX_SIZE) * DEFAULT_BOX_SIZE,
       });
     };
 
     render() {
+      const { innerHeight, innerWidth } = this.state;
       return (
         <WrappedComponent
           ref={node => {
             this.node = node;
           }}
-          key={`${this.state.innerHeight} ${this.state.innerWidth}`}
+          key={`${innerHeight} ${innerWidth}`}
           {...this.props}
           {...this.state}
         />
