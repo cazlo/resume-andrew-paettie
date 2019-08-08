@@ -1,5 +1,5 @@
 module.exports = {
   cliOptions: {
-    fix: true
+    fix: true,
   },
 };

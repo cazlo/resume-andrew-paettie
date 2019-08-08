@@ -24,4 +24,3 @@ it('renders content without crashing', () => {
     div,
   );
 });
-

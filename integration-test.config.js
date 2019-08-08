@@ -1,8 +1,7 @@
-const defaultConfig = require("./jest.config");
+const defaultConfig = require('./jest.config');
+
 module.exports = {
   ...defaultConfig,
   verbose: true,
-  testMatch: [
-    "**/?(*.)+(int).[jt]s?(x)"
-  ],
+  testMatch: ['**/?(*.)+(int).[jt]s?(x)'],
 };

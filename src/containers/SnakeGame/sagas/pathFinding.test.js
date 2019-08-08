@@ -1,29 +1,30 @@
 import { pathfind, moveFromPath } from './pathFindingSagas';
 import Position from '../util/Position';
-import Direction from '../util/Direction';
+import { LEFT } from '../util/Direction';
 import Action from '../actions/Action';
-const p = Position;// alias because 'Position' it is long
 
-describe('Path finding wrap behavior',() => {
+const p = Position; // alias because 'Position' it is long
+
+describe('Path finding wrap behavior', () => {
   it('does not choose wrap path when it is obstructed', () => {
     // does not try and wrap around when that move is blocked by the snake itself
-    const snake = {parts:[p(2,0), p(1,0), p(0,0)]};
-    const food = p(0,1);
-    const path = pathfind(snake, food, {numRows:2, numCols:3, wallsAreFatal: false});
+    const snake = { parts: [p(2, 0), p(1, 0), p(0, 0)] };
+    const food = p(0, 1);
+    const path = pathfind(snake, food, { numRows: 2, numCols: 3, wallsAreFatal: false });
     expect(path).toBeDefined();
     expect(path.length).toBe(2);
-    expect(path[0]).toEqual(expect.objectContaining(p(2,1)));
+    expect(path[0]).toEqual(expect.objectContaining(p(2, 1)));
     expect(path[1]).toEqual(expect.objectContaining(food));
   });
 
   it('chooses wrapped path when available and optimal path', () => {
     // chooses the path which wraps around the world when it is the optimal path
-    const snake = {parts:[p(3,0), p(2,0)]};
-    const food = p(0,1);
-    const path = pathfind(snake, food, {numRows:2, numCols:4, wallsAreFatal: false});
+    const snake = { parts: [p(3, 0), p(2, 0)] };
+    const food = p(0, 1);
+    const path = pathfind(snake, food, { numRows: 2, numCols: 4, wallsAreFatal: false });
     expect(path).toBeDefined();
     expect(path.length).toBe(2);
-    const possibleNextMoves = [p(3,1), p(0,0)]; // either of these would be equally optimal
+    const possibleNextMoves = [p(3, 1), p(0, 0)]; // either of these would be equally optimal
     expect(possibleNextMoves).toContainEqual(expect.objectContaining(path[0]));
     expect(path[1]).toEqual(expect.objectContaining(food));
   });
@@ -31,36 +32,43 @@ describe('Path finding wrap behavior',() => {
   it('chooses non-wrapped path when optimal over wrapped path', () => {
     // this should also make sure the distance metrics are not getting screwed by the wrapping
     // because it didn't work until that got fixed...
-    const snake = {parts:[p(3,0), p(2,0)]};
-    const food = p(2,1);
-    const path = pathfind(snake, food, {numRows:2, numCols:4, wallsAreFatal: false});
+    const snake = { parts: [p(3, 0), p(2, 0)] };
+    const food = p(2, 1);
+    const path = pathfind(snake, food, { numRows: 2, numCols: 4, wallsAreFatal: false });
     expect(path).toBeDefined();
     expect(path.length).toBe(2);
-    expect(path[0]).toEqual(expect.objectContaining(p(3,1)));
+    expect(path[0]).toEqual(expect.objectContaining(p(3, 1)));
     expect(path[1]).toEqual(expect.objectContaining(food));
   });
 });
 
 describe('Direction changing behavior', () => {
-  it ('moves toward the other side of the world', () => {
-    const path = [p(0,0), p(19,0)];
-    const snake = [p(1,0)];
-    const moveCommand = moveFromPath(path, snake, {numRows:20, numCols:20, wallsAreFatal: false});
+  it('moves toward the other side of the world', () => {
+    const path = [p(0, 0), p(19, 0)];
+    const snake = [p(1, 0)];
+    const moveCommand = moveFromPath(path, snake, {
+      numRows: 20,
+      numCols: 20,
+      wallsAreFatal: false,
+    });
     expect(moveCommand).toBeDefined();
-    const action = moveCommand.PUT.action;
+    const { action } = moveCommand.PUT;
     expect(action).toBeDefined();
     expect(action.type).toEqual(Action.CHANGE_DIRECTION);
-    expect(action.direction).toEqual(Direction.LEFT);
-
+    expect(action.direction).toEqual(LEFT);
   });
-  it ('moves all the way to the other side of the world', () => {
-    const path = [p(19,0)];
-    const snake = [p(0,0)];
-    const moveCommand = moveFromPath(path, snake, {numRows:20, numCols:20, wallsAreFatal: false});
+  it('moves all the way to the other side of the world', () => {
+    const path = [p(19, 0)];
+    const snake = [p(0, 0)];
+    const moveCommand = moveFromPath(path, snake, {
+      numRows: 20,
+      numCols: 20,
+      wallsAreFatal: false,
+    });
     expect(moveCommand).toBeDefined();
-    const action = moveCommand.PUT.action;
+    const { action } = moveCommand.PUT;
     expect(action).toBeDefined();
     expect(action.type).toEqual(Action.CHANGE_DIRECTION);
-    expect(action.direction).toEqual(Direction.LEFT);
+    expect(action.direction).toEqual(LEFT);
   });
 });

@@ -22,11 +22,12 @@ import Grid from '@material-ui/core/Grid/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
 import {
-  toggleEnableAstar, toggleGreedy, changeName, toggleShowPath,
+  toggleEnableAstar,
+  toggleGreedy,
+  changeName,
+  toggleShowPath,
 } from './actions/aiConfigAction';
-import {
-  toggleWallsAreFatal, setSize, setFrameLimit, setSpeed,
-} from './actions/gameAction';
+import { toggleWallsAreFatal, setSize, setFrameLimit, setSpeed } from './actions/gameAction';
 
 const styles = theme => ({
   root: {
@@ -57,10 +58,8 @@ const styles = theme => ({
   },
 });
 
-const sliders = (props) => {
-  const {
-    speed, numRows, numCols, frameTimeout, computedFrameTimeout,
-  } = props;
+const sliders = props => {
+  const { speed, numRows, numCols, frameTimeout, computedFrameTimeout } = props;
 
   const setSpeedOnChange = (e, v) => props.setSpeed({ speed: v });
   const setMaxFrameOnChange = (e, v) => props.setFrameLimit({ limit: v });
@@ -75,7 +74,7 @@ const sliders = (props) => {
       max: 0,
       min: 200,
       step: 1,
-      avatar: <MdTimer/>,
+      avatar: <MdTimer />,
     },
     {
       label: 'Max Frames Timeout',
@@ -84,7 +83,7 @@ const sliders = (props) => {
       max: computedFrameTimeout * 2,
       min: 100,
       step: 100,
-      avatar: <FaRegHourglass/>,
+      avatar: <FaRegHourglass />,
     },
     {
       label: 'Game Width',
@@ -93,7 +92,7 @@ const sliders = (props) => {
       max: 50,
       min: 6,
       step: 1,
-      avatar: <FaArrowsAltH/>,
+      avatar: <FaArrowsAltH />,
     },
     {
       label: 'Game Height',
@@ -102,62 +101,47 @@ const sliders = (props) => {
       max: 50,
       min: 6,
       step: 1,
-      avatar: <FaArrowsAltV/>,
+      avatar: <FaArrowsAltV />,
     },
   ];
 };
 
 const ConfigPanel = props => {
-  const {
-    aStar, greedy, playerName, showPath, wallsAreFatal,
-    classes,
-  } = props;
+  const { aStar, greedy, playerName, showPath, wallsAreFatal, classes } = props;
 
   return (
     <ExpansionPanel className={classes.root}>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-        <Typography variant={'h6'}>Settings</Typography>
+      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography variant="h6">Settings</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className={classes.column}>
         <Typography variant="subtitle1"> Pathfinding Settings </Typography>
-        <Grid container spacing={8} direction={'row'} className={classes.settingsSubSection}>
+        <Grid container spacing={8} direction="row" className={classes.settingsSubSection}>
           <Grid item xs>
             <FormControlLabel
               label="Shortest Path to Food"
-              control={
-                <Switch
-                  checked={aStar}
-                  onChange={props.toggleEnableAstar}
-                />
-              }
+              /* eslint-disable-next-line react/destructuring-assignment */
+              control={<Switch checked={aStar} onChange={props.toggleEnableAstar} />}
             />
           </Grid>
           <Grid item xs>
             <FormControlLabel
               label="Shortest Path to Food Else Longest Path to Tail"
-              control={
-                <Switch
-                  checked={greedy}
-                  onChange={props.toggleGreedy}
-                />
-              }
+              /* eslint-disable-next-line react/destructuring-assignment */
+              control={<Switch checked={greedy} onChange={props.toggleGreedy} />}
             />
           </Grid>
           <Grid>
             <FormControlLabel
               label="Show Path"
-              control={
-                <Switch
-                  checked={showPath}
-                  onChange={props.toggleShowPath}
-                />
-              }
+              /* eslint-disable-next-line react/destructuring-assignment */
+              control={<Switch checked={showPath} onChange={props.toggleShowPath} />}
             />
           </Grid>
         </Grid>
 
         <Typography variant="subtitle1"> Game Settings </Typography>
-        <Grid container spacing={8} direction={'row'} className={classes.settingsSubSection}>
+        <Grid container spacing={8} direction="row" className={classes.settingsSubSection}>
           <Grid item xs>
             <form noValidate autoComplete="off">
               <TextField
@@ -171,6 +155,7 @@ const ConfigPanel = props => {
                 // fullWidth
                 variant="outlined"
                 disabled={false}
+                /* eslint-disable-next-line react/destructuring-assignment */
                 onChange={props.changeName}
               />
             </form>
@@ -178,20 +163,19 @@ const ConfigPanel = props => {
           <Grid item xs>
             <FormControlLabel
               label="Boundary Kills Snake"
-              control={
-                <Switch
-                  checked={wallsAreFatal}
-                  onChange={props.toggleWallsAreFatal}
-                />
-              }
+              /* eslint-disable-next-line react/destructuring-assignment */
+              control={<Switch checked={wallsAreFatal} onChange={props.toggleWallsAreFatal} />}
             />
           </Grid>
-          <Grid container spacing={8} direction={'column'}>
-            {sliders(props).map((slider, i) => (
-              <Grid key={`${slider.label}-${i}`} container direction={'column'}>
+          <Grid container spacing={8} direction="column">
+            {sliders(props).map(slider => (
+              <Grid key={`${slider.label}`} container direction="column">
                 <Grid item xs={4}>
-                  <Chip label={`${slider.label}: ${slider.value.toFixed(0)}`} color="primary"
-                        avatar={<Avatar>{slider.avatar}</Avatar>}/>
+                  <Chip
+                    label={`${slider.label}: ${slider.value.toFixed(0)}`}
+                    color="primary"
+                    avatar={<Avatar>{slider.avatar}</Avatar>}
+                  />
                 </Grid>
                 <Grid item xs>
                   <Slider
@@ -205,11 +189,9 @@ const ConfigPanel = props => {
                   />
                 </Grid>
               </Grid>
-            ))
-            }
+            ))}
           </Grid>
         </Grid>
-
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
@@ -221,12 +203,13 @@ ConfigPanel.propTypes = {
   playerName: PropTypes.string.isRequired,
   showPath: PropTypes.bool.isRequired,
   wallsAreFatal: PropTypes.bool.isRequired,
+  /* eslint-disable react/no-unused-prop-types */
   speed: PropTypes.number.isRequired,
   numRows: PropTypes.number.isRequired,
   numCols: PropTypes.number.isRequired,
   frameTimeout: PropTypes.number.isRequired,
   computedFrameTimeout: PropTypes.number.isRequired,
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.shape({}).isRequired,
 
   toggleEnableAstar: PropTypes.func.isRequired,
   toggleGreedy: PropTypes.func.isRequired,
@@ -236,18 +219,34 @@ ConfigPanel.propTypes = {
   setSize: PropTypes.func.isRequired,
   setFrameLimit: PropTypes.func.isRequired,
   setSpeed: PropTypes.func.isRequired,
+  /* eslint-enable react/no-unused-prop-types */
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  toggleEnableAstar, toggleGreedy, toggleShowPath,
-  changeName,
-  toggleWallsAreFatal, setSize, setFrameLimit, setSpeed,
-}, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      toggleEnableAstar,
+      toggleGreedy,
+      toggleShowPath,
+      changeName,
+      toggleWallsAreFatal,
+      setSize,
+      setFrameLimit,
+      setSpeed,
+    },
+    dispatch,
+  );
 
 const mapStateToProps = state => ({
   ...state.aiConfig,
   ...state.game.game,
 });
-const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withStyles(styles)]);
+const decorators = flow([
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withStyles(styles),
+]);
 
 export default decorators(ConfigPanel);

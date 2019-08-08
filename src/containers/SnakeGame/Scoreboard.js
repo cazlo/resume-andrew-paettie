@@ -28,7 +28,7 @@ const styles = theme => ({
     width: '100%',
     // marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
-    backgroundColor: theme.palette.grey["500"],
+    backgroundColor: theme.palette.grey['500'],
   },
   table: {
     minWidth: 700,
@@ -45,8 +45,8 @@ const Scoreboard = props => {
 
   return (
     <ExpansionPanel className={classes.root}>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>} className={classes.root}>
-        <Typography variant={"h6"}>High Scores</Typography>
+      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className={classes.root}>
+        <Typography variant="h6">High Scores</Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails className={classes.column}>
         <Table className={classes.table}>
@@ -79,11 +79,18 @@ const Scoreboard = props => {
 };
 
 Scoreboard.propTypes = {
-  scores: PropTypes.array,
-  classes: PropTypes.object.isRequired,
+  scores: PropTypes.arrayOf(
+    PropTypes.shape({
+      score: PropTypes.number,
+      duration: PropTypes.string,
+      frameCount: PropTypes.string,
+      time: PropTypes.string,
+    }),
+  ),
+  classes: PropTypes.shape({}).isRequired,
 };
 
-Scoreboard.defaultPropTypes = {
+Scoreboard.defaultProps = {
   scores: [],
 };
 
