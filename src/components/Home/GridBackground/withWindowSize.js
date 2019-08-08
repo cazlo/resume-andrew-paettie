@@ -34,12 +34,13 @@ function withWindowSize(WrappedComponent) {
     };
 
     render() {
+      const { innerHeight, innerWidth } = this.state;
       return (
         <WrappedComponent
           ref={node => {
             this.node = node;
           }}
-          key={`${this.state.innerHeight} ${this.state.innerWidth}`}
+          key={`${innerHeight} ${innerWidth}`}
           {...this.props}
           {...this.state}
         />

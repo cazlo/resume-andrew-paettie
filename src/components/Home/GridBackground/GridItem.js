@@ -6,12 +6,13 @@ const GridItem = ({ width, height, style, ...rest }) => (
 );
 
 GridItem.propTypes = {
-  height: PropTypes.number,
-  width: PropTypes.number,
-  style: PropTypes.object,
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
-  delay: PropTypes.number,
-  duration: PropTypes.number,
+  delay: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
 };
 
 GridItem.defaultPropTypes = {
