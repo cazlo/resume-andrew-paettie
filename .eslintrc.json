@@ -28,6 +28,8 @@
   "rules": {
     "max-len": ["error", {"code": 120}],
     "react/prop-types": ["warn"],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-restricted-syntax": "warn",
+    "react/jsx-filename-extension": "warn"
   }
 }

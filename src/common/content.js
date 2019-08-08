@@ -1,6 +1,15 @@
 import React from 'react';
 import { GoGraph } from 'react-icons/go';
-import { FaRobot, FaLaptopCode, FaCodeBranch, FaRegFileCode, FaCloud, FaCheckDouble, FaJedi, FaMicrochip } from 'react-icons/fa';
+import {
+  FaRobot,
+  FaLaptopCode,
+  FaCodeBranch,
+  FaRegFileCode,
+  FaCloud,
+  FaCheckDouble,
+  FaJedi,
+  FaMicrochip,
+} from 'react-icons/fa';
 
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
@@ -38,7 +47,7 @@ export default {
       company: 'Nike',
     },
     {
-      title: 'Full-stack software engineer',
+      title: 'Full-stack Senior Software Engineer',
       summary: (
         <span>
           NodeJS/Postgres/Javascript development
@@ -52,7 +61,7 @@ export default {
       company: 'Cox Auto Data Solutions',
     },
     {
-      title: 'Full-stack software engineer',
+      title: 'Full-stack Software Engineer',
       summary: (
         <span>
           Java/MySQL/Javascript development
@@ -82,56 +91,66 @@ export default {
   ],
   tools: [
     {
-    category: "O/S",
-    categoryIcon: <FaLaptopCode/>,
-    name: "Linux",
-    icon: techTheme.linux.icon,
-  },{
-    category: "IDE",
-    categoryIcon: <FaRegFileCode/>,
-    name: "Webstorm",
-    icon: techTheme.webstorm.icon,
-  },{
-    category: "IDE",
-    categoryIcon: <FaRegFileCode/>,
-    name: "Intellij",
-    icon: techTheme.intellij.icon,
-  },{
-    category: "Containerz",
-    categoryIcon: <FaCloud/>,
-    name: "Docker",
-    icon: techTheme.docker.icon,
-  },{
-    category: "CI/CD",
-    categoryIcon: <FaCheckDouble/>,
-    name: "CircleCI",
-    icon: techTheme.circleci.icon,
-  },{
-    category: "CI/CD",
-    categoryIcon: <FaCheckDouble/>,
-    name: "Jenkins",
-    icon: techTheme.jenkins.icon,
-  },{
-    category: "Project Mgmt",
-    categoryIcon: <FaJedi/>,
-    name: "Github",
-    icon: techTheme.github.icon,
-  },{
-    category: "Project Mgmt",
-    categoryIcon: <FaJedi/>,
-    name: "Trello",
-    icon: techTheme.trello.icon,
-  },{
-    category: "Project Mgmt",
-    categoryIcon: <FaJedi/>,
-    name: "Slack",
-    icon: techTheme.slack.icon,
-  },{
-    category: "VCS",
-    categoryIcon: <FaCodeBranch/>,
-    name: "Git",
-    icon: techTheme.git.icon,
-  }],
+      category: 'O/S',
+      categoryIcon: <FaLaptopCode />,
+      name: 'Linux',
+      icon: techTheme.linux.icon,
+    },
+    {
+      category: 'IDE',
+      categoryIcon: <FaRegFileCode />,
+      name: 'Webstorm',
+      icon: techTheme.webstorm.icon,
+    },
+    {
+      category: 'IDE',
+      categoryIcon: <FaRegFileCode />,
+      name: 'Intellij',
+      icon: techTheme.intellij.icon,
+    },
+    {
+      category: 'Containerz',
+      categoryIcon: <FaCloud />,
+      name: 'Docker',
+      icon: techTheme.docker.icon,
+    },
+    {
+      category: 'CI/CD',
+      categoryIcon: <FaCheckDouble />,
+      name: 'CircleCI',
+      icon: techTheme.circleci.icon,
+    },
+    {
+      category: 'CI/CD',
+      categoryIcon: <FaCheckDouble />,
+      name: 'Jenkins',
+      icon: techTheme.jenkins.icon,
+    },
+    {
+      category: 'Project Mgmt',
+      categoryIcon: <FaJedi />,
+      name: 'Github',
+      icon: techTheme.github.icon,
+    },
+    {
+      category: 'Project Mgmt',
+      categoryIcon: <FaJedi />,
+      name: 'Trello',
+      icon: techTheme.trello.icon,
+    },
+    {
+      category: 'Project Mgmt',
+      categoryIcon: <FaJedi />,
+      name: 'Slack',
+      icon: techTheme.slack.icon,
+    },
+    {
+      category: 'VCS',
+      categoryIcon: <FaCodeBranch />,
+      name: 'Git',
+      icon: techTheme.git.icon,
+    },
+  ],
   projects: [
     {
       title: 'React Snake',
@@ -357,7 +376,7 @@ export default {
       technologies: [
         {
           name: 'MIPS',
-          icon: <FaMicrochip />
+          icon: <FaMicrochip />,
         },
       ],
       content: `An implementation of the game moo in the MIPS assembly lanuage.  

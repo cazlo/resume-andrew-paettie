@@ -1,6 +1,6 @@
-import Action from '../actions/Action'
 import { combineReducers } from 'redux';
 import { createReducer } from 'redux-starter-kit';
+import Action from '../actions/Action';
 
 export const path = createReducer([], {
   [Action.PATH_NOT_FOUND]: () => [],
@@ -14,5 +14,5 @@ export const grid = createReducer([], {
 });
 export default combineReducers({
   path,
-  grid
+  grid,
 });

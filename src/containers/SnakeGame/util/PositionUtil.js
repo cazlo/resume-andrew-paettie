@@ -1,6 +1,9 @@
 import _ from 'lodash';
 import GridState from './GridState';
 
+const isSamePosition = (position1, position2) =>
+  position1.x === position2.x && position1.y === position2.y;
+
 const isColliding = (position, snake) =>
   snake.reduce((acc, snakeLocation) => {
     if (acc) {
@@ -8,9 +11,6 @@ const isColliding = (position, snake) =>
     }
     return isSamePosition(snakeLocation, position);
   }, false);
-
-const isSamePosition = (position1, position2) =>
-  position1.x === position2.x && position1.y === position2.y;
 
 const createSurroundingNodes = (x, y, grid) => {
   const newGrid = _.map(grid, _.clone);
@@ -61,7 +61,7 @@ const ateItself = snake => {
 const isWithinPlayArea = (cell, numCols, numRows) =>
   cell.x > -1 && cell.y > -1 && cell.x < numCols && cell.y < numRows;
 
-const oppositeDirection = (d1, d2) => (d1.x+d2.x===0 && d1.y+d2.y===0);
+const oppositeDirection = (d1, d2) => d1.x + d2.x === 0 && d1.y + d2.y === 0;
 
 export default {
   isColliding,

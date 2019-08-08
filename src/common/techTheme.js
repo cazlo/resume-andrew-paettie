@@ -23,7 +23,7 @@ import WebstormIcon from 'react-devicon/webstorm/plain';
 import TrelloIcon from 'react-devicon/trello/plain';
 import GitIcon from 'react-devicon/git/plain';
 
-import { FaJenkins, FaEllipsisH } from "react-icons/fa";
+import { FaJenkins, FaEllipsisH } from 'react-icons/fa';
 
 import JestSvg from '../data/jest.svg';
 import CircleciSvg from '../data/circleci.svg';

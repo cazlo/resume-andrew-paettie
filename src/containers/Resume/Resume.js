@@ -18,8 +18,9 @@ const { Element } = Scroll;
 
 class Resume extends Component {
   componentDidMount() {
-    if (this.props.scrollTo) {
-      Scroll.scroller.scrollTo(this.props.scrollTo);
+    const { scrollTo } = this.props;
+    if (scrollTo) {
+      Scroll.scroller.scrollTo(scrollTo);
     }
   }
 
@@ -50,6 +51,9 @@ class Resume extends Component {
 
 Resume.propTypes = {
   scrollTo: PropTypes.string,
+};
+Resume.defaultProps = {
+  scrollTo: '',
 };
 
 // const decorators = flow([withTheme()]);

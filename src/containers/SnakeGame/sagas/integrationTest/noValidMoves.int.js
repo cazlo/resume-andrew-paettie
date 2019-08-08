@@ -15,7 +15,7 @@ const createStore = (sagaMiddleware, food, aiConfig) => {
       // s snapshot of a state which produced a weird edge case for A* only
       pathFinding: {
         path: [],
-        grid: []
+        grid: [],
       },
       game: {
         game: {
@@ -32,12 +32,12 @@ const createStore = (sagaMiddleware, food, aiConfig) => {
           perfectScore: 35,
           frameTimeout: 215.83333333333334,
           computedFrameTimeout: 215.83333333333334,
-          wallsAreFatal: true
+          wallsAreFatal: true,
         },
         snake: {
           direction: {
             x: 0,
-            y: 1
+            y: 1,
           },
           parts: [
             // {
@@ -71,51 +71,60 @@ const createStore = (sagaMiddleware, food, aiConfig) => {
             {
               x: 3,
               y: 3,
-            }
-          ]
+            },
+          ],
         },
         food,
-        highScores: []
+        highScores: [],
       },
       aiConfig: {
         aStar: true,
         showPath: false,
         greedy: false,
         playerName: 'SKYNET',
-        ...aiConfig
-      }
-    }
+        ...aiConfig,
+      },
+    },
   });
 };
 
-
-export const playGame = (food, aiConfig) => {
+const playGame = (food, aiConfig) => {
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(sagaMiddleware, food, aiConfig);
-  const saga = sagaMiddleware.run(() => runGame({waitOnPlay:false, doReset: false}));
+  const saga = sagaMiddleware.run(() => runGame({ waitOnPlay: false, doReset: false }));
   return saga.done.then(() => {
     // assertions
     const state = store.getState().game;
     const { game } = state;
     expect(game.state).toEqual(Action.GAME_OVER);
     expect(game.score).toBeGreaterThan(0);
-    return({ duration: game.endTime - game.startTime, score: game.score })
+    return { duration: game.endTime - game.startTime, score: game.score };
   });
 };
 
-describe("snake can accept the inevitability of death", () => {
+describe('snake can accept the inevitability of death', () => {
   const aFood = [
     {
       x: 3,
-      y: 2
-    }
+      y: 2,
+    },
   ];
-  it("A* doesn't try to step outside of the world", () => playGame(aFood, {aStar:true,greedy:false}), 10000);
-  it("Greedy doesn't try to step outside of the world", () => playGame(aFood, {greedy:true,aStar:false}), 10000);
+  it(
+    "A* doesn't try to step outside of the world",
+    () => playGame(aFood, { aStar: true, greedy: false }),
+    10000,
+  );
+  it(
+    "Greedy doesn't try to step outside of the world",
+    () => playGame(aFood, { greedy: true, aStar: false }),
+    10000,
+  );
 });
 
 describe("snake doesn't care when there is no food", () => {
   const aFood = [];
-  it("A* DGAF about food", () => playGame(aFood, {aStar:true,greedy:false}), 10000);
-  it("Greedy DGAF about food", () => playGame(aFood, {greedy:true,aStar:false}), 10000);
+  it('A* DGAF about food', () => playGame(aFood, { aStar: true, greedy: false }), 10000);
+  it('Greedy DGAF about food', () => playGame(aFood, { greedy: true, aStar: false }), 10000);
 });
+
+export default playGame;

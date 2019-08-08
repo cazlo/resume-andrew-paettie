@@ -14,7 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid/Grid';
 import Chip from '@material-ui/core/Chip/Chip';
 
-import ScreenBlock from '../../components/ScreenBlock/ScreenBlock';
+import ScreenBlock from '../ScreenBlock/ScreenBlock';
 
 import './Skills.css';
 
@@ -48,7 +48,7 @@ export const getToolsByCategory = tools => {
 
 const Skills = ({ skills, tools }) => (
   <ScreenBlock id="Resume-skills" className="ResumeSkillsBlock container">
-    <Grid container spacing={16} >
+    <Grid container spacing={16}>
       <Grid item xs={12} className="heading">
         <h2>Skills</h2>
         <Typography>I can say i’m quite good at</Typography>
@@ -76,11 +76,16 @@ const Skills = ({ skills, tools }) => (
               >
                 {skillCategory[0].language.name}
               </h3>
-              {skillCategory.map((skill, j) => (
+              {skillCategory.map(skill => (
                 // eslint-disable-next-line react/no-array-index-key
-                <div key={j} style={{
-                  color: skillCategory[0].language.style.style.background,
-                }}>{skill.name}</div>
+                <div
+                  key={`skill-${skill.name}`}
+                  style={{
+                    color: skillCategory[0].language.style.style.background,
+                  }}
+                >
+                  {skill.name}
+                </div>
               ))}
             </CardContent>
           </Card>
@@ -97,18 +102,25 @@ const Skills = ({ skills, tools }) => (
       <Grid item className="ResumeSkillsBlock-tools" xs={12}>
         <Table>
           <TableBody>
-          {getToolsByCategory(tools).map((category, i) => (
-            <TableRow key={`${category[0].category}-${i}`}>
-              <TableCell className="ResumeSkillsBlock-tools-cell">
-                <Chip avatar={<Avatar >{category[0].categoryIcon}</Avatar>} label={category[0].category}/>
-              </TableCell>
-              <TableCell style={{textAlign:"right"}} className="ResumeSkillsBlock-tools-cell">
-                {category.map((tool, j) => (
-                   <Chip avatar={<Avatar>{tool.icon}</Avatar>} label={tool.name} key={`${tool.name}-${j}`}/>
-                ))}
-              </TableCell>
-            </TableRow>
-          ))}
+            {getToolsByCategory(tools).map(category => (
+              <TableRow key={`tools-${category[0].category}`}>
+                <TableCell className="ResumeSkillsBlock-tools-cell">
+                  <Chip
+                    avatar={<Avatar>{category[0].categoryIcon}</Avatar>}
+                    label={category[0].category}
+                  />
+                </TableCell>
+                <TableCell style={{ textAlign: 'right' }} className="ResumeSkillsBlock-tools-cell">
+                  {category.map(tool => (
+                    <Chip
+                      avatar={<Avatar>{tool.icon}</Avatar>}
+                      label={tool.name}
+                      key={`${tool.name}-${category[0].category}`}
+                    />
+                  ))}
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </Grid>
@@ -117,8 +129,23 @@ const Skills = ({ skills, tools }) => (
 );
 
 Skills.propTypes = {
-  skills: PropTypes.array.isRequired,
-  tools: PropTypes.array.isRequired,
+  skills: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      language: PropTypes.shape({
+        name: PropTypes.string,
+        style: PropTypes.shape({}),
+      }),
+    }),
+  ).isRequired,
+  tools: PropTypes.arrayOf(
+    PropTypes.shape({
+      category: PropTypes.string,
+      categoryIcon: PropTypes.node,
+      name: PropTypes.string,
+      icon: PropTypes.node,
+    }),
+  ).isRequired,
 };
 
 export default Skills;
