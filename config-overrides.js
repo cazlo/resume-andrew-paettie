@@ -18,12 +18,12 @@ module.exports = {
     if (!config.testPathIgnorePatterns) {
       config.testPathIgnorePatterns = [];
     }
-    if (!process.env.RUN_COMPONENT_TESTS) {
-      config.testPathIgnorePatterns.push('<rootDir>/src/components/**/*.test.js');
-    }
-    if (!process.env.RUN_REDUCER_TESTS) {
-      config.testPathIgnorePatterns.push('<rootDir>/src/reducers/**/*.test.js');
-    }
+    // if (!process.env.RUN_COMPONENT_TESTS) {
+    //   config.testPathIgnorePatterns.push('<rootDir>/src/components/**/*.test.js');
+    // }
+    // if (!process.env.RUN_REDUCER_TESTS) {
+    //   config.testPathIgnorePatterns.push('<rootDir>/src/reducers/**/*.test.js');
+    // }
     return config;
   }
 };
