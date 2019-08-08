@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import './ScreenBlock.css';
 
 const ScreenBlock = ({ children, className, containerClassName, ...othersProps }) => (
-  <div className={classNames(containerClassName, 'ScreenBlockContainer')}>
-    <div {...othersProps} className={classNames(className, 'ScreenBlock')}>
+  <div className="ScreenBlockContainer">
+    <div {...othersProps} className="ScreenBlock">
       {children}
     </div>
   </div>

@@ -60,7 +60,8 @@ class GridBackground extends React.PureComponent {
         },
       });
       // const randKey = Math.floor(Math.random() * children.length);
-      // const child = React.createElement(children[randKey].type, {...children[randKey].props, style: {...children[randKey].props.style, width: '100%', height: '100%'}});
+      // const child = React.createElement(children[randKey].type,
+      //  {...children[randKey].props, style: {...children[randKey].props.style, width: '100%', height: '100%'}});
       return (
         <GridItemTransition key={i} delay={i * 20} duration={350}>
           <GridItem width={itemWidth} height={itemHeight} delay={1000} duration={100}>
@@ -83,8 +84,8 @@ class GridBackground extends React.PureComponent {
 }
 
 GridBackground.propTypes = {
-  innerHeight: PropTypes.number,
-  innerWidth: PropTypes.number,
+  innerHeight: PropTypes.number.isRequired,
+  innerWidth: PropTypes.number.isRequired,
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
