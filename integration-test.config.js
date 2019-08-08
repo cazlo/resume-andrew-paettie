@@ -3,6 +3,6 @@ module.exports = {
   ...defaultConfig,
   verbose: true,
   testMatch: [
-    '<rootDir>/src/**/?(*.)(int).{js,jsx}',
+    "**/?(*.)+(int).[jt]s?(x)"
   ],
 };
