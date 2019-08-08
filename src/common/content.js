@@ -24,6 +24,20 @@ export default {
   ],
   positions: [
     {
+      title: 'Senior Cloud/Platform engineer',
+      summary: (
+        <span>
+          Java/AWS/Javascript development
+          <br />
+          Java 8 | Lambda | ReactJS | Docker | CI | AWS
+        </span>
+      ),
+      startDate: '2019',
+      endDate: 'Today',
+      isCurrent: true,
+      company: 'Nike',
+    },
+    {
       title: 'Full-stack software engineer',
       summary: (
         <span>
@@ -33,8 +47,8 @@ export default {
         </span>
       ),
       startDate: '2017',
-      endDate: 'Today',
-      isCurrent: true,
+      endDate: '2019',
+      isCurrent: false,
       company: 'Cox Auto Data Solutions',
     },
     {
