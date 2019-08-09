@@ -48,7 +48,7 @@ export const getToolsByCategory = tools => {
 
 const Skills = ({ skills, tools }) => (
   <ScreenBlock id="Resume-skills" className="ResumeSkillsBlock container">
-    <Grid container spacing={16}>
+    <Grid container spacing={0}>
       <Grid item xs={12} className="heading">
         <h2>Skills</h2>
         <Typography>I can say i’m quite good at</Typography>
