@@ -10,9 +10,9 @@ import './Home.css';
 const Home = ({ style }) => (
   <ScreenBlock id="Resume-home" style={style} className="ResumeHomeBlock">
     <div className="ResumeHomeBlock-headline-container">
-      <div className="ResumeHomeBlock-headline">
-        <h1 className="Resume.im">Andrew Paettie</h1>
-        <h2>Full-stack web engineer in Portland</h2>
+      <div className="ResumeHomeBlock-headline ResumeHomeBlock-heading">
+        <h1 className="Resume.im ResumeHomeBlock-heading">Andrew Paettie</h1>
+        <h2 className="ResumeHomeBlock-heading">Full-stack web engineer in Portland</h2>
       </div>
     </div>
 
