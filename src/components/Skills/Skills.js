@@ -71,7 +71,10 @@ const Skills = ({ skills, tools }) => (
               </Avatar>
               <h3
                 style={{
-                  color: skillCategory[0].language.style.style.background,
+                  color:
+                    skillCategory[0].language.name.toLowerCase() === 'java'
+                      ? skillCategory[0].language.style.style.color
+                      : skillCategory[0].language.style.style.background,
                 }}
               >
                 {skillCategory[0].language.name}
@@ -81,7 +84,10 @@ const Skills = ({ skills, tools }) => (
                 <div
                   key={`skill-${skill.name}`}
                   style={{
-                    color: skillCategory[0].language.style.style.background,
+                    color:
+                      skillCategory[0].language.name.toLowerCase() === 'java'
+                        ? skillCategory[0].language.style.style.color
+                        : skillCategory[0].language.style.style.background,
                   }}
                 >
                   {skill.name}
