@@ -60,7 +60,7 @@
   "scripts": {
     "fix-normalize-css-unit": "cross-env NODE_ENV=production babel --presets @babel/env ./node_modules/normalize-css-unit/dist --out-dir ./node_modules/normalize-css-unit/dist",
     "start": "react-app-rewired start",
-    "build": "npm run fix-normalize-css-unit && react-app-rewired build && react-snap",
+    "build": "npm run fix-normalize-css-unit && react-app-rewired build",
     "build-run": "npm run build && serve -s build",
     "test": "react-app-rewired test --env=jsdom",
     "int-test": "jest -c integration-test.config.js --watch",
