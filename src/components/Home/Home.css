@@ -24,10 +24,10 @@
     overflow: hidden;
     text-align: center;
     background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*align-self: center;*/
     /*z-index: -1;*/
 }
 
@@ -73,6 +73,7 @@
     align-items: center;
     justify-content: center;
     align-self: center;
+    height: calc(100vh - 56px);
 }
 
 .ResumeHomeBlock-headline {
