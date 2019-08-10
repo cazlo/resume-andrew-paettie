@@ -73,6 +73,8 @@
 
     .ResumeAboutMeBlock-profilePicture img {
         max-height: none;
+        width: 75%;
+        height: 75%;
     }
 
     .ResumeAboutMeBlock-links {
