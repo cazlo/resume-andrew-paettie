@@ -47,7 +47,7 @@ export default {
       company: 'Nike',
     },
     {
-      title: 'Full-stack Senior Software Engineer',
+      title: 'Senior Full-stack Software Engineer',
       summary: (
         <span>
           NodeJS/Postgres/Javascript development
