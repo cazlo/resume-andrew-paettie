@@ -41,7 +41,7 @@ const styles = theme => ({
 
     [theme.breakpoints.down('md')]: {
       fontSize: 0,
-      minWidth: '25%',
+      // minWidth: '25%',
       paddingTop: '10px',
       paddingBottom: '10px',
     },
