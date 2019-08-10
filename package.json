@@ -8,6 +8,7 @@
     "@material-ui/icons": "^2.0.0",
     "@material-ui/lab": "^3.0.0-alpha.23",
     "bluebird": "^3.5.3",
+    "cheerio": "^1.0.0-rc.3",
     "global": "^4.3.2",
     "jest-junit": "^6.4.0",
     "jest-runner-eslint": "^0.7.4",
@@ -60,7 +61,7 @@
   "scripts": {
     "fix-normalize-css-unit": "cross-env NODE_ENV=production babel --presets @babel/env ./node_modules/normalize-css-unit/dist --out-dir ./node_modules/normalize-css-unit/dist",
     "start": "react-app-rewired start",
-    "build": "npm run fix-normalize-css-unit && react-app-rewired build",
+    "build": "npm run fix-normalize-css-unit && (react-app-rewired build && react-snap || true) && npm run replace-noscript",
     "build-run": "npm run build && serve -s build",
     "test": "react-app-rewired test --env=jsdom",
     "int-test": "jest -c integration-test.config.js --watch",
@@ -68,7 +69,8 @@
     "int-test-ci": "jest -c integration-test.config.js",
     "eject": "react-scripts eject",
     "lint": "eslint src/",
-    "lint-fix": "jest -c lint.config.js --watch"
+    "lint-fix": "jest -c lint.config.js --watch",
+    "replace-noscript": "node src/buildutil/noscript.js"
   },
   "browserslist": [
     ">0.2%",
@@ -86,6 +88,7 @@
   },
   "reactSnap": {
     "source": "build",
+    "destination": "build/noscript",
     "minifyHtml": {
       "collapseWhitespace": false,
       "removeComments": true
