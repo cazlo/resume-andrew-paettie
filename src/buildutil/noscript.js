@@ -16,7 +16,9 @@ const style = noScriptDocument('style[data-jss]')
 // console.log(style);
 const normalContents = fs.readFileSync('build/index.html', 'utf8');
 const normalIndex = cheerio.load(normalContents);
-normalIndex('#root').replaceWith(`<noscript>${appNode}<style>${style}</style></noscript>`);
+normalIndex('#root').replaceWith(
+  `<div id="root"><noscript>${appNode}<style>${style}</style></noscript></div>`,
+);
 console.log('Writing to file');
 // console.log(normalIndex.html());
 fs.writeFileSync('build/index.html', normalIndex.html());
