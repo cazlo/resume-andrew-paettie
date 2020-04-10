@@ -3,23 +3,23 @@ import PropTypes from 'prop-types';
 
 import './ScreenBlock.css';
 
-const ScreenBlock = ({ children, className, containerClassName, ...othersProps }) => (
+const ScreenBlock = ({ children, id, style }) => (
   <div className="ScreenBlockContainer">
-    <div {...othersProps} className="ScreenBlock">
+    <div id={id} className="ScreenBlock" style={style}>
       {children}
     </div>
   </div>
 );
 
 ScreenBlock.defaultProps = {
-  className: '',
-  containerClassName: '',
+  style: {},
 };
 
 ScreenBlock.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-  className: PropTypes.string,
-  containerClassName: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object,
 };
 
 export default ScreenBlock;
