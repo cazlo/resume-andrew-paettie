@@ -313,10 +313,7 @@ const mapStateToProps = state => ({
 });
 
 const decorators = flow([
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles),
   withWindowSize,
 ]);

@@ -241,12 +241,6 @@ const mapStateToProps = state => ({
   ...state.aiConfig,
   ...state.game.game,
 });
-const decorators = flow([
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-  withStyles(styles),
-]);
+const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withStyles(styles)]);
 
 export default decorators(ConfigPanel);
