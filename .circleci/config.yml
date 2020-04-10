@@ -2,7 +2,7 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 2.1
 jobs:
   install:
     docker:
@@ -79,17 +79,11 @@ jobs:
           paths:
             - build/*
   deploy-test:
-    docker:
-      - image: circleci/node:10.13-browsers
-    working_directory: /tmp/resume-andrew-paettie
+    executor: aws-cli/default
     steps:
       - attach_workspace:
           at: /tmp/resume-andrew-paettie/
-      - run:
-          command: |
-            sudo apt-get update
-            sudo apt-get install python-dev python-pip
-            sudo pip install awscli
+      - aws-cli/setup
       - run:
           command: |
             aws s3 sync build s3://andrewpaettie.test.com --delete --acl public-read
@@ -135,6 +129,8 @@ jobs:
              /static/resume/resume-Andrew-Paettie.docx \
              /static/resume/resume-Andrew-Paettie.pdf
 
+orbs:
+  aws-cli: circleci/aws-cli@1.0.0
 workflows:
   version: 2
   test_build_deploy:
