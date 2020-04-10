@@ -8,16 +8,13 @@ jobs:
     docker:
       - image: circleci/node:10.13-browsers
     working_directory: /tmp/resume-andrew-paettie
-
     steps:
       - checkout
       # Download and cache dependencies
       - restore_cache:
           keys:
           - dependencies-{{ checksum "package.json" }}
-
       - run: npm install
-
       - save_cache:
           paths:
           - node_modules
@@ -47,7 +44,6 @@ jobs:
           path: /tmp/resume-andrew-paettie/reports
       - store_test_results:
           path: /tmp/resume-andrew-paettie/reports/junit
-
   integration-test:
     docker:
       - image: circleci/node:10.13-browsers
@@ -63,7 +59,6 @@ jobs:
           path: /tmp/resume-andrew-paettie/reports
       - store_test_results:
           path: /tmp/resume-andrew-paettie/reports/junit
-
   build:
     docker:
       - image: circleci/node:10.13-browsers
@@ -88,7 +83,6 @@ jobs:
       - run:
           command: |
             aws s3 sync build s3://andrewpaettie.test.com --delete --acl public-read
-
   deploy-prod:
     executor: aws-cli/default
     working_directory: /tmp/resume-andrew-paettie
@@ -99,32 +93,7 @@ jobs:
       - run:
           command: |
             aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=604800;
-            aws configure set preview.cloudfront true;
-            aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths \
-             /asset-manifest.json \
-             /manifest.json \
-             /manifest.png \
-             /robots.txt \
-             /favicon.ico \
-             /service-worker.js \
-             /200.html \
-             /index.html \
-             /img/flappy.jpg \
-             /img/react-logo.svg \
-             /img/ml-stats.png \
-             /img/pdf.png \
-             /img/loan-amortization.png \
-             /img/ctf.png \
-             /img/heli-game.png \
-             /img/ai-brain.jpg \
-             /img/andrew-paettie-having-fun.jpg \
-             /img/Mars-moo.png \
-             /img/this-site.png \
-             /projects/index.html \
-             /resume/index.html \
-             /static/resume/resume-Andrew-Paettie.docx \
-             /static/resume/resume-Andrew-Paettie.pdf
-
+            aws cloudfront create-invalidation --distribution-id=E1TCY90NW8U3BV --paths "/*"
 orbs:
   aws-cli: circleci/aws-cli@1.0.0
 workflows:
