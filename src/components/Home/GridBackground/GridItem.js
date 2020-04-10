@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const GridItem = ({ width, height, style, ...rest }) => (
-  <div className="GridItem" style={{ width, height, ...style }} {...rest} />
+const GridItem = ({ width, height, style, children, className }) => (
+  <div className={`GridItem ${className}`} style={{ width, height, ...style }}>
+    {children}
+  </div>
 );
 
 GridItem.propTypes = {
@@ -11,16 +13,11 @@ GridItem.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   style: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
-  delay: PropTypes.number.isRequired,
-  duration: PropTypes.number.isRequired,
+  className: PropTypes.string,
 };
 
-GridItem.defaultPropTypes = {
-  height: 0,
-  width: 0,
-  style: {},
-  delay: 1000,
-  duration: 1000,
+GridItem.defaultProps = {
+  className: '',
 };
 
 export default GridItem;

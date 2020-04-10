@@ -6,6 +6,7 @@ const Link = props => {
   // eslint-disable-next-line no-unused-vars
   const { showLabel, ...rest } = props;
   // here showLabel is stripped off to avoid a console.error message
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Scroll.Link {...rest} />;
 };
 
