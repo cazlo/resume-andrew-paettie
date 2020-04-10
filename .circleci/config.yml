@@ -80,6 +80,7 @@ jobs:
             - build/*
   deploy-test:
     executor: aws-cli/default
+    working_directory: /tmp/resume-andrew-paettie
     steps:
       - attach_workspace:
           at: /tmp/resume-andrew-paettie/
