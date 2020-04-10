@@ -90,17 +90,12 @@ jobs:
             aws s3 sync build s3://andrewpaettie.test.com --delete --acl public-read
 
   deploy-prod:
-    docker:
-      - image: circleci/node:10.13-browsers
+    executor: aws-cli/default
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - attach_workspace:
           at: /tmp/resume-andrew-paettie/
-      - run:
-          command: |
-            sudo apt-get update
-            sudo apt-get install python-dev python-pip
-            sudo pip install awscli
+      - aws-cli/setup
       - run:
           command: |
             aws s3 sync build s3://andrewpaettie.com --delete --acl public-read --cache-control max-age=604800;
