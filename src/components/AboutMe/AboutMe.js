@@ -50,8 +50,20 @@ const Intro = ({ style }) => (
               Resume DOCX
             </Button>
             &nbsp;&nbsp;&nbsp;
-            <Button href="mailto:paettiea@gmail.com" variant="contained" color="secondary">
-              Contact Me
+            <Button href="https://github.com/cazlo" variant="contained" color="primary">
+              Github
+            </Button>
+            &nbsp;&nbsp;&nbsp;
+            <Button
+              href="https://www.linkedin.com/in/andrew-paettie/"
+              variant="contained"
+              color="primary"
+            >
+              LinkedIn
+            </Button>
+            &nbsp;&nbsp;&nbsp;
+            <Button href="mailto:paettiea@gmail.com" variant="contained" color="primary">
+              Email
             </Button>
           </div>
         </div>
