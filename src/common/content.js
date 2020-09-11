@@ -153,6 +153,42 @@ export default {
   ],
   projects: [
     {
+      title: 'SAM Performance',
+      subtitle: 'Analyzing performance of SAM',
+      date: 'July 2020',
+      techTheme: techTheme.aws,
+      links: [
+        {
+          url: 'https://cazlo.github.io/aws-lambda-sam-performance/',
+          text: 'Performance Analysis',
+        },
+        {
+          url: 'https://github.com/cazlo/aws-lambda-sam-performance',
+          text: 'View source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Java',
+          icon: techTheme.java.icon,
+        },
+        {
+          name: 'Micronaut',
+          icon: techTheme.micronaut.icon,
+        },
+        {
+          name: 'Node',
+          icon: techTheme.nodeJs.icon,
+        },
+        {
+          name: 'Quarkus',
+          icon: techTheme.quarkus.icon,
+        },
+      ],
+      content:
+        "Performance analysis comparing various implementations of serverless APIs built with AWS's SAM",
+    },
+    {
       title: 'React Snake',
       subtitle: '404 for this site',
       date: 'October 2018',
