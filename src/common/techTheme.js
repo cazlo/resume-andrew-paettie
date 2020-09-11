@@ -29,6 +29,8 @@ import JestSvg from '../data/jest.svg';
 import CircleciSvg from '../data/circleci.svg';
 import SpringSvg from '../data/spring.svg';
 import RabbitmqSvg from '../data/rabbitmq.svg';
+import QuarkusSvg from '../data/quarkus.svg';
+import MicronautSvg from '../data/micronaut.svg';
 
 /**
  * A centralized place to organize the style + icons of various technologies
@@ -166,6 +168,9 @@ const techTheme = {
       background: '#f48e3d',
       color: '#fff',
     },
+    iconStyle: {
+      background: '#303233',
+    },
     className: 'vertical-timeline-element--aws',
     icon: <AwsIcon />,
   },
@@ -266,6 +271,12 @@ const techTheme = {
       color: '#fff',
     },
     icon: <FaJenkins />,
+  },
+  micronaut: {
+    icon: <span dangerouslySetInnerHTML={{ __html: MicronautSvg }} className="MicronautIcon" />,
+  },
+  quarkus: {
+    icon: <span dangerouslySetInnerHTML={{ __html: QuarkusSvg }} className="QuarkusIcon" />,
   },
 };
 
