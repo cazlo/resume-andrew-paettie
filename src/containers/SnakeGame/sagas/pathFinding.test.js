@@ -1,4 +1,4 @@
-import { pathfind, moveFromPath } from './pathFindingSagas';
+import { moveFromPath, pathfind } from './pathFindingSagas';
 import Position from '../util/Position';
 import { LEFT } from '../util/Direction';
 import Action from '../actions/Action';
@@ -10,7 +10,11 @@ describe('Path finding wrap behavior', () => {
     // does not try and wrap around when that move is blocked by the snake itself
     const snake = { parts: [p(2, 0), p(1, 0), p(0, 0)] };
     const food = p(0, 1);
-    const path = pathfind(snake, food, { numRows: 2, numCols: 3, wallsAreFatal: false });
+    const path = pathfind(snake, food, {
+      numRows: 2,
+      numCols: 3,
+      wallsAreFatal: false,
+    });
     expect(path).toBeDefined();
     expect(path.length).toBe(2);
     expect(path[0]).toEqual(expect.objectContaining(p(2, 1)));
@@ -21,7 +25,11 @@ describe('Path finding wrap behavior', () => {
     // chooses the path which wraps around the world when it is the optimal path
     const snake = { parts: [p(3, 0), p(2, 0)] };
     const food = p(0, 1);
-    const path = pathfind(snake, food, { numRows: 2, numCols: 4, wallsAreFatal: false });
+    const path = pathfind(snake, food, {
+      numRows: 2,
+      numCols: 4,
+      wallsAreFatal: false,
+    });
     expect(path).toBeDefined();
     expect(path.length).toBe(2);
     const possibleNextMoves = [p(3, 1), p(0, 0)]; // either of these would be equally optimal
@@ -34,7 +42,11 @@ describe('Path finding wrap behavior', () => {
     // because it didn't work until that got fixed...
     const snake = { parts: [p(3, 0), p(2, 0)] };
     const food = p(2, 1);
-    const path = pathfind(snake, food, { numRows: 2, numCols: 4, wallsAreFatal: false });
+    const path = pathfind(snake, food, {
+      numRows: 2,
+      numCols: 4,
+      wallsAreFatal: false,
+    });
     expect(path).toBeDefined();
     expect(path.length).toBe(2);
     expect(path[0]).toEqual(expect.objectContaining(p(3, 1)));

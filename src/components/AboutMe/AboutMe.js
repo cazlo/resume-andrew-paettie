@@ -22,22 +22,16 @@ const Intro = ({ style }) => (
         <div className="ResumeAboutMeBlock-description">
           <h3>Andrew Paettie</h3>
           <h4>Senior Software Based Solutions Engineer</h4>
-          <p className="Resume-summary" />I am an experienced and capable full stack software
-          engineer with leadership experience.
+          <p className="Resume-summary" />I am an experienced and capable full stack software engineer with leadership
+          experience.
           <br />
           <br />
-          If you are interested in hiring a full stack software engineer, check out my resume and
-          projects. Feel free to contact me via one of the listed methods (serious inquiries only
-          please).
+          If you are interested in hiring a full stack software engineer, check out my resume and projects. Feel free to
+          contact me via one of the listed methods (serious inquiries only please).
           <br />
           <br />
           <div className="ResumeAboutMeBlock-links">
-            <Button
-              variant="contained"
-              color="primary"
-              target="_blank"
-              href="/static/resume/resume-Andrew-Paettie.pdf"
-            >
+            <Button variant="contained" color="primary" target="_blank" href="/static/resume/resume-Andrew-Paettie.pdf">
               Resume PDF
             </Button>
             &nbsp;&nbsp;&nbsp;
@@ -54,11 +48,7 @@ const Intro = ({ style }) => (
               Github
             </Button>
             &nbsp;&nbsp;&nbsp;
-            <Button
-              href="https://www.linkedin.com/in/andrew-paettie/"
-              variant="contained"
-              color="primary"
-            >
+            <Button href="https://www.linkedin.com/in/andrew-paettie/" variant="contained" color="primary">
               LinkedIn
             </Button>
             &nbsp;&nbsp;&nbsp;

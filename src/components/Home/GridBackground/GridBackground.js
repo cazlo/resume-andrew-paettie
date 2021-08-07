@@ -77,9 +77,7 @@ class GridBackground extends React.PureComponent {
       return <div />;
     }
 
-    return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>{this.generateDOM()}</div>
-    );
+    return <div style={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>{this.generateDOM()}</div>;
   }
 }
 

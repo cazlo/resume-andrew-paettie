@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import flow from 'lodash/flow';
-import { FaRegHourglass, FaArrowsAltH, FaArrowsAltV } from 'react-icons/fa';
+import { FaArrowsAltH, FaArrowsAltV, FaRegHourglass } from 'react-icons/fa';
 
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
@@ -14,20 +14,15 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Slider from '@material-ui/lab/Slider/Slider';
+import Slider from '@material-ui/core/Slider';
 import Chip from '@material-ui/core/Chip/Chip';
 import { MdTimer } from 'react-icons/md';
 import Avatar from '@material-ui/core/Avatar/Avatar';
 import Grid from '@material-ui/core/Grid/Grid';
 import { withStyles } from '@material-ui/core/styles';
 
-import {
-  toggleEnableAstar,
-  toggleGreedy,
-  changeName,
-  toggleShowPath,
-} from './actions/aiConfigAction';
-import { toggleWallsAreFatal, setSize, setFrameLimit, setSpeed } from './actions/gameAction';
+import { changeName, toggleEnableAstar, toggleGreedy, toggleShowPath } from './actions/aiConfigAction';
+import { setFrameLimit, setSize, setSpeed, toggleWallsAreFatal } from './actions/gameAction';
 
 const styles = theme => ({
   root: {
