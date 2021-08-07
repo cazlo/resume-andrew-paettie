@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 
-import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core/styles';
+import { createTheme, MuiThemeProvider, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
@@ -13,11 +12,11 @@ import SnakeGame from '../../containers/SnakeGame/SnakeGame';
 import techTheme from '../../common/techTheme';
 import createStore from '../../containers/SnakeGame/store';
 
-const styles = theme => ({
+const styles = makeStyles(theme => ({
   NotFoundPaper: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
     width: '100%',
     textAlign: 'center',
     marginBottom: '15px',
@@ -35,9 +34,9 @@ const styles = theme => ({
     ...techTheme.android.style,
     marginBottom: '15px',
   },
-});
+}));
 
-const theme = createMuiTheme({
+const theme = createTheme({
   type: 'dark',
   palette: {
     primary: {
@@ -52,13 +51,10 @@ const theme = createMuiTheme({
   },
 });
 
-const NotFound = props => {
-  const { classes } = props;
-
+export default function NotFound() {
+  const classes = styles();
   return (
     <MuiThemeProvider theme={theme}>
-      {/* <ScreenBlock className="NotFoundBlock"> */}
-      {/* <div className="container"> */}
       <Paper className={classes.NotFoundPaper}>
         <Button component={Link} variant="contained" target="_blank" to="/" className={classes.NotFoundButton}>
           <FaHome size="2em" />
@@ -69,18 +65,6 @@ const NotFound = props => {
       <Provider store={createStore()}>
         <SnakeGame />
       </Provider>
-      {/* </div> */}
-      {/* </ScreenBlock> */}
     </MuiThemeProvider>
   );
-};
-
-NotFound.propTypes = {
-  classes: PropTypes.shape({}),
-};
-
-NotFound.defaultProps = {
-  classes: {},
-};
-
-export default withStyles(styles)(NotFound);
+}

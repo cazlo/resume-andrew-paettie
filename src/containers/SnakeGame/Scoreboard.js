@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import grey from '@material-ui/core/colors/grey';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography/Typography';
 
@@ -23,7 +23,7 @@ const CustomTableCell = withStyles(theme => ({
   },
 }))(TableCell);
 
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     // marginTop: theme.spacing.unit * 3,
@@ -38,24 +38,25 @@ const styles = theme => ({
       backgroundColor: theme.palette.background.default,
     },
   },
-});
+}));
 
-const Scoreboard = props => {
-  const { classes, scores } = props;
+export default function Scoreboard(props) {
+  const { scores } = props;
+  const classes = useStyles();
 
   return (
-    <ExpansionPanel className={classes.root}>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} className={classes.root}>
+    <Accordion className={classes.root}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />} className={classes.root}>
         <Typography variant="h6">High Scores</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={classes.column}>
+      </AccordionSummary>
+      <AccordionDetails className={classes.column}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
               <CustomTableCell>Player Name</CustomTableCell>
-              <CustomTableCell numeric>Score</CustomTableCell>
-              <CustomTableCell numeric>Duration</CustomTableCell>
-              <CustomTableCell numeric>Frame Count</CustomTableCell>
+              <CustomTableCell>Score</CustomTableCell>
+              <CustomTableCell>Duration</CustomTableCell>
+              <CustomTableCell>Frame Count</CustomTableCell>
               <CustomTableCell>Time</CustomTableCell>
             </TableRow>
           </TableHead>
@@ -65,18 +66,18 @@ const Scoreboard = props => {
                 <CustomTableCell component="th" scope="row">
                   {row.name}
                 </CustomTableCell>
-                <CustomTableCell numeric>{row.score}</CustomTableCell>
-                <CustomTableCell numeric>{row.duration}</CustomTableCell>
-                <CustomTableCell numeric>{row.frameCount}</CustomTableCell>
-                <CustomTableCell numeric>{row.time}</CustomTableCell>
+                <CustomTableCell>{row.score}</CustomTableCell>
+                <CustomTableCell>{row.duration}</CustomTableCell>
+                <CustomTableCell>{row.frameCount}</CustomTableCell>
+                <CustomTableCell>{row.time}</CustomTableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
-};
+}
 
 Scoreboard.propTypes = {
   scores: PropTypes.arrayOf(
@@ -87,11 +88,8 @@ Scoreboard.propTypes = {
       time: PropTypes.string,
     }),
   ),
-  classes: PropTypes.shape({}).isRequired,
 };
 
 Scoreboard.defaultProps = {
   scores: [],
 };
-
-export default withStyles(styles)(Scoreboard);
