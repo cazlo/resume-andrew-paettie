@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import HomeIcon from '@material-ui/icons/Home';
 import WorkIcon from '@material-ui/icons/Work';
@@ -8,11 +7,11 @@ import SchoolIcon from '@material-ui/icons/School';
 import SettingsIcon from '@material-ui/icons/SettingsApplications';
 // import ToysIcon from '@material-ui/icons/Toys';
 import CodeIcon from '@material-ui/icons/Code';
-import { withStyles } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import Link from './BottomNavLink';
 
-const styles = theme => ({
+const styles = makeStyles(theme => ({
   BottomNav: {
     width: '100%',
     position: 'fixed',
@@ -46,7 +45,7 @@ const styles = theme => ({
       paddingBottom: '10px',
     },
   },
-});
+}));
 
 const buttons = [
   {
@@ -82,28 +81,25 @@ const buttons = [
   },
 ];
 
-const SimpleBottomNavigation = ({ classes }) => (
-  <BottomNavigation value="0" className={classes.BottomNav}>
-    {buttons.map((button, j) => (
-      <Link
-        key={j} // eslint-disable-line react/no-array-index-key
-        className={classes.BottomNavLink}
-        to={button.name}
-        activeClass="active"
-        spy
-        smooth
-        offset={button.offset}
-        duration={500}
-      >
-        {button.icon}
-        {button.label}
-      </Link>
-    ))}
-  </BottomNavigation>
-);
-
-SimpleBottomNavigation.propTypes = {
-  classes: PropTypes.shape({}).isRequired,
-};
-
-export default withStyles(styles)(SimpleBottomNavigation);
+export default function SimpleBottomNavigation() {
+  const classes = styles();
+  return (
+    <BottomNavigation value="0" className={classes.BottomNav}>
+      {buttons.map((button, j) => (
+        <Link
+          key={j} // eslint-disable-line react/no-array-index-key
+          className={classes.BottomNavLink}
+          to={button.name}
+          activeClass="active"
+          spy
+          smooth
+          offset={button.offset}
+          duration={500}
+        >
+          {button.icon}
+          {button.label}
+        </Link>
+      ))}
+    </BottomNavigation>
+  );
+}
