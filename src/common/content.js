@@ -16,6 +16,8 @@ import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';
 import agent007Image from '../data/agent-007.gif';
 import snakeImage from '../data/snake.gif';
+import cryptoTradingImage from '../data/crypto-trade-analysis.png';
+import samAnalysisImage from '../data/SAM-analysis.png';
 
 const AiIcon = FaRobot;
 const MlIcon = GoGraph;
@@ -153,6 +155,42 @@ export default {
   ],
   projects: [
     {
+      title: 'Cryptocurrency Trading Analysis Platform',
+      subtitle: 'Using Twitter and ML to make cryptocurrency buying decisions',
+      date: 'April 2021',
+      techTheme: techTheme.nodeJs,
+      links: [
+        {
+          url: 'https://github.com/cazlo/muskbot-architecture',
+          text: 'Architecture Documentation',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Node',
+          icon: techTheme.nodeJs.icon,
+        },
+        {
+          name: 'React',
+          icon: techTheme.react.icon,
+        },
+        {
+          name: 'Jest',
+          icon: techTheme.jest.icon,
+        },
+        {
+          name: 'Postgres',
+          icon: techTheme.postgres.icon,
+        },
+        {
+          name: 'Docker',
+          icon: techTheme.docker.icon,
+        },
+      ],
+      content: 'Microservice clusters for ingesting and analyzing various algorithms for trading crypto currencies',
+      image: cryptoTradingImage,
+    },
+    {
       title: 'SAM Performance',
       subtitle: 'Analyzing performance of SAM',
       date: 'July 2020',
@@ -169,6 +207,14 @@ export default {
       ],
       technologies: [
         {
+          name: 'AWS',
+          icon: techTheme.aws.icon,
+        },
+        {
+          name: 'Lambda',
+          icon: techTheme.lambda.icon,
+        },
+        {
           name: 'Java',
           icon: techTheme.java.icon,
         },
@@ -184,9 +230,13 @@ export default {
           name: 'Quarkus',
           icon: techTheme.quarkus.icon,
         },
+        {
+          name: 'React',
+          icon: techTheme.react.icon,
+        },
       ],
-      content:
-        "Performance analysis comparing various implementations of serverless APIs built with AWS's SAM",
+      content: "Performance analysis comparing various implementations of serverless APIs built with AWS's Serverless ",
+      image: samAnalysisImage,
     },
     {
       title: 'React Snake',
@@ -199,8 +249,7 @@ export default {
           text: 'Site',
         },
         {
-          url:
-            'https://github.com/cazlo/resume-andrew-paettie/tree/master/src/containers/SnakeGame',
+          url: 'https://github.com/cazlo/resume-andrew-paettie/tree/master/src/containers/SnakeGame',
           text: 'View source code',
         },
       ],
@@ -216,42 +265,6 @@ export default {
       ],
       content: 'A snake game and AI implemented to solve the game in an optimized way',
       image: snakeImage,
-    },
-    {
-      title: 'AndrewPaettie.com',
-      subtitle: 'My résumé',
-      date: '2015 - 2018',
-      techTheme: techTheme.react,
-      links: [
-        {
-          url: 'https://andrewpaettie.com',
-          text: 'Site',
-        },
-        {
-          url: 'https://github.com/cazlo/resume-andrew-paettie',
-          text: 'View source code',
-        },
-      ],
-      technologies: [
-        {
-          name: 'React',
-          icon: techTheme.react.icon,
-        },
-        {
-          name: 'Jest',
-          icon: techTheme.jest.icon,
-        },
-        {
-          name: 'AWS',
-          icon: techTheme.aws.icon,
-        },
-        {
-          name: 'CircleCI',
-          icon: techTheme.circleci.icon,
-        },
-      ],
-      content: 'A simple portfolio site to show some projects I have done',
-      // image: '/img/this-site.png',
     },
     {
       title: 'JS Performance Analysis',
@@ -270,8 +283,7 @@ export default {
           icon: techTheme.javascript.icon,
         },
       ],
-      content:
-        'Something to test out differences in several map implementations between node 8 and 10',
+      content: 'Something to test out differences in several map implementations between node 8 and 10',
       // image: '/img/this-site.png',
     },
     {
@@ -351,29 +363,40 @@ export default {
       // image: '/img/ml-stats.png',
     },
     {
-      title: 'Various School Projects',
-      subtitle: 'University Courses',
-      date: '2012 - 2014',
-      techTheme: techTheme.others,
+      title: 'AndrewPaettie.com',
+      subtitle: 'My résumé',
+      date: '2014',
+      techTheme: techTheme.react,
       links: [
         {
-          url: 'https://github.com/cazlo/academic-stuff',
+          url: 'https://andrewpaettie.com',
+          text: 'Site',
+        },
+        {
+          url: 'https://github.com/cazlo/resume-andrew-paettie',
           text: 'View source code',
         },
       ],
       technologies: [
         {
-          name: 'Java',
-          icon: techTheme.java.icon,
+          name: 'React',
+          icon: techTheme.react.icon,
         },
         {
-          name: 'C++',
-          icon: techTheme.cplusplus.icon,
+          name: 'Jest',
+          icon: techTheme.jest.icon,
+        },
+        {
+          name: 'AWS',
+          icon: techTheme.aws.icon,
+        },
+        {
+          name: 'CircleCI',
+          icon: techTheme.circleci.icon,
         },
       ],
-      content: `Just some random things I've made for school. Pictured is a loan amortization calculator featuring
-       from scratch graphs and tables built using the swing UI framework for Java.`,
-      image: amatorizationImage,
+      content: 'A simple portfolio site to show some projects I have done',
+      // image: '/img/this-site.png',
     },
     {
       title: 'Whiz Calc',
@@ -439,6 +462,111 @@ export default {
       content: `A simple side scroller implemented with Java Swing. Game engine built from scratch.`,
       image: heliGameImage,
     },
+    {
+      title: 'Various School Projects',
+      subtitle: 'University Courses',
+      date: '2012 - 2014',
+      techTheme: techTheme.others,
+      links: [
+        {
+          url: 'https://github.com/cazlo/academic-stuff',
+          text: 'View source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Java',
+          icon: techTheme.java.icon,
+        },
+        {
+          name: 'C++',
+          icon: techTheme.cplusplus.icon,
+        },
+      ],
+      content: `Some things I've made for school. Pictured is a loan amortization calculator featuring
+       from scratch graphs and tables built using the swing UI framework for Java.`,
+      image: amatorizationImage,
+    },
+    {
+      title: 'Backtrack',
+      subtitle: 'Penetration testing',
+      date: '2009',
+      techTheme: techTheme.security,
+      technologies: [
+        {
+          name: 'Linux',
+          icon: techTheme.linux.icon,
+        },
+        {
+          name: 'Aircrack-ng',
+          icon: techTheme.others.icon,
+        },
+        {
+          name: 'Wireshark',
+          icon: techTheme.others.icon,
+        },
+        {
+          name: 'Nmap',
+          icon: techTheme.others.icon,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'Used the backtrack linux distribution to learn about penetration testing. Only performed experiments against networks I setup specifically to attack.',
+      links: [
+        {
+          url: 'http://www.backtrack-linux.org/',
+          text: 'Backtrack Linux',
+        },
+      ],
+    },
+    {
+      title: 'Rockbox',
+      subtitle: 'MP3 Player Replacement Firmware',
+      date: '2006-2008',
+      techTheme: techTheme.c,
+      technologies: [
+        {
+          name: 'C',
+          icon: techTheme.c.icon,
+        },
+        {
+          name: 'BMP',
+          icon: techTheme.others.icon,
+        },
+      ],
+      content: 'Developed themes and provided QA for IPod and Sansa e200 firmware replacement',
+      links: [
+        {
+          url: 'https://www.rockbox.org/',
+          text: 'Rockbox.org',
+        },
+      ],
+    },
+    {
+      title: 'Linux From Scratch',
+      subtitle: 'Building a linux installation from scratch',
+      date: '2005',
+      techTheme: techTheme.linux,
+      technologies: [
+        {
+          name: 'C',
+          icon: techTheme.c.icon,
+        },
+        {
+          name: 'Linux',
+          icon: techTheme.linux.icon,
+        },
+      ],
+      // eslint-disable-next-line max-len
+      content: `Compiled linux from scratch to create a low power wireless print server via CUPS. On my Sempron processor gcc compilation alone took over several hours!`,
+      links: [
+        {
+          url: 'https://www.linuxfromscratch.org/',
+          text: 'Linux From Scratch',
+        },
+      ],
+    },
   ],
   skills: [
     {
@@ -457,6 +585,13 @@ export default {
     },
     {
       name: 'Maven',
+      language: {
+        name: 'Java',
+        style: techTheme.java,
+      },
+    },
+    {
+      name: 'Gradle',
       language: {
         name: 'Java',
         style: techTheme.java,
