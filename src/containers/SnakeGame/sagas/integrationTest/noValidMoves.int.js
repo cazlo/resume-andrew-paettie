@@ -92,7 +92,7 @@ const playGame = (food, aiConfig) => {
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(sagaMiddleware, food, aiConfig);
   const saga = sagaMiddleware.run(() => runGame({ waitOnPlay: false, doReset: false }));
-  return saga.done.then(() => {
+  return saga.toPromise().then(() => {
     // assertions
     const state = store.getState().game;
     const { game } = state;

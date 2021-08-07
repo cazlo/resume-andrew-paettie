@@ -31,7 +31,7 @@ export const playGame = ({ size, aiAction, limit, wallsAreFatal = false }) => {
   }
   store.dispatch(toggleWallsAreFatal({ target: { checked: wallsAreFatal } }));
   store.dispatch(play());
-  return saga.done.then(() => {
+  return saga.toPromise().then(() => {
     // assertions
     const state = store.getState().game;
     const { game } = state;
