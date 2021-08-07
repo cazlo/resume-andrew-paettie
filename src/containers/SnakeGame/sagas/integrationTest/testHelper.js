@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import * as Promise from 'bluebird';
 import _ from 'lodash';

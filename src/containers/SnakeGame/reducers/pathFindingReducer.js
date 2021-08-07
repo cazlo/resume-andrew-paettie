@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { createReducer } from 'redux-starter-kit';
+import { createReducer } from '@reduxjs/toolkit';
 import Action from '../actions/Action';
 
 export const path = createReducer([], {

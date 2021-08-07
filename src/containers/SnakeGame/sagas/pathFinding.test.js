@@ -63,8 +63,8 @@ describe('Direction changing behavior', () => {
       numCols: 20,
       wallsAreFatal: false,
     });
-    expect(moveCommand).toBeDefined();
-    const { action } = moveCommand.PUT;
+    expect(moveCommand.payload).toBeDefined();
+    const { action } = moveCommand.payload;
     expect(action).toBeDefined();
     expect(action.type).toEqual(Action.CHANGE_DIRECTION);
     expect(action.direction).toEqual(LEFT);
@@ -77,8 +77,8 @@ describe('Direction changing behavior', () => {
       numCols: 20,
       wallsAreFatal: false,
     });
-    expect(moveCommand).toBeDefined();
-    const { action } = moveCommand.PUT;
+    expect(moveCommand.payload).toBeDefined();
+    const { action } = moveCommand.payload;
     expect(action).toBeDefined();
     expect(action.type).toEqual(Action.CHANGE_DIRECTION);
     expect(action.direction).toEqual(LEFT);

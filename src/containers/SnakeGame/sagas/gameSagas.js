@@ -1,5 +1,4 @@
-import { delay } from 'redux-saga';
-import { take, put, call, fork, cancel, select, takeLatest } from 'redux-saga/effects';
+import { cancel, delay, fork, put, select, take, takeLatest } from 'redux-saga/effects';
 
 import Action from '../actions/Action';
 import {
@@ -80,7 +79,7 @@ export function* foodSaga() {
 export function* gameLoop() {
   while (true) {
     const state = yield select();
-    yield call(delay, state.game.game.speed);
+    yield delay(state.game.game.speed);
     yield put(tick());
   }
 }
@@ -89,7 +88,7 @@ export function* fpsSaga() {
   while (true) {
     const state = yield select();
     const { frameCount } = state.game.game;
-    yield call(delay, 1000);
+    yield delay(1000);
     const stateAfter = yield select();
     const frameCountAfter = stateAfter.game.game.frameCount;
     const fps = frameCountAfter - frameCount;
@@ -102,7 +101,7 @@ export function* gameEnder() {
 }
 
 export function* gameResetter() {
-  yield call(delay, 4200);
+  yield delay(4200);
   yield put(reset());
   yield put(play());
 }
@@ -123,7 +122,7 @@ export function* runGame({ waitOnPlay = true, doReset = true }) {
     yield put(reset());
   }
   yield take(Action.GAME_OVER);
-  yield cancel(...running);
+  yield cancel([...running]);
   const state = yield select();
   yield put(addScore(state.game.game));
 }
