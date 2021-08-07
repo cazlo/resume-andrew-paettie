@@ -13,7 +13,6 @@ import GameState from '../util/GameState';
 const { DEFAULT_BOARD_SIZE } = Grid;
 const { PLAYING, GAME_OVER } = GameState;
 
-const HEAD_THEME = techTheme.nodeJs;
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['nodeJs']));
 
 const MAX_SPEED = 0;
@@ -50,7 +49,6 @@ const defaults = {
       {
         x: 1,
         y: 1,
-        ...HEAD_THEME,
       },
     ],
     direction: RIGHT,
@@ -98,7 +96,7 @@ export const food = createReducer(defaults.food, {
     return [
       ...state,
       {
-        ...theme,
+        style: theme.style,
         themeName,
         x: action.x,
         y: action.y,
