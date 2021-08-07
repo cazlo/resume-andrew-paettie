@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { combineReducers, createReducer } from 'redux-starter-kit';
+import { combineReducers, createReducer } from '@reduxjs/toolkit';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -105,8 +105,7 @@ export const food = createReducer(defaults.food, {
       },
     ];
   },
-  [Action.EAT_FOOD]: (state, action) =>
-    state.filter(({ x, y }) => x !== action.x || y !== action.y),
+  [Action.EAT_FOOD]: (state, action) => state.filter(({ x, y }) => x !== action.x || y !== action.y),
   [Action.GAME_OVER]: () => [],
 });
 
