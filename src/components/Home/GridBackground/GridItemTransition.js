@@ -1,6 +1,8 @@
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
+// eslint-disable-next-line max-len
+// todo this broke in most recent major version updates, seems this styled needs to be applied directly to GridItem now???
 const StyledGridItemTransition = styled(CSSTransition).attrs({
   classNames: 'GridItemTransition',
   in: true,
