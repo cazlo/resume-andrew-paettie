@@ -7,9 +7,7 @@ console.log('Parsed rendered DOM');
 const appNode = noScriptDocument('#root').html();
 // console.log(appNode);
 const style = noScriptDocument('style[data-jss]')
-  .map(function(i, el) {
-    return cheerio(el).html();
-  })
+  .map((i, el) => cheerio.load(el).html())
   .get()
   .join('\n');
 
