@@ -9,9 +9,9 @@ import { FaArrowsAltH, FaArrowsAltV, FaRegHourglass } from 'react-icons/fa';
 import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
 import Switch from '@material-ui/core/Switch/Switch';
 import TextField from '@material-ui/core/TextField/TextField';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Slider from '@material-ui/core/Slider';
@@ -105,11 +105,11 @@ const ConfigPanel = props => {
   const { aStar, greedy, playerName, showPath, wallsAreFatal, classes } = props;
 
   return (
-    <ExpansionPanel className={classes.root}>
-      <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+    <Accordion className={classes.root}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography variant="h6">Settings</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails className={classes.column}>
+      </AccordionSummary>
+      <AccordionDetails className={classes.column}>
         <Typography variant="subtitle1"> Pathfinding Settings </Typography>
         <Grid container spacing={8} direction="row" className={classes.settingsSubSection}>
           <Grid item xs>
@@ -174,7 +174,7 @@ const ConfigPanel = props => {
                 </Grid>
                 <Grid item xs>
                   <Slider
-                    classes={{ container: classes.slider }}
+                    className={classes.slider}
                     value={slider.value}
                     max={slider.max}
                     min={slider.min}
@@ -187,8 +187,8 @@ const ConfigPanel = props => {
             ))}
           </Grid>
         </Grid>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 
@@ -204,8 +204,8 @@ ConfigPanel.propTypes = {
   numCols: PropTypes.number.isRequired,
   frameTimeout: PropTypes.number.isRequired,
   computedFrameTimeout: PropTypes.number.isRequired,
-  classes: PropTypes.shape({}).isRequired,
-
+  // eslint-disable-next-line react/forbid-prop-types
+  classes: PropTypes.object.isRequired,
   toggleEnableAstar: PropTypes.func.isRequired,
   toggleGreedy: PropTypes.func.isRequired,
   changeName: PropTypes.func.isRequired,
