@@ -28,11 +28,7 @@ const WorkAndEducation = ({ positions, educations, width }) => (
             key={i} // eslint-disable-line react/no-array-index-key
             icon={<WorkIcon />}
             iconStyle={techTheme.postgres.style}
-            date={
-              <Typography variant="subtitle1">
-                {formatPeriod(position.startDate, position.endDate)}
-              </Typography>
-            }
+            date={<Typography variant="subtitle1">{formatPeriod(position.startDate, position.endDate)}</Typography>}
           >
             <Typography variant="h5">
               {position.title} @{position.company}
@@ -64,11 +60,7 @@ const WorkAndEducation = ({ positions, educations, width }) => (
               key={i} // eslint-disable-line react/no-array-index-key
               icon={<SchoolIcon />}
               iconStyle={techTheme.java.style}
-              date={
-                <Typography variant="subtitle1">
-                  {formatPeriod(education.startDate, education.endDate)}
-                </Typography>
-              }
+              date={<Typography variant="subtitle1">{formatPeriod(education.startDate, education.endDate)}</Typography>}
             >
               <Typography variant="h5">{education.fieldOfStudy}</Typography>
               <Typography variant="h6">{education.degree}</Typography>
@@ -83,9 +75,7 @@ const WorkAndEducation = ({ positions, educations, width }) => (
               {/* ))} */}
               {/* </Typography> */}
               {/* )} */}
-              {education.summary && (
-                <Typography variant="subtitle1">{education.summary}</Typography>
-              )}
+              {education.summary && <Typography variant="subtitle1">{education.summary}</Typography>}
             </VerticalTimelineElement>
           ))}
         </VerticalTimeline>

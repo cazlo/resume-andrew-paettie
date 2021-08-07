@@ -1,4 +1,4 @@
-import { combineReducers, createReducer } from 'redux-starter-kit';
+import { combineReducers, createReducer } from '@reduxjs/toolkit';
 import Action from '../actions/Action';
 
 const defaultSettings = {

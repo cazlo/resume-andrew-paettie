@@ -51,12 +51,7 @@ const updateCanvas = (ctx, props) => {
 
   ctx.fillStyle = techTheme.nodeJs.style.background;
   ctx.globalAlpha = 1;
-  ctx.fillRect(
-    head.x * DEFAULT_BOX_SIZE,
-    head.y * DEFAULT_BOX_SIZE,
-    DEFAULT_BOX_SIZE,
-    DEFAULT_BOX_SIZE,
-  );
+  ctx.fillRect(head.x * DEFAULT_BOX_SIZE, head.y * DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
   // todo head direction vector arrow?
 
   for (let i = 0; i < tail.length; i += 1) {
@@ -77,12 +72,7 @@ const updateCanvas = (ctx, props) => {
     ctx.fillStyle = techTheme.react.style.background;
     for (const [indexStr, point] of Object.entries(path)) {
       ctx.globalAlpha = (path.length - indexStr) / path.length / 2;
-      ctx.fillRect(
-        point.x * DEFAULT_BOX_SIZE,
-        point.y * DEFAULT_BOX_SIZE,
-        DEFAULT_BOX_SIZE,
-        DEFAULT_BOX_SIZE,
-      );
+      ctx.fillRect(point.x * DEFAULT_BOX_SIZE, point.y * DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE, DEFAULT_BOX_SIZE);
     }
   }
 
@@ -105,10 +95,8 @@ const normalise = (value, min, max) => ((value - min) * 100) / (max - min);
 
 class SnakeGame extends Component {
   componentDidMount() {
-    const {
-      innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE,
-      innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE,
-    } = this.props;
+    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } =
+      this.props;
     const numCols = Math.floor(innerWidth / DEFAULT_BOX_SIZE);
     const numRows = Math.floor(innerHeight / DEFAULT_BOX_SIZE);
     const innerHeightOverride = DEFAULT_BOX_SIZE * numRows;
@@ -132,10 +120,8 @@ class SnakeGame extends Component {
 
   // eslint-disable-next-line no-unused-vars
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE,
-      innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE,
-    } = this.props;
+    const { innerHeight = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE, innerWidth = DEFAULT_BOX_SIZE * DEFAULT_BOARD_SIZE } =
+      this.props;
     if (innerHeight !== prevProps.innerHeight && innerWidth !== prevProps.innerWidth) {
       const numCols = Math.floor(innerWidth / DEFAULT_BOX_SIZE);
       const numRows = Math.floor(innerHeight / DEFAULT_BOX_SIZE);
@@ -312,10 +298,6 @@ const mapStateToProps = state => ({
   aiConfig: state.aiConfig,
 });
 
-const decorators = flow([
-  connect(mapStateToProps, mapDispatchToProps),
-  withStyles(styles),
-  withWindowSize,
-]);
+const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withStyles(styles), withWindowSize]);
 
 export default decorators(SnakeGame);

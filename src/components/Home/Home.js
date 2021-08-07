@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import GridBackground from './GridBackground/GridBackground';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
-
-import appTheme from '../../common/techTheme';
 import './Home.css';
+import GridBackground from './GridBackground/GridBackground';
+import appTheme from '../../common/techTheme';
 
 const Home = ({ style }) => (
   <ScreenBlock id="Resume-home" style={style} className="ResumeHomeBlock">
