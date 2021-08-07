@@ -47,12 +47,12 @@
     z-index: -1;
 }
 
-.ResumeHomeBlock-squares .SVGInline {
+.ResumeHomeBlock-squares svg {
     width: 40%;
 }
 
-.ResumeHomeBlock-squares .SVGInline svg path,
-.ResumeHomeBlock-squares .SVGInline svg g {
+.ResumeHomeBlock-squares svg path,
+.ResumeHomeBlock-squares svg g {
     fill: #fff !important;
 }
 

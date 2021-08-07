@@ -1,36 +1,37 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 
-import ReactIcon from 'react-devicon/react/original';
-import JavascriptIcon from 'react-devicon/javascript/plain';
-import NodeJsIcon from 'react-devicon/nodejs/plain';
-import JavaIcon from 'react-devicon/java/original';
-import AwsIcon from 'react-devicon/amazonwebservices/original';
-import DockerIcon from 'react-devicon/docker/plain';
-import GithubIcon from 'react-devicon/github/original';
-import PostgresIcon from 'react-devicon/postgresql/plain';
-import PythonIcon from 'react-devicon/python/original';
-import AndroidIcon from 'react-devicon/android/plain';
-import AngularIcon from 'react-devicon/angularjs/plain';
-import SlackIcon from 'react-devicon/slack/original';
-import LinuxIcon from 'react-devicon/linux/plain';
-import UbuntuIcon from 'react-devicon/ubuntu/plain';
-import NpmIcon from 'react-devicon/npm/original-wordmark';
-import DebianIcon from 'react-devicon/debian/plain';
-import CplusplusIcon from 'react-devicon/cplusplus/plain';
-import IntellijIcon from 'react-devicon/intellij/plain';
-import WebstormIcon from 'react-devicon/webstorm/plain';
-import TrelloIcon from 'react-devicon/trello/plain';
-import GitIcon from 'react-devicon/git/plain';
+import { ReactComponent as ReactIcon } from 'devicon/icons/react/react-original.svg';
+import { ReactComponent as JavascriptIcon } from 'devicon/icons/javascript/javascript-plain.svg';
+import { ReactComponent as NodeJsIcon } from 'devicon/icons/nodejs/nodejs-plain.svg';
+import { ReactComponent as JavaIcon } from 'devicon/icons/java/java-original.svg';
+import { ReactComponent as AwsIcon } from 'devicon/icons/amazonwebservices/amazonwebservices-original.svg';
+import { ReactComponent as DockerIcon } from 'devicon/icons/docker/docker-plain.svg';
+import { ReactComponent as GithubIcon } from 'devicon/icons/github/github-original.svg';
+import { ReactComponent as PostgresIcon } from 'devicon/icons/postgresql/postgresql-plain.svg';
+import { ReactComponent as PythonIcon } from 'devicon/icons/python/python-original.svg';
+import { ReactComponent as AndroidIcon } from 'devicon/icons/android/android-plain.svg';
+import { ReactComponent as AngularIcon } from 'devicon/icons/angularjs/angularjs-plain.svg';
+import { ReactComponent as SlackIcon } from 'devicon/icons/slack/slack-plain.svg';
+import { ReactComponent as LinuxIcon } from 'devicon/icons/linux/linux-plain.svg';
+import { ReactComponent as UbuntuIcon } from 'devicon/icons/ubuntu/ubuntu-plain.svg';
+import { ReactComponent as NpmIcon } from 'devicon/icons/npm/npm-original-wordmark.svg';
+import { ReactComponent as DebianIcon } from 'devicon/icons/debian/debian-plain.svg';
+import { ReactComponent as CplusplusIcon } from 'devicon/icons/cplusplus/cplusplus-plain.svg';
+import { ReactComponent as CIcon } from 'devicon/icons/c/c-original.svg';
+import { ReactComponent as IntellijIcon } from 'devicon/icons/intellij/intellij-plain.svg';
+import { ReactComponent as WebstormIcon } from 'devicon/icons/webstorm/webstorm-plain.svg';
+import { ReactComponent as TrelloIcon } from 'devicon/icons/trello/trello-plain.svg';
+import { ReactComponent as GitIcon } from 'devicon/icons/git/git-plain.svg';
 
-import { FaJenkins, FaEllipsisH } from 'react-icons/fa';
-
-import JestSvg from '../data/jest.svg';
-import CircleciSvg from '../data/circleci.svg';
-import SpringSvg from '../data/spring.svg';
-import RabbitmqSvg from '../data/rabbitmq.svg';
-import QuarkusSvg from '../data/quarkus.svg';
-import MicronautSvg from '../data/micronaut.svg';
+import { FaEllipsisH, FaJenkins } from 'react-icons/fa';
+import { ReactComponent as CircleciSvg } from 'devicon/icons/circleci/circleci-plain.svg';
+import { ReactComponent as JestSvg } from 'devicon/icons/jest/jest-plain.svg';
+import { ReactComponent as SpringSvg } from 'devicon/icons/spring/spring-plain.svg';
+import { MdSecurity } from 'react-icons/md';
+import { ReactComponent as RabbitmqSvg } from '../data/rabbitmq.svg';
+import { ReactComponent as QuarkusSvg } from '../data/quarkus.svg';
+import { ReactComponent as MicronautSvg } from '../data/micronaut.svg';
 
 /**
  * A centralized place to organize the style + icons of various technologies
@@ -41,7 +42,7 @@ const techTheme = {
       background: '#e8772d',
       color: '#fff',
     },
-    icon: <span dangerouslySetInnerHTML={{ __html: RabbitmqSvg }} />,
+    icon: <RabbitmqSvg />,
   },
   spring: {
     style: {
@@ -51,7 +52,7 @@ const techTheme = {
     // iconStyle: {
     //   background: '#303233',
     // },
-    icon: <span dangerouslySetInnerHTML={{ __html: SpringSvg }} className="SpringIcon" />,
+    icon: <SpringSvg className="SpringIcon" />,
   },
   cplusplus: {
     style: {
@@ -63,6 +64,16 @@ const techTheme = {
     },
     icon: <CplusplusIcon />,
   },
+  c: {
+    style: {
+      background: '#3b4aa4',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: <CIcon />,
+  },
   circleci: {
     style: {
       background: '#163947',
@@ -71,7 +82,7 @@ const techTheme = {
     // iconStyle: {
     //   background: '#303233',
     // },
-    icon: <span dangerouslySetInnerHTML={{ __html: CircleciSvg }} />,
+    icon: <CircleciSvg />,
   },
   debian: {
     style: {
@@ -101,7 +112,7 @@ const techTheme = {
     iconStyle: {
       background: '#303233',
     },
-    icon: <span dangerouslySetInnerHTML={{ __html: JestSvg }} className="JestIcon" />,
+    icon: <JestSvg className="JestIcon" />,
   },
   react: {
     style: {
@@ -138,6 +149,9 @@ const techTheme = {
       background: '#8fc160',
       color: '#fff',
     },
+    iconStyle: {
+      background: '#303233',
+    },
     className: 'vertical-timeline-element--nodejs',
     icon: <NodeJsIcon />,
   },
@@ -164,6 +178,17 @@ const techTheme = {
     icon: <JavaIcon className="JavaIcon" />,
   },
   aws: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    className: 'vertical-timeline-element--aws',
+    icon: <AwsIcon />,
+  },
+  lambda: {
     style: {
       background: '#f48e3d',
       color: '#fff',
@@ -273,10 +298,17 @@ const techTheme = {
     icon: <FaJenkins />,
   },
   micronaut: {
-    icon: <span dangerouslySetInnerHTML={{ __html: MicronautSvg }} className="MicronautIcon" />,
+    icon: <MicronautSvg className="MicronautIcon" />,
   },
   quarkus: {
-    icon: <span dangerouslySetInnerHTML={{ __html: QuarkusSvg }} className="QuarkusIcon" />,
+    icon: <QuarkusSvg className="QuarkusIcon" />,
+  },
+  security: {
+    style: {
+      background: '#610a0e',
+      color: '#fff',
+    },
+    icon: <MdSecurity />,
   },
 };
 
