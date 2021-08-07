@@ -3,16 +3,16 @@ import { take, put, call, fork, cancel, select, takeLatest } from 'redux-saga/ef
 
 import Action from '../actions/Action';
 import {
-  play,
+  addScore,
   eatFood,
   gameOver,
   move,
+  moveFinished,
+  play,
   reset,
+  setFps,
   spawnFood,
   tick,
-  addScore,
-  setFps,
-  moveFinished,
 } from '../actions/gameAction';
 import PositionUtil from '../util/PositionUtil';
 import { pathFindingSaga } from './pathFindingSagas';

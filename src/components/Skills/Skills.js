@@ -111,10 +111,7 @@ const Skills = ({ skills, tools }) => (
             {getToolsByCategory(tools).map(category => (
               <TableRow key={`tools-${category[0].category}`}>
                 <TableCell className="ResumeSkillsBlock-tools-cell">
-                  <Chip
-                    avatar={<Avatar>{category[0].categoryIcon}</Avatar>}
-                    label={category[0].category}
-                  />
+                  <Chip avatar={<Avatar>{category[0].categoryIcon}</Avatar>} label={category[0].category} />
                 </TableCell>
                 <TableCell style={{ textAlign: 'right' }} className="ResumeSkillsBlock-tools-cell">
                   {category.map(tool => (

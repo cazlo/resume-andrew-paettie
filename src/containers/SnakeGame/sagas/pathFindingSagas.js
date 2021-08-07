@@ -9,18 +9,11 @@ import PositionUtil from '../util/PositionUtil';
 import { computePerfectScore } from '../reducers/gameReducer';
 
 const getNeighboringNodeDirections = ({ x, y, numRows, numCols, wallsAreFatal }) => {
-  const left =
-    wallsAreFatal && x - 1 < 0 ? null : { x: x - 1 < 0 ? numCols - 1 : x - 1, y, direction: LEFT };
+  const left = wallsAreFatal && x - 1 < 0 ? null : { x: x - 1 < 0 ? numCols - 1 : x - 1, y, direction: LEFT };
   const right =
-    wallsAreFatal && x + 1 > numCols - 1
-      ? null
-      : { x: x + 1 > numCols - 1 ? 0 : x + 1, y, direction: RIGHT };
-  const up =
-    wallsAreFatal && y - 1 < 0 ? null : { y: y - 1 < 0 ? numRows - 1 : y - 1, x, direction: UP };
-  const down =
-    wallsAreFatal && y + 1 > numRows - 1
-      ? null
-      : { y: y + 1 > numRows - 1 ? 0 : y + 1, x, direction: DOWN };
+    wallsAreFatal && x + 1 > numCols - 1 ? null : { x: x + 1 > numCols - 1 ? 0 : x + 1, y, direction: RIGHT };
+  const up = wallsAreFatal && y - 1 < 0 ? null : { y: y - 1 < 0 ? numRows - 1 : y - 1, x, direction: UP };
+  const down = wallsAreFatal && y + 1 > numRows - 1 ? null : { y: y + 1 > numRows - 1 ? 0 : y + 1, x, direction: DOWN };
   const validDirections = [];
   if (left) validDirections.push(left);
   if (right) validDirections.push(right);
@@ -55,11 +48,9 @@ const positionId = ({ x, y }) => `x${x}y${y}`;
 
 const getNeighboringNodes = ({ x, y, numRows, numCols, wallsAreFatal }) => {
   const left = wallsAreFatal && x - 1 < 0 ? null : { x: x - 1 < 0 ? numCols - 1 : x - 1, y };
-  const right =
-    wallsAreFatal && x + 1 > numCols - 1 ? null : { x: x + 1 > numCols - 1 ? 0 : x + 1, y };
+  const right = wallsAreFatal && x + 1 > numCols - 1 ? null : { x: x + 1 > numCols - 1 ? 0 : x + 1, y };
   const up = wallsAreFatal && y - 1 < 0 ? null : { y: y - 1 < 0 ? numRows - 1 : y - 1, x };
-  const down =
-    wallsAreFatal && y + 1 > numRows - 1 ? null : { y: y + 1 > numRows - 1 ? 0 : y + 1, x };
+  const down = wallsAreFatal && y + 1 > numRows - 1 ? null : { y: y + 1 > numRows - 1 ? 0 : y + 1, x };
 
   return {
     left: left ? positionId(left) : left,
@@ -142,13 +133,7 @@ const searcher = pathFinder.nba(graph, {
   // heuristic: (from, to) => heuristic(from, to, numRows, numCols),
 });
 
-export const pathfind = (
-  snake,
-  goal,
-  { numRows, numCols, wallsAreFatal },
-  allowTail = false,
-  returnEarly = false,
-) => {
+export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allowTail = false, returnEarly = false) => {
   if (!snake.parts[0]) {
     return [];
   }
@@ -227,7 +212,13 @@ export const pathfind = (
 
   const path = searcher.find(positionId(goal), positionId(head));
   if (path.length >= 2 && allowTail && !returnEarly) {
-    let modifiedPath = { didExpand: false, pathSoFar: path, totalExpansions: 0, numRows, numCols };
+    let modifiedPath = {
+      didExpand: false,
+      pathSoFar: path,
+      totalExpansions: 0,
+      numRows,
+      numCols,
+    };
     do {
       modifiedPath = _.reduce(path, findLongestPathReduce(graph), {
         ...modifiedPath,
@@ -412,26 +403,42 @@ export function* pathFindingSaga() {
     } else {
       // here hoping at least most of the time pathfind will return before the board state changes
       // because of a tick/move or something similar
-      const path = pathfind(snake, food[0], { numRows, numCols, wallsAreFatal });
+      const path = pathfind(snake, food[0], {
+        numRows,
+        numCols,
+        wallsAreFatal,
+      });
       if (path === null || !path.length) {
         yield put(pathNotFound());
         yield survivalMode(snake, { numRows, numCols, wallsAreFatal });
       } else {
         yield put(finishPathFind(path));
-        yield moveFromPath(path, snake.parts, { numRows, numCols, wallsAreFatal });
+        yield moveFromPath(path, snake.parts, {
+          numRows,
+          numCols,
+          wallsAreFatal,
+        });
       }
     }
   } else if (state.aiConfig.greedy) {
     const { snake } = state.game;
     const { food } = state.game;
     const { numRows, numCols, wallsAreFatal } = state.game.game;
-    const pathToFood = pathfindGreedy(snake, food[0], { numRows, numCols, wallsAreFatal });
+    const pathToFood = pathfindGreedy(snake, food[0], {
+      numRows,
+      numCols,
+      wallsAreFatal,
+    });
     if (pathToFood === null || !pathToFood.length) {
       yield put(pathNotFound());
       yield survivalMode(snake, { numRows, numCols, wallsAreFatal });
     } else {
       yield put(finishPathFind(pathToFood));
-      yield moveFromPath(pathToFood, snake.parts, { numRows, numCols, wallsAreFatal });
+      yield moveFromPath(pathToFood, snake.parts, {
+        numRows,
+        numCols,
+        wallsAreFatal,
+      });
     }
   }
   // }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 
-import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography/Typography';
@@ -60,13 +60,7 @@ const NotFound = props => {
       {/* <ScreenBlock className="NotFoundBlock"> */}
       {/* <div className="container"> */}
       <Paper className={classes.NotFoundPaper}>
-        <Button
-          component={Link}
-          variant="contained"
-          target="_blank"
-          to="/"
-          className={classes.NotFoundButton}
-        >
+        <Button component={Link} variant="contained" target="_blank" to="/" className={classes.NotFoundButton}>
           <FaHome size="2em" />
         </Button>
         <Typography className={classes.Heading}>Path Not Found</Typography>

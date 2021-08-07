@@ -1,14 +1,14 @@
 import React from 'react';
 import { GoGraph } from 'react-icons/go';
 import {
-  FaRobot,
-  FaLaptopCode,
-  FaCodeBranch,
-  FaRegFileCode,
-  FaCloud,
   FaCheckDouble,
+  FaCloud,
+  FaCodeBranch,
   FaJedi,
+  FaLaptopCode,
   FaMicrochip,
+  FaRegFileCode,
+  FaRobot,
 } from 'react-icons/fa';
 
 import techTheme from './techTheme';

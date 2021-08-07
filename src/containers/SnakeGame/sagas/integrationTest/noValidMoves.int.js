@@ -1,5 +1,5 @@
 import createSagaMiddleware from 'redux-saga';
-import { configureStore, getDefaultMiddleware } from 'redux-starter-kit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
 import rootReducer from '../../reducers';
 import { runGame } from '../gameSagas';
@@ -109,16 +109,8 @@ describe('snake can accept the inevitability of death', () => {
       y: 2,
     },
   ];
-  it(
-    "A* doesn't try to step outside of the world",
-    () => playGame(aFood, { aStar: true, greedy: false }),
-    10000,
-  );
-  it(
-    "Greedy doesn't try to step outside of the world",
-    () => playGame(aFood, { greedy: true, aStar: false }),
-    10000,
-  );
+  it("A* doesn't try to step outside of the world", () => playGame(aFood, { aStar: true, greedy: false }), 10000);
+  it("Greedy doesn't try to step outside of the world", () => playGame(aFood, { greedy: true, aStar: false }), 10000);
 });
 
 describe("snake doesn't care when there is no food", () => {
