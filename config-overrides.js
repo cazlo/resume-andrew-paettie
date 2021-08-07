@@ -1,14 +1,14 @@
 module.exports = {
   // The Webpack config to use when compiling your react app for development or production.
-  webpack(config) {
-    // Add the svg loader
-    const loaderList = config.module.rules[2].oneOf;
-    loaderList.splice(loaderList.length - 1, 0, {
-      test: /\.svg/,
-      loader: 'svg-inline-loader?removeTags',
-    });
-    return config;
-  },
+  // webpack(config) {
+  //   Add the svg loader
+  // const loaderList = config.module.rules[1].oneOf;
+  // loaderList.splice(loaderList.length - 1, 0, {
+  //   test: /\.svg/,
+  //   loader: 'svg-inline-loader?removeTags',
+  // });
+  // return config;
+  // },
   // The Jest config to use when running your jest tests - note that the normal rewires do not
   // work here.
   jest(config) {
