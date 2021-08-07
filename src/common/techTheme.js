@@ -298,9 +298,17 @@ const techTheme = {
     icon: <FaJenkins />,
   },
   micronaut: {
+    style: {
+      background: '#1c4882',
+      color: '#fff',
+    },
     icon: <MicronautSvg className="MicronautIcon" />,
   },
   quarkus: {
+    style: {
+      background: '#f7004a',
+      color: '#fff',
+    },
     icon: <QuarkusSvg className="QuarkusIcon" />,
   },
   security: {
