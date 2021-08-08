@@ -8,7 +8,7 @@ import { ReactComponent as JavaIcon } from 'devicon/icons/java/java-original.svg
 import { ReactComponent as AwsIcon } from 'devicon/icons/amazonwebservices/amazonwebservices-original.svg';
 import { ReactComponent as DockerIcon } from 'devicon/icons/docker/docker-original.svg';
 import { ReactComponent as GithubIcon } from 'devicon/icons/github/github-original.svg';
-import { ReactComponent as PostgresIcon } from 'devicon/icons/postgresql/postgresql-plain.svg';
+import { ReactComponent as PostgresIcon } from 'devicon/icons/postgresql/postgresql-original.svg';
 import { ReactComponent as PythonIcon } from 'devicon/icons/python/python-original.svg';
 import { ReactComponent as AndroidIcon } from 'devicon/icons/android/android-plain.svg';
 import { ReactComponent as AngularIcon } from 'devicon/icons/angularjs/angularjs-plain.svg';
@@ -23,16 +23,39 @@ import { ReactComponent as IntellijIcon } from 'devicon/icons/intellij/intellij-
 import { ReactComponent as WebstormIcon } from 'devicon/icons/webstorm/webstorm-original.svg';
 import { ReactComponent as TrelloIcon } from 'devicon/icons/trello/trello-plain.svg';
 import { ReactComponent as GitIcon } from 'devicon/icons/git/git-original.svg';
+import { ReactComponent as Bash } from 'devicon/icons/bash/bash-original.svg';
+/* todo
+import { ReactComponent as Gradle } from 'devicon/icons/gradle/gradle-plain.svg';
+import { ReactComponent as Groovy } from 'devicon/icons/groovy/groovy-original.svg';
+import { ReactComponent as Nginx } from 'devicon/icons/nginx/nginx-original.svg';
+import { ReactComponent as Oracle } from 'devicon/icons/oracle/oracle-original.svg';
+import { ReactComponent as Redux } from 'devicon/icons/redux/redux-original.svg';
+import { ReactComponent as Cucumber } from 'devicon/icons/cucumber/cucumber-plain.svg';
+import { ReactComponent as Tomcat } from 'devicon/icons/tomcat/tomcat-original.svg';
+import { ReactComponent as Typescript } from 'devicon/icons/typescript/typescript-original.svg';
+import {
+  ReactComponent as Terraform,
+  ReactComponent as Consul,
+  ReactComponent as Nomad,
+  ReactComponent as Make,
+} from 'devicon/icons/';
+*/
 
 import { FaEllipsisH } from 'react-icons/fa';
 import { ReactComponent as CircleciSvg } from 'devicon/icons/circleci/circleci-plain.svg';
-import { ReactComponent as JestSvg } from 'devicon/icons/jest/jest-plain.svg';
 import { ReactComponent as SpringSvg } from 'devicon/icons/spring/spring-original.svg';
 import { ReactComponent as Jenkins } from 'devicon/icons/jenkins/jenkins-original.svg';
+import { ReactComponent as Twitter } from 'devicon/icons/twitter/twitter-original.svg';
 import { MdSecurity } from 'react-icons/md';
+import { ReactComponent as JestSvg } from '../data/jest.svg';
 import { ReactComponent as RabbitmqSvg } from '../data/rabbitmq.svg';
 import { ReactComponent as QuarkusSvg } from '../data/quarkus.svg';
 import { ReactComponent as MicronautSvg } from '../data/micronaut.svg';
+import { ReactComponent as Lambda } from '../data/aws/Arch_AWS-Lambda_64.svg';
+import { ReactComponent as ApiGateway } from '../data/aws/Arch_Amazon-API-Gateway_64.svg';
+import { ReactComponent as Route53 } from '../data/aws/Arch_Amazon-Route-53_64.svg';
+import { ReactComponent as Cloudfront } from '../data/aws/Arch_Amazon-CloudFront_64.svg';
+import { ReactComponent as S3 } from '../data/aws/Arch_Amazon-Simple-Storage-Service_64.svg';
 
 /**
  * A centralized place to organize the style + icons of various technologies
@@ -198,7 +221,51 @@ const techTheme = {
       background: '#303233',
     },
     className: 'vertical-timeline-element--aws',
-    icon: <AwsIcon />,
+    icon: <Lambda />,
+  },
+  apiGateway: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    className: 'vertical-timeline-element--aws',
+    icon: <ApiGateway />,
+  },
+  s3: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    className: 'vertical-timeline-element--aws',
+    icon: <S3 />,
+  },
+  cloudfront: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    className: 'vertical-timeline-element--aws',
+    icon: <Cloudfront />,
+  },
+  route53: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    className: 'vertical-timeline-element--aws',
+    icon: <Route53 />,
   },
   github: {
     style: {
@@ -206,7 +273,7 @@ const techTheme = {
       color: '#fff',
     },
     className: 'vertical-timeline-element--github',
-    icon: <GithubIcon />,
+    icon: <GithubIcon class="devicon-github" />,
   },
   postgres: {
     style: {
@@ -318,6 +385,20 @@ const techTheme = {
       color: '#fff',
     },
     icon: <MdSecurity />,
+  },
+  twitter: {
+    style: {
+      background: '#610a0e',
+      color: '#fff',
+    },
+    icon: <Twitter />,
+  },
+  bash: {
+    style: {
+      background: '#610a0e',
+      color: '#fff',
+    },
+    icon: <Bash />,
   },
 };
 
