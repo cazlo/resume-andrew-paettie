@@ -55,7 +55,7 @@ export const performanceTest = ({ gamesToSimulate, avgThreshold, size = 10, aiAc
         concurrency: 5,
       });
       scores = results.map(s => s.score);
-    }, 60000);
+    }, 120000);
 
     it('average score at or above threshold', async () => {
       const avg = _.sum(scores) / gamesToSimulate;

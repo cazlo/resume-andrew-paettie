@@ -16,8 +16,6 @@ const { PLAYING, GAME_OVER } = GameState;
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['nodeJs']));
 
 const MAX_SPEED = 0;
-// const SPEED_MULTIPLIER = process.env.NODE_ENV === 'production' ? 42 : 0;
-// const INITIAL_SPEED = MAX_SPEED * SPEED_MULTIPLIER;
 
 const wrap = (point, size) => (point < 0 ? point + size : point % size);
 
@@ -141,7 +139,7 @@ export const highScores = createReducer(defaults.highScores, {
 // ----------------- "internal" game state -------------------
 // tick speed (ms per tick)
 export const speed = createReducer(defaults.game.speed, {
-  [Action.SET_SPEED]: (state, action) => Math.max(action.speed, MAX_SPEED),
+  [Action.SET_SPEED]: (state, action) => action.speed,
   // [Action.EAT_FOOD]: (state) => Math.max(Math.floor(0.9 * state), MAX_SPEED),
   // [Action.RESET]: () => INITIAL_SPEED,
 });
