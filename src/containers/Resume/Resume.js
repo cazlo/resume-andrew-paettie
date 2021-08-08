@@ -33,11 +33,11 @@ class Resume extends Component {
         <Element name="ResumeAboutMe">
           <AboutMe style={techTheme.github.style} />
         </Element>
-        <Element name="ResumeExperience">
-          <WorkAndEducation educations={content.educations} positions={content.positions} />
-        </Element>
         <Element name="ResumeSkills">
           <Skills skills={content.skills} tools={content.tools} />
+        </Element>
+        <Element name="ResumeExperience">
+          <WorkAndEducation educations={content.educations} positions={content.positions} />
         </Element>
         <Element name="ResumeProjects">
           <Projects projects={content.projects} />
