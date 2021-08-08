@@ -60,15 +60,10 @@ class GridBackground extends React.PureComponent {
           height: '100%',
         },
       });
-      // const randKey = Math.floor(Math.random() * children.length);
-      // const child = React.createElement(children[randKey].type,
-      //  {...children[randKey].props, style: {...children[randKey].props.style, width: '100%', height: '100%'}});
       return (
-        // <GridItemTransition key={i} delay={i * 20} duration={350}>
         <GridItem key={`home-grid-${i}`} width={itemWidth} height={itemHeight} delay={1000} duration={100} style={{}}>
           {child}
         </GridItem>
-        // </GridItemTransition>
       );
     });
   }
