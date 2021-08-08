@@ -270,7 +270,7 @@ export default {
       title: 'JS Performance Analysis',
       subtitle: 'Analyzing differences between node 8 and 10',
       date: 'May 2018',
-      techTheme: techTheme.javascript,
+      techTheme: techTheme.nodeJs,
       links: [
         {
           url: 'https://github.com/cazlo/js-map-performance',

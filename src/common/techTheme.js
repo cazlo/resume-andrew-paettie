@@ -3,31 +3,32 @@ import React from 'react';
 
 import { ReactComponent as ReactIcon } from 'devicon/icons/react/react-original.svg';
 import { ReactComponent as JavascriptIcon } from 'devicon/icons/javascript/javascript-plain.svg';
-import { ReactComponent as NodeJsIcon } from 'devicon/icons/nodejs/nodejs-plain.svg';
+import { ReactComponent as NodeJsIcon } from 'devicon/icons/nodejs/nodejs-original.svg';
 import { ReactComponent as JavaIcon } from 'devicon/icons/java/java-original.svg';
 import { ReactComponent as AwsIcon } from 'devicon/icons/amazonwebservices/amazonwebservices-original.svg';
-import { ReactComponent as DockerIcon } from 'devicon/icons/docker/docker-plain.svg';
+import { ReactComponent as DockerIcon } from 'devicon/icons/docker/docker-original.svg';
 import { ReactComponent as GithubIcon } from 'devicon/icons/github/github-original.svg';
 import { ReactComponent as PostgresIcon } from 'devicon/icons/postgresql/postgresql-plain.svg';
 import { ReactComponent as PythonIcon } from 'devicon/icons/python/python-original.svg';
 import { ReactComponent as AndroidIcon } from 'devicon/icons/android/android-plain.svg';
 import { ReactComponent as AngularIcon } from 'devicon/icons/angularjs/angularjs-plain.svg';
-import { ReactComponent as SlackIcon } from 'devicon/icons/slack/slack-plain.svg';
-import { ReactComponent as LinuxIcon } from 'devicon/icons/linux/linux-plain.svg';
+import { ReactComponent as SlackIcon } from 'devicon/icons/slack/slack-original.svg';
+import { ReactComponent as LinuxIcon } from 'devicon/icons/linux/linux-original.svg';
 import { ReactComponent as UbuntuIcon } from 'devicon/icons/ubuntu/ubuntu-plain.svg';
 import { ReactComponent as NpmIcon } from 'devicon/icons/npm/npm-original-wordmark.svg';
 import { ReactComponent as DebianIcon } from 'devicon/icons/debian/debian-plain.svg';
-import { ReactComponent as CplusplusIcon } from 'devicon/icons/cplusplus/cplusplus-plain.svg';
+import { ReactComponent as CplusplusIcon } from 'devicon/icons/cplusplus/cplusplus-original.svg';
 import { ReactComponent as CIcon } from 'devicon/icons/c/c-original.svg';
-import { ReactComponent as IntellijIcon } from 'devicon/icons/intellij/intellij-plain.svg';
-import { ReactComponent as WebstormIcon } from 'devicon/icons/webstorm/webstorm-plain.svg';
+import { ReactComponent as IntellijIcon } from 'devicon/icons/intellij/intellij-original.svg';
+import { ReactComponent as WebstormIcon } from 'devicon/icons/webstorm/webstorm-original.svg';
 import { ReactComponent as TrelloIcon } from 'devicon/icons/trello/trello-plain.svg';
-import { ReactComponent as GitIcon } from 'devicon/icons/git/git-plain.svg';
+import { ReactComponent as GitIcon } from 'devicon/icons/git/git-original.svg';
 
-import { FaEllipsisH, FaJenkins } from 'react-icons/fa';
+import { FaEllipsisH } from 'react-icons/fa';
 import { ReactComponent as CircleciSvg } from 'devicon/icons/circleci/circleci-plain.svg';
 import { ReactComponent as JestSvg } from 'devicon/icons/jest/jest-plain.svg';
-import { ReactComponent as SpringSvg } from 'devicon/icons/spring/spring-plain.svg';
+import { ReactComponent as SpringSvg } from 'devicon/icons/spring/spring-original.svg';
+import { ReactComponent as Jenkins } from 'devicon/icons/jenkins/jenkins-original.svg';
 import { MdSecurity } from 'react-icons/md';
 import { ReactComponent as RabbitmqSvg } from '../data/rabbitmq.svg';
 import { ReactComponent as QuarkusSvg } from '../data/quarkus.svg';
@@ -242,7 +243,7 @@ const techTheme = {
   },
   linux: {
     style: {
-      background: '#e9b32a',
+      background: '#4b5255',
       color: '#fff',
     },
     icon: <LinuxIcon />,
@@ -295,7 +296,7 @@ const techTheme = {
       background: '#c62634',
       color: '#fff',
     },
-    icon: <FaJenkins />,
+    icon: <Jenkins />,
   },
   micronaut: {
     style: {
