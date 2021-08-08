@@ -37,12 +37,17 @@ const Projects = ({ projects, width }) => (
             key={i} // eslint-disable-line react/no-array-index-key
             icon={project.techTheme.icon}
             iconStyle={project.techTheme.iconStyle || project.techTheme.style}
-            date={<Typography variant="subtitle1">{project.date}</Typography>}
+            date={
+              <Typography variant="subtitle1" style={{ color: 'white' }}>
+                {project.date}
+              </Typography>
+            }
           >
             <div style={{ display: 'flex' }} className="">
               <div style={{}}>
                 <Typography variant="h6">{project.title}</Typography>
                 <Typography variant="subtitle1">{project.subtitle}</Typography>
+                <Typography variant="caption">{project.content}</Typography>
                 <div className="ProjectsBlock-technologies">
                   {project.technologies.map((technology, j) => (
                     <Chip
@@ -53,7 +58,7 @@ const Projects = ({ projects, width }) => (
                         technology.icon ? (
                           <Avatar
                             style={{
-                              background: 'black',
+                              background: '#747474',
                             }}
                           >
                             {ShrunkIcon(technology.icon)}
@@ -72,8 +77,6 @@ const Projects = ({ projects, width }) => (
                 ''
               )}
             </div>
-
-            <Typography variant="subtitle2">{project.content}</Typography>
 
             <br />
             <div className="ProjectsBlock-links">
