@@ -4,18 +4,35 @@ import {
   FaCheckDouble,
   FaCloud,
   FaCodeBranch,
+  FaCreditCard,
+  FaHardHat,
   FaJedi,
   FaLaptopCode,
   FaMicrochip,
   FaRegFileCode,
   FaRobot,
+  FaShoppingCart,
 } from 'react-icons/fa';
 
 import moment from 'moment';
 import { MdSignalWifi4BarLock } from 'react-icons/md';
-import { GiSharkJaws } from 'react-icons/gi';
+import { GiRoad, GiRunningShoe, GiSharkJaws } from 'react-icons/gi';
 import { GrGraphQl } from 'react-icons/gr';
-import { FcImageFile } from 'react-icons/fc';
+import {
+  FcAutomotive,
+  FcDatabase,
+  FcGlobe,
+  FcImageFile,
+  FcMultipleInputs,
+  FcCustomerSupport,
+  FcScatterPlot,
+  FcServices,
+  FcShop,
+  FcWorkflow,
+} from 'react-icons/fc';
+import Avatar from '@material-ui/core/Avatar';
+import Chip from '@material-ui/core/Chip/Chip';
+import { AiFillRobot } from 'react-icons/all';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';
@@ -31,22 +48,93 @@ const MlIcon = GoGraph;
 export default {
   educations: [
     {
-      schoolName: 'University of Texas Dallas',
+      schoolName: 'University of Texas @Dallas',
       fieldOfStudy: 'Computer Science',
       startDate: '2010',
       endDate: '2015',
       degree: 'Bachelor of Science in Computer Science',
-      activities: <span>Java, C++, C#, AI, Database, ML, Network Security, UNIX</span>,
+      activities: (
+        <span>
+          <Chip size="small" avatar={<Avatar>{techTheme.java.icon}</Avatar>} label="Java" />
+          <Chip size="small" avatar={<Avatar>{techTheme.python.icon}</Avatar>} label="Python" />
+          <Chip size="small" avatar={<Avatar>{techTheme.cplusplus.icon}</Avatar>} label="C++" />
+          <Chip size="small" avatar={<Avatar>{techTheme.csharp.icon}</Avatar>} label="C#" />
+          <Chip size="small" avatar={<Avatar>{techTheme.dotNet.icon}</Avatar>} label=".Net" />
+          <Chip
+            size="small"
+            avatar={
+              <Avatar>
+                <AiFillRobot />
+              </Avatar>
+            }
+            label="AI"
+          />
+          <Chip
+            size="small"
+            avatar={
+              <Avatar>
+                <FcDatabase />
+              </Avatar>
+            }
+            label="Database Design"
+          />
+          <Chip
+            size="small"
+            avatar={
+              <Avatar>
+                <FcScatterPlot />
+              </Avatar>
+            }
+            label="Machine Learning"
+          />
+          <Chip size="small" avatar={<Avatar>{techTheme.security.icon}</Avatar>} label="Network Security" />
+          <Chip size="small" avatar={<Avatar>{techTheme.linux.icon}</Avatar>} label="Linux" />
+        </span>
+      ),
     },
   ],
   positions: [
     {
-      title: 'Senior Cloud/Platform engineer',
+      title: 'Senior Software engineer',
       summary: (
         <span>
-          Java/AWS/Javascript development
+          Java/AWS/Javascript devops position with technical leadership and architecture responsibilities
           <br />
-          Java 8 | Lambda | ReactJS | Docker | CI | AWS
+          <FcGlobe /> <FcShop /> <FaCreditCard /> <FaShoppingCart /> <GiRunningShoe /> <FcWorkflow />
+          <br />
+          Global Retail Payment
+          <br />
+          <Chip size="small" avatar={<Avatar>{techTheme.java.icon}</Avatar>} label="Java" />
+          <Chip size="small" avatar={<Avatar>{techTheme.nodeJs.icon}</Avatar>} label="Node" />
+          <Chip size="small" avatar={<Avatar>{techTheme.dotNet.icon}</Avatar>} label=".Net" />
+          <Chip size="small" avatar={<Avatar>{techTheme.micronaut.icon}</Avatar>} label="Micronaut" />
+          <Chip size="small" avatar={<Avatar>{techTheme.cucumber.icon}</Avatar>} label="Cucumber" />
+          <Chip size="small" avatar={<Avatar>{techTheme.docker.icon}</Avatar>} label="Docker" />
+          <Chip size="small" avatar={<Avatar>{techTheme.github.icon}</Avatar>} label="Github" />
+          <Chip size="small" avatar={<Avatar>{techTheme.jenkins.icon}</Avatar>} label="Jenkins" />
+          <Chip size="small" avatar={<Avatar>{techTheme.terraform.icon}</Avatar>} label="Terraform" />
+          <Chip size="small" avatar={<Avatar>{techTheme.aws.icon}</Avatar>} label="AWS" />
+          <Chip size="small" avatar={<Avatar>{techTheme.apiGateway.icon}</Avatar>} label="ApiGateway" />
+          <Chip size="small" avatar={<Avatar>{techTheme.lambda.icon}</Avatar>} label="Lambda" />
+          <Chip
+            size="small"
+            avatar={
+              <Avatar>
+                <FcServices />
+              </Avatar>
+            }
+            label="Microservices"
+          />
+          <Chip
+            size="small"
+            avatar={
+              <Avatar>
+                <FcCustomerSupport />
+              </Avatar>
+            }
+            label="On call support"
+          />
+          <Chip size="small" avatar={<Avatar>{techTheme.agile.icon}</Avatar>} label="Agile" />
         </span>
       ),
       startDate: '2019',
@@ -58,15 +146,49 @@ export default {
       title: 'Senior Full-stack Software Engineer',
       summary: (
         <span>
-          NodeJS/Postgres/Javascript development
+          NodeJS/Postgres/Javascript devops position with technical leadership responsibilities
           <br />
-          Node 8 | HapiJS | ReactJS | Docker | CI | AWS
+          <FcAutomotive /> <FcDatabase /> <FcWorkflow />
+          <br />
+          Vehicle Catalog Data Ingestion and Management
+          <br />
+          <Chip size="small" avatar={<Avatar>{techTheme.nodeJs.icon}</Avatar>} label="Node" />
+          <Chip size="small" avatar={<Avatar>{techTheme.react.icon}</Avatar>} label="React" />
+          <Chip size="small" avatar={<Avatar>{techTheme.python.icon}</Avatar>} label="Python" />
+          <Chip size="small" avatar={<Avatar>{techTheme.docker.icon}</Avatar>} label="Docker" />
+          <Chip size="small" avatar={<Avatar>{techTheme.github.icon}</Avatar>} label="Github" />
+          <Chip size="small" avatar={<Avatar>{techTheme.circleci.icon}</Avatar>} label="CircleCI" />
+          <Chip size="small" avatar={<Avatar>{techTheme.terraform.icon}</Avatar>} label="Terraform" />
+          <Chip size="small" avatar={<Avatar>{techTheme.aws.icon}</Avatar>} label="AWS" />
+          <Chip size="small" avatar={<Avatar>{techTheme.ec2.icon}</Avatar>} label="EC2" />
+          <Chip size="small" avatar={<Avatar>{techTheme.nomad.icon}</Avatar>} label="Nomad" />
+          <Chip size="small" avatar={<Avatar>{techTheme.consul.icon}</Avatar>} label="Consul" />
+          <Chip size="small" avatar={<Avatar>{techTheme.nginx.icon}</Avatar>} label="Nginx" />
+          <Chip
+            size="small"
+            avatar={
+              <Avatar>
+                <FcServices />
+              </Avatar>
+            }
+            label="Microservices"
+          />
+          <Chip
+            size="small"
+            avatar={
+              <Avatar>
+                <FcCustomerSupport />
+              </Avatar>
+            }
+            label="On call support"
+          />
+          <Chip size="small" avatar={<Avatar>{techTheme.agile.icon}</Avatar>} label="Agile" />
         </span>
       ),
       startDate: '2017',
       endDate: '2019',
       isCurrent: false,
-      company: 'Cox Auto Data Solutions',
+      company: 'Cox Auto (Data Solutions)',
     },
     {
       title: 'Full-stack Software Engineer',
@@ -74,7 +196,27 @@ export default {
         <span>
           Java/MySQL/Javascript development
           <br />
-          Spring Boot | Groovy | AngularJS | Docker | Jenkins
+          <FcAutomotive /> <FcDatabase /> <FcMultipleInputs />
+          <br />
+          High Throughput Inventory Management Systems
+          <br />
+          <Chip size="small" avatar={<Avatar>{techTheme.java.icon}</Avatar>} label="Java" />
+          <Chip size="small" avatar={<Avatar>{techTheme.spring.icon}</Avatar>} label="Spring Boot" />
+          <Chip size="small" avatar={<Avatar>{techTheme.groovy.icon}</Avatar>} label="Groovy" />
+          <Chip size="small" avatar={<Avatar>{techTheme.angular.icon}</Avatar>} label="AngularJS" />
+          <Chip size="small" avatar={<Avatar>{techTheme.mysql.icon}</Avatar>} label="Mysql" />
+          <Chip size="small" avatar={<Avatar>{techTheme.github.icon}</Avatar>} label="Github" />
+          <Chip size="small" avatar={<Avatar>{techTheme.jenkins.icon}</Avatar>} label="Jenkins" />
+          <Chip
+            size="small"
+            avatar={
+              <Avatar>
+                <FcCustomerSupport />
+              </Avatar>
+            }
+            label="On call support"
+          />
+          <Chip size="small" avatar={<Avatar>{techTheme.agile.icon}</Avatar>} label="Agile" />
         </span>
       ),
       startDate: '2015',
@@ -83,12 +225,22 @@ export default {
       company: 'Cox Auto (Dealer.com)',
     },
     {
-      title: 'Dev/Ops Intern',
+      title: 'Dev/Ops Engineer',
       summary: (
         <span>
-          Java EE/Oracle DB/Jquery development
+          Sys admin, web app development, and test automation
           <br />
-          J2EE | IIS | Jquery | Ant | Bugzilla
+          <GiRoad /> <FaHardHat />
+          <br />
+          Construction management and accounting software
+          <br />
+          <Chip size="small" avatar={<Avatar>{techTheme.java.icon}</Avatar>} label="Java" />
+          <Chip size="small" avatar={<Avatar>{techTheme.jquery.icon}</Avatar>} label="Jquery" />
+          <Chip size="small" avatar={<Avatar>{techTheme.oracle.icon}</Avatar>} label="Oracle DB" />
+          <Chip size="small" avatar={<Avatar>{techTheme.oracle.icon}</Avatar>} label="Weblogic" />
+          <Chip size="small" avatar={<Avatar>{techTheme.others.icon}</Avatar>} label="Bugzilla" />
+          <Chip size="small" avatar={<Avatar>{techTheme.others.icon}</Avatar>} label="Selenium" />
+          <Chip size="small" avatar={<Avatar>{techTheme.others.icon}</Avatar>} label="Ant" />
         </span>
       ),
       startDate: '2014',
@@ -209,7 +361,7 @@ export default {
           icon: techTheme.route53.icon,
         },
       ],
-      content: 'A simple portfolio site to show some projects I have done.',
+      content: 'A simple portfolio site to show some projects I have built.',
       image: mySiteImage,
     },
     {
@@ -249,7 +401,9 @@ export default {
           icon: techTheme.twitter.icon,
         },
       ],
-      content: 'Microservice clusters for ingesting and analyzing various algorithms for trading crypto currencies',
+      content:
+        // eslint-disable-next-line max-len
+        'Microservice clusters for ingesting data and using that data to analyze various algorithms for trading crypto currencies',
       image: cryptoTradingImage,
     },
     {
@@ -595,7 +749,7 @@ export default {
         },
       ],
       // eslint-disable-next-line max-len
-      content: `Compiled linux from scratch to create a low power wireless print server via CUPS. At the time, gcc compilation alone took several hours!`,
+      content: `Compiled linux from scratch to create a low power wireless print server via CUPS and IPP. At the time, gcc compilation alone took several hours!`,
       links: [
         {
           url: 'https://www.linuxfromscratch.org/',
