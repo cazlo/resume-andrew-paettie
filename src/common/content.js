@@ -11,6 +11,11 @@ import {
   FaRobot,
 } from 'react-icons/fa';
 
+import moment from 'moment';
+import { MdSignalWifi4BarLock } from 'react-icons/md';
+import { GiSharkJaws } from 'react-icons/gi';
+import { GrGraphQl } from 'react-icons/gr';
+import { FcImageFile } from 'react-icons/fc';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';
@@ -18,6 +23,7 @@ import agent007Image from '../data/agent-007.gif';
 import snakeImage from '../data/snake.gif';
 import cryptoTradingImage from '../data/crypto-trade-analysis.png';
 import samAnalysisImage from '../data/SAM-analysis.png';
+import mySiteImage from '../data/mysite.png';
 
 const AiIcon = FaRobot;
 const MlIcon = GoGraph;
@@ -155,8 +161,60 @@ export default {
   ],
   projects: [
     {
+      title: 'AndrewPaettie.com',
+      subtitle: 'My résumé',
+      date: `2014 - ${moment().year()}`,
+      techTheme: techTheme.react,
+      links: [
+        {
+          url: 'https://andrewpaettie.com',
+          text: 'Site',
+        },
+        {
+          url: 'https://github.com/cazlo/resume-andrew-paettie',
+          text: 'View source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Github',
+          icon: techTheme.github.icon,
+        },
+        {
+          name: 'CircleCI',
+          icon: techTheme.circleci.icon,
+        },
+        {
+          name: 'React',
+          icon: techTheme.react.icon,
+        },
+        {
+          name: 'Jest',
+          icon: techTheme.jest.icon,
+        },
+        {
+          name: 'AWS',
+          icon: techTheme.aws.icon,
+        },
+        {
+          name: 'S3',
+          icon: techTheme.s3.icon,
+        },
+        {
+          name: 'CloudFront',
+          icon: techTheme.cloudfront.icon,
+        },
+        {
+          name: 'Route53',
+          icon: techTheme.route53.icon,
+        },
+      ],
+      content: 'A simple portfolio site to show some projects I have done.',
+      image: mySiteImage,
+    },
+    {
       title: 'Cryptocurrency Trading Analysis Platform',
-      subtitle: 'Using Twitter and ML to make cryptocurrency buying decisions',
+      subtitle: 'Swing trade crypto currency bot',
       date: 'April 2021',
       techTheme: techTheme.nodeJs,
       links: [
@@ -185,6 +243,10 @@ export default {
         {
           name: 'Docker',
           icon: techTheme.docker.icon,
+        },
+        {
+          name: 'Twitter',
+          icon: techTheme.twitter.icon,
         },
       ],
       content: 'Microservice clusters for ingesting and analyzing various algorithms for trading crypto currencies',
@@ -215,6 +277,10 @@ export default {
           icon: techTheme.lambda.icon,
         },
         {
+          name: 'Api Gateway',
+          icon: techTheme.apiGateway.icon,
+        },
+        {
           name: 'Java',
           icon: techTheme.java.icon,
         },
@@ -223,19 +289,21 @@ export default {
           icon: techTheme.micronaut.icon,
         },
         {
-          name: 'Node',
-          icon: techTheme.nodeJs.icon,
-        },
-        {
           name: 'Quarkus',
           icon: techTheme.quarkus.icon,
+        },
+        {
+          name: 'Node',
+          icon: techTheme.nodeJs.icon,
         },
         {
           name: 'React',
           icon: techTheme.react.icon,
         },
       ],
-      content: "Performance analysis comparing various implementations of serverless APIs built with AWS's Serverless ",
+      content:
+        // eslint-disable-next-line max-len
+        "Performance analysis comparing various implementations of serverless APIs built with AWS's Serverless Framework.",
       image: samAnalysisImage,
     },
     {
@@ -363,42 +431,6 @@ export default {
       // image: '/img/ml-stats.png',
     },
     {
-      title: 'AndrewPaettie.com',
-      subtitle: 'My résumé',
-      date: '2014',
-      techTheme: techTheme.react,
-      links: [
-        {
-          url: 'https://andrewpaettie.com',
-          text: 'Site',
-        },
-        {
-          url: 'https://github.com/cazlo/resume-andrew-paettie',
-          text: 'View source code',
-        },
-      ],
-      technologies: [
-        {
-          name: 'React',
-          icon: techTheme.react.icon,
-        },
-        {
-          name: 'Jest',
-          icon: techTheme.jest.icon,
-        },
-        {
-          name: 'AWS',
-          icon: techTheme.aws.icon,
-        },
-        {
-          name: 'CircleCI',
-          icon: techTheme.circleci.icon,
-        },
-      ],
-      content: 'A simple portfolio site to show some projects I have done',
-      // image: '/img/this-site.png',
-    },
-    {
       title: 'Whiz Calc',
       subtitle: 'Android calculator app',
       date: 'January 2014',
@@ -499,20 +531,20 @@ export default {
         },
         {
           name: 'Aircrack-ng',
-          icon: techTheme.others.icon,
+          icon: <MdSignalWifi4BarLock />,
         },
         {
           name: 'Wireshark',
-          icon: techTheme.others.icon,
+          icon: <GiSharkJaws />,
         },
         {
           name: 'Nmap',
-          icon: techTheme.others.icon,
+          icon: <GrGraphQl />,
         },
       ],
       content:
         // eslint-disable-next-line max-len
-        'Used the backtrack linux distribution to learn about penetration testing. Only performed experiments against networks I setup specifically to attack.',
+        'Used the backtrack linux distribution to learn about penetration testing. Setup networks with vulnerabilities and then attempted to attack them.',
       links: [
         {
           url: 'http://www.backtrack-linux.org/',
@@ -532,10 +564,10 @@ export default {
         },
         {
           name: 'BMP',
-          icon: techTheme.others.icon,
+          icon: <FcImageFile />,
         },
       ],
-      content: 'Developed themes and provided QA for IPod and Sansa e200 firmware replacement',
+      content: 'Developed themes and provided QA for IPod and Sansa e200 firmware replacement.',
       links: [
         {
           url: 'https://www.rockbox.org/',
@@ -550,16 +582,20 @@ export default {
       techTheme: techTheme.linux,
       technologies: [
         {
-          name: 'C',
-          icon: techTheme.c.icon,
-        },
-        {
           name: 'Linux',
           icon: techTheme.linux.icon,
         },
+        {
+          name: 'Bash',
+          icon: techTheme.bash.icon,
+        },
+        {
+          name: 'C',
+          icon: techTheme.c.icon,
+        },
       ],
       // eslint-disable-next-line max-len
-      content: `Compiled linux from scratch to create a low power wireless print server via CUPS. On my Sempron processor gcc compilation alone took over several hours!`,
+      content: `Compiled linux from scratch to create a low power wireless print server via CUPS. At the time, gcc compilation alone took several hours!`,
       links: [
         {
           url: 'https://www.linuxfromscratch.org/',
