@@ -161,7 +161,7 @@ export default {
   ],
   projects: [
     {
-      title: 'AndrewPaettie.com',
+      title: 'Andrew Paettie.com',
       subtitle: 'My résumé',
       date: `2014 - ${moment().year()}`,
       techTheme: techTheme.react,
@@ -213,7 +213,7 @@ export default {
       image: mySiteImage,
     },
     {
-      title: 'Cryptocurrency Trading Analysis Platform',
+      title: 'Crypto Trading Analysis Platform',
       subtitle: 'Swing trade crypto currency bot',
       date: 'April 2021',
       techTheme: techTheme.nodeJs,
