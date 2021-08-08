@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SchoolIcon from '@material-ui/icons/School';
-import WorkIcon from '@material-ui/icons/Work';
 import Typography from '@material-ui/core/Typography/Typography';
 import withWidth from '@material-ui/core/withWidth/withWidth';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
+import { FcGraduationCap, FcBriefcase } from 'react-icons/fc';
 
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import techTheme from '../../common/techTheme';
@@ -26,7 +25,7 @@ const WorkAndEducation = ({ positions, educations, width }) => (
           <VerticalTimelineElement
             className="Resume-position"
             key={i} // eslint-disable-line react/no-array-index-key
-            icon={<WorkIcon />}
+            icon={<FcBriefcase />}
             iconStyle={techTheme.postgres.style}
             date={
               <Typography variant="subtitle1" style={{ color: 'white' }}>
@@ -62,15 +61,17 @@ const WorkAndEducation = ({ positions, educations, width }) => (
               id=""
               className="Resume-position"
               key={i} // eslint-disable-line react/no-array-index-key
-              icon={<SchoolIcon />}
-              iconStyle={techTheme.java.style}
+              icon={<FcGraduationCap />}
+              iconStyle={{
+                background: '#c65121', // utd color
+              }}
               date={
                 <Typography variant="subtitle1" style={{ color: 'white' }}>
                   {formatPeriod(education.startDate, education.endDate)}
                 </Typography>
               }
             >
-              <Typography variant="h5">{education.fieldOfStudy}</Typography>
+              <Typography variant="h5">{education.schoolName}</Typography>
               <Typography variant="h6">{education.degree}</Typography>
               {education.activities && !Array.isArray(education.activities) && (
                 <Typography variant="subtitle2">{education.activities}</Typography>
