@@ -8,12 +8,24 @@ import withWidth from '@material-ui/core/withWidth';
 
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
-
 import './VerticalTimeline.css';
 
-// projects will like be common/content.projects
-const Projects = ({ projects, style, width }) => (
-  <ScreenBlock className="Resume-projects" id="Resume-projects" style={style}>
+const ShrunkIcon = icon => (
+  <div
+    style={{
+      width: '75%',
+      height: '75%',
+      display: 'flex',
+      'align-items': 'center',
+      'justify-content': 'center',
+    }}
+  >
+    {icon}
+  </div>
+);
+
+const Projects = ({ projects, width }) => (
+  <ScreenBlock className="Resume-projects" id="Resume-projects">
     <div className=" container">
       <div className="Resume-projects heading">
         <h2>Projects</h2>
@@ -37,7 +49,17 @@ const Projects = ({ projects, style, width }) => (
                       // eslint-disable-next-line react/no-array-index-key
                       key={j}
                       label={technology.name}
-                      avatar={technology.icon ? <Avatar>{technology.icon}</Avatar> : null}
+                      avatar={
+                        technology.icon ? (
+                          <Avatar
+                            style={{
+                              background: 'black',
+                            }}
+                          >
+                            {ShrunkIcon(technology.icon)}
+                          </Avatar>
+                        ) : null
+                      }
                     />
                   ))}
                 </div>
@@ -97,12 +119,10 @@ Projects.propTypes = {
       image: PropTypes.node,
     }),
   ).isRequired,
-  style: PropTypes.shape({}),
   width: PropTypes.string,
 };
 
 Projects.defaultProps = {
-  style: {},
   width: 'lg',
 };
 
