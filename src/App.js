@@ -27,8 +27,8 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={Resume} />
         <Route exact path="/about" component={() => <Resume scrollTo="ResumeAboutMe" />} />
-        <Route exact path="/experience" component={() => <Resume scrollTo="ResumeExperience" />} />
         <Route exact path="/skills" component={() => <Resume scrollTo="ResumeSkills" />} />
+        <Route exact path="/experience" component={() => <Resume scrollTo="ResumeExperience" />} />
         <Route exact path="/projects" component={() => <Resume scrollTo="ResumeProjects" />} />
         <Route component={NotFound} />
       </Switch>
