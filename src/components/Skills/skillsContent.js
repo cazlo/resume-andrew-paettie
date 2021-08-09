@@ -11,18 +11,18 @@ const skills = {
           {
             name: 'JUnit',
             experience: '6',
-            techTheme: techTheme.others,
+            techTheme: techTheme.java,
             isTestAutomation: true,
-          },
-          {
-            name: 'Micronaut',
-            experience: '2',
-            techTheme: techTheme.micronaut,
           },
           {
             name: 'Spring (boot)',
             experience: '3',
             techTheme: techTheme.spring,
+          },
+          {
+            name: 'Micronaut',
+            experience: '2',
+            techTheme: techTheme.micronaut,
           },
           {
             name: 'Tomcat',
@@ -48,6 +48,12 @@ const skills = {
             techTheme: techTheme.nodeJs,
           },
           {
+            name: 'Jest TDD',
+            experience: '4',
+            techTheme: techTheme.jest,
+            isTestAutomation: true,
+          },
+          {
             name: 'React',
             experience: '3',
             techTheme: techTheme.react,
@@ -60,22 +66,16 @@ const skills = {
             isFrontend: true,
           },
           {
-            name: 'Angular',
-            experience: '1',
-            techTheme: techTheme.angular,
-            isFrontend: true,
-          },
-          {
-            name: 'Jest TDD',
-            experience: '4',
-            techTheme: techTheme.jest,
-            isTestAutomation: true,
-          },
-          {
             name: 'Cucumber BDD',
             experience: '2',
             techTheme: techTheme.cucumber,
             isTestAutomation: true,
+          },
+          {
+            name: 'Angular',
+            experience: '1',
+            techTheme: techTheme.angular,
+            isFrontend: true,
           },
         ],
       },
@@ -85,28 +85,28 @@ const skills = {
         experience: '2',
         frameworks: [
           {
-            name: 'opencv',
-            experience: '0.5',
-            techTheme: techTheme.others,
-            isAiML: true,
+            name: 'Locust.io',
+            experience: '2',
+            techTheme: techTheme.python,
+            isTestAutomation: true,
           },
           {
             name: 'scikit-learn',
             experience: '1',
-            techTheme: techTheme.others,
+            techTheme: techTheme.python,
             isAiML: true,
           },
           {
             name: 'pytest',
             experience: '0.5',
-            techTheme: techTheme.others,
+            techTheme: techTheme.python,
             isTestAutomation: true,
           },
           {
-            name: 'Locust.io',
-            experience: '2',
+            name: 'opencv',
+            experience: '0.5',
             techTheme: techTheme.python,
-            isTestAutomation: true,
+            isAiML: true,
           },
         ],
       },
@@ -117,7 +117,7 @@ const skills = {
         frameworks: [
           {
             name: '.Net',
-            experience: '0.5',
+            experience: '1',
             techTheme: techTheme.dotNet,
           },
         ],
@@ -160,7 +160,7 @@ const skills = {
           {
             name: 'DynamoDB',
             experience: '2',
-            techTheme: techTheme.others, // todo dynamodb
+            techTheme: techTheme.dynamoDb,
           },
           {
             name: 'Reddis',
@@ -197,14 +197,19 @@ const skills = {
         experience: '4',
         frameworks: [
           {
+            name: 'SQS',
+            experience: '3',
+            techTheme: techTheme.aws, // todo sqs icon
+          },
+          {
             name: 'RabbitMq',
             experience: '2',
             techTheme: techTheme.rabbitmq,
           },
           {
-            name: 'SQS',
-            experience: '3',
-            techTheme: techTheme.aws, // todo sqs icon
+            name: 'Kinesis',
+            experience: '1',
+            techTheme: techTheme.aws, // todo kinesis icon
           },
         ],
       },
@@ -214,13 +219,7 @@ const skills = {
         name: 'Docker',
         techTheme: techTheme.docker,
         experience: '4',
-        frameworks: [
-          {
-            name: 'docker-compose',
-            experience: '3',
-            techTheme: techTheme.others, // todo docker-compose icon
-          },
-        ],
+        frameworks: [],
       },
       {
         name: 'Container Orchestration',
@@ -228,20 +227,25 @@ const skills = {
         experience: '3',
         frameworks: [
           {
+            name: 'docker-compose',
+            experience: '3',
+            techTheme: techTheme.docker,
+          },
+          {
             name: 'Nomad',
             techTheme: techTheme.nomad,
             experience: '2',
             frameworks: [],
           },
           {
-            name: 'ECS',
-            techTheme: techTheme.others, // todo ecs icon
+            name: 'AWS ECS',
+            techTheme: techTheme.aws, // todo ecs icon
             experience: '1',
             frameworks: [],
           },
           {
             name: 'Kubernetes',
-            techTheme: techTheme.others, // todo k8s icon
+            techTheme: techTheme.kubernetes,
             experience: '0.5',
             frameworks: [],
           },
@@ -255,6 +259,11 @@ const skills = {
         experience: '4',
         frameworks: [
           {
+            name: 'S3',
+            experience: '4',
+            techTheme: techTheme.s3,
+          },
+          {
             name: 'EC2',
             experience: '3',
             techTheme: techTheme.ec2,
@@ -263,6 +272,26 @@ const skills = {
             name: 'Lambda',
             experience: '2',
             techTheme: techTheme.lambda,
+          },
+          {
+            name: 'ApiGateway',
+            experience: '2',
+            techTheme: techTheme.apiGateway,
+          },
+          {
+            name: 'Cloudfront',
+            experience: '2',
+            techTheme: techTheme.cloudfront,
+          },
+          {
+            name: 'Route53',
+            experience: '2',
+            techTheme: techTheme.route53,
+          },
+          {
+            name: 'Rds',
+            experience: '2',
+            techTheme: techTheme.rds,
           },
         ],
       },
