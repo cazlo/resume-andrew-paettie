@@ -17,9 +17,8 @@ import {
   FcServices,
   FcShop,
   FcWorkflow,
+  FcDataSheet,
 } from 'react-icons/fc';
-import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip/Chip';
 import { AiFillRobot } from 'react-icons/ai';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
@@ -41,200 +40,171 @@ export default {
       startDate: '2010',
       endDate: '2015',
       degree: 'Bachelor of Science in Computer Science',
-      activities: (
-        <span>
-          <Chip size="small" avatar={<Avatar>{techTheme.java.icon}</Avatar>} label="Java" />
-          <Chip size="small" avatar={<Avatar>{techTheme.python.icon}</Avatar>} label="Python" />
-          <Chip size="small" avatar={<Avatar>{techTheme.cplusplus.icon}</Avatar>} label="C++" />
-          <Chip size="small" avatar={<Avatar>{techTheme.csharp.icon}</Avatar>} label="C#" />
-          <Chip size="small" avatar={<Avatar>{techTheme.dotNet.icon}</Avatar>} label=".Net" />
-          <Chip
-            size="small"
-            avatar={
-              <Avatar>
-                <AiFillRobot />
-              </Avatar>
-            }
-            label="AI"
-          />
-          <Chip
-            size="small"
-            avatar={
-              <Avatar>
-                <FcDatabase />
-              </Avatar>
-            }
-            label="Database Design"
-          />
-          <Chip
-            size="small"
-            avatar={
-              <Avatar>
-                <FcScatterPlot />
-              </Avatar>
-            }
-            label="Machine Learning"
-          />
-          <Chip size="small" avatar={<Avatar>{techTheme.security.icon}</Avatar>} label="Network Security" />
-          <Chip size="small" avatar={<Avatar>{techTheme.linux.icon}</Avatar>} label="Linux" />
-        </span>
-      ),
+      areasOfStudy: [
+        {
+          name: 'AI',
+          icon: <AiFillRobot />,
+        },
+        {
+          name: 'Machine Learning',
+          icon: <FcScatterPlot />,
+        },
+        {
+          name: 'Network Security',
+          icon: techTheme.security.icon,
+        },
+        {
+          name: 'Linux',
+          icon: techTheme.linux.icon,
+        },
+        {
+          name: 'Database Design',
+          icon: <FcDatabase />,
+        },
+      ],
+      languages: [
+        { name: 'Java', icon: techTheme.java.icon },
+        { name: 'Python', icon: techTheme.python.icon },
+        { name: 'C++', icon: techTheme.cplusplus.icon },
+        { name: 'C#', icon: techTheme.csharp.icon },
+        { name: '.Net', icon: techTheme.dotNet.icon },
+      ],
+      gpa: [
+        { name: 'Major', value: '3.8' },
+        { name: 'Overall', value: '3.2' },
+      ],
     },
   ],
   positions: [
     {
       title: 'Senior Software engineer',
-      summary: (
-        <span>
-          Java/AWS/Javascript devops position with technical leadership and architecture responsibilities
-          <br />
-          <FcGlobe /> <FcShop /> <FaCreditCard /> <FaShoppingCart /> <GiRunningShoe /> <FcWorkflow />
-          <br />
-          Global Retail Payment
-          <br />
-          <Chip size="small" avatar={<Avatar>{techTheme.java.icon}</Avatar>} label="Java" />
-          <Chip size="small" avatar={<Avatar>{techTheme.nodeJs.icon}</Avatar>} label="Node" />
-          <Chip size="small" avatar={<Avatar>{techTheme.dotNet.icon}</Avatar>} label=".Net" />
-          <Chip size="small" avatar={<Avatar>{techTheme.micronaut.icon}</Avatar>} label="Micronaut" />
-          <Chip size="small" avatar={<Avatar>{techTheme.cucumber.icon}</Avatar>} label="Cucumber" />
-          <Chip size="small" avatar={<Avatar>{techTheme.docker.icon}</Avatar>} label="Docker" />
-          <Chip size="small" avatar={<Avatar>{techTheme.github.icon}</Avatar>} label="Github" />
-          <Chip size="small" avatar={<Avatar>{techTheme.jenkins.icon}</Avatar>} label="Jenkins" />
-          <Chip size="small" avatar={<Avatar>{techTheme.terraform.icon}</Avatar>} label="Terraform" />
-          <Chip size="small" avatar={<Avatar>{techTheme.aws.icon}</Avatar>} label="AWS" />
-          <Chip size="small" avatar={<Avatar>{techTheme.apiGateway.icon}</Avatar>} label="ApiGateway" />
-          <Chip size="small" avatar={<Avatar>{techTheme.lambda.icon}</Avatar>} label="Lambda" />
-          <Chip
-            size="small"
-            avatar={
-              <Avatar>
-                <FcServices />
-              </Avatar>
-            }
-            label="Microservices"
-          />
-          <Chip
-            size="small"
-            avatar={
-              <Avatar>
-                <FcCustomerSupport />
-              </Avatar>
-            }
-            label="On call support"
-          />
-          <Chip size="small" avatar={<Avatar>{techTheme.agile.icon}</Avatar>} label="Agile" />
-        </span>
-      ),
+      company: 'Nike',
       startDate: '2019',
       endDate: 'Today',
       isCurrent: true,
-      company: 'Nike',
+      tech: [
+        { name: 'Java', icon: techTheme.java.icon },
+        { name: 'Node', icon: techTheme.nodeJs.icon },
+        { name: '.Net', icon: techTheme.dotNet.icon },
+        { name: 'Micronaut', icon: techTheme.micronaut.icon },
+        { name: 'Cucumber', icon: techTheme.cucumber.icon },
+        { name: 'Docker', icon: techTheme.docker.icon },
+        { name: 'Github', icon: techTheme.github.icon },
+        { name: 'Jenkins', icon: techTheme.jenkins.icon },
+        { name: 'Terraform', icon: techTheme.terraform.icon },
+        { name: 'AWS', icon: techTheme.aws.icon },
+        { name: 'ApiGateway', icon: techTheme.apiGateway.icon },
+        { name: 'Lambda', icon: techTheme.lambda.icon },
+        { name: 'Microservices', icon: <FcServices /> },
+        { name: 'On-call support', icon: <FcCustomerSupport /> },
+        { name: 'Agile', icon: techTheme.agile.icon },
+      ],
+      domains: [
+        { name: 'Global', icon: <FcGlobe /> },
+        { name: 'Retail', icon: <FcShop /> },
+        { name: 'Payment', icon: <FaCreditCard /> },
+        { name: 'Checkout', icon: <FaShoppingCart /> },
+        { name: 'Business Workflow', icon: <FcWorkflow /> },
+        { name: 'Shoes', icon: <GiRunningShoe /> },
+      ],
+      summary: <span>Devops position with technical leadership and architecture responsibilities</span>,
     },
     {
       title: 'Senior Full-stack Software Engineer',
-      summary: (
-        <span>
-          NodeJS/Postgres/Javascript devops position with technical leadership responsibilities
-          <br />
-          <FcAutomotive /> <FcDatabase /> <FcWorkflow />
-          <br />
-          Vehicle Catalog Data Ingestion and Management
-          <br />
-          <Chip size="small" avatar={<Avatar>{techTheme.nodeJs.icon}</Avatar>} label="Node" />
-          <Chip size="small" avatar={<Avatar>{techTheme.react.icon}</Avatar>} label="React" />
-          <Chip size="small" avatar={<Avatar>{techTheme.python.icon}</Avatar>} label="Python" />
-          <Chip size="small" avatar={<Avatar>{techTheme.docker.icon}</Avatar>} label="Docker" />
-          <Chip size="small" avatar={<Avatar>{techTheme.github.icon}</Avatar>} label="Github" />
-          <Chip size="small" avatar={<Avatar>{techTheme.circleci.icon}</Avatar>} label="CircleCI" />
-          <Chip size="small" avatar={<Avatar>{techTheme.terraform.icon}</Avatar>} label="Terraform" />
-          <Chip size="small" avatar={<Avatar>{techTheme.aws.icon}</Avatar>} label="AWS" />
-          <Chip size="small" avatar={<Avatar>{techTheme.ec2.icon}</Avatar>} label="EC2" />
-          <Chip size="small" avatar={<Avatar>{techTheme.nomad.icon}</Avatar>} label="Nomad" />
-          <Chip size="small" avatar={<Avatar>{techTheme.consul.icon}</Avatar>} label="Consul" />
-          <Chip size="small" avatar={<Avatar>{techTheme.nginx.icon}</Avatar>} label="Nginx" />
-          <Chip
-            size="small"
-            avatar={
-              <Avatar>
-                <FcServices />
-              </Avatar>
-            }
-            label="Microservices"
-          />
-          <Chip
-            size="small"
-            avatar={
-              <Avatar>
-                <FcCustomerSupport />
-              </Avatar>
-            }
-            label="On call support"
-          />
-          <Chip size="small" avatar={<Avatar>{techTheme.agile.icon}</Avatar>} label="Agile" />
-        </span>
-      ),
+      company: 'Cox Auto (Data Solutions)',
       startDate: '2017',
       endDate: '2019',
       isCurrent: false,
-      company: 'Cox Auto (Data Solutions)',
+      tech: [
+        { name: 'Node', icon: techTheme.nodeJs.icon },
+        { name: 'React', icon: techTheme.react.icon },
+        { name: 'Python', icon: techTheme.python.icon },
+        { name: 'Docker', icon: techTheme.docker.icon },
+        { name: 'Github', icon: techTheme.github.icon },
+        { name: 'CircleCI', icon: techTheme.circleci.icon },
+        { name: 'Terraform', icon: techTheme.terraform.icon },
+        { name: 'AWS', icon: techTheme.aws.icon },
+        { name: 'EC2', icon: techTheme.ec2.icon },
+        { name: 'Nomad', icon: techTheme.nomad.icon },
+        { name: 'Consul', icon: techTheme.consul.icon },
+        { name: 'Nginx', icon: techTheme.nginx.icon },
+        { name: 'Microservices', icon: <FcServices /> },
+        { name: 'On-call support', icon: <FcCustomerSupport /> },
+        { name: 'Agile', icon: techTheme.agile.icon },
+      ],
+      domains: [
+        { name: 'Automotive', icon: <FcAutomotive /> },
+        { name: 'Database', icon: <FcDatabase /> },
+        { name: 'Business Workflow', icon: <FcWorkflow /> },
+      ],
+      summary: (
+        <span>
+          Devops position with technical leadership responsibilities
+          <br />
+          Vehicle Catalog Data Ingestion and Management
+        </span>
+      ),
     },
     {
       title: 'Full-stack Software Engineer',
-      summary: (
-        <span>
-          Java/MySQL/Javascript development
-          <br />
-          <FcAutomotive /> <FcDatabase /> <FcMultipleInputs />
-          <br />
-          High Throughput Inventory Management Systems
-          <br />
-          <Chip size="small" avatar={<Avatar>{techTheme.java.icon}</Avatar>} label="Java" />
-          <Chip size="small" avatar={<Avatar>{techTheme.spring.icon}</Avatar>} label="Spring Boot" />
-          <Chip size="small" avatar={<Avatar>{techTheme.groovy.icon}</Avatar>} label="Groovy" />
-          <Chip size="small" avatar={<Avatar>{techTheme.angular.icon}</Avatar>} label="AngularJS" />
-          <Chip size="small" avatar={<Avatar>{techTheme.mysql.icon}</Avatar>} label="Mysql" />
-          <Chip size="small" avatar={<Avatar>{techTheme.github.icon}</Avatar>} label="Github" />
-          <Chip size="small" avatar={<Avatar>{techTheme.jenkins.icon}</Avatar>} label="Jenkins" />
-          <Chip
-            size="small"
-            avatar={
-              <Avatar>
-                <FcCustomerSupport />
-              </Avatar>
-            }
-            label="On call support"
-          />
-          <Chip size="small" avatar={<Avatar>{techTheme.agile.icon}</Avatar>} label="Agile" />
-        </span>
-      ),
+      company: 'Cox Auto (Dealer.com)',
       startDate: '2015',
       endDate: '2017',
       isCurrent: false,
-      company: 'Cox Auto (Dealer.com)',
+      tech: [
+        { name: 'java', icon: techTheme.java.icon },
+        { name: 'spring', icon: techTheme.spring.icon },
+        { name: 'groovy', icon: techTheme.groovy.icon },
+        { name: 'angular', icon: techTheme.angular.icon },
+        { name: 'mysql', icon: techTheme.mysql.icon },
+        { name: 'github', icon: techTheme.github.icon },
+        { name: 'jenkins', icon: techTheme.jenkins.icon },
+        { name: 'On-call support', icon: <FcCustomerSupport /> },
+        { name: 'Agile', icon: techTheme.agile.icon },
+      ],
+      domains: [
+        { name: 'Automotive', icon: <FcAutomotive /> },
+        { name: 'Database', icon: <FcDatabase /> },
+        { name: 'Business Workflow', icon: <FcWorkflow /> },
+        { name: 'Multiple Ingestion Streams', icon: <FcMultipleInputs /> },
+        { name: 'Legacy System Cloud Migration', icon: techTheme.aws.icon },
+      ],
+      summary: (
+        <span>
+          Software developmer
+          <br />
+          High Throughput Inventory Management Systems
+        </span>
+      ),
     },
     {
       title: 'Dev/Ops Engineer',
-      summary: (
-        <span>
-          Sys admin, web app development, and test automation
-          <br />
-          <GiRoad /> <FaHardHat />
-          <br />
-          Construction management and accounting software
-          <br />
-          <Chip size="small" avatar={<Avatar>{techTheme.java.icon}</Avatar>} label="Java" />
-          <Chip size="small" avatar={<Avatar>{techTheme.jquery.icon}</Avatar>} label="Jquery" />
-          <Chip size="small" avatar={<Avatar>{techTheme.oracle.icon}</Avatar>} label="Oracle DB" />
-          <Chip size="small" avatar={<Avatar>{techTheme.oracle.icon}</Avatar>} label="Weblogic" />
-          <Chip size="small" avatar={<Avatar>{techTheme.others.icon}</Avatar>} label="Bugzilla" />
-          <Chip size="small" avatar={<Avatar>{techTheme.others.icon}</Avatar>} label="Selenium" />
-          <Chip size="small" avatar={<Avatar>{techTheme.others.icon}</Avatar>} label="Ant" />
-        </span>
-      ),
       startDate: '2014',
       endDate: '2015',
       isCurrent: false,
       company: 'CapitalSoft',
+      tech: [
+        { name: 'Java', icon: techTheme.java.icon },
+        { name: 'Jquery', icon: techTheme.jquery.icon },
+        { name: 'Oracle DB', icon: techTheme.oracle.icon },
+        { name: 'Weblogic', icon: techTheme.oracle.icon },
+        { name: 'Bugzilla', icon: techTheme.others.icon },
+        { name: 'Selenium', icon: techTheme.others.icon },
+        { name: 'Ant', icon: techTheme.others.icon },
+      ],
+      domains: [
+        { name: 'Construction', icon: <FaHardHat /> },
+        { name: 'Toll Road', icon: <GiRoad /> },
+        { name: 'Accounting', icon: <FcDataSheet /> },
+        { name: 'Business Workflow', icon: <FcWorkflow /> },
+      ],
+      summary: (
+        <span>
+          Sys admin, web app development, and test automation
+          <br />
+          Construction management and accounting software
+        </span>
+      ),
     },
   ],
   projects: [
