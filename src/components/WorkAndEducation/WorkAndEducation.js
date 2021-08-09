@@ -16,8 +16,8 @@ const WorkAndEducation = ({ positions, educations, width }) => (
   <ScreenBlock id="Resume-work" className="ResumeWorkAndEducationBlock">
     <div className="container">
       <div className="heading">
-        <Typography variant="h4">Work experience & Education</Typography>
-        <Typography variant="subtitle1">My previous jobs and my qualifications.</Typography>
+        <h2>Experience and Education</h2>
+        <Typography>My previous jobs and my qualifications.</Typography>
       </div>
 
       <VerticalTimeline animate={width === 'lg' || width === 'xl'}>
@@ -76,14 +76,6 @@ const WorkAndEducation = ({ positions, educations, width }) => (
               {education.activities && !Array.isArray(education.activities) && (
                 <Typography variant="subtitle2">{education.activities}</Typography>
               )}
-              {/* {education.activities && */}
-              {/* Array.isArray(education.activities) && ( */}
-              {/* <Typography variant={'subtitle2'}> */}
-              {/* {education.activities.map((activity, j) => ( */}
-              {/* <span key={j}> {activity.name} </span> // eslint-disable-line react/no-array-index-key */}
-              {/* ))} */}
-              {/* </Typography> */}
-              {/* )} */}
               {education.summary && <Typography variant="subtitle1">{education.summary}</Typography>}
             </VerticalTimelineElement>
           ))}

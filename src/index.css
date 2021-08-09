@@ -63,6 +63,8 @@ ul {
   width: 98%;
   max-width: 1170px;
   margin: 0 auto;
+  /* fix problem scroll spy with work & education */
+  padding-bottom: 0 !important;
 }
 
 .active {
@@ -71,7 +73,8 @@ ul {
 
 .heading {
   text-align: center;
-  padding-bottom: 45px;
+  padding-bottom: 14px;
+  padding-top: 14px;
 }
 
 .heading p {

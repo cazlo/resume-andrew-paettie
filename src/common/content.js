@@ -1,18 +1,6 @@
 import React from 'react';
 import { GoGraph } from 'react-icons/go';
-import {
-  FaCheckDouble,
-  FaCloud,
-  FaCodeBranch,
-  FaCreditCard,
-  FaHardHat,
-  FaJedi,
-  FaLaptopCode,
-  FaMicrochip,
-  FaRegFileCode,
-  FaRobot,
-  FaShoppingCart,
-} from 'react-icons/fa';
+import { FaCreditCard, FaHardHat, FaMicrochip, FaRobot, FaShoppingCart } from 'react-icons/fa';
 
 import moment from 'moment';
 import { MdSignalWifi4BarLock } from 'react-icons/md';
@@ -32,7 +20,7 @@ import {
 } from 'react-icons/fc';
 import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip/Chip';
-import { AiFillRobot } from 'react-icons/all';
+import { AiFillRobot } from 'react-icons/ai';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';
@@ -249,68 +237,6 @@ export default {
       company: 'CapitalSoft',
     },
   ],
-  tools: [
-    {
-      category: 'O/S',
-      categoryIcon: <FaLaptopCode />,
-      name: 'Linux',
-      icon: techTheme.linux.icon,
-    },
-    {
-      category: 'IDE',
-      categoryIcon: <FaRegFileCode />,
-      name: 'Webstorm',
-      icon: techTheme.webstorm.icon,
-    },
-    {
-      category: 'IDE',
-      categoryIcon: <FaRegFileCode />,
-      name: 'Intellij',
-      icon: techTheme.intellij.icon,
-    },
-    {
-      category: 'Containerz',
-      categoryIcon: <FaCloud />,
-      name: 'Docker',
-      icon: techTheme.docker.icon,
-    },
-    {
-      category: 'CI/CD',
-      categoryIcon: <FaCheckDouble />,
-      name: 'CircleCI',
-      icon: techTheme.circleci.icon,
-    },
-    {
-      category: 'CI/CD',
-      categoryIcon: <FaCheckDouble />,
-      name: 'Jenkins',
-      icon: techTheme.jenkins.icon,
-    },
-    {
-      category: 'Project Mgmt',
-      categoryIcon: <FaJedi />,
-      name: 'Github',
-      icon: techTheme.github.icon,
-    },
-    {
-      category: 'Project Mgmt',
-      categoryIcon: <FaJedi />,
-      name: 'Trello',
-      icon: techTheme.trello.icon,
-    },
-    {
-      category: 'Project Mgmt',
-      categoryIcon: <FaJedi />,
-      name: 'Slack',
-      icon: techTheme.slack.icon,
-    },
-    {
-      category: 'VCS',
-      categoryIcon: <FaCodeBranch />,
-      name: 'Git',
-      icon: techTheme.git.icon,
-    },
-  ],
   projects: [
     {
       title: 'Andrew Paettie.com',
@@ -399,6 +325,10 @@ export default {
         {
           name: 'Twitter',
           icon: techTheme.twitter.icon,
+        },
+        {
+          name: 'Microservices',
+          icon: <FcServices />,
         },
       ],
       content:
@@ -756,183 +686,6 @@ export default {
           text: 'Linux From Scratch',
         },
       ],
-    },
-  ],
-  skills: [
-    {
-      name: 'Java 8',
-      language: {
-        name: 'Java',
-        style: techTheme.java,
-      },
-    },
-    {
-      name: 'Spring Boot',
-      language: {
-        name: 'Java',
-        style: techTheme.java,
-      },
-    },
-    {
-      name: 'Maven',
-      language: {
-        name: 'Java',
-        style: techTheme.java,
-      },
-    },
-    {
-      name: 'Gradle',
-      language: {
-        name: 'Java',
-        style: techTheme.java,
-      },
-    },
-    {
-      name: 'Kotlin',
-      language: {
-        name: 'Java',
-        style: techTheme.java,
-      },
-    },
-    {
-      name: 'RESTful API design',
-      language: {
-        name: 'Java',
-        style: techTheme.java,
-      },
-    },
-    {
-      name: 'JPA',
-      language: {
-        name: 'Java',
-        style: techTheme.java,
-      },
-    },
-    {
-      name: 'JUnit',
-      language: {
-        name: 'Java',
-        style: techTheme.java,
-      },
-    },
-    {
-      name: 'Node (6,8,10)',
-      language: {
-        name: 'Node',
-        style: techTheme.nodeJs,
-      },
-    },
-    {
-      name: 'Knex',
-      language: {
-        name: 'Node',
-        style: techTheme.nodeJs,
-      },
-    },
-    {
-      name: 'HapiJS',
-      language: {
-        name: 'Node',
-        style: techTheme.nodeJs,
-      },
-    },
-    {
-      name: 'React',
-      language: {
-        name: 'Javascript',
-        style: techTheme.javascript,
-      },
-    },
-    {
-      name: 'Redux',
-      language: {
-        name: 'Javascript',
-        style: techTheme.javascript,
-      },
-    },
-    {
-      name: 'ES6',
-      language: {
-        name: 'Javascript',
-        style: techTheme.javascript,
-      },
-    },
-    {
-      name: 'ES8',
-      language: {
-        name: 'Node',
-        style: techTheme.nodeJs,
-      },
-    },
-    {
-      name: 'SQL (MYSQL, PostgreSQL)',
-      language: {
-        name: 'Others',
-        style: techTheme.others,
-      },
-    },
-    {
-      name: 'NOSQL (Elasticsearch, MongoDB)',
-      language: {
-        name: 'Others',
-        style: techTheme.others,
-      },
-    },
-    {
-      name: 'Continuous integration',
-      language: {
-        name: 'Others',
-        style: techTheme.others,
-      },
-    },
-    {
-      name: 'TDD',
-      language: {
-        name: 'Others',
-        style: techTheme.others,
-      },
-    },
-    {
-      name: 'HTML5/CSS3',
-      language: {
-        name: 'Others',
-        style: techTheme.others,
-      },
-    },
-    {
-      name: 'JQuery',
-      language: {
-        name: 'Javascript',
-        style: techTheme.javascript,
-      },
-    },
-    {
-      name: 'Ramda',
-      language: {
-        name: 'Javascript',
-        style: techTheme.javascript,
-      },
-    },
-    {
-      name: 'GIT',
-      language: {
-        name: 'Others',
-        style: techTheme.others,
-      },
-    },
-    {
-      name: 'Docker',
-      language: {
-        name: 'Others',
-        style: techTheme.others,
-      },
-    },
-    {
-      name: 'AWS',
-      language: {
-        name: 'Others',
-        style: techTheme.others,
-      },
     },
   ],
 };
