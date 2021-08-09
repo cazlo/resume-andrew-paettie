@@ -48,7 +48,7 @@ export default function SkillDetail({ skill }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Accordion defaultExpanded={false}>
+      <Accordion defaultExpanded={!skill.frameworks.length}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1c-content" id="panel1c-header">
           <div className={classes.column}>
             <Chip size="large" avatar={<Avatar>{skill.techTheme.icon}</Avatar>} label={skill.name} />
@@ -60,19 +60,18 @@ export default function SkillDetail({ skill }) {
           </div>
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
-          {skill.frameworks.map(framework => (
-            <div className={classes.column}>
-              <div className={classes.column}>
+          <Box display="flex" flexDirection="row" justifyContent="center" flexWrap="wrap">
+            {skill.frameworks.map(framework => (
+              <Box display="flex" flexDirection="column" justifyContent="center" margin={1}>
                 <Chip size="large" avatar={<Avatar>{framework.techTheme.icon}</Avatar>} label={framework.name} />
-              </div>
-              <div className={classes.column}>
                 <Typography variant="caption">
                   <Rating name="read-only" value={framework.experience} precision={0.5} readOnly />
+                  <br />
+                  {yearsTxt(framework.experience)}
                 </Typography>
-              </div>
-              <div className={classes.column}>{yearsTxt(framework.experience)}</div>
-            </div>
-          ))}
+              </Box>
+            ))}
+          </Box>
         </AccordionDetails>
       </Accordion>
     </div>
