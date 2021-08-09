@@ -315,7 +315,7 @@ const skills = {
         ],
       },
       {
-        name: 'Security Testing and Hardening',
+        name: 'Security Testing',
         techTheme: techTheme.security,
         experience: '4',
         frameworks: [],
@@ -370,7 +370,7 @@ const skills = {
         ],
       },
       {
-        name: '0 downtime deployment',
+        name: 'No-downtime deployment',
         techTheme: techTheme.others, // todo 0 downtime deployment icon
         experience: '4',
         frameworks: [
