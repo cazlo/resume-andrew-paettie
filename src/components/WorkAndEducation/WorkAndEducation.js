@@ -8,6 +8,8 @@ import { FcGraduationCap, FcBriefcase } from 'react-icons/fc';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import techTheme from '../../common/techTheme';
 import './WorkAndEducation.css';
+import WorkTile from './WorkTile';
+import EducationTile from './EducationTile';
 
 const formatPeriod = (start, end) => `${start} – ${end}`;
 
@@ -33,22 +35,7 @@ const WorkAndEducation = ({ positions, educations, width }) => (
               </Typography>
             }
           >
-            <Typography variant="h5">
-              {position.title} @{position.company}
-            </Typography>
-            {position.keywords && (
-              <div className="ResumeWorkAndEducationBlock-keywords">
-                {position.keywords.map((keyword, j) => (
-                  <span key={j}> {keyword.name} </span> // eslint-disable-line react/no-array-index-key
-                ))}
-              </div>
-            )}
-            <Typography variant="subtitle2">{position.summary}</Typography>
-            {/* {position.more && ( */}
-            {/* <ShowMore> */}
-            {/* <p dangerouslySetInnerHTML={{ __html: position.more }} /> */}
-            {/* </ShowMore> */}
-            {/* )} */}
+            <WorkTile position={position} />
           </VerticalTimelineElement>
         ))}
       </VerticalTimeline>
@@ -71,12 +58,7 @@ const WorkAndEducation = ({ positions, educations, width }) => (
                 </Typography>
               }
             >
-              <Typography variant="h5">{education.schoolName}</Typography>
-              <Typography variant="h6">{education.degree}</Typography>
-              {education.activities && !Array.isArray(education.activities) && (
-                <Typography variant="subtitle2">{education.activities}</Typography>
-              )}
-              {education.summary && <Typography variant="subtitle1">{education.summary}</Typography>}
+              <EducationTile education={education} />
             </VerticalTimelineElement>
           ))}
         </VerticalTimeline>
