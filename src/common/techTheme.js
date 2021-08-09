@@ -509,14 +509,14 @@ const techTheme = {
       background: '#0066a2',
       color: '#fff',
     },
-    icon: <img src={Terraform} alt="Terraform" style={{ 'max-width': '100%', 'max-height': '100%' }} />,
+    icon: <img src={Terraform} alt="Terraform" style={{ maxWidth: '100%', 'max-height': '100%' }} />,
   },
   consul: {
     style: {
       background: '#0066a2',
       color: '#fff',
     },
-    icon: <img src={Consul} alt="Consul" style={{ 'max-width': '100%', 'max-height': '100%' }} />,
+    icon: <img src={Consul} alt="Consul" style={{ maxWidth: '100%', 'max-height': '100%' }} />,
   },
   nomad: {
     style: {

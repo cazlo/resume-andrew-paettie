@@ -20,9 +20,6 @@ const styles = makeStyles(theme => ({
     display: 'flex',
     flexFlow: 'row wrap',
     justifyContent: 'space-around',
-    [theme.breakpoints.down('md')]: {
-      height: 'auto !important',
-    },
   },
   BottomNavLink: {
     width: '100%',
@@ -59,6 +56,11 @@ const buttons = [
     icon: <FaceIcon />,
   },
   {
+    label: 'Skills',
+    name: 'ResumeSkills',
+    icon: <SettingsIcon />,
+  },
+  {
     label: 'Work Experience',
     name: 'ResumeExperience',
     icon: <WorkIcon />,
@@ -68,11 +70,6 @@ const buttons = [
     name: 'Resume-education',
     icon: <SchoolIcon />,
     // offset: -16,
-  },
-  {
-    label: 'Skills',
-    name: 'ResumeSkills',
-    icon: <SettingsIcon />,
   },
   {
     label: 'Projects',
