@@ -25,9 +25,9 @@ const Skills = () => {
     <ScreenBlock id="Resume-skills" className="ResumeSkillsBlock container">
       <Grid container spacing={0}>
         <Grid item xs={12} className="heading">
-          <h1>Skills</h1>
+          <h2>Skills</h2>
           <Typography>A quantitative breakdown of my journey through professional software development</Typography>
-          <h2>Technical</h2>
+          <h3>Technical</h3>
         </Grid>
         <Grid item xs={12}>
           <Paper className={styles.skillSection} elevation={3}>
@@ -61,7 +61,7 @@ const Skills = () => {
         </Grid>
 
         <Grid item xs={12} className="heading">
-          <h2>Professional</h2>
+          <h3>Professional</h3>
         </Grid>
         <Grid item xs={12}>
           <Paper className={styles.skillSection} elevation={3}>

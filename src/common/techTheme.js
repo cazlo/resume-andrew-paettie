@@ -34,6 +34,7 @@ import { ReactComponent as Tomcat } from 'devicon/icons/tomcat/tomcat-original.s
 import { ReactComponent as Typescript } from 'devicon/icons/typescript/typescript-original.svg';
 import { ReactComponent as CSharp } from 'devicon/icons/csharp/csharp-original.svg';
 import { ReactComponent as DotNet } from 'devicon/icons/dot-net/dot-net-original.svg';
+import { ReactComponent as K8s } from 'devicon/icons/kubernetes/kubernetes-plain.svg';
 /* todo
 import {
   ReactComponent as Make,
@@ -61,6 +62,8 @@ import { ReactComponent as Route53 } from '../data/aws/Arch_Amazon-Route-53_64.s
 import { ReactComponent as Cloudfront } from '../data/aws/Arch_Amazon-CloudFront_64.svg';
 import { ReactComponent as S3 } from '../data/aws/Arch_Amazon-Simple-Storage-Service_64.svg';
 import { ReactComponent as EC2 } from '../data/aws/Arch_Amazon-EC2_64.svg';
+import { ReactComponent as Dynamodb } from '../data/aws/Arch_Amazon-DynamoDB_64.svg';
+import { ReactComponent as Rds } from '../data/aws/Arch_Amazon-RDS_64.svg';
 import Terraform from '../data/terraform-logo.png';
 import Consul from '../data/consul.png';
 import { ReactComponent as Nomad } from '../data/nomad.svg';
@@ -286,6 +289,27 @@ const techTheme = {
     className: 'vertical-timeline-element--aws',
     icon: <EC2 />,
   },
+  dynamoDb: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: <Dynamodb />,
+  },
+  rds: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    className: 'vertical-timeline-element--aws',
+    icon: <Rds />,
+  },
   github: {
     style: {
       background: '#2f78b9',
@@ -509,14 +533,14 @@ const techTheme = {
       background: '#0066a2',
       color: '#fff',
     },
-    icon: <img src={Terraform} alt="Terraform" style={{ maxWidth: '100%', 'max-height': '100%' }} />,
+    icon: <img src={Terraform} alt="Terraform" style={{ maxWidth: '100%', maxHeight: '100%' }} />,
   },
   consul: {
     style: {
       background: '#0066a2',
       color: '#fff',
     },
-    icon: <img src={Consul} alt="Consul" style={{ maxWidth: '100%', 'max-height': '100%' }} />,
+    icon: <img src={Consul} alt="Consul" style={{ maxWidth: '100%', maxHeight: '100%' }} />,
   },
   nomad: {
     style: {
@@ -531,6 +555,13 @@ const techTheme = {
       color: '#179bb2',
     },
     icon: <FcCollaboration />,
+  },
+  kubernetes: {
+    style: {
+      background: '#3f586d',
+      color: '#179bb2',
+    },
+    icon: <K8s />,
   },
 };
 
