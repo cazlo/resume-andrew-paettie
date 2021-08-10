@@ -22,13 +22,18 @@ const Intro = ({ style }) => (
       <div className="ResumeAboutMeBlock-content">
         <Typography className="ResumeAboutMeBlock-description">
           <h3>Andrew Paettie</h3>
-          <h4>Senior Software Based Solutions Engineer</h4>
-          <p className="Resume-summary" />I am an experienced and capable full stack software engineer with leadership
-          experience.
+          <h4>Software engineer</h4>
+          <p className="Resume-summary" />I am a full stack software engineer with around a decade of experience, and
+          several years of leadership experience.
           <br />
           <br />
-          If you are interested in hiring a full stack software engineer, check out my resume and projects. Feel free to
-          contact me via one of the listed methods (serious inquiries only please).
+          Continued human habitation of our world is in jeopardy. Our only chance to get out of this mess is through
+          science and engineering. As an engineer with the skills necessary to help, I am only interested in positions
+          which will benefit society as a whole. For example, directly working to solve the climate crisis we are
+          facing, or working to get kids involved in S.T.E.M. I am open to volunteering my time if the cause is just.
+          <br />
+          <br />
+          If you need a software engineer in that domain, hit me up using any of the contact methods listed below!
           <br />
           <br />
           <Box display="flex" flexDirection="row" justifyContent="center">
