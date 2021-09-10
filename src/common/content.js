@@ -171,7 +171,7 @@ export default {
       ],
       summary: (
         <span>
-          Software developmer
+          Software developer
           <br />
           High Throughput Inventory Management Systems
         </span>
