@@ -38,7 +38,7 @@ const Intro = ({ style }) => (
           <br />
           <Box display="flex" flexDirection="row" justifyContent="center">
             <Box margin={1}>
-              <Button href="mailto:paettiea@gmail.com" variant="contained" color="primary">
+              <Button href="mailto:paettiea.job@gmail.com" variant="contained" color="primary">
                 Email
               </Button>
             </Box>
