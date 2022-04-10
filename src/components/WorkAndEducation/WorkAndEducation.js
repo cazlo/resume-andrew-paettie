@@ -27,7 +27,7 @@ const WorkAndEducation = ({ positions, educations, width }) => (
           <VerticalTimelineElement
             className="Resume-position"
             key={i} // eslint-disable-line react/no-array-index-key
-            icon={<FcBriefcase />}
+            icon={position.icon || <FcBriefcase />}
             iconStyle={techTheme.postgres.style}
             date={
               <Typography variant="subtitle1" style={{ color: 'white' }}>

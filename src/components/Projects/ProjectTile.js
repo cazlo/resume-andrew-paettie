@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
@@ -14,19 +14,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ShrunkIcon = icon => (
-  <div
-    style={{
-      width: '75%',
-      height: '75%',
-      display: 'flex',
-      'align-items': 'center',
-      'justify-content': 'center',
-    }}
-  >
-    {icon}
-  </div>
-);
+const ListItem = styled('li')(({ theme }) => ({
+  margin: theme.spacing(0.5),
+}));
 
 export default function ProjectTile({ project }) {
   const classes = useStyles();
@@ -52,24 +42,25 @@ export default function ProjectTile({ project }) {
       </Box>
       <Typography variant="caption">{project.content}</Typography>
       <div className="ProjectsBlock-technologies">
-        {project.technologies.map((technology, j) => (
-          <Chip
-            // eslint-disable-next-line react/no-array-index-key
-            key={j}
-            label={technology.name}
-            avatar={
-              technology.icon ? (
-                <Avatar
-                  style={{
-                    background: '#747474',
-                  }}
-                >
-                  {ShrunkIcon(technology.icon)}
-                </Avatar>
-              ) : null
-            }
-          />
-        ))}
+        <Box
+          flexWrap="wrap"
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            // flexWrap: 'wrap',
+            flexDirection: 'row',
+            // listStyle: 'none',
+            p: 0.5,
+            m: 0,
+          }}
+          component="ul"
+        >
+          {project.technologies.map(technology => (
+            <ListItem key={`${project.name}-${technology.name}`}>
+              <Chip label={technology.name} variant="outlined" avatar={technology.icon} />
+            </ListItem>
+          ))}
+        </Box>
       </div>
       <br />
       <div className="ProjectsBlock-links">
