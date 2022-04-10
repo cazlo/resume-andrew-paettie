@@ -1,21 +1,15 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-// import { makeStyles } from '@material-ui/core/styles';
+import { styled } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
 
-// const useStyles = makeStyles(theme => ({
-//   image: {
-//     width: theme.spacing(12),
-//     height: theme.spacing(12),
-//   },
-// }));
+const ListItem = styled('li')(({ theme }) => ({
+  margin: theme.spacing(0.5),
+}));
 
 export default function WorkTile({ position }) {
-  // const classes = useStyles();
-
   return (
     <Box display="flex" alignItems="center">
       <Box margin={0}>
@@ -24,15 +18,47 @@ export default function WorkTile({ position }) {
           <Typography variant="subtitle1">{position.company}</Typography>
           <Typography variant="caption">{position.summary}</Typography>
           <br />
-          Domains:
-          {position.domains &&
-            position.domains.map(domain => (
-              <Chip size="large" avatar={<Avatar>{domain.icon}</Avatar>} label={domain.name} />
-            ))}
+          <Box
+            flexWrap="wrap"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              // flexWrap: 'wrap',
+              flexDirection: 'row',
+              // listStyle: 'none',
+              p: 0.5,
+              m: 0,
+            }}
+            component="ul"
+          >
+            {position.domains &&
+              position.domains.map(domain => (
+                <ListItem key={`${position.title}-${position.company}-${domain.name}`}>
+                  <Chip variant="outlined" size="small" avatar={domain.icon} label={domain.name} />
+                </ListItem>
+              ))}
+          </Box>
           <br />
-          Tech:
-          {position.tech &&
-            position.tech.map(tech => <Chip size="large" avatar={<Avatar>{tech.icon}</Avatar>} label={tech.name} />)}
+          <Box
+            flexWrap="wrap"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              // flexWrap: 'wrap',
+              flexDirection: 'row',
+              // listStyle: 'none',
+              p: 0.5,
+              m: 0,
+            }}
+            component="ul"
+          >
+            {position.tech &&
+              position.tech.map(tech => (
+                <ListItem key={`${position.title}-${position.company}-${tech.name}`}>
+                  <Chip variant="outlined" size="small" avatar={tech.icon} label={tech.name} />
+                </ListItem>
+              ))}
+          </Box>
         </Box>
       </Box>
     </Box>

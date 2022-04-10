@@ -48,10 +48,13 @@ import { ReactComponent as CircleciSvg } from 'devicon/icons/circleci/circleci-p
 import { ReactComponent as SpringSvg } from 'devicon/icons/spring/spring-original.svg';
 import { ReactComponent as Jenkins } from 'devicon/icons/jenkins/jenkins-original.svg';
 import { ReactComponent as Twitter } from 'devicon/icons/twitter/twitter-original.svg';
+import { ReactComponent as Ansible } from 'devicon/icons/ansible/ansible-original.svg';
+import { ReactComponent as Gitlab } from 'devicon/icons/gitlab/gitlab-original.svg';
 import { MdSecurity } from 'react-icons/md';
 import { GrMysql } from 'react-icons/gr';
 import { SiJquery } from 'react-icons/si';
 import { FcCollaboration } from 'react-icons/fc';
+import Avatar from '@material-ui/core/Avatar';
 import { ReactComponent as JestSvg } from '../data/jest.svg';
 import { ReactComponent as RabbitmqSvg } from '../data/rabbitmq.svg';
 import { ReactComponent as QuarkusSvg } from '../data/quarkus.svg';
@@ -66,6 +69,8 @@ import { ReactComponent as Dynamodb } from '../data/aws/Arch_Amazon-DynamoDB_64.
 import { ReactComponent as Rds } from '../data/aws/Arch_Amazon-RDS_64.svg';
 import Terraform from '../data/terraform-logo.png';
 import Consul from '../data/consul.png';
+// jfrog logo by https://jfrog.com/knowledge-base/artifactory-cleanup-methods-how-do-i-delete-old-artifacts/
+import JFrog from '../data/jfrog.png';
 import { ReactComponent as Nomad } from '../data/nomad.svg';
 
 /**
@@ -211,6 +216,16 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--java',
     icon: <JavaIcon className="JavaIcon" />,
+  },
+  ansible: {
+    style: {
+      background: '#af0930',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#eeeeee',
+    },
+    icon: <Ansible />,
   },
   aws: {
     style: {
@@ -416,6 +431,20 @@ const techTheme = {
     },
     icon: <Jenkins />,
   },
+  gitlab: {
+    style: {
+      background: '#e24329',
+      color: '#fb6b26',
+    },
+    icon: <Gitlab />,
+  },
+  artifactory: {
+    style: {
+      background: '#e24329',
+      color: '#fb6b26',
+    },
+    icon: <img src={JFrog} alt="JFrog" style={{ maxWidth: '100%', maxHeight: '100%' }} />,
+  },
   micronaut: {
     style: {
       background: '#1c4882',
@@ -477,7 +506,11 @@ const techTheme = {
       background: '#ca0329',
       color: '#fff',
     },
-    icon: <Oracle />,
+    icon: (
+      <Avatar style={{ background: '#fff' }}>
+        <Oracle />
+      </Avatar>
+    ),
   },
   redux: {
     style: {

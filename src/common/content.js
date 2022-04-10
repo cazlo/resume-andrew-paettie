@@ -4,7 +4,7 @@ import { FaCreditCard, FaHardHat, FaMicrochip, FaRobot, FaShoppingCart } from 'r
 
 import moment from 'moment';
 import { MdSignalWifi4BarLock } from 'react-icons/md';
-import { GiRoad, GiRunningShoe, GiSharkJaws } from 'react-icons/gi';
+import { GiMicroscope, GiRoad, GiRunningShoe, GiSharkJaws, GiSpaceSuit } from 'react-icons/gi';
 import { GrGraphQl } from 'react-icons/gr';
 import {
   FcAutomotive,
@@ -12,14 +12,23 @@ import {
   FcGlobe,
   FcImageFile,
   FcMultipleInputs,
-  FcCustomerSupport,
+  FcAssistant,
   FcScatterPlot,
   FcServices,
   FcShop,
   FcWorkflow,
   FcDataSheet,
+  FcCommandLine,
+  FcFinePrint,
+  FcEngineering,
+  FcParallelTasks,
+  FcPrivacy,
 } from 'react-icons/fc';
+import { ReactComponent as Selenium } from 'devicon/icons/selenium/selenium-original.svg';
+import { ReactComponent as Apache } from 'devicon/icons/apache/apache-original.svg';
 import { AiFillRobot } from 'react-icons/ai';
+import { BsBugFill, IoRocket, SiNike } from 'react-icons/all';
+import Avatar from '@material-ui/core/Avatar';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';
@@ -28,9 +37,40 @@ import snakeImage from '../data/snake.gif';
 import cryptoTradingImage from '../data/crypto-trade-analysis.png';
 import samAnalysisImage from '../data/SAM-analysis.png';
 import mySiteImage from '../data/mysite.png';
+// Blue Origin logo by https://www.blueorigin.com/icons/featherfooter.svg,
+// Fair use, https://en.wikipedia.org/w/index.php?curid=60735597
+import { ReactComponent as BlueLogo } from '../data/Blue_Origin_Feather.svg';
+// cox auto log by https://www.mulesoft.com/sites/default/files/2018-10/cox_automative.png
+import coxAutoImage from '../data/cox_automative.png';
 
 const AiIcon = FaRobot;
 const MlIcon = GoGraph;
+
+const JavaTech = {
+  name: 'Java',
+  icon: <Avatar style={{ backgroundColor: techTheme.java.iconStyle.background }}>{techTheme.java.icon}</Avatar>,
+};
+
+const GithubTech = {
+  name: 'Github',
+  icon: <Avatar style={{ backgroundColor: '#fff' }}>{techTheme.github.icon}</Avatar>,
+};
+
+const CircleCiTech = {
+  name: 'CircleCI',
+  icon: <Avatar style={{ backgroundColor: '#fff' }}>{techTheme.circleci.icon}</Avatar>,
+};
+
+const SpringTech = {
+  name: 'Spring',
+  icon: <Avatar style={{ backgroundColor: '#fff' }}>{techTheme.spring.icon}</Avatar>,
+};
+
+const ApiGatewayTech = { name: 'ApiGateway', icon: <Avatar>{techTheme.apiGateway.icon}</Avatar> };
+
+const LambdaTech = { name: 'Lambda', icon: <Avatar>{techTheme.lambda.icon}</Avatar> };
+
+const JavascriptTech = { name: 'Javascript', icon: <Avatar>{techTheme.javascript.icon}</Avatar> };
 
 export default {
   educations: [
@@ -63,7 +103,7 @@ export default {
         },
       ],
       languages: [
-        { name: 'Java', icon: techTheme.java.icon },
+        JavaTech,
         { name: 'Python', icon: techTheme.python.icon },
         { name: 'C++', icon: techTheme.cplusplus.icon },
         { name: 'C#', icon: techTheme.csharp.icon },
@@ -77,27 +117,70 @@ export default {
   ],
   positions: [
     {
-      title: 'Senior Software engineer',
-      company: 'Nike',
-      startDate: '2019',
+      title: 'Site Reliability Engineer',
+      company: 'Blue Origin',
+      startDate: '2021',
       endDate: 'Today',
       isCurrent: true,
       tech: [
-        { name: 'Java', icon: techTheme.java.icon },
+        JavaTech,
+        { name: 'Node', icon: techTheme.nodeJs.icon },
+        { name: 'Python', icon: techTheme.python.icon },
+        { name: 'Linux', icon: techTheme.linux.icon },
+        { name: 'Docker', icon: techTheme.docker.icon },
+        {
+          name: 'Kubernetes',
+          icon: <Avatar style={{ backgroundColor: '#fff' }}>{techTheme.kubernetes.icon}</Avatar>,
+          iconBackground: techTheme.kubernetes.style.color,
+        },
+        { name: 'Gitlab (CI)', icon: techTheme.gitlab.icon },
+        { name: 'Artifactory', icon: techTheme.artifactory.icon },
+        { name: 'Terraform', icon: techTheme.terraform.icon },
+        { name: 'Ansible', icon: techTheme.ansible.icon },
+        { name: 'AWS', icon: techTheme.aws.icon },
+        { name: 'EC2', icon: <Avatar>{techTheme.ec2.icon}</Avatar> },
+      ],
+      domains: [
+        { name: 'Space Exploration', icon: <GiSpaceSuit /> },
+        { name: 'Rocket Engines', icon: <IoRocket /> },
+        { name: 'Developer Enablement', icon: <FcCommandLine /> },
+        { name: 'Business Workflow', icon: <FcWorkflow /> },
+        { name: 'Standards Compliance', icon: <FcFinePrint /> },
+        { name: 'Systems Administration', icon: <FcEngineering /> },
+        { name: 'Monitoring', icon: <GiMicroscope /> },
+        { name: 'Security', icon: <FcPrivacy /> },
+        { name: 'On-call support', icon: <FcAssistant /> },
+        { name: 'Technical Project Management', icon: <FcParallelTasks /> },
+      ],
+      summary: (
+        <span>
+          Devops position with technical leadership responsibilities
+          <br />
+          Development and maintenance of foundational systems supporting software engineering across the organization
+        </span>
+      ),
+      icon: <BlueLogo />,
+    },
+    {
+      title: 'Senior Software engineer',
+      company: 'Nike',
+      startDate: '2019',
+      endDate: '2021',
+      isCurrent: false,
+      tech: [
+        JavaTech,
         { name: 'Node', icon: techTheme.nodeJs.icon },
         { name: '.Net', icon: techTheme.dotNet.icon },
         { name: 'Micronaut', icon: techTheme.micronaut.icon },
         { name: 'Cucumber', icon: techTheme.cucumber.icon },
         { name: 'Docker', icon: techTheme.docker.icon },
-        { name: 'Github', icon: techTheme.github.icon },
+        GithubTech,
         { name: 'Jenkins', icon: techTheme.jenkins.icon },
         { name: 'Terraform', icon: techTheme.terraform.icon },
         { name: 'AWS', icon: techTheme.aws.icon },
-        { name: 'ApiGateway', icon: techTheme.apiGateway.icon },
-        { name: 'Lambda', icon: techTheme.lambda.icon },
+        ApiGatewayTech,
+        LambdaTech,
         { name: 'Microservices', icon: <FcServices /> },
-        { name: 'On-call support', icon: <FcCustomerSupport /> },
-        { name: 'Agile', icon: techTheme.agile.icon },
       ],
       domains: [
         { name: 'Global', icon: <FcGlobe /> },
@@ -106,12 +189,15 @@ export default {
         { name: 'Checkout', icon: <FaShoppingCart /> },
         { name: 'Business Workflow', icon: <FcWorkflow /> },
         { name: 'Shoes', icon: <GiRunningShoe /> },
+        { name: 'On-call support', icon: <FcAssistant /> },
+        { name: 'Agile', icon: techTheme.agile.icon },
       ],
       summary: <span>Devops position with technical leadership and architecture responsibilities</span>,
+      icon: <SiNike />,
     },
     {
       title: 'Senior Full-stack Software Engineer',
-      company: 'Cox Auto (Data Solutions)',
+      company: 'Cox Automotive (Data Solutions)',
       startDate: '2017',
       endDate: '2019',
       isCurrent: false,
@@ -120,22 +206,22 @@ export default {
         { name: 'React', icon: techTheme.react.icon },
         { name: 'Python', icon: techTheme.python.icon },
         { name: 'Docker', icon: techTheme.docker.icon },
-        { name: 'Github', icon: techTheme.github.icon },
-        { name: 'CircleCI', icon: techTheme.circleci.icon },
+        GithubTech,
+        CircleCiTech,
         { name: 'Terraform', icon: techTheme.terraform.icon },
         { name: 'AWS', icon: techTheme.aws.icon },
-        { name: 'EC2', icon: techTheme.ec2.icon },
+        { name: 'EC2', icon: <Avatar>{techTheme.ec2.icon}</Avatar> },
         { name: 'Nomad', icon: techTheme.nomad.icon },
         { name: 'Consul', icon: techTheme.consul.icon },
         { name: 'Nginx', icon: techTheme.nginx.icon },
         { name: 'Microservices', icon: <FcServices /> },
-        { name: 'On-call support', icon: <FcCustomerSupport /> },
-        { name: 'Agile', icon: techTheme.agile.icon },
       ],
       domains: [
         { name: 'Automotive', icon: <FcAutomotive /> },
         { name: 'Database', icon: <FcDatabase /> },
         { name: 'Business Workflow', icon: <FcWorkflow /> },
+        { name: 'On-call support', icon: <FcAssistant /> },
+        { name: 'Agile', icon: techTheme.agile.icon },
       ],
       summary: (
         <span>
@@ -144,38 +230,40 @@ export default {
           Vehicle Catalog Data Ingestion and Management
         </span>
       ),
+      icon: <img src={coxAutoImage} style={{ maxWidth: '100%', maxHeight: '100%' }} alt="cox automotive" />,
     },
     {
       title: 'Full-stack Software Engineer',
-      company: 'Cox Auto (Dealer.com)',
+      company: 'Cox Automotive (Dealer.com)',
       startDate: '2015',
       endDate: '2017',
       isCurrent: false,
       tech: [
-        { name: 'java', icon: techTheme.java.icon },
-        { name: 'spring', icon: techTheme.spring.icon },
-        { name: 'groovy', icon: techTheme.groovy.icon },
-        { name: 'angular', icon: techTheme.angular.icon },
-        { name: 'mysql', icon: techTheme.mysql.icon },
-        { name: 'github', icon: techTheme.github.icon },
-        { name: 'jenkins', icon: techTheme.jenkins.icon },
-        { name: 'On-call support', icon: <FcCustomerSupport /> },
-        { name: 'Agile', icon: techTheme.agile.icon },
+        JavaTech,
+        SpringTech,
+        { name: 'Groovy', icon: techTheme.groovy.icon },
+        { name: 'Angular', icon: techTheme.angular.icon },
+        { name: 'Mysql', icon: techTheme.mysql.icon },
+        GithubTech,
+        { name: 'Jenkins', icon: techTheme.jenkins.icon },
       ],
       domains: [
         { name: 'Automotive', icon: <FcAutomotive /> },
         { name: 'Database', icon: <FcDatabase /> },
         { name: 'Business Workflow', icon: <FcWorkflow /> },
-        { name: 'Multiple Ingestion Streams', icon: <FcMultipleInputs /> },
-        { name: 'Legacy System Cloud Migration', icon: techTheme.aws.icon },
+        { name: 'Data Aggregation', icon: <FcMultipleInputs /> },
+        { name: 'On-prem to AWS Migration', icon: techTheme.aws.icon },
+        { name: 'On-call support', icon: <FcAssistant /> },
+        { name: 'Agile', icon: techTheme.agile.icon },
       ],
       summary: (
         <span>
           Software developer
           <br />
-          High Throughput Inventory Management Systems
+          High throughput inventory management systems
         </span>
       ),
+      icon: <img src={coxAutoImage} style={{ maxWidth: '100%', maxHeight: '100%' }} alt="cox automotive" />,
     },
     {
       title: 'Dev/Ops Engineer',
@@ -184,13 +272,27 @@ export default {
       isCurrent: false,
       company: 'CapitalSoft',
       tech: [
-        { name: 'Java', icon: techTheme.java.icon },
+        JavaTech,
         { name: 'Jquery', icon: techTheme.jquery.icon },
         { name: 'Oracle DB', icon: techTheme.oracle.icon },
         { name: 'Weblogic', icon: techTheme.oracle.icon },
-        { name: 'Bugzilla', icon: techTheme.others.icon },
-        { name: 'Selenium', icon: techTheme.others.icon },
-        { name: 'Ant', icon: techTheme.others.icon },
+        { name: 'Bugzilla', icon: <BsBugFill /> },
+        {
+          name: 'Selenium',
+          icon: (
+            <Avatar style={{ backgroundColor: 'white' }}>
+              <Selenium />
+            </Avatar>
+          ),
+        },
+        {
+          name: 'Ant',
+          icon: (
+            <Avatar style={{ backgroundColor: 'white' }}>
+              <Apache />
+            </Avatar>
+          ),
+        },
       ],
       domains: [
         { name: 'Construction', icon: <FaHardHat /> },
@@ -224,14 +326,8 @@ export default {
         },
       ],
       technologies: [
-        {
-          name: 'Github',
-          icon: techTheme.github.icon,
-        },
-        {
-          name: 'CircleCI',
-          icon: techTheme.circleci.icon,
-        },
+        GithubTech,
+        CircleCiTech,
         {
           name: 'React',
           icon: techTheme.react.icon,
@@ -326,18 +422,9 @@ export default {
           name: 'AWS',
           icon: techTheme.aws.icon,
         },
-        {
-          name: 'Lambda',
-          icon: techTheme.lambda.icon,
-        },
-        {
-          name: 'Api Gateway',
-          icon: techTheme.apiGateway.icon,
-        },
-        {
-          name: 'Java',
-          icon: techTheme.java.icon,
-        },
+        LambdaTech,
+        ApiGatewayTech,
+        JavaTech,
         {
           name: 'Micronaut',
           icon: techTheme.micronaut.icon,
@@ -399,12 +486,7 @@ export default {
           text: 'View source code',
         },
       ],
-      technologies: [
-        {
-          name: 'Javascript',
-          icon: techTheme.javascript.icon,
-        },
-      ],
+      technologies: [JavascriptTech],
       content: 'Something to test out differences in several map implementations between node 8 and 10',
       // image: '/img/this-site.png',
     },
@@ -420,10 +502,7 @@ export default {
         },
       ],
       technologies: [
-        {
-          name: 'Java',
-          icon: techTheme.java.icon,
-        },
+        JavaTech,
         {
           name: 'AI',
           icon: <AiIcon />,
@@ -500,10 +579,7 @@ export default {
           name: 'Android',
           icon: techTheme.android.icon,
         },
-        {
-          name: 'Java',
-          icon: techTheme.java.icon,
-        },
+        JavaTech,
       ],
       content: `A simple calculator app for android used to experiment with creating android apps.`,
     },
@@ -539,12 +615,7 @@ export default {
           text: 'View source code',
         },
       ],
-      technologies: [
-        {
-          name: 'Java',
-          icon: techTheme.java.icon,
-        },
-      ],
+      technologies: [JavaTech],
       content: `A simple side scroller implemented with Java Swing. Game engine built from scratch.`,
       image: heliGameImage,
     },
@@ -560,10 +631,7 @@ export default {
         },
       ],
       technologies: [
-        {
-          name: 'Java',
-          icon: techTheme.java.icon,
-        },
+        JavaTech,
         {
           name: 'C++',
           icon: techTheme.cplusplus.icon,
