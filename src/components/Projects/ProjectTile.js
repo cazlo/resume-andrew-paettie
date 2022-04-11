@@ -2,20 +2,16 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import ChipList from '../common/ChipList';
 
 const useStyles = makeStyles(theme => ({
   image: {
     width: theme.spacing(12),
     height: theme.spacing(12),
   },
-}));
-
-const ListItem = styled('li')(({ theme }) => ({
-  margin: theme.spacing(0.5),
 }));
 
 export default function ProjectTile({ project }) {
@@ -42,25 +38,7 @@ export default function ProjectTile({ project }) {
       </Box>
       <Typography variant="caption">{project.content}</Typography>
       <div className="ProjectsBlock-technologies">
-        <Box
-          flexWrap="wrap"
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            // flexWrap: 'wrap',
-            flexDirection: 'row',
-            // listStyle: 'none',
-            p: 0.5,
-            m: 0,
-          }}
-          component="ul"
-        >
-          {project.technologies.map(technology => (
-            <ListItem key={`${project.title}-${technology.name}`}>
-              <Chip label={technology.name} variant="outlined" avatar={technology.icon} />
-            </ListItem>
-          ))}
-        </Box>
+        <ChipList chips={project.technologies} getIcon={domain => domain.icon} getLabel={domain => domain.name} />
       </div>
       <br />
       <div className="ProjectsBlock-links">

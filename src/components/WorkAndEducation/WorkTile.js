@@ -1,13 +1,8 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { styled } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import Chip from '@material-ui/core/Chip';
-
-const ListItem = styled('li')(({ theme }) => ({
-  margin: theme.spacing(0.5),
-}));
+import ChipList from '../common/ChipList';
 
 export default function WorkTile({ position }) {
   return (
@@ -18,47 +13,9 @@ export default function WorkTile({ position }) {
           <Typography variant="subtitle1">{position.company}</Typography>
           <Typography variant="caption">{position.summary}</Typography>
           <br />
-          <Box
-            flexWrap="wrap"
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              // flexWrap: 'wrap',
-              flexDirection: 'row',
-              // listStyle: 'none',
-              p: 0.5,
-              m: 0,
-            }}
-            component="ul"
-          >
-            {position.domains &&
-              position.domains.map(domain => (
-                <ListItem key={`${position.title}-${position.company}-${domain.name}`}>
-                  <Chip variant="outlined" size="small" avatar={domain.icon} label={domain.name} />
-                </ListItem>
-              ))}
-          </Box>
+          <ChipList chips={position.domains} getIcon={domain => domain.icon} getLabel={domain => domain.name} />
           <br />
-          <Box
-            flexWrap="wrap"
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              // flexWrap: 'wrap',
-              flexDirection: 'row',
-              // listStyle: 'none',
-              p: 0.5,
-              m: 0,
-            }}
-            component="ul"
-          >
-            {position.tech &&
-              position.tech.map(tech => (
-                <ListItem key={`${position.title}-${position.company}-${tech.name}`}>
-                  <Chip variant="outlined" size="small" avatar={tech.icon} label={tech.name} />
-                </ListItem>
-              ))}
-          </Box>
+          <ChipList chips={position.tech} getIcon={t => t.icon} getLabel={t => t.name} />
         </Box>
       </Box>
     </Box>
