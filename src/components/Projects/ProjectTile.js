@@ -56,7 +56,7 @@ export default function ProjectTile({ project }) {
           component="ul"
         >
           {project.technologies.map(technology => (
-            <ListItem key={`${project.name}-${technology.name}`}>
+            <ListItem key={`${project.title}-${technology.name}`}>
               <Chip label={technology.name} variant="outlined" avatar={technology.icon} />
             </ListItem>
           ))}

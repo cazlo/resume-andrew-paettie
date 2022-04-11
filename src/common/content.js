@@ -27,7 +27,9 @@ import {
 import { ReactComponent as Selenium } from 'devicon/icons/selenium/selenium-original.svg';
 import { ReactComponent as Apache } from 'devicon/icons/apache/apache-original.svg';
 import { AiFillRobot } from 'react-icons/ai';
-import { BsBugFill, IoRocket, SiNike } from 'react-icons/all';
+import { BsBugFill } from 'react-icons/bs';
+import { SiNike } from 'react-icons/si';
+import { IoRocket } from 'react-icons/io5';
 import Avatar from '@material-ui/core/Avatar';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
