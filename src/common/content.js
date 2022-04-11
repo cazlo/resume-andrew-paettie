@@ -185,12 +185,12 @@ export default {
         { name: 'Microservices', icon: <FcServices /> },
       ],
       domains: [
+        { name: 'Shoes', icon: <GiRunningShoe /> },
         { name: 'Global', icon: <FcGlobe /> },
         { name: 'Retail', icon: <FcShop /> },
         { name: 'Payment', icon: <FaCreditCard /> },
         { name: 'Checkout', icon: <FaShoppingCart /> },
         { name: 'Business Workflow', icon: <FcWorkflow /> },
-        { name: 'Shoes', icon: <GiRunningShoe /> },
         { name: 'On-call support', icon: <FcAssistant /> },
         { name: 'Agile', icon: techTheme.agile.icon },
       ],

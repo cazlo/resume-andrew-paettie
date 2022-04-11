@@ -31,7 +31,7 @@ const Skills = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper className={styles.skillSection} elevation={3}>
-            <h3>Languages</h3>
+            <h3>Programming Languages</h3>
             {mapSkillDetail(skillsContent.technical.languages)}
           </Paper>
         </Grid>
