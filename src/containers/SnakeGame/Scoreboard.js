@@ -1,51 +1,53 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import grey from '@material-ui/core/colors/grey';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Typography from '@material-ui/core/Typography/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Typography from '@mui/material/Typography/Typography';
 
-const CustomTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: grey.A700,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
+const PREFIX = 'Scoreboard';
 
-const useStyles = makeStyles(theme => ({
-  root: {
+const classes = {
+  head: `${PREFIX}-head`,
+  body: `${PREFIX}-body`,
+  root: `${PREFIX}-root`,
+  table: `${PREFIX}-table`,
+  row: `${PREFIX}-row`,
+};
+
+const StyledAccordion = styled(Accordion)(({ theme }) => ({
+  [`&.${classes.root}`]: {
     width: '100%',
     // marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
     backgroundColor: theme.palette.grey['500'],
   },
-  table: {
+
+  [`& .${classes.table}`]: {
     minWidth: 700,
   },
-  row: {
+
+  [`& .${classes.row}`]: {
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default,
     },
   },
 }));
 
+const CustomTableCell = TableCell;
+
 export default function Scoreboard(props) {
   const { scores } = props;
-  const classes = useStyles();
 
   return (
-    <Accordion className={classes.root}>
+    <StyledAccordion className={classes.root}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />} className={classes.root}>
         <Typography variant="h6">High Scores</Typography>
       </AccordionSummary>
@@ -53,29 +55,99 @@ export default function Scoreboard(props) {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <CustomTableCell>Player Name</CustomTableCell>
-              <CustomTableCell>Score</CustomTableCell>
-              <CustomTableCell>Duration</CustomTableCell>
-              <CustomTableCell>Frame Count</CustomTableCell>
-              <CustomTableCell>Time</CustomTableCell>
+              <CustomTableCell
+                classes={{
+                  head: classes.head,
+                  body: classes.body,
+                }}
+              >
+                Player Name
+              </CustomTableCell>
+              <CustomTableCell
+                classes={{
+                  head: classes.head,
+                  body: classes.body,
+                }}
+              >
+                Score
+              </CustomTableCell>
+              <CustomTableCell
+                classes={{
+                  head: classes.head,
+                  body: classes.body,
+                }}
+              >
+                Duration
+              </CustomTableCell>
+              <CustomTableCell
+                classes={{
+                  head: classes.head,
+                  body: classes.body,
+                }}
+              >
+                Frame Count
+              </CustomTableCell>
+              <CustomTableCell
+                classes={{
+                  head: classes.head,
+                  body: classes.body,
+                }}
+              >
+                Time
+              </CustomTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {scores.map(row => (
               <TableRow className={classes.row} key={`${row.time} ${row.score}`}>
-                <CustomTableCell component="th" scope="row">
+                <CustomTableCell
+                  component="th"
+                  scope="row"
+                  classes={{
+                    head: classes.head,
+                    body: classes.body,
+                  }}
+                >
                   {row.name}
                 </CustomTableCell>
-                <CustomTableCell>{row.score}</CustomTableCell>
-                <CustomTableCell>{row.duration}</CustomTableCell>
-                <CustomTableCell>{row.frameCount}</CustomTableCell>
-                <CustomTableCell>{row.time}</CustomTableCell>
+                <CustomTableCell
+                  classes={{
+                    head: classes.head,
+                    body: classes.body,
+                  }}
+                >
+                  {row.score}
+                </CustomTableCell>
+                <CustomTableCell
+                  classes={{
+                    head: classes.head,
+                    body: classes.body,
+                  }}
+                >
+                  {row.duration}
+                </CustomTableCell>
+                <CustomTableCell
+                  classes={{
+                    head: classes.head,
+                    body: classes.body,
+                  }}
+                >
+                  {row.frameCount}
+                </CustomTableCell>
+                <CustomTableCell
+                  classes={{
+                    head: classes.head,
+                    body: classes.body,
+                  }}
+                >
+                  {row.time}
+                </CustomTableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </AccordionDetails>
-    </Accordion>
+    </StyledAccordion>
   );
 }
 

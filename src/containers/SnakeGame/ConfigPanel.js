@@ -1,4 +1,5 @@
 import React from 'react';
+import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -6,52 +7,69 @@ import { connect } from 'react-redux';
 import flow from 'lodash/flow';
 import { FaArrowsAltH, FaArrowsAltV, FaRegHourglass } from 'react-icons/fa';
 
-import FormControlLabel from '@material-ui/core/FormControlLabel/FormControlLabel';
-import Switch from '@material-ui/core/Switch/Switch';
-import TextField from '@material-ui/core/TextField/TextField';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Slider from '@material-ui/core/Slider';
-import Chip from '@material-ui/core/Chip/Chip';
+import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel';
+import Switch from '@mui/material/Switch/Switch';
+import TextField from '@mui/material/TextField/TextField';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Slider from '@mui/material/Slider';
+import Chip from '@mui/material/Chip/Chip';
 import { MdTimer } from 'react-icons/md';
-import Avatar from '@material-ui/core/Avatar/Avatar';
-import Grid from '@material-ui/core/Grid/Grid';
-import { withStyles } from '@material-ui/core/styles';
+import Avatar from '@mui/material/Avatar/Avatar';
+import Grid from '@mui/material/Grid/Grid';
 
 import { changeName, toggleEnableAstar, toggleGreedy, toggleShowPath } from './actions/aiConfigAction';
 import { setFrameLimit, setSize, setSpeed, toggleWallsAreFatal } from './actions/gameAction';
 
-const styles = theme => ({
-  root: {
+const PREFIX = 'ConfigPanel';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  heading: `${PREFIX}-heading`,
+  secondaryHeading: `${PREFIX}-secondaryHeading`,
+  column: `${PREFIX}-column`,
+  slider: `${PREFIX}-slider`,
+  chipCell: `${PREFIX}-chipCell`,
+  settingsSubSection: `${PREFIX}-settingsSubSection`,
+};
+
+const StyledAccordion = styled(Accordion)(({ theme }) => ({
+  [`&.${classes.root}`]: {
     width: '100%',
     overflowX: 'hidden',
     backgroundColor: theme.palette.grey['500'],
   },
-  heading: {
+
+  [`& .${classes.heading}`]: {
     fontSize: theme.typography.pxToRem(15),
   },
-  secondaryHeading: {
+
+  [`& .${classes.secondaryHeading}`]: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
   },
-  column: {
+
+  [`& .${classes.column}`]: {
     flexDirection: 'column',
   },
-  slider: {
+
+  [`& .${classes.slider}`]: {
     width: '100%',
     padding: '22px 0px',
   },
-  chipCell: {
+
+  [`& .${classes.chipCell}`]: {
     width: '50%',
   },
-  settingsSubSection: {
+
+  [`& .${classes.settingsSubSection}`]: {
     width: '95%',
     marginLeft: '1em',
   },
-});
+}));
 
 const sliders = props => {
   const { speed, numRows, numCols, frameTimeout, computedFrameTimeout } = props;
@@ -102,10 +120,10 @@ const sliders = props => {
 };
 
 const ConfigPanel = props => {
-  const { aStar, greedy, playerName, showPath, wallsAreFatal, classes } = props;
+  const { aStar, greedy, playerName, showPath, wallsAreFatal } = props;
 
   return (
-    <Accordion className={classes.root}>
+    <StyledAccordion className={classes.root}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography variant="h6">Settings</Typography>
       </AccordionSummary>
@@ -188,7 +206,7 @@ const ConfigPanel = props => {
           </Grid>
         </Grid>
       </AccordionDetails>
-    </Accordion>
+    </StyledAccordion>
   );
 };
 
@@ -236,6 +254,6 @@ const mapStateToProps = state => ({
   ...state.aiConfig,
   ...state.game.game,
 });
-const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withStyles(styles)]);
+const decorators = flow([connect(mapStateToProps, mapDispatchToProps)]);
 
 export default decorators(ConfigPanel);

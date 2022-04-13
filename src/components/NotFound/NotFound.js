@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 
-import { createTheme, MuiThemeProvider, makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography/Typography';
+import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography/Typography';
 
 import { Provider } from 'react-redux';
 import SnakeGame from '../../containers/SnakeGame/SnakeGame';
@@ -36,35 +37,39 @@ const styles = makeStyles(theme => ({
   },
 }));
 
-const theme = createTheme({
-  type: 'dark',
-  palette: {
-    primary: {
-      main: '#689f38',
+const theme = createTheme(
+  adaptV4Theme({
+    type: 'dark',
+    palette: {
+      primary: {
+        main: '#689f38',
+      },
+      secondary: {
+        main: '#64dd17',
+      },
     },
-    secondary: {
-      main: '#64dd17',
+    typography: {
+      useNextVariants: true,
     },
-  },
-  typography: {
-    useNextVariants: true,
-  },
-});
+  }),
+);
 
 export default function NotFound() {
   const classes = styles();
   return (
-    <MuiThemeProvider theme={theme}>
-      <Paper className={classes.NotFoundPaper}>
-        <Button component={Link} variant="contained" target="_blank" to="/" className={classes.NotFoundButton}>
-          <FaHome size="2em" />
-        </Button>
-        <Typography className={classes.Heading}>Path Not Found</Typography>
-        <Typography className={classes.SubHeading}>Commence path finding...</Typography>
-      </Paper>
-      <Provider store={createStore()}>
-        <SnakeGame />
-      </Provider>
-    </MuiThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <Paper className={classes.NotFoundPaper}>
+          <Button component={Link} variant="contained" target="_blank" to="/" className={classes.NotFoundButton}>
+            <FaHome size="2em" />
+          </Button>
+          <Typography className={classes.Heading}>Path Not Found</Typography>
+          <Typography className={classes.SubHeading}>Commence path finding...</Typography>
+        </Paper>
+        <Provider store={createStore()}>
+          <SnakeGame />
+        </Provider>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }

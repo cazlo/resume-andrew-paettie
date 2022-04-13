@@ -30,7 +30,7 @@ import { AiFillRobot } from 'react-icons/ai';
 import { BsBugFill } from 'react-icons/bs';
 import { SiNike } from 'react-icons/si';
 import { IoRocket } from 'react-icons/io5';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@mui/material/Avatar';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import amatorizationImage from '../data/amatorization.gif';

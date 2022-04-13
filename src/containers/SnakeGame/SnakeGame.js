@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { styled } from '@mui/material/styles';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -6,13 +7,12 @@ import flow from 'lodash/flow';
 import * as PropTypes from 'prop-types';
 import { MdLocalPizza, MdTimer } from 'react-icons/md';
 
-import Chip from '@material-ui/core/Chip/Chip';
-import Avatar from '@material-ui/core/Avatar/Avatar';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper/Paper';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Hidden from '@material-ui/core/Hidden';
-import { withStyles } from '@material-ui/core/styles';
+import Chip from '@mui/material/Chip/Chip';
+import Avatar from '@mui/material/Avatar/Avatar';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper/Paper';
+import LinearProgress from '@mui/material/LinearProgress';
+import Hidden from '@mui/material/Hidden';
 
 import withWindowSize from './util/withWindowSize';
 import Scoreboard from './Scoreboard';
@@ -25,18 +25,28 @@ import techTheme from '../../common/techTheme';
 const { DEFAULT_BOX_SIZE, DEFAULT_BOARD_SIZE } = GameGrid;
 const { PLAYING } = GameState;
 
-const styles = () => ({
-  progress: {
+const PREFIX = 'SnakeGame';
+
+const classes = {
+  progress: `${PREFIX}-progress`,
+  canvasContainer: `${PREFIX}-canvasContainer`,
+  root: `${PREFIX}-root`,
+};
+
+const Root = styled('div')(() => ({
+  [`& .${classes.progress}`]: {
     margin: '0.5em',
   },
-  canvasContainer: {
+
+  [`& .${classes.canvasContainer}`]: {
     textAlign: 'center',
   },
-  root: {
+
+  [`&.${classes.root}`]: {
     margin: '10px auto',
     width: '98%',
   },
-});
+}));
 
 const updateCanvas = (ctx, props) => {
   const { innerHeight, innerWidth, snake, food, path } = props;
@@ -161,7 +171,6 @@ class SnakeGame extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     const {
       game: { score, frameCount, fps, frameTimeout, perfectScore, numRows, numCols },
       highScores,
@@ -169,7 +178,7 @@ class SnakeGame extends Component {
     const innerHeight = DEFAULT_BOX_SIZE * numRows;
     const innerWidth = DEFAULT_BOX_SIZE * numCols;
     return (
-      <div
+      <Root
         className={classes.root}
         role="presentation"
         // style={style}
@@ -195,7 +204,7 @@ class SnakeGame extends Component {
                     />
                   </Grid>
                   <Grid item xs={2}>
-                    <Hidden xsDown>
+                    <Hidden smDown>
                       <Chip label={`Max Score: ${perfectScore}`} color="primary" />
                     </Hidden>
                   </Grid>
@@ -226,7 +235,7 @@ class SnakeGame extends Component {
                       color="secondary"
                     />
                   </Grid>
-                  <Hidden xsDown>
+                  <Hidden smDown>
                     <Grid item sm={2}>
                       <Chip label={`FPS: ${fps}`} color="secondary" />
                     </Grid>
@@ -254,7 +263,7 @@ class SnakeGame extends Component {
             </Paper>
           </Grid>
         </Grid>
-      </div>
+      </Root>
     );
   }
 }
@@ -298,6 +307,6 @@ const mapStateToProps = state => ({
   aiConfig: state.aiConfig,
 });
 
-const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withStyles(styles), withWindowSize]);
+const decorators = flow([connect(mapStateToProps, mapDispatchToProps), withWindowSize]);
 
 export default decorators(SnakeGame);

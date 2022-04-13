@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import { Box, Typography } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import { Box, Typography } from '@mui/material';
 
 import PropTypes from 'prop-types';
 
