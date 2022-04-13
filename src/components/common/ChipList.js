@@ -1,7 +1,7 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
-import Chip from '@material-ui/core/Chip';
-import { styled } from '@material-ui/core/styles';
+import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import { styled } from '@mui/material/styles';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),

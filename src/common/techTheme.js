@@ -54,7 +54,7 @@ import { MdSecurity } from 'react-icons/md';
 import { GrMysql } from 'react-icons/gr';
 import { SiJquery } from 'react-icons/si';
 import { FcCollaboration } from 'react-icons/fc';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@mui/material/Avatar';
 import { ReactComponent as JestSvg } from '../data/jest.svg';
 import { ReactComponent as RabbitmqSvg } from '../data/rabbitmq.svg';
 import { ReactComponent as QuarkusSvg } from '../data/quarkus.svg';

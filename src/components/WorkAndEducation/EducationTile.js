@@ -1,8 +1,8 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@mui/material/Avatar';
 import ChipList from '../common/ChipList';
 
 export default function EducationTile({ education }) {

@@ -1,42 +1,59 @@
 // adapted from https://material-ui.com/components/accordion/#secondary-heading-and-columns
 
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import { Rating } from '@material-ui/lab';
-import { Box } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
+import { Rating, Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
-  root: {
+const PREFIX = 'SkillDetail';
+
+const classes = {
+  root: `${PREFIX}-root`,
+  heading: `${PREFIX}-heading`,
+  secondaryHeading: `${PREFIX}-secondaryHeading`,
+  icon: `${PREFIX}-icon`,
+  details: `${PREFIX}-details`,
+  column: `${PREFIX}-column`,
+  helper: `${PREFIX}-helper`,
+};
+
+const Root = styled('div')(({ theme }) => ({
+  [`&.${classes.root}`]: {
     width: '100%',
   },
-  heading: {
+
+  [`& .${classes.heading}`]: {
     fontSize: theme.typography.pxToRem(15),
   },
-  secondaryHeading: {
+
+  [`& .${classes.secondaryHeading}`]: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
   },
-  icon: {
+
+  [`& .${classes.icon}`]: {
     verticalAlign: 'bottom',
     height: 20,
     width: 20,
   },
-  details: {
+
+  [`& .${classes.details}`]: {
     alignItems: 'center',
   },
-  column: {
+
+  [`& .${classes.column}`]: {
     flexBasis: '33.33%',
     alignItems: 'center',
   },
-  helper: {
+
+  [`& .${classes.helper}`]: {
     borderLeft: `2px solid ${theme.palette.divider}`,
     padding: theme.spacing(1, 2),
   },
@@ -45,9 +62,8 @@ const useStyles = makeStyles(theme => ({
 const yearsTxt = year => `${year < 1 ? '<1' : year} year${year > 1 ? 's' : ''}`;
 
 export default function SkillDetail({ skill }) {
-  const classes = useStyles();
   return (
-    <div className={classes.root}>
+    <Root className={classes.root}>
       <Accordion defaultExpanded={!skill.frameworks.length}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1c-content" id="panel1c-header">
           <div className={classes.column}>
@@ -74,7 +90,7 @@ export default function SkillDetail({ skill }) {
           </Box>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </Root>
   );
 }
 

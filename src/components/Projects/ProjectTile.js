@@ -1,24 +1,28 @@
 import React from 'react';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import ChipList from '../common/ChipList';
 
-const useStyles = makeStyles(theme => ({
-  image: {
+const PREFIX = 'ProjectTile';
+
+const classes = {
+  image: `${PREFIX}-image`,
+};
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.image}`]: {
     width: theme.spacing(12),
     height: theme.spacing(12),
   },
 }));
 
 export default function ProjectTile({ project }) {
-  const classes = useStyles();
-
   return (
-    <div>
+    <Root>
       <Box display="flex" alignItems="center">
         {project.image && (
           <Box margin={1}>
@@ -42,19 +46,13 @@ export default function ProjectTile({ project }) {
       </div>
       <br />
       <div className="ProjectsBlock-links">
-        {project.links.map((link, j) => (
-          <Button
-            key={j} // eslint-disable-line react/no-array-index-key
-            variant="outlined"
-            color="default"
-            target={link.url.includes('http') ? '_blank' : ''}
-            href={link.url}
-          >
+        {project.links.map(link => (
+          <Button variant="outlined" target={link.url.includes('http') ? '_blank' : ''} href={link.url}>
             {link.text}
           </Button>
         ))}
       </div>
-    </div>
+    </Root>
   );
 }
 

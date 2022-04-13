@@ -1,18 +1,25 @@
 import React from 'react';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import HomeIcon from '@material-ui/icons/Home';
-import WorkIcon from '@material-ui/icons/Work';
-import FaceIcon from '@material-ui/icons/Face';
-import SchoolIcon from '@material-ui/icons/School';
-import SettingsIcon from '@material-ui/icons/SettingsApplications';
-// import ToysIcon from '@material-ui/icons/Toys';
-import CodeIcon from '@material-ui/icons/Code';
-import { makeStyles } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import HomeIcon from '@mui/icons-material/Home';
+import WorkIcon from '@mui/icons-material/Work';
+import FaceIcon from '@mui/icons-material/Face';
+import SchoolIcon from '@mui/icons-material/School';
+import SettingsIcon from '@mui/icons-material/SettingsApplications';
+// import ToysIcon from '@mui/icons-material/Toys';
+import CodeIcon from '@mui/icons-material/Code';
 
 import Link from './BottomNavLink';
 
-const styles = makeStyles(theme => ({
-  BottomNav: {
+const PREFIX = 'BottomNav';
+
+const classes = {
+  BottomNav: `${PREFIX}-BottomNav`,
+  BottomNavLink: `${PREFIX}-BottomNavLink`,
+};
+
+const StyledBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
+  [`&.${classes.BottomNav}`]: {
     width: '100%',
     position: 'fixed',
     bottom: 0,
@@ -21,7 +28,8 @@ const styles = makeStyles(theme => ({
     flexFlow: 'row wrap',
     justifyContent: 'space-around',
   },
-  BottomNavLink: {
+
+  [`& .${classes.BottomNavLink}`]: {
     width: '100%',
     minWidth: '60px',
     maxWidth: '168px',
@@ -35,7 +43,7 @@ const styles = makeStyles(theme => ({
     outline: 'none',
     transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
 
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       fontSize: 0,
       // minWidth: '25%',
       paddingTop: '10px',
@@ -79,9 +87,8 @@ const buttons = [
 ];
 
 export default function SimpleBottomNavigation() {
-  const classes = styles();
   return (
-    <BottomNavigation value="0" className={classes.BottomNav}>
+    <StyledBottomNavigation value="0" className={classes.BottomNav}>
       {buttons.map((button, j) => (
         <Link
           key={j} // eslint-disable-line react/no-array-index-key
@@ -97,6 +104,6 @@ export default function SimpleBottomNavigation() {
           {button.label}
         </Link>
       ))}
-    </BottomNavigation>
+    </StyledBottomNavigation>
   );
 }

@@ -1,38 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography/Typography';
-import withWidth from '@material-ui/core/withWidth';
-
+import Typography from '@mui/material/Typography/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import './VerticalTimeline.css';
 import ProjectTile from './ProjectTile';
 
-const Projects = ({ projects, width }) => (
-  <ScreenBlock className="Resume-projects" id="Resume-projects">
-    <div className=" container">
-      <div className="Resume-projects heading">
-        <h2>Projects</h2>
+const Projects = ({ projects }) => {
+  const theme = useTheme();
+  return (
+    <ScreenBlock className="Resume-projects" id="Resume-projects">
+      <div className=" container">
+        <div className="Resume-projects heading">
+          <h2>Projects</h2>
+        </div>
+        <VerticalTimeline className="VerticalTimeline" animate={useMediaQuery(theme.breakpoints.up('lg'))}>
+          {projects.map(project => (
+            <VerticalTimelineElement
+              key={`project-${project.title}`}
+              icon={project.techTheme.icon}
+              iconStyle={project.techTheme.iconStyle || project.techTheme.style}
+              date={
+                <Typography variant="subtitle1" style={{ color: 'white' }}>
+                  {project.date}
+                </Typography>
+              }
+            >
+              <ProjectTile project={project} />
+            </VerticalTimelineElement>
+          ))}
+        </VerticalTimeline>
       </div>
-      <VerticalTimeline className="VerticalTimeline" animate={width === 'lg' || width === 'xl'}>
-        {projects.map(project => (
-          <VerticalTimelineElement
-            key={`project-${project.title}`}
-            icon={project.techTheme.icon}
-            iconStyle={project.techTheme.iconStyle || project.techTheme.style}
-            date={
-              <Typography variant="subtitle1" style={{ color: 'white' }}>
-                {project.date}
-              </Typography>
-            }
-          >
-            <ProjectTile project={project} />
-          </VerticalTimelineElement>
-        ))}
-      </VerticalTimeline>
-    </div>
-  </ScreenBlock>
-);
+    </ScreenBlock>
+  );
+};
 
 Projects.propTypes = {
   projects: PropTypes.arrayOf(
@@ -57,11 +60,6 @@ Projects.propTypes = {
       image: PropTypes.node,
     }),
   ).isRequired,
-  width: PropTypes.string,
 };
 
-Projects.defaultProps = {
-  width: 'lg',
-};
-
-export default withWidth()(Projects);
+export default Projects;
