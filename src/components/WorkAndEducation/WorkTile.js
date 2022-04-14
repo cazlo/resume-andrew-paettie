@@ -13,9 +13,19 @@ export default function WorkTile({ position }) {
           <Typography variant="subtitle1">{position.company}</Typography>
           <Typography variant="caption">{position.summary}</Typography>
           <br />
-          <ChipList chips={position.domains} getIcon={domain => domain.icon} getLabel={domain => domain.name} />
+          <ChipList
+            chips={position.domains}
+            getIcon={domain => domain.icon}
+            getLabel={domain => domain.name}
+            getKey={domain => `${position.company}-${domain.name}`}
+          />
           <br />
-          <ChipList chips={position.tech} getIcon={t => t.icon} getLabel={t => t.name} />
+          <ChipList
+            chips={position.tech}
+            getIcon={t => t.icon}
+            getLabel={t => t.name}
+            getKey={t => `${position.company}-${t.name}`}
+          />
         </Box>
       </Box>
     </Box>

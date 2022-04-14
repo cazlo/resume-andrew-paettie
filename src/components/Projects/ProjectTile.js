@@ -42,12 +42,22 @@ export default function ProjectTile({ project }) {
       </Box>
       <Typography variant="caption">{project.content}</Typography>
       <div className="ProjectsBlock-technologies">
-        <ChipList chips={project.technologies} getIcon={domain => domain.icon} getLabel={domain => domain.name} />
+        <ChipList
+          chips={project.technologies}
+          getIcon={tech => tech.icon}
+          getLabel={tech => tech.name}
+          getKey={tech => `${project.title}-${tech.name}`}
+        />
       </div>
       <br />
       <div className="ProjectsBlock-links">
         {project.links.map(link => (
-          <Button variant="outlined" target={link.url.includes('http') ? '_blank' : ''} href={link.url}>
+          <Button
+            variant="outlined"
+            target={link.url.includes('http') ? '_blank' : ''}
+            href={link.url}
+            key={`${project.title}-${link.text}-url`}
+          >
             {link.text}
           </Button>
         ))}
