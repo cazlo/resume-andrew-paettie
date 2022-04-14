@@ -289,7 +289,7 @@ const skills = {
             techTheme: techTheme.route53,
           },
           {
-            name: 'Rds',
+            name: 'RDS',
             experience: '2',
             techTheme: techTheme.rds,
           },

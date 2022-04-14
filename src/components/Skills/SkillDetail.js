@@ -71,17 +71,23 @@ export default function SkillDetail({ skill }) {
           </div>
           <div className={classes.column} />
           <div className={classes.column}>
-            <Rating name="read-only" value={skill.experience} precision={0.5} readOnly />{' '}
+            <Rating name="read-only" value={Number.parseFloat(skill.experience)} precision={0.5} readOnly />{' '}
             <Box>{yearsTxt(skill.experience)}</Box>
           </div>
         </AccordionSummary>
         <AccordionDetails className={classes.details}>
           <Box display="flex" flexDirection="row" justifyContent="center" flexWrap="wrap">
             {skill.frameworks.map(framework => (
-              <Box display="flex" flexDirection="column" justifyContent="center" margin={1}>
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                margin={1}
+                key={`skill-details-${skill.name}-${framework.name}`}
+              >
                 <Chip size="large" avatar={<Avatar>{framework.techTheme.icon}</Avatar>} label={framework.name} />
                 <Typography variant="caption">
-                  <Rating name="read-only" value={framework.experience} precision={0.5} readOnly />
+                  <Rating name="read-only" value={Number.parseFloat(framework.experience)} precision={0.5} readOnly />
                   <br />
                   {yearsTxt(framework.experience)}
                 </Typography>
@@ -97,9 +103,15 @@ export default function SkillDetail({ skill }) {
 SkillDetail.propTypes = {
   skill: PropTypes.shape({
     name: PropTypes.string,
-    techTheme: PropTypes.string,
+    techTheme: PropTypes.shape({
+      icon: PropTypes.element.isRequired,
+    }),
     experience: PropTypes.string,
-    frameworks: PropTypes.string,
+    frameworks: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+      }),
+    ),
   }),
 };
 

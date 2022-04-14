@@ -2,12 +2,13 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 
 const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-export default function ChipList({ chips, getIcon, getLabel }) {
+export default function ChipList({ chips, getIcon, getLabel, getKey }) {
   return (
     <Box
       flexWrap="wrap"
@@ -23,10 +24,22 @@ export default function ChipList({ chips, getIcon, getLabel }) {
       component="ul"
     >
       {chips.map(chip => (
-        <ListItem>
-          <Chip variant="outlined" size="small" icon={getIcon(chip)} label={getLabel(chip)} />
+        <ListItem key={getKey(chip)}>
+          <Chip variant="filled" size="medium" avatar={getIcon(chip)} label={getLabel(chip)} />
         </ListItem>
       ))}
     </Box>
   );
 }
+
+ChipList.propTypes = {
+  chips: PropTypes.arrayOf(
+    PropTypes.shape({
+      icon: PropTypes.element,
+      name: PropTypes.string,
+    }).isRequired,
+  ).isRequired,
+  getIcon: PropTypes.func.isRequired,
+  getLabel: PropTypes.func.isRequired,
+  getKey: PropTypes.func.isRequired,
+};

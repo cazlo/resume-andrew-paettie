@@ -12,14 +12,25 @@ export default function EducationTile({ education }) {
         <Box width="100%">
           <Typography variant="h5">{education.schoolName}</Typography>
           <Typography variant="h6">{education.degree}</Typography>
-          <ChipList chips={education.areasOfStudy} getIcon={s => s.icon} getLabel={s => s.name} />
+          <ChipList
+            chips={education.areasOfStudy}
+            getIcon={f => f.icon}
+            getLabel={f => f.name}
+            getKey={f => `${education.schoolName}-focus-${f.name}`}
+          />
           <br />
-          <ChipList chips={education.languages} getIcon={s => s.icon} getLabel={s => s.name} />
+          <ChipList
+            chips={education.languages}
+            getIcon={f => f.icon}
+            getLabel={f => f.name}
+            getKey={f => `${education.schoolName}-language-${f.name}`}
+          />
           <br />
           <ChipList
             chips={education.gpa}
             getIcon={gpa => <Avatar>{gpa.value}</Avatar>}
             getLabel={gpa => `${gpa.name} GPA`}
+            getKey={gpa => `${gpa.name} GPA`}
           />
         </Box>
       </Box>

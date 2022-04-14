@@ -331,7 +331,7 @@ const techTheme = {
       color: '#fff',
     },
     className: 'vertical-timeline-element--github',
-    icon: <GithubIcon class="devicon-github" />,
+    icon: <GithubIcon />,
   },
   postgres: {
     style: {

@@ -24,7 +24,7 @@ const StyledScreenBlock = styled(ScreenBlock)(({ theme }) => ({
   },
 }));
 
-const mapSkillDetail = skills => skills.map(skill => <SkillDetail skill={skill} />);
+const mapSkillDetail = skills => skills.map(skill => <SkillDetail skill={skill} key={`skill-detail-${skill.name}`} />);
 
 // const generateStyles = makeStyles(({ theme }) => ({
 //   [`& .${classes.skillSection}`]: {
