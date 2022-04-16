@@ -1,87 +1,92 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import { Box, Typography } from '@mui/material';
+import { Container, IconButton, ImageList, ImageListItem, ImageListItemBar, Paper, Typography } from '@mui/material';
+import { styled } from '@mui/styles';
 
 import PropTypes from 'prop-types';
 
-import selfImage from '../../data/me.jpg';
-import './AboutMe.css';
+import Grid from '@mui/material/Grid/Grid';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
+import introContent from './introContent';
+import ContactInfo from './ContactInfo';
 
-const Intro = ({ style }) => (
-  <ScreenBlock id="Resume-aboutMe" className="ResumeAboutMeBlock" style={style}>
-    <div id="" className="Resume-aboutMe container">
-      <Typography className="heading">
-        <h2 className="ResumeAboutMe" style={{ color: '#fff' }}>
-          About Me
-        </h2>
-        <p id="ResumeAboutMeSubtitle" className="ResumeAboutMeBlock-Subtitle">
-          A small introduction about myself
-        </p>
-      </Typography>
-      <div className="ResumeAboutMeBlock-content">
-        <Typography className="ResumeAboutMeBlock-description">
-          <h3>Andrew Paettie</h3>
-          <h4>Software engineer</h4>
-          <p className="Resume-summary" />I am a full stack software engineer with around a decade of experience, and
-          several years of leadership experience.
-          <br />
-          <br />
-          Continued human habitation of our world is in jeopardy. Our only chance to get out of this mess is through
-          science and engineering. As an engineer with the skills necessary to help, I am only interested in positions
-          which will benefit society as a whole. For example, directly working to solve the climate crisis we are
-          facing, or working to get kids involved in S.T.E.M. I am open to volunteering my time if the cause is just.
-          <br />
-          <br />
-          If you need a software engineer in that domain, hit me up using any of the contact methods listed below!
-          <br />
-          <br />
-          <Box display="flex" flexDirection="row" justifyContent="center">
-            <Box margin={1}>
-              <Button href="mailto:paettiea.job@gmail.com" variant="contained" color="primary">
-                Email
-              </Button>
-            </Box>
-            <Box margin={1}>
-              <Button href="https://github.com/cazlo" variant="contained" color="primary">
-                Github
-              </Button>
-            </Box>
-            <Box margin={1}>
-              <Button href="https://www.linkedin.com/in/andrew-paettie/" variant="contained" color="primary">
-                LinkedIn
-              </Button>
-            </Box>
-          </Box>
-          <Box display="flex" flexDirection="row" justifyContent="center">
-            <Box margin={1}>
-              <Button
-                variant="contained"
-                color="primary"
-                target="_blank"
-                href="/static/resume/resume-Andrew-Paettie.pdf"
-              >
-                Resume PDF
-              </Button>
-            </Box>
-            <Box margin={1}>
-              <Button
-                variant="contained"
-                color="primary"
-                target="_blank"
-                href="/static/resume/resume-Andrew-Paettie.docx"
-              >
-                Resume DOCX
-              </Button>
-            </Box>
-          </Box>
-        </Typography>
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
-        <div className="ResumeAboutMeBlock-profilePicture Resume-profilePicture">
-          <img alt="Andrew Paettie" src={selfImage} />
-        </div>
-      </div>
-    </div>
+const ImgItem = ({ item }) => (
+  <ImageListItem>
+    <img
+      src={`${item.img}?w=248&fit=crop&auto=format`}
+      srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+      alt={item.title}
+      loading="lazy"
+    />
+    <ImageListItemBar
+      title={item.title}
+      subtitle={item.description}
+      actionIcon={<IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`} />}
+    />
+  </ImageListItem>
+);
+
+ImgItem.propTypes = {
+  item: PropTypes.shape({
+    img: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+  }).isRequired,
+};
+
+const Intro = () => (
+  <ScreenBlock id="Resume-aboutMe" className="ResumeAboutMeBlock">
+    <Container>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12}>
+          <Item>
+            <Typography variant="h2">About Me</Typography>
+            <Typography variant="p">A small introduction about myself </Typography>
+            <ContactInfo />
+          </Item>
+        </Grid>
+        <Grid item xs={8}>
+          <Item>
+            <Typography variant="subtitle1">I like exploring the natural world</Typography>
+            <ImageList variant="masonry" cols={3} gap={8}>
+              {introContent.self.pics.map(item => (
+                <ImgItem item={item} key={`${item.img}-${item.title}-${item.description}`} />
+              ))}
+            </ImageList>
+          </Item>
+        </Grid>
+        <Grid item xs={8}>
+          <Item>
+            <Typography variant="subtitle1">
+              I have been messing around with computers as long as I can remember. Eventually I got a Bachelor Degree in
+              Computer Science.
+            </Typography>
+            <ImageList variant="masonry" cols={3} gap={8}>
+              {introContent.computers.map(item => (
+                <ImgItem item={item} key={`${item.img}-${item.title}-${item.description}`} />
+              ))}
+            </ImageList>
+          </Item>
+        </Grid>
+        <Grid item xs={8}>
+          <Item>
+            <Typography variant="subtitle1">I like to create things and watch them grow over time.</Typography>
+            <ImageList variant="masonry" cols={3} gap={8}>
+              {introContent.creating.map(item => (
+                <ImgItem item={item} key={`${item.img}-${item.title}-${item.description}`} />
+              ))}
+            </ImageList>
+          </Item>
+        </Grid>
+      </Grid>
+    </Container>
   </ScreenBlock>
 );
 
