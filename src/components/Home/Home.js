@@ -9,7 +9,7 @@ const Home = ({ style }) => (
   <ScreenBlock id="Resume-home" style={style} className="ResumeHomeBlock">
     <div className="ResumeHomeBlock-headline-container">
       <div className="ResumeHomeBlock-headline ResumeHomeBlock-heading">
-        <h1 className="Resume.im ResumeHomeBlock-heading">Andrew Paettie</h1>
+        <h1 className="Resume.im ResumeHomeBlock-heading">Drew Paettie</h1>
         <h2 className="ResumeHomeBlock-heading">Full-stack software engineer in Washington</h2>
       </div>
     </div>
