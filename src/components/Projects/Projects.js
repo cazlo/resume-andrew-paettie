@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
+import { Container } from '@mui/material';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import './VerticalTimeline.css';
 import ProjectTile from './ProjectTile';
@@ -12,9 +13,14 @@ const Projects = ({ projects }) => {
   const theme = useTheme();
   return (
     <ScreenBlock className="Resume-projects" id="Resume-projects">
-      <div className=" container">
+      <Container>
         <div className="Resume-projects heading">
           <h2>Projects</h2>
+          <p>
+            Most of my projects end up getting sold, along with my claim to the related IP.
+            <br />
+            Here are some free ones I built to showcase my skills and mess around in my free-time.
+          </p>
         </div>
         <VerticalTimeline className="VerticalTimeline" animate={useMediaQuery(theme.breakpoints.up('lg'))}>
           {projects.map(project => (
@@ -32,7 +38,7 @@ const Projects = ({ projects }) => {
             </VerticalTimelineElement>
           ))}
         </VerticalTimeline>
-      </div>
+      </Container>
     </ScreenBlock>
   );
 };

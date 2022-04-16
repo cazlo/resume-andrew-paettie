@@ -1,14 +1,9 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import BottomNavigation from '@mui/material/BottomNavigation';
-import HomeIcon from '@mui/icons-material/Home';
-import WorkIcon from '@mui/icons-material/Work';
-import FaceIcon from '@mui/icons-material/Face';
-import SchoolIcon from '@mui/icons-material/School';
-import SettingsIcon from '@mui/icons-material/SettingsApplications';
-// import ToysIcon from '@mui/icons-material/Toys';
-import CodeIcon from '@mui/icons-material/Code';
+import { FcDiploma1, FcEngineering, FcHome, FcManager, FcMindMap, FcReading } from 'react-icons/fc';
 
+import { Typography } from '@mui/material';
 import Link from './BottomNavLink';
 
 const PREFIX = 'BottomNav';
@@ -16,6 +11,7 @@ const PREFIX = 'BottomNav';
 const classes = {
   BottomNav: `${PREFIX}-BottomNav`,
   BottomNavLink: `${PREFIX}-BottomNavLink`,
+  BottomNavLabel: `${PREFIX}-BottomNavLabel`,
 };
 
 const StyledBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
@@ -43,7 +39,16 @@ const StyledBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
     outline: 'none',
     transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
 
-    [theme.breakpoints.down('lg')]: {
+    [theme.breakpoints.down('md')]: {
+      // fontSize: 0,
+      // minWidth: '25%',
+      paddingTop: '10px',
+      paddingBottom: '10px',
+    },
+  },
+  [`& .${classes.BottomNavLabel}`]: {
+    [theme.breakpoints.down('md')]: {
+      display: 'hidden',
       fontSize: 0,
       // minWidth: '25%',
       paddingTop: '10px',
@@ -56,33 +61,33 @@ const buttons = [
   {
     label: 'Home',
     name: 'Resume-home',
-    icon: <HomeIcon />,
+    icon: <FcHome />,
   },
   {
     label: 'About Me',
     name: 'ResumeAboutMe',
-    icon: <FaceIcon />,
+    icon: <FcReading />,
   },
   {
     label: 'Skills',
     name: 'ResumeSkills',
-    icon: <SettingsIcon />,
+    icon: <FcEngineering />,
   },
   {
     label: 'Work Experience',
     name: 'ResumeExperience',
-    icon: <WorkIcon />,
+    icon: <FcManager />,
   },
   {
     label: 'Education',
     name: 'Resume-education',
-    icon: <SchoolIcon />,
+    icon: <FcDiploma1 />,
     // offset: -16,
   },
   {
     label: 'Projects',
     name: 'ResumeProjects',
-    icon: <CodeIcon />,
+    icon: <FcMindMap />,
   },
 ];
 
@@ -101,7 +106,9 @@ export default function SimpleBottomNavigation() {
           duration={500}
         >
           {button.icon}
-          {button.label}
+          <Typography className={classes.BottomNavLabel} variant="subtitle2">
+            {button.label}
+          </Typography>
         </Link>
       ))}
     </StyledBottomNavigation>
