@@ -40,6 +40,7 @@
     "styled-components": "^5.3.0",
     "webfontloader": "^1.6.28"
   },
+  "resolutions": { "react-error-overlay": "6.0.9" },
   "devDependencies": {
     "@babel/cli": "^7.14.8",
     "@babel/core": "^7.15.0",
@@ -50,6 +51,7 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
+    "react-error-overlay": "6.0.9",
     "prettier": "^2.3.2",
     "pretty-quick": "^3.1.1"
   },
