@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import BottomNavigation from '@mui/material/BottomNavigation';
-import { FcDiploma1, FcEngineering, FcHome, FcManager, FcMindMap, FcReading } from 'react-icons/fc';
+import { FcDiploma1, FcEngineering, FcHome, FcManager, FcCommandLine, FcReading } from 'react-icons/fc';
 
 import { Typography } from '@mui/material';
 import Link from './BottomNavLink';
@@ -87,7 +87,7 @@ const buttons = [
   {
     label: 'Projects',
     name: 'ResumeProjects',
-    icon: <FcMindMap />,
+    icon: <FcCommandLine />,
   },
 ];
 

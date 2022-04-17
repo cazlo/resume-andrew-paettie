@@ -15,7 +15,7 @@ export default function EducationTile({ education }) {
           <ChipList
             chips={education.areasOfStudy}
             getIcon={f => f.icon}
-            getLabel={f => f.name}
+            getLabel={f => (f.link ? <a href={f.link}>{f.name}</a> : f.name)}
             getKey={f => `${education.schoolName}-focus-${f.name}`}
           />
           <br />
