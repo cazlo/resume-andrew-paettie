@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 
+// https://devicon.dev/
 import { ReactComponent as ReactIcon } from 'devicon/icons/react/react-original.svg';
 import { ReactComponent as JavascriptIcon } from 'devicon/icons/javascript/javascript-plain.svg';
 import { ReactComponent as NodeJsIcon } from 'devicon/icons/nodejs/nodejs-original.svg';
@@ -35,43 +36,41 @@ import { ReactComponent as Typescript } from 'devicon/icons/typescript/typescrip
 import { ReactComponent as CSharp } from 'devicon/icons/csharp/csharp-original.svg';
 import { ReactComponent as DotNet } from 'devicon/icons/dot-net/dot-net-original.svg';
 import { ReactComponent as K8s } from 'devicon/icons/kubernetes/kubernetes-plain.svg';
-/* todo
-import {
-  ReactComponent as Make,
-  ReactComponent as Splunk,
-  ReactComponent as Datadog,
-} from 'devicon/icons/';
-*/
-
-import { FaEllipsisH } from 'react-icons/fa';
+import { ReactComponent as PodmanIcon } from 'devicon/icons/podman/podman-original.svg';
 import { ReactComponent as CircleciSvg } from 'devicon/icons/circleci/circleci-plain.svg';
 import { ReactComponent as SpringSvg } from 'devicon/icons/spring/spring-original.svg';
 import { ReactComponent as Jenkins } from 'devicon/icons/jenkins/jenkins-original.svg';
 import { ReactComponent as Twitter } from 'devicon/icons/twitter/twitter-original.svg';
 import { ReactComponent as Ansible } from 'devicon/icons/ansible/ansible-original.svg';
 import { ReactComponent as Gitlab } from 'devicon/icons/gitlab/gitlab-original.svg';
+// https://react-icons.github.io/
+import { FaEllipsisH } from 'react-icons/fa';
 import { MdSecurity } from 'react-icons/md';
 import { GrMysql } from 'react-icons/gr';
-import { SiJquery } from 'react-icons/si';
+import { SiApachemaven, SiJquery } from 'react-icons/si';
 import { FcCollaboration } from 'react-icons/fc';
 import Avatar from '@mui/material/Avatar';
 import { ReactComponent as JestSvg } from '../data/jest.svg';
 import { ReactComponent as RabbitmqSvg } from '../data/rabbitmq.svg';
 import { ReactComponent as QuarkusSvg } from '../data/quarkus.svg';
 import { ReactComponent as MicronautSvg } from '../data/micronaut.svg';
+import { ReactComponent as Nomad } from '../data/nomad.svg';
 import { ReactComponent as Lambda } from '../data/aws/Arch_AWS-Lambda_64.svg';
 import { ReactComponent as ApiGateway } from '../data/aws/Arch_Amazon-API-Gateway_64.svg';
 import { ReactComponent as Route53 } from '../data/aws/Arch_Amazon-Route-53_64.svg';
 import { ReactComponent as Cloudfront } from '../data/aws/Arch_Amazon-CloudFront_64.svg';
 import { ReactComponent as S3 } from '../data/aws/Arch_Amazon-Simple-Storage-Service_64.svg';
+import { ReactComponent as SQS } from '../data/aws/Arch_Amazon-Simple-Queue-Service_64.svg';
+import { ReactComponent as Kinesis } from '../data/aws/Arch_Amazon-Kinesis_64.svg';
 import { ReactComponent as EC2 } from '../data/aws/Arch_Amazon-EC2_64.svg';
 import { ReactComponent as Dynamodb } from '../data/aws/Arch_Amazon-DynamoDB_64.svg';
 import { ReactComponent as Rds } from '../data/aws/Arch_Amazon-RDS_64.svg';
+import { ReactComponent as IAM } from '../data/aws/Arch_AWS-Identity-and-Access-Management_64.svg';
+import { ReactComponent as Glue } from '../data/aws/Arch_AWS-Glue_64.svg';
 import Terraform from '../data/terraform-logo.png';
 import Consul from '../data/consul.png';
 // jfrog logo by https://jfrog.com/knowledge-base/artifactory-cleanup-methods-how-do-i-delete-old-artifacts/
 import JFrog from '../data/jfrog.png';
-import { ReactComponent as Nomad } from '../data/nomad.svg';
 
 /**
  * A centralized place to organize the style + icons of various technologies
@@ -184,6 +183,14 @@ const techTheme = {
     className: 'vertical-timeline-element--docker',
     icon: <DockerIcon />,
   },
+  podman: {
+    style: {
+      background: '#2f9ec4',
+      color: '#fff',
+    },
+    className: 'vertical-timeline-element--docker',
+    icon: <PodmanIcon />,
+  },
   nodeJs: {
     style: {
       background: '#8fc160',
@@ -247,7 +254,11 @@ const techTheme = {
       background: '#303233',
     },
     className: 'vertical-timeline-element--aws',
-    icon: <Lambda />,
+    icon: (
+      <Avatar>
+        <Lambda />
+      </Avatar>
+    ),
   },
   apiGateway: {
     style: {
@@ -258,7 +269,11 @@ const techTheme = {
       background: '#303233',
     },
     className: 'vertical-timeline-element--aws',
-    icon: <ApiGateway />,
+    icon: (
+      <Avatar>
+        <ApiGateway />
+      </Avatar>
+    ),
   },
   s3: {
     style: {
@@ -269,7 +284,67 @@ const techTheme = {
       background: '#303233',
     },
     className: 'vertical-timeline-element--aws',
-    icon: <S3 />,
+    icon: (
+      <Avatar>
+        <S3 />
+      </Avatar>
+    ),
+  },
+  sqs: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: (
+      <Avatar>
+        <SQS />
+      </Avatar>
+    ),
+  },
+  iam: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: (
+      <Avatar>
+        <IAM />
+      </Avatar>
+    ),
+  },
+  kinesis: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: (
+      <Avatar>
+        <Kinesis />
+      </Avatar>
+    ),
+  },
+  glue: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: (
+      <Avatar>
+        <Glue />
+      </Avatar>
+    ),
   },
   cloudfront: {
     style: {
@@ -280,7 +355,11 @@ const techTheme = {
       background: '#303233',
     },
     className: 'vertical-timeline-element--aws',
-    icon: <Cloudfront />,
+    icon: (
+      <Avatar>
+        <Cloudfront />
+      </Avatar>
+    ),
   },
   route53: {
     style: {
@@ -291,7 +370,11 @@ const techTheme = {
       background: '#303233',
     },
     className: 'vertical-timeline-element--aws',
-    icon: <Route53 />,
+    icon: (
+      <Avatar>
+        <Route53 />
+      </Avatar>
+    ),
   },
   ec2: {
     style: {
@@ -302,7 +385,11 @@ const techTheme = {
       background: '#303233',
     },
     className: 'vertical-timeline-element--aws',
-    icon: <EC2 />,
+    icon: (
+      <Avatar>
+        <EC2 />
+      </Avatar>
+    ),
   },
   dynamoDb: {
     style: {
@@ -312,7 +399,11 @@ const techTheme = {
     iconStyle: {
       background: '#303233',
     },
-    icon: <Dynamodb />,
+    icon: (
+      <Avatar>
+        <Dynamodb />
+      </Avatar>
+    ),
   },
   rds: {
     style: {
@@ -323,7 +414,11 @@ const techTheme = {
       background: '#303233',
     },
     className: 'vertical-timeline-element--aws',
-    icon: <Rds />,
+    icon: (
+      <Avatar>
+        <Rds />
+      </Avatar>
+    ),
   },
   github: {
     style: {
@@ -332,6 +427,11 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--github',
     icon: <GithubIcon />,
+    whiteIcon: (
+      <Avatar style={{ backgroundColor: '#fff' }}>
+        <GithubIcon />
+      </Avatar>
+    ),
   },
   postgres: {
     style: {
@@ -486,6 +586,13 @@ const techTheme = {
       color: '#fff',
     },
     icon: <Gradle />,
+  },
+  maven: {
+    style: {
+      background: '#003037',
+      color: '#fff',
+    },
+    icon: <SiApachemaven />,
   },
   groovy: {
     style: {

@@ -22,7 +22,7 @@ const WorkAndEducation = ({ positions, educations }) => {
       <div className="container">
         <div className="heading">
           <h2>Experience and Education</h2>
-          <Typography>My previous jobs and my qualifications.</Typography>
+          <Typography>My previous jobs and other qualifications.</Typography>
         </div>
 
         <VerticalTimeline animate={useMediaQuery(theme.breakpoints.up('lg'))}>

@@ -54,7 +54,7 @@ const Intro = () => (
         </Grid>
         <Grid item xs={8}>
           <Item>
-            <Typography variant="subtitle1">I like exploring the natural world</Typography>
+            <Typography variant="subtitle1">I like exploring and having fun in the natural world</Typography>
             <ImageList variant="masonry" cols={3} gap={8}>
               {introContent.self.pics.map(item => (
                 <ImgItem item={item} key={`${item.img}-${item.title}-${item.description}`} />
@@ -65,8 +65,8 @@ const Intro = () => (
         <Grid item xs={8}>
           <Item>
             <Typography variant="subtitle1">
-              I have been messing around with computers as long as I can remember. Eventually I got a Bachelor Degree in
-              Computer Science.
+              I have been building and experimenting with computers and distributed compute systems as long as I can
+              remember. Eventually, I got a Bachelor Degree in Computer Science.
             </Typography>
             <ImageList variant="masonry" cols={3} gap={8}>
               {introContent.computers.map(item => (
@@ -77,7 +77,10 @@ const Intro = () => (
         </Grid>
         <Grid item xs={8}>
           <Item>
-            <Typography variant="subtitle1">I like to create things and watch them grow over time.</Typography>
+            <Typography variant="subtitle1">
+              I like to create things and watch them grow over time. Creating high quality, fresh food is a top passion
+              of mine.
+            </Typography>
             <ImageList variant="masonry" cols={3} gap={8}>
               {introContent.creating.map(item => (
                 <ImgItem item={item} key={`${item.img}-${item.title}-${item.description}`} />

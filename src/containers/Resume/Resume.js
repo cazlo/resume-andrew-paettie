@@ -10,7 +10,6 @@ import Skills from '../../components/Skills/Skills';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import Copyright from '../../components/Copyright/Copyright';
 import content from '../../common/content';
-import techTheme from '../../common/techTheme';
 
 import './Resume.css';
 
@@ -31,7 +30,7 @@ class Resume extends Component {
           <Home />
         </Element>
         <Element name="ResumeAboutMe">
-          <AboutMe style={techTheme.github.style} />
+          <AboutMe />
         </Element>
         <Element name="ResumeSkills">
           <Skills skills={content.skills} tools={content.tools} />
