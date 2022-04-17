@@ -1,10 +1,20 @@
 import React from 'react';
-import { FaCreditCard, FaHardHat, FaMicrochip, FaRobot, FaShoppingCart } from 'react-icons/fa';
+import { FaCreditCard, FaHardHat, FaMicrochip, FaProjectDiagram, FaRobot, FaShoppingCart } from 'react-icons/fa';
 
 import moment from 'moment';
-import { MdSignalWifi4BarLock } from 'react-icons/md';
-import { GiMicroscope, GiRoad, GiRunningShoe, GiSharkJaws, GiSpaceSuit } from 'react-icons/gi';
-import { GrGraphQl } from 'react-icons/gr';
+import { MdArchitecture, MdSignalWifi4BarLock } from 'react-icons/md';
+import {
+  GiBrain,
+  GiMicroscope,
+  GiRoad,
+  GiRunningShoe,
+  GiServerRack,
+  GiSharkJaws,
+  GiSpaceSuit,
+  GiSquirrel,
+  GiWarpPipe,
+} from 'react-icons/gi';
+import { GrGraphQl, GrTest } from 'react-icons/gr';
 import {
   FcAutomotive,
   FcDatabase,
@@ -22,14 +32,34 @@ import {
   FcEngineering,
   FcParallelTasks,
   FcPrivacy,
+  FcDataProtection,
+  FcSearch,
+  FcBinoculars,
+  FcCollaboration,
+  FcDocument,
+  FcCustomerSupport,
+  FcTimeline,
+  FcManager,
 } from 'react-icons/fc';
 import { ReactComponent as Selenium } from 'devicon/icons/selenium/selenium-original.svg';
-import { ReactComponent as Apache } from 'devicon/icons/apache/apache-original.svg';
+import { ReactComponent as Mongodb } from 'devicon/icons/mongodb/mongodb-original.svg';
 import { AiFillRobot } from 'react-icons/ai';
-import { BsBugFill } from 'react-icons/bs';
-import { SiNike } from 'react-icons/si';
+import { BsBugFill, BsChatSquareText, BsFillEnvelopeFill, BsFillKanbanFill } from 'react-icons/bs';
+import {
+  SiApache,
+  SiApacheant,
+  SiApachesolr,
+  SiDatadog,
+  SiElasticsearch,
+  SiKibana,
+  SiNewrelic,
+  SiNike,
+  SiSplunk,
+  SiSumologic,
+} from 'react-icons/si';
 import { IoRocket } from 'react-icons/io5';
 import Avatar from '@mui/material/Avatar';
+import { DiScrum, IoMdGitBranch, VscOpenPreview, WiTime12 } from 'react-icons/all';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import agent007Image from '../data/agent-007.gif';
@@ -62,7 +92,7 @@ const CircleCiTech = {
 
 const SpringTech = {
   name: 'Spring',
-  icon: <Avatar style={{ backgroundColor: '#fff' }}>{techTheme.spring.icon}</Avatar>,
+  icon: <Avatar sx={{ backgroundColor: '#fff' }}>{techTheme.spring.icon}</Avatar>,
 };
 
 const ApiGatewayTech = { name: 'ApiGateway', icon: <Avatar>{techTheme.apiGateway.icon}</Avatar> };
@@ -70,6 +100,16 @@ const ApiGatewayTech = { name: 'ApiGateway', icon: <Avatar>{techTheme.apiGateway
 const LambdaTech = { name: 'Lambda', icon: <Avatar>{techTheme.lambda.icon}</Avatar> };
 
 const JavascriptTech = { name: 'Javascript', icon: <Avatar>{techTheme.javascript.icon}</Avatar> };
+
+const KubernetesTech = {
+  name: 'Kubernetes',
+  icon: <Avatar sx={{ backgroundColor: '#fff' }}>{techTheme.kubernetes.icon}</Avatar>,
+  iconBackground: techTheme.kubernetes.style.color,
+};
+
+const since = year => new Date().getFullYear() - year;
+const between = (year, laterYear) => laterYear - year;
+const stillUsed = () => new Date().getFullYear();
 
 export default {
   educations: [
@@ -135,11 +175,7 @@ export default {
         { name: 'Python', icon: techTheme.python.icon },
         { name: 'Linux', icon: techTheme.linux.icon },
         { name: 'Docker', icon: techTheme.docker.icon },
-        {
-          name: 'Kubernetes',
-          icon: <Avatar style={{ backgroundColor: '#fff' }}>{techTheme.kubernetes.icon}</Avatar>,
-          iconBackground: techTheme.kubernetes.style.color,
-        },
+        KubernetesTech,
         { name: 'Gitlab (CI)', icon: techTheme.gitlab.icon },
         { name: 'Artifactory', icon: techTheme.artifactory.icon },
         { name: 'Terraform', icon: techTheme.terraform.icon },
@@ -294,11 +330,7 @@ export default {
         },
         {
           name: 'Ant',
-          icon: (
-            <Avatar style={{ backgroundColor: 'white' }}>
-              <Apache />
-            </Avatar>
-          ),
+          icon: <SiApacheant />,
         },
       ],
       domains: [
@@ -661,4 +693,733 @@ export default {
       ],
     },
   ],
+  skills: {
+    technical: {
+      languages: [
+        {
+          ...JavaTech,
+          experience: between(2014, 2017) + since(2019),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'JUnit',
+              description: 'Unit and integration testing',
+              icon: JavaTech.icon,
+              experience: between(2015, 2017) + since(2019),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Spring (boot)',
+              description: 'Gluing together the various standards that make Enterprise Java what it is',
+              icon: SpringTech.icon,
+              experience: between(2015, 2017) + between(2019, 2020),
+              lastUsed: 2020,
+            },
+            {
+              name: 'Micronaut',
+              description: 'Using GraalVM and AOT to make java lambdas performant enough for the real world',
+              icon: techTheme.micronaut.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Gradle',
+              description:
+                'Someone thought it was a good idea to define java build processes using Groovy. Based on Maven',
+              icon: techTheme.gradle.icon,
+              experience: between(2016, 2017) + between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Maven',
+              description: 'Declarative stable java builds. Based on Ant',
+              icon: techTheme.maven.icon,
+              experience: between(2015, 2017) + between(2019, 2020),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Quarkus',
+              description: 'Using GraalVM and AOT to make java code fast in "scale to 0" use cases',
+              icon: techTheme.quarkus.icon,
+              experience: between(2020, 2021) + since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Tomcat',
+              description: 'A server to run WARs',
+              icon: techTheme.tomcat.icon,
+              experience: between(2015, 2017) + between(2019, 2020),
+              lastUsed: 2020,
+            },
+          ],
+        },
+        {
+          ...JavascriptTech,
+          experience: between(2014, 2019) + since(2021),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'Node',
+              description: 'Backend process/API development',
+              icon: techTheme.nodeJs.icon,
+              experience: since(2017),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Jest',
+              description: 'Test driven development for unit and integration tests of javascript code',
+              icon: techTheme.jest.icon,
+              experience: since(2018),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'React',
+              description: 'A popular UI framework developed by Metabook',
+              icon: techTheme.react.icon,
+              experience: since(2018),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Redux',
+              description: 'Global state management for react with fantastic debugging capabilities',
+              icon: techTheme.redux.icon,
+              experience: between(2017, 2019),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Cucumber',
+              description: 'Integration tests focusing on end user behavior',
+              icon: techTheme.cucumber.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Angular',
+              description: 'UI framework',
+              icon: techTheme.angular.icon,
+              experience: between(2016, 2017),
+              lastUsed: 2017,
+            },
+          ],
+        },
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+          experience: between(2012, 2014) + between(2017, 2019) + since(2021.5),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'Locust.io',
+              description: 'Easy load testing framework',
+              icon: techTheme.python.icon,
+              experience: between(2017, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'virtualenv',
+              description: 'Installing python + dependencies locally instead of at the system level',
+              icon: techTheme.python.icon,
+              experience: between(2017, 2019) + since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'scikit-learn',
+              description: 'Several tools for machine learning, e.g. SVM',
+              icon: techTheme.python.icon,
+              experience: between(2017, 2018),
+              lastUsed: 2018,
+            },
+            {
+              name: 'pytest',
+              description: 'Unit and integration testing python code',
+              icon: techTheme.python.icon,
+              experience: between(2017, 2018),
+              lastUsed: 2018,
+            },
+            {
+              name: 'opencv',
+              description: 'Python wrapper for OpenCV computer vision',
+              icon: techTheme.c.icon,
+              experience: between(2021.5, 2022),
+              lastUsed: 2022,
+            },
+          ],
+        },
+        {
+          name: 'C#',
+          icon: techTheme.csharp.icon,
+          experience: between(2014.5, 2015) + between(2020, 2021),
+          lastUsed: 2021,
+          frameworks: [
+            {
+              name: '.Net',
+              description: 'Analyzed legacy Microsoft Java code to use as specifications for new systems',
+              icon: techTheme.dotNet.icon,
+              experience: between(2020, 2021),
+              lastUsed: 2021,
+            },
+          ],
+        },
+        {
+          name: 'C(++)',
+          icon: techTheme.c.icon,
+          experience: between(2006, 2006.5) + between(2010, 2010.5) + between(2014, 2014.5),
+          lastUsed: 2014,
+          frameworks: [
+            {
+              name: 'opencv',
+              description:
+                'Computer vision library used for a few experiements such as finger counting and eye tracking',
+              icon: techTheme.cplusplus.icon,
+              experience: between(2014, 2014.5),
+              lastUsed: 2014,
+            },
+          ],
+        },
+      ],
+      persistence: [
+        {
+          name: 'SQL',
+          icon: <FcDataProtection />,
+          experience: between(2014, 2019) + since(2021.5),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'postgres',
+              description: 'Combination of DBA, schema development, and performance optimization',
+              icon: techTheme.postgres.icon,
+              experience: between(2017, 2019) + since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'mysql',
+              description: 'Combination of DBA and query development of existing schemas',
+              icon: techTheme.mysql.icon,
+              experience: between(2015, 2017) + since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'oracle',
+              description: 'Mostly DBA, with some query development for troubleshooting',
+              icon: techTheme.oracle.icon,
+              experience: between(2014, 2015),
+              lastUsed: 2015,
+            },
+          ],
+        },
+        {
+          name: 'NoSQL',
+          icon: <FcDataSheet />,
+          experience: between(2015, 2015.5) + between(2018, 2019) + between(2019, 2021),
+          lastUsed: 2021,
+          frameworks: [
+            {
+              name: 'DynamoDB',
+              description: 'AWS Key value store with useful event streaming and DR capabilities',
+              icon: techTheme.dynamoDb.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Reddis',
+              description: 'In memory cache',
+              icon: techTheme.others.icon, // todo reddis
+              experience: between(2018, 2019),
+              lastUsed: 2019,
+            },
+            {
+              name: 'Monogodb',
+              description: 'Storing and searching uniformly structured JSONs',
+              icon: <Mongodb />,
+              experience: between(2015, 2015.5),
+              lastUsed: 2015,
+            },
+          ],
+        },
+        {
+          name: 'Search',
+          icon: <FcSearch />,
+          experience: since(2016),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'Elasticsearch',
+              description: 'Full text search which builds on lucene',
+              icon: <SiElasticsearch />,
+              experience: since(2016),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Solr',
+              description: 'Full text search used as a cache on top of SQL database',
+              icon: <SiApachesolr />,
+              experience: between(2015, 2017),
+              lastUsed: 2017,
+            },
+            {
+              name: 'Lucene',
+              description: 'In-memory full text search',
+              icon: <SiApache />,
+              experience: between(2014.5, 2015),
+              lastUsed: 2015,
+            },
+          ],
+        },
+        {
+          name: 'Messaging',
+          icon: <BsFillEnvelopeFill />,
+          experience: between(2015, 2017) + between(2019, 2021.5),
+          lastUsed: 2021,
+          frameworks: [
+            {
+              name: 'SQS',
+              description: 'AWS queue service with guaranteed message delivery and useful DR capabilities',
+              icon: techTheme.sqs.icon,
+              experience: between(2016, 2017) + between(2019, 2021.5),
+              lastUsed: 2021,
+            },
+            {
+              name: 'RabbitMq',
+              description: 'Full featured message broker (topics + queues) written in erlang',
+              icon: techTheme.rabbitmq.icon,
+              experience: between(2015, 2017),
+              lastUsed: 2017,
+            },
+            {
+              name: 'Kinesis',
+              description: 'AWS event stream used by many services, e.g. DynamoDB event streaming.',
+              icon: techTheme.kinesis.icon,
+              experience: between(2020, 2021),
+              lastUsed: 2021,
+            },
+          ],
+        },
+      ],
+      cloud: [
+        {
+          name: 'AWS',
+          icon: techTheme.aws.icon,
+          experience: since(2017),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'S3',
+              icon: techTheme.s3.icon,
+              experience: since(2017),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'IAM',
+              icon: techTheme.iam.icon,
+              experience: since(2017),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'EC2',
+              icon: techTheme.ec2.icon,
+              experience: since(2017),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'RDS',
+              icon: techTheme.rds.icon,
+              experience: between(2017, 2019) + since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'SQS',
+              icon: techTheme.sqs.icon,
+              experience: between(2016, 2017) + between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'DynamoDB',
+              icon: techTheme.dynamoDb.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Lambda',
+              icon: techTheme.lambda.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'ApiGateway',
+              icon: techTheme.apiGateway.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Serverless Application Model (SAM)',
+              icon: <GiSquirrel />,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Cloudfront',
+              icon: techTheme.cloudfront.icon,
+              experience: since(2017),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Route53',
+              icon: techTheme.route53.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+
+            {
+              name: 'Glue',
+              icon: techTheme.glue.icon,
+              experience: between(2017, 2019),
+              lastUsed: 2019,
+            },
+          ],
+        },
+      ],
+      operational: [
+        {
+          name: 'Infrastructure as Code',
+          icon: <GiServerRack />,
+          experience: since(2017),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'Docker',
+              icon: techTheme.docker.icon,
+              experience: since(2017),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Terraform',
+              icon: techTheme.terraform.icon,
+              experience: between(2016, 2016.5) + since(2017),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Cloudformation',
+              icon: techTheme.aws.icon, // tood cloudformation icon
+              experience: since(2019),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Ansible',
+              icon: techTheme.ansible.icon,
+              experience: between(2016, 2016.5) + since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Podman',
+              icon: <Avatar sx={{ backgroundColor: '#fff' }}>{techTheme.podman.icon}</Avatar>,
+              experience: 0.1,
+              lastUsed: stillUsed(),
+            },
+          ],
+        },
+        {
+          name: 'Container Orchestration',
+          icon: techTheme.docker.icon,
+          experience: since(2018),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'docker-compose',
+              icon: techTheme.docker.icon,
+              experience: since(2019),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Nomad',
+              icon: techTheme.nomad.icon,
+              experience: between(2017, 2019),
+              lastUsed: 2019,
+            },
+            {
+              name: 'AWS ECS',
+              icon: techTheme.aws.icon, // todo ecs icon
+              experience: between(2020, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Kubernetes',
+              icon: KubernetesTech.icon,
+              experience: since(2021.5),
+              lastUsed: stillUsed(),
+            },
+          ],
+        },
+        {
+          name: 'Security Testing',
+          icon: techTheme.security.icon,
+          experience: since(2015),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'Peer Review',
+              description: 'Reviewing and testing processes with a critical approach to security',
+              icon: <GiMicroscope />,
+              experience: since(2015),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Dependabot',
+              description: 'Scanning dependencies for known CVEs in Github',
+              icon: GithubTech.icon,
+              experience: since(2017.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'OWASP Top 10',
+              description: 'A data driven approach to avoiding security issues via secure design',
+              icon: techTheme.security.icon,
+              experience: since(2019),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'SonarQube',
+              description: 'SAST of Java code in pipelines',
+              icon: JavaTech.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'SpotBugs',
+              description: 'SAST of Java code in pipelines',
+              icon: JavaTech.icon,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Gemnasium',
+              description: 'Scanning dependencies for known CVEs in Gitlab',
+              icon: techTheme.gitlab.icon,
+              experience: since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Aircrack-ng',
+              icon: techTheme.security.icon,
+              description: 'Pen testing wireless networks',
+              experience: between(2014, 2015),
+              lastUsed: 2015,
+            },
+          ],
+        },
+        {
+          name: 'Monitoring',
+          icon: (
+            <Avatar>
+              <FcBinoculars />
+            </Avatar>
+          ),
+          experience: since(2017),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'Datadog',
+              icon: <SiDatadog />,
+              experience: between(2017, 2019) + since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Sumologic',
+              icon: <SiSumologic />,
+              experience: between(2017, 2019),
+              lastUsed: 2019,
+            },
+            {
+              name: 'Newrelic',
+              description: 'APM for monitoring server KPIs',
+              icon: <SiNewrelic />,
+              experience: between(2016, 2017) + between(2019, 2020),
+              lastUsed: 2020,
+            },
+            {
+              name: 'Cloudwatch',
+              icon: techTheme.aws.icon, // todo cloudwatch icon
+              experience: since(2019),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Splunk',
+              description:
+                'Dashboard for auditing all events related to business transactions aggregated by correlation id',
+              icon: <SiSplunk />,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Kibana',
+              description: '',
+              icon: <SiKibana />,
+              experience: since(2021.5),
+              lastUsed: stillUsed(),
+            },
+          ],
+        },
+        {
+          name: 'CI/CD',
+          icon: <GiWarpPipe />,
+          experience: since(2015),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'CircleCI',
+              icon: CircleCiTech.icon,
+              experience: since(2017.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Jenkins',
+              icon: techTheme.jenkins.icon,
+              experience: between(2015, 2017) + between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Gitflow',
+              description:
+                'Branching pattern with long lived branches `main` and `develop`. New features branch out of `develop`',
+              icon: <IoMdGitBranch />,
+              experience: between(2015, 2017) + between(2019, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Github Flow',
+              description: 'Branching pattern where new features branch out and back into `main`',
+              icon: GithubTech.icon,
+              experience: between(2017, 2019) + since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Gitlab CI',
+              icon: techTheme.gitlab.icon,
+              experience: since(2021.5),
+              lastUsed: stillUsed(),
+            },
+          ],
+        },
+        {
+          name: '0 downtime deploy',
+          icon: <WiTime12 />,
+          experience: since(2015),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'Code review',
+              icon: <VscOpenPreview />,
+              experience: since(2015),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Integration testing',
+              icon: (
+                <Avatar sx={{ backgroundColor: '#fff' }}>
+                  <GrTest />
+                </Avatar>
+              ),
+              experience: since(2016),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'SAM canaries',
+              icon: <GiSquirrel />,
+              experience: between(2019, 2021),
+              lastUsed: 2021,
+            },
+          ],
+        },
+      ],
+    },
+    professional: {
+      projectManagement: [
+        {
+          name: 'Agile',
+          icon: <FcCollaboration />,
+          experience: since(2015),
+          lastUsed: new Date().getFullYear(),
+          frameworks: [
+            {
+              name: 'Scrum',
+              icon: <DiScrum />,
+              experience: between(2015, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Kanban',
+              icon: <BsFillKanbanFill />,
+              experience: between(2017, 2018) + since(2021),
+              lastUsed: stillUsed(),
+            },
+          ],
+        },
+        {
+          name: 'Team coordination',
+          icon: <FcDocument />,
+          experience: since(2015),
+          lastUsed: new Date().getFullYear(),
+          frameworks: [
+            {
+              name: 'Trello',
+              icon: techTheme.trello.icon,
+              experience: between(2015, 2019),
+              lastUsed: 2019,
+            },
+            {
+              name: 'Slack',
+              description: 'Bot development, meme production',
+              icon: techTheme.slack.icon,
+              experience: between(2017, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Hipchat',
+              description: 'Bot development via hubot',
+              icon: <BsChatSquareText />,
+              experience: between(2016, 2018),
+              lastUsed: 2018,
+            },
+            {
+              name: 'C4 diagrams',
+              icon: <FaProjectDiagram />,
+              experience: since(2018),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Architecture Decision Records',
+              icon: <MdArchitecture />,
+              experience: since(2018),
+              lastUsed: stillUsed(),
+            },
+          ],
+        },
+      ],
+      softSkills: [
+        {
+          name: 'Customer Service',
+          icon: <FcCustomerSupport />, // ssss
+          experience: since(2005),
+          frameworks: [],
+        },
+        {
+          name: 'Time management',
+          icon: <FcTimeline />,
+          experience: since(2010),
+          frameworks: [],
+        },
+        {
+          name: 'Growth mindset',
+          icon: <GiBrain />,
+          experience: since(2012),
+          frameworks: [],
+        },
+        {
+          name: 'Engineering leadership',
+          icon: <FcManager />,
+          experience: since(2017),
+          frameworks: [],
+        },
+      ],
+    },
+  },
 };

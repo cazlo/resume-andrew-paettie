@@ -19,7 +19,7 @@ const Projects = ({ projects }) => {
           <p>
             Most of my projects end up getting sold, along with my claim to the related IP.
             <br />
-            Here are some free ones I built to showcase my skills and mess around in my free-time.
+            Here are some things I built to showcase my skills and mess around with ideas in my free-time.
           </p>
         </div>
         <VerticalTimeline className="VerticalTimeline" animate={useMediaQuery(theme.breakpoints.up('lg'))}>

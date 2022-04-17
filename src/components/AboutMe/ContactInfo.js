@@ -1,31 +1,36 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
+import { MdAlternateEmail, MdPictureAsPdf } from 'react-icons/md';
+import { FcDocument } from 'react-icons/fc';
+import { ReactComponent as LinkedIn } from 'devicon/icons/linkedin/linkedin-original.svg';
+
 import ChipList from '../common/ChipList';
+import techTheme from '../../common/techTheme';
 
 const contactInfo = [
   {
-    icon: 'todo', // todo
+    icon: <MdAlternateEmail />,
     name: 'email',
     link: 'mailto:paettiea.job@gmail.com',
   },
   {
-    icon: 'todo', // todo
+    icon: techTheme.github.whiteIcon,
     name: 'Github',
     link: 'https://github.com/cazlo',
   },
   {
-    icon: 'todo', // todo
+    icon: <LinkedIn />,
     name: 'LinkedIn',
     link: 'https://www.linkedin.com/in/andrew-paettie/',
   },
   {
-    icon: 'todo', // todo
+    icon: <MdPictureAsPdf />,
     name: 'Resume PDF',
     link: '/static/resume/resume-Andrew-Paettie.pdf',
   },
   {
-    icon: 'todo', // todo
+    icon: <FcDocument />,
     name: 'Resume DOCX',
     link: '/static/resume/resume-Andrew-Paettie.docx',
   },
