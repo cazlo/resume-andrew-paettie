@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
 
-import { createTheme, ThemeProvider, StyledEngineProvider, adaptV4Theme } from '@mui/material/styles';
+import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -15,7 +15,12 @@ import createStore from '../../containers/SnakeGame/store';
 
 const styles = makeStyles(theme => ({
   NotFoundPaper: {
-    ...theme.mixins.gutters(),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     width: '100%',
@@ -37,22 +42,17 @@ const styles = makeStyles(theme => ({
   },
 }));
 
-const theme = createTheme(
-  adaptV4Theme({
-    type: 'dark',
-    palette: {
-      primary: {
-        main: '#689f38',
-      },
-      secondary: {
-        main: '#64dd17',
-      },
+const theme = createTheme({
+  type: 'dark',
+  palette: {
+    primary: {
+      main: '#689f38',
     },
-    typography: {
-      useNextVariants: true,
+    secondary: {
+      main: '#64dd17',
     },
-  }),
-);
+  },
+});
 
 export default function NotFound() {
   const classes = styles();
