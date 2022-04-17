@@ -25,7 +25,13 @@ export default function ChipList({ chips, getIcon, getLabel, getKey }) {
     >
       {chips.map(chip => (
         <ListItem key={getKey(chip)}>
-          <Chip variant="filled" size="medium" avatar={getIcon(chip)} label={getLabel(chip)} />
+          <Chip
+            variant="filled"
+            size="medium"
+            avatar={getIcon(chip)}
+            label={getLabel(chip)}
+            clickable={chip.link !== undefined}
+          />
         </ListItem>
       ))}
     </Box>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { GoGraph } from 'react-icons/go';
 import { FaCreditCard, FaHardHat, FaMicrochip, FaRobot, FaShoppingCart } from 'react-icons/fa';
 
 import moment from 'moment';
@@ -33,7 +32,6 @@ import { IoRocket } from 'react-icons/io5';
 import Avatar from '@mui/material/Avatar';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
-import amatorizationImage from '../data/amatorization.gif';
 import agent007Image from '../data/agent-007.gif';
 import snakeImage from '../data/snake.gif';
 import cryptoTradingImage from '../data/crypto-trade-analysis.png';
@@ -46,7 +44,6 @@ import { ReactComponent as BlueLogo } from '../data/Blue_Origin_Feather.svg';
 import coxAutoImage from '../data/cox_automative.png';
 
 const AiIcon = FaRobot;
-const MlIcon = GoGraph;
 
 const JavaTech = {
   name: 'Java',
@@ -86,10 +83,12 @@ export default {
         {
           name: 'AI',
           icon: <AiFillRobot />,
+          link: 'https://github.com/cazlo/exploring-AI',
         },
         {
           name: 'Machine Learning',
           icon: <FcScatterPlot />,
+          link: 'https://github.com/cazlo/exploring-machine-learning',
         },
         {
           name: 'Network Security',
@@ -98,10 +97,16 @@ export default {
         {
           name: 'Linux',
           icon: techTheme.linux.icon,
+          link: 'https://github.com/cazlo/academic-stuff',
         },
         {
           name: 'Database Design',
           icon: <FcDatabase />,
+        },
+        {
+          name: 'Computer Architecture',
+          icon: <FcDatabase />,
+          link: 'https://github.com/cazlo/MOOPS-Moo-on-MIPS',
         },
       ],
       languages: [
@@ -516,56 +521,6 @@ export default {
       image: agent007Image,
     },
     {
-      title: 'Artificial Intelligence',
-      subtitle: 'University Course',
-      date: 'March 2015',
-      techTheme: techTheme.python,
-      links: [
-        {
-          url: 'https://github.com/cazlo/exploring-AI',
-          text: 'View source code',
-        },
-      ],
-      technologies: [
-        {
-          name: 'Python',
-          icon: techTheme.python.icon,
-        },
-        {
-          name: 'AI',
-          icon: <AiIcon />,
-        },
-      ],
-      content: `Some homework for an AI class I took, implementing search and constraint solving
-          algorithms in python.`,
-      // image: '/img/ai-brain.jpg',
-    },
-    {
-      title: 'Machine Learning',
-      subtitle: 'University Course',
-      date: 'October 2014',
-      techTheme: techTheme.python,
-      links: [
-        {
-          url: 'https://github.com/cazlo/exploring-machine-learning',
-          text: 'View source code',
-        },
-      ],
-      technologies: [
-        {
-          name: 'Python',
-          icon: techTheme.python.icon,
-        },
-        {
-          name: 'ML',
-          icon: <MlIcon />,
-        },
-      ],
-      content: `Some homework for a machine learning class I took, aimed towards implementing and using
-          various prediction engines to classify data.`,
-      // image: '/img/ml-stats.png',
-    },
-    {
       title: 'Whiz Calc',
       subtitle: 'Android calculator app',
       date: 'January 2014',
@@ -620,28 +575,6 @@ export default {
       technologies: [JavaTech],
       content: `A simple side scroller implemented with Java Swing. Game engine built from scratch.`,
       image: heliGameImage,
-    },
-    {
-      title: 'Various School Projects',
-      subtitle: 'University Courses',
-      date: '2012 - 2014',
-      techTheme: techTheme.others,
-      links: [
-        {
-          url: 'https://github.com/cazlo/academic-stuff',
-          text: 'View source code',
-        },
-      ],
-      technologies: [
-        JavaTech,
-        {
-          name: 'C++',
-          icon: techTheme.cplusplus.icon,
-        },
-      ],
-      content: `Some things I've made for school. Pictured is a loan amortization calculator featuring
-       from scratch graphs and tables built using the swing UI framework for Java.`,
-      image: amatorizationImage,
     },
     {
       title: 'Backtrack',
