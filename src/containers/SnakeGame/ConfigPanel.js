@@ -222,8 +222,6 @@ ConfigPanel.propTypes = {
   numCols: PropTypes.number.isRequired,
   frameTimeout: PropTypes.number.isRequired,
   computedFrameTimeout: PropTypes.number.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  classes: PropTypes.object.isRequired,
   toggleEnableAstar: PropTypes.func.isRequired,
   toggleGreedy: PropTypes.func.isRequired,
   changeName: PropTypes.func.isRequired,
