@@ -23,11 +23,12 @@ module.exports = {
   testEnvironment: 'jsdom',
   transform: {
     '^.+\\.(js|jsx)$': './node_modules/react-scripts/config/jest/babelTransform.js',
+    '[/\\\\]node_modules/@mui[/\\\\].+\\.(js|jsx)$': './node_modules/react-scripts/config/jest/babelTransform.js',
     '^.+\\.css$': './node_modules/react-scripts/config/jest/cssTransform.js',
     '^(?!.*\\.(js|jsx|css|json)$)': './node_modules/react-scripts/config/jest/fileTransform.js',
   },
   transformIgnorePatterns: [
-    '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$',
+    // '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   moduleNameMapper: {
