@@ -58,8 +58,11 @@ import {
   SiSumologic,
 } from 'react-icons/si';
 import { IoRocket } from 'react-icons/io5';
+import { DiScrum } from 'react-icons/di';
+import { IoMdGitBranch } from 'react-icons/io';
+import { VscOpenPreview } from 'react-icons/vsc';
+import { WiTime12 } from 'react-icons/wi';
 import Avatar from '@mui/material/Avatar';
-import { DiScrum, IoMdGitBranch, VscOpenPreview, WiTime12 } from 'react-icons/all';
 import techTheme from './techTheme';
 import heliGameImage from '../data/heli-game.gif';
 import agent007Image from '../data/agent-007.gif';
