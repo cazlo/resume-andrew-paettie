@@ -280,7 +280,6 @@ SnakeGame.propTypes = {
   highScores: PropTypes.arrayOf(Object).isRequired,
   food: PropTypes.arrayOf(Object).isRequired,
   path: PropTypes.arrayOf(Object).isRequired,
-  classes: PropTypes.object.isRequired,
   // dispatches
   setSize: PropTypes.func.isRequired,
   play: PropTypes.func.isRequired,
