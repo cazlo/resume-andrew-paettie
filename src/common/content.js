@@ -40,6 +40,7 @@ import {
   FcCustomerSupport,
   FcTimeline,
   FcManager,
+  FcDeployment,
 } from 'react-icons/fc';
 import { ReactComponent as Selenium } from 'devicon/icons/selenium/selenium-original.svg';
 import { ReactComponent as Mongodb } from 'devicon/icons/mongodb/mongodb-original.svg';
@@ -872,7 +873,7 @@ export default {
             {
               name: 'opencv',
               description:
-                'Computer vision library used for a few experiements such as finger counting and eye tracking',
+                'Computer vision library used for a few experiments such as finger counting and eye tracking',
               icon: techTheme.cplusplus.icon,
               experience: between(2014, 2014.5),
               lastUsed: 2014,
@@ -1312,6 +1313,12 @@ export default {
               name: 'Code review',
               icon: <VscOpenPreview />,
               experience: since(2015),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Blue/Green Deployments',
+              icon: <FcDeployment />,
+              experience: since(2017),
               lastUsed: stillUsed(),
             },
             {
