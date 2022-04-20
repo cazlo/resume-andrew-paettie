@@ -11,7 +11,7 @@ import techTheme from '../../common/techTheme';
 const contactInfo = [
   {
     icon: <MdAlternateEmail />,
-    name: 'email',
+    name: 'Email',
     link: 'mailto:paettiea.job@gmail.com',
   },
   {
@@ -45,11 +45,6 @@ ButtonLink.propTypes = {
 
 export default function ContactInfo() {
   return (
-    <ChipList
-      chips={contactInfo}
-      getKey={c => `${c.name}-${c.link}`}
-      getLabel={c => ButtonLink(c)}
-      getIcon={c => c.icon}
-    />
+    <ChipList chips={contactInfo} getKey={c => `${c.name}-${c.link}`} getLabel={c => c.name} getIcon={c => c.icon} />
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import BottomNavigation from '@mui/material/BottomNavigation';
-import { FcDiploma1, FcEngineering, FcHome, FcManager, FcCommandLine, FcReading } from 'react-icons/fc';
+import { FcEngineering, FcHome, FcManager, FcCommandLine, FcReading } from 'react-icons/fc';
 
 import { Typography } from '@mui/material';
 import Link from './BottomNavLink';
@@ -74,15 +74,9 @@ const buttons = [
     icon: <FcEngineering />,
   },
   {
-    label: 'Work Experience',
+    label: 'Experience',
     name: 'ResumeExperience',
     icon: <FcManager />,
-  },
-  {
-    label: 'Education',
-    name: 'Resume-education',
-    icon: <FcDiploma1 />,
-    // offset: -16,
   },
   {
     label: 'Projects',

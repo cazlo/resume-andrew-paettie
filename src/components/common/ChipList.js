@@ -31,6 +31,8 @@ export default function ChipList({ chips, getIcon, getLabel, getKey }) {
             avatar={getIcon(chip)}
             label={getLabel(chip)}
             clickable={chip.link !== undefined}
+            href={chip.link}
+            component={!chip.link ? 'div' : 'a'}
           />
         </ListItem>
       ))}

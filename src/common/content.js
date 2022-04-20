@@ -99,9 +99,9 @@ const SpringTech = {
   icon: <Avatar sx={{ backgroundColor: '#fff' }}>{techTheme.spring.icon}</Avatar>,
 };
 
-const ApiGatewayTech = { name: 'ApiGateway', icon: <Avatar>{techTheme.apiGateway.icon}</Avatar> };
+const ApiGatewayTech = { name: 'ApiGateway', icon: techTheme.apiGateway.icon };
 
-const LambdaTech = { name: 'Lambda', icon: <Avatar>{techTheme.lambda.icon}</Avatar> };
+const LambdaTech = { name: 'Lambda', icon: techTheme.lambda.icon };
 
 const JavascriptTech = { name: 'Javascript', icon: <Avatar>{techTheme.javascript.icon}</Avatar> };
 
