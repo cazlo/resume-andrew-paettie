@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@mui/material/Typography/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import { Container } from '@mui/material';
+import { Timeline } from '@mui/lab';
+import Avatar from '@mui/material/Avatar';
+import { FcBriefcase } from 'react-icons/fc';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
-import './VerticalTimeline.css';
 import ProjectTile from './ProjectTile';
+import ReactiveTimelineItem from '../common/ReactiveTimelineItem';
 
 const Projects = ({ projects }) => {
   const theme = useTheme();
@@ -22,22 +23,17 @@ const Projects = ({ projects }) => {
             Here are some things I built to showcase my skills and mess around with ideas in my free-time.
           </p>
         </div>
-        <VerticalTimeline className="VerticalTimeline" animate={useMediaQuery(theme.breakpoints.up('lg'))}>
+        <Timeline position={useMediaQuery(theme.breakpoints.up('md')) ? 'alternate' : 'right'}>
           {projects.map(project => (
-            <VerticalTimelineElement
-              key={`project-${project.title}`}
-              icon={project.techTheme.icon}
-              iconStyle={project.techTheme.iconStyle || project.techTheme.style}
-              date={
-                <Typography variant="subtitle1" style={{ color: 'white' }}>
-                  {project.date}
-                </Typography>
-              }
-            >
-              <ProjectTile project={project} />
-            </VerticalTimelineElement>
+            <ReactiveTimelineItem
+              periodDescription={`${project.date}`}
+              key={`${project.date}-${project.title}`}
+              icon={<Avatar sx={{ backgroundColor: '#fff' }}>{project.techTheme.icon || <FcBriefcase />}</Avatar>}
+              child={<ProjectTile project={project} elevation={24} />}
+              // iconStyle={project.techTheme.iconStyle || project.techTheme.style}
+            />
           ))}
-        </VerticalTimeline>
+        </Timeline>
       </Container>
     </ScreenBlock>
   );
