@@ -5,6 +5,16 @@ import { MemoryRouter } from 'react-router-dom';
 import Projects from './Projects';
 import content from '../../common/content';
 
+// eslint-disable-next-line func-names
+const mock = function () {
+  return {
+    observe: jest.fn(),
+    disconnect: jest.fn(),
+  };
+};
+
+window.IntersectionObserver = mock;
+
 it('renders nothing without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
