@@ -1,72 +1,57 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography/Typography';
-import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
-import { FcGraduationCap, FcBriefcase } from 'react-icons/fc';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
+import { Timeline } from '@mui/lab';
+import { Container } from '@mui/material';
+import { FcBriefcase, FcGraduationCap } from 'react-icons/fc';
+import Avatar from '@mui/material/Avatar';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
-import techTheme from '../../common/techTheme';
-import './WorkAndEducation.css';
-import WorkTile from './WorkTile';
 import EducationTile from './EducationTile';
+import ReactiveTimelineItem from '../common/ReactiveTimelineItem';
+import WorkTile from './WorkTile';
 
-const formatPeriod = (start, end) => `${start} – ${end}`;
+const formatPeriod = duration => `${duration.startDate} – ${duration.endDate}`;
+
+const moveDateToCardBreakpoint = 'md';
 
 // positions and educations will like be common/content.projects
 const WorkAndEducation = ({ positions, educations }) => {
   const theme = useTheme();
+  const ref = useRef(null);
   return (
     <ScreenBlock id="Resume-work" className="ResumeWorkAndEducationBlock">
-      <div className="container">
+      <Container ref={ref}>
         <div className="heading">
           <h2>Experience and Education</h2>
           <Typography>My previous jobs and other qualifications.</Typography>
         </div>
 
-        <VerticalTimeline animate={useMediaQuery(theme.breakpoints.up('lg'))}>
+        <Timeline position={useMediaQuery(theme.breakpoints.up(moveDateToCardBreakpoint)) ? 'alternate' : 'right'}>
           {positions.map((position, i) => (
-            <VerticalTimelineElement
-              className="Resume-position"
-              key={i} // eslint-disable-line react/no-array-index-key
-              icon={position.icon || <FcBriefcase />}
-              iconStyle={techTheme.postgres.style}
-              date={
-                <Typography variant="subtitle1" style={{ color: 'white' }}>
-                  {formatPeriod(position.startDate, position.endDate)}
-                </Typography>
-              }
-            >
-              <WorkTile position={position} />
-            </VerticalTimelineElement>
+            <ReactiveTimelineItem
+              periodDescription={formatPeriod(position)}
+              key={formatPeriod(position)}
+              icon={<Avatar sx={{ backgroundColor: '#fff' }}>{position.icon || <FcBriefcase />}</Avatar>}
+              child={<WorkTile position={position} index={i} elevation={24 - i * 5.7} />}
+            />
           ))}
-        </VerticalTimeline>
-
-        <div id="Resume-education">
-          <VerticalTimeline animate={useMediaQuery(theme.breakpoints.up('lg'))}>
-            {educations.map((education, i) => (
-              <VerticalTimelineElement
-                position={i % 2 ? 'left' : 'right'}
-                id=""
-                className="Resume-position"
-                key={i} // eslint-disable-line react/no-array-index-key
-                icon={<FcGraduationCap />}
-                iconStyle={{
-                  background: '#c65121', // utd color
-                }}
-                date={
-                  <Typography variant="subtitle1" style={{ color: 'white' }}>
-                    {formatPeriod(education.startDate, education.endDate)}
-                  </Typography>
-                }
-              >
-                <EducationTile education={education} />
-              </VerticalTimelineElement>
-            ))}
-          </VerticalTimeline>
-        </div>
-      </div>
+          {educations.map((education, i) => (
+            <ReactiveTimelineItem
+              periodDescription={formatPeriod(education)}
+              key={formatPeriod(education)}
+              icon={
+                <Avatar sx={{ backgroundColor: '#c65121' /* utd color */ }}>
+                  {education.icon || <FcGraduationCap />}
+                </Avatar>
+              }
+              child={<EducationTile education={education} elevation={24 - i} />}
+            />
+          ))}
+        </Timeline>
+      </Container>
     </ScreenBlock>
   );
 };
