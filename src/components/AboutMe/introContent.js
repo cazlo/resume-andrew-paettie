@@ -18,12 +18,13 @@ import sageFlower from '../../data/intro/sage-flowers.jpg';
 import harvesting from '../../data/intro/harvesting.jpg';
 import bbq from '../../data/intro/smoked-goodness.jpg';
 import chanterelle from '../../data/intro/hunting-chanterelle.jpg';
+import potato from '../../data/intro/potato.jpg';
 
 export default {
   self: {
     pics: [
       {
-        title: 'Me',
+        title: '',
         description: 'On some hill',
         img: selfImg,
       },
@@ -57,17 +58,17 @@ export default {
   computers: [
     {
       title: '2022',
-      description: 'TODO specs',
+      description: 'Frame.work. Intel i7-1165G7 (4/8 Core) CPU 64GB RAM',
       img: frameworkComputer,
     },
     {
       title: '2019',
-      description: 'TODO specs',
+      description: 'AMD Ryzen 7 (8/16 Core) CPU 32G RAM AMD 5700XT 8G GPU',
       img: computer2019,
     },
     {
       title: '2015',
-      description: 'TODO specs',
+      description: 'Intel i7-5820K (6/12 Core) CPU 32G RAM Nvidia GTX 970 4G GPU',
       img: redComputer,
     },
     {
@@ -77,8 +78,13 @@ export default {
     },
     {
       title: '2009',
-      description: 'TODO specs',
+      description: 'Intel Q6600 (4 Core) CPU 16G RAM ATI 4850 512M GPU',
       img: liquidCooling,
+    },
+    {
+      title: '2004',
+      description: 'Athlon 64 CPU 2G RAM ATI 9200 SE GPU 64M GPU',
+      img: potato,
     },
   ],
   creating: [
