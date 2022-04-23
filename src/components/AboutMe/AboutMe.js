@@ -1,12 +1,11 @@
 import React from 'react';
 import { Container, ImageList, ImageListItem, ImageListItemBar, Paper, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/styles';
-
 import PropTypes from 'prop-types';
-
 import Grid from '@mui/material/Grid/Grid';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import introContent from './introContent';
 import ContactInfo from './ContactInfo';
