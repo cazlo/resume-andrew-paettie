@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { styled } from '@mui/material/styles';
-
 import Typography from '@mui/material/Typography/Typography';
 import Grid from '@mui/material/Grid/Grid';
 import { Container, Paper } from '@mui/material';
-
 import Box from '@mui/material/Box';
+
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import content from '../../common/content';
 import SkillTable from './SkillTable';
