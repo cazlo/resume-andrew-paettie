@@ -1,10 +1,12 @@
 import React from 'react';
-import { Container, IconButton, ImageList, ImageListItem, ImageListItemBar, Paper, Typography } from '@mui/material';
+import { Container, ImageList, ImageListItem, ImageListItemBar, Paper, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/styles';
 
 import PropTypes from 'prop-types';
 
 import Grid from '@mui/material/Grid/Grid';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import introContent from './introContent';
 import ContactInfo from './ContactInfo';
@@ -17,21 +19,22 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const ImgItem = ({ item }) => (
-  <ImageListItem>
-    <img
-      src={`${item.img}?w=248&fit=crop&auto=format`}
-      srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-      alt={item.title}
-      loading="lazy"
-    />
-    <ImageListItemBar
-      title={item.title}
-      subtitle={item.description}
-      actionIcon={<IconButton sx={{ color: 'rgba(255, 255, 255, 0.54)' }} aria-label={`info about ${item.title}`} />}
-    />
-  </ImageListItem>
-);
+const ImgItem = ({ item }) => {
+  const theme = useTheme();
+  return (
+    <Tooltip title={item.description || ''}>
+      <ImageListItem>
+        <img
+          src={`${item.img}?w=248&fit=crop&auto=format`}
+          srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+          alt={item.title}
+          loading="lazy"
+        />
+        {useMediaQuery(theme.breakpoints.up('md')) && item.title && <ImageListItemBar subtitle={item.title} />}
+      </ImageListItem>
+    </Tooltip>
+  );
+};
 
 ImgItem.propTypes = {
   item: PropTypes.shape({

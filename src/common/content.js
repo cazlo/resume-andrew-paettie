@@ -79,6 +79,8 @@ import coxAutoImage from '../data/cox_automative.png';
 
 const AiIcon = FaRobot;
 
+const WhiteBackgroundAvatar = icon => <Avatar style={{ backgroundColor: '#fff' }}>{icon}</Avatar>;
+
 const JavaTech = {
   name: 'Java',
   icon: <Avatar style={{ backgroundColor: techTheme.java.iconStyle.background }}>{techTheme.java.icon}</Avatar>,
@@ -86,17 +88,17 @@ const JavaTech = {
 
 const GithubTech = {
   name: 'Github',
-  icon: <Avatar style={{ backgroundColor: '#fff' }}>{techTheme.github.icon}</Avatar>,
+  icon: WhiteBackgroundAvatar(techTheme.github.icon),
 };
 
 const CircleCiTech = {
   name: 'CircleCI',
-  icon: <Avatar style={{ backgroundColor: '#fff' }}>{techTheme.circleci.icon}</Avatar>,
+  icon: WhiteBackgroundAvatar(techTheme.circleci.icon),
 };
 
 const SpringTech = {
   name: 'Spring',
-  icon: <Avatar sx={{ backgroundColor: '#fff' }}>{techTheme.spring.icon}</Avatar>,
+  icon: WhiteBackgroundAvatar(techTheme.spring.icon),
 };
 
 const ApiGatewayTech = { name: 'ApiGateway', icon: techTheme.apiGateway.icon };
@@ -110,6 +112,8 @@ const KubernetesTech = {
   icon: <Avatar sx={{ backgroundColor: '#fff' }}>{techTheme.kubernetes.icon}</Avatar>,
   iconBackground: techTheme.kubernetes.style.color,
 };
+
+const TerraformTech = { name: 'Terraform', icon: WhiteBackgroundAvatar(techTheme.terraform.icon) };
 
 const since = year => new Date().getFullYear() - year;
 const between = (year, laterYear) => laterYear - year;
@@ -182,7 +186,7 @@ export default {
         KubernetesTech,
         { name: 'Gitlab (CI)', icon: techTheme.gitlab.icon },
         { name: 'Artifactory', icon: techTheme.artifactory.icon },
-        { name: 'Terraform', icon: techTheme.terraform.icon },
+        TerraformTech,
         { name: 'Ansible', icon: techTheme.ansible.icon },
         { name: 'AWS', icon: techTheme.aws.icon },
         { name: 'EC2', icon: <Avatar>{techTheme.ec2.icon}</Avatar> },
@@ -223,7 +227,7 @@ export default {
         { name: 'Docker', icon: techTheme.docker.icon },
         GithubTech,
         { name: 'Jenkins', icon: techTheme.jenkins.icon },
-        { name: 'Terraform', icon: techTheme.terraform.icon },
+        TerraformTech,
         { name: 'AWS', icon: techTheme.aws.icon },
         ApiGatewayTech,
         LambdaTech,
@@ -255,7 +259,7 @@ export default {
         { name: 'Docker', icon: techTheme.docker.icon },
         GithubTech,
         CircleCiTech,
-        { name: 'Terraform', icon: techTheme.terraform.icon },
+        TerraformTech,
         { name: 'AWS', icon: techTheme.aws.icon },
         { name: 'EC2', icon: <Avatar>{techTheme.ec2.icon}</Avatar> },
         { name: 'Nomad', icon: techTheme.nomad.icon },
@@ -1096,8 +1100,7 @@ export default {
               lastUsed: stillUsed(),
             },
             {
-              name: 'Terraform',
-              icon: techTheme.terraform.icon,
+              ...TerraformTech,
               experience: between(2016, 2016.5) + since(2017),
               lastUsed: stillUsed(),
             },
