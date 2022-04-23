@@ -1,61 +1,14 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import { FcEngineering, FcHome, FcManager, FcCommandLine, FcReading } from 'react-icons/fc';
+import { BottomNavigationAction, SvgIcon } from '@mui/material';
+import Scroll from 'react-scroll';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { Typography } from '@mui/material';
-import Link from './BottomNavLink';
-
-const PREFIX = 'BottomNav';
-
-const classes = {
-  BottomNav: `${PREFIX}-BottomNav`,
-  BottomNavLink: `${PREFIX}-BottomNavLink`,
-  BottomNavLabel: `${PREFIX}-BottomNavLabel`,
-};
-
-const StyledBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
-  [`&.${classes.BottomNav}`]: {
-    width: '100%',
-    position: 'fixed',
-    bottom: 0,
-
-    display: 'flex',
-    flexFlow: 'row wrap',
-    justifyContent: 'space-around',
-  },
-
-  [`& .${classes.BottomNavLink}`]: {
-    width: '100%',
-    minWidth: '60px',
-    maxWidth: '168px',
-    flex: 1,
-    display: 'inline-flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    color: '#e9e9e9',
-    cursor: 'pointer',
-    outline: 'none',
-    transition: 'color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-
-    [theme.breakpoints.down('md')]: {
-      // fontSize: 0,
-      // minWidth: '25%',
-      paddingTop: '10px',
-      paddingBottom: '10px',
-    },
-  },
-  [`& .${classes.BottomNavLabel}`]: {
-    [theme.breakpoints.down('md')]: {
-      display: 'hidden',
-      fontSize: 0,
-      // minWidth: '25%',
-      paddingTop: '10px',
-      paddingBottom: '10px',
-    },
-  },
-}));
+const { Link } = Scroll;
+// eslint-disable-next-line react/jsx-props-no-spreading,no-unused-vars
+const SLink = React.forwardRef((props, ref) => <Link {...props} />);
 
 const buttons = [
   {
@@ -67,44 +20,48 @@ const buttons = [
     label: 'About Me',
     name: 'ResumeAboutMe',
     icon: <FcReading />,
+    offset: 12,
   },
   {
     label: 'Skills',
     name: 'ResumeSkills',
     icon: <FcEngineering />,
+    offset: 18,
   },
   {
     label: 'Experience',
     name: 'ResumeExperience',
     icon: <FcManager />,
+    offset: 18,
   },
   {
     label: 'Projects',
     name: 'ResumeProjects',
     icon: <FcCommandLine />,
+    offset: 18,
   },
 ];
 
 export default function SimpleBottomNavigation() {
+  const theme = useTheme();
   return (
-    <StyledBottomNavigation value="0" className={classes.BottomNav}>
-      {buttons.map((button, j) => (
-        <Link
-          key={j} // eslint-disable-line react/no-array-index-key
-          className={classes.BottomNavLink}
+    <BottomNavigation
+      showLabels={useMediaQuery(theme.breakpoints.up('md'))}
+      sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
+    >
+      {buttons.map(button => (
+        <BottomNavigationAction
+          icon={<SvgIcon>{button.icon}</SvgIcon>}
+          label={button.label}
+          key={`${button.label}-${button.name}`}
           to={button.name}
-          activeClass="active"
           spy
           smooth
           offset={button.offset}
           duration={500}
-        >
-          {button.icon}
-          <Typography className={classes.BottomNavLabel} variant="subtitle2">
-            {button.label}
-          </Typography>
-        </Link>
+          component={SLink}
+        />
       ))}
-    </StyledBottomNavigation>
+    </BottomNavigation>
   );
 }
