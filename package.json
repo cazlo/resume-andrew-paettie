@@ -58,7 +58,7 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "FAST_REFRESH=false; react-scripts start",
     "build": "(react-scripts build)",
     "build-run": "npm run build && serve -s build",
     "test": "react-scripts test ",
