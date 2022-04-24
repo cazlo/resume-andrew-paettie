@@ -1,12 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaHome } from 'react-icons/fa';
 
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
-import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography/Typography';
 
 import { Provider } from 'react-redux';
 import SnakeGame from '../../containers/SnakeGame/SnakeGame';
@@ -59,13 +55,7 @@ export default function NotFound() {
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <Paper className={classes.NotFoundPaper}>
-          <Button component={Link} variant="contained" target="_blank" to="/" className={classes.NotFoundButton}>
-            <FaHome size="2em" />
-          </Button>
-          <Typography className={classes.Heading}>Path Not Found</Typography>
-          <Typography className={classes.SubHeading}>Commence path finding...</Typography>
-        </Paper>
+        <Paper className={classes.NotFoundPaper} />
         <Provider store={createStore()}>
           <SnakeGame />
         </Provider>

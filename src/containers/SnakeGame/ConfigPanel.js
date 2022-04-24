@@ -16,6 +16,7 @@ import Card from '@mui/material/Card/Card';
 import { CardContent, CardHeader, Container, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
 
 import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { changeName, setAlgorithm, toggleShowPath } from './actions/aiConfigAction';
 import { setFrameLimit, setSize, setSpeed, toggleWallsAreFatal } from './actions/gameAction';
 import Action from './actions/Action';
@@ -84,9 +85,9 @@ const ConfigPanel = props => {
     <Card sx={{ backgroundColor: theme.palette.grey['500'] }}>
       <CardHeader title="Settings" />
       <CardContent>
-        <Stack direction="row" spacing={4}>
+        <Stack direction={useMediaQuery(theme.breakpoints.up('md')) ? 'row' : 'column'} spacing={4}>
           <Card>
-            <CardHeader subheader="Game Settings" />
+            <CardHeader subheader="Game Settings " />
             <CardContent>
               <Grid container sx={{ flexGrow: 1 }} justifyContent="center" spacing={2}>
                 <Grid item>

@@ -16,11 +16,11 @@ import Hidden from '@mui/material/Hidden';
 
 import withWindowSize from './util/withWindowSize';
 import Scoreboard from './Scoreboard';
-import ConfigDialog from './ConfigPanel';
 import { play, setSize, changeDirection, gameOver } from './actions/gameAction';
 import GameGrid from './util/Grid';
 import GameState from './util/GameState';
 import techTheme from '../../common/techTheme';
+import SnakeNav from './SnakeNav';
 
 const { DEFAULT_BOX_SIZE, DEFAULT_BOARD_SIZE } = GameGrid;
 const { PLAYING } = GameState;
@@ -43,7 +43,7 @@ const Root = styled('div')(() => ({
   },
 
   [`&.${classes.root}`]: {
-    margin: '10px auto',
+    margin: '3em auto',
     width: '98%',
   },
 }));
@@ -183,6 +183,7 @@ class SnakeGame extends Component {
         role="presentation"
         // style={style}
       >
+        <SnakeNav />
         <Grid container spacing={8}>
           <Grid item xs={12} className={classes.canvasContainer}>
             {/* eslint-disable-next-line no-return-assign */}
@@ -251,11 +252,6 @@ class SnakeGame extends Component {
                 />
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Paper>
-              <ConfigDialog />
-            </Paper>
           </Grid>
           <Grid item xs>
             <Paper>
