@@ -1,11 +1,15 @@
 import { playGame } from './testHelper';
-import { toggleGreedy, toggleEnableAstar } from '../../actions/aiConfigAction';
+import Action from '../../actions/Action';
 
 describe('snake can navigate through a world without wrapping', () => {
-  it('runs until game over A*', () => playGame({ size: 8, aiAction: toggleEnableAstar, wallsAreFatal: true }), 10000);
+  it(
+    'runs until game over A*',
+    () => playGame({ size: 8, algorithm: Action.ALGORITHMS.astar, wallsAreFatal: true }),
+    15000,
+  );
   it(
     'runs until game over Greedy SP->Tail',
-    () => playGame({ size: 8, aiAction: toggleGreedy, wallsAreFatal: true }),
-    10000,
+    () => playGame({ size: 8, algorithm: Action.ALGORITHMS.greedy, wallsAreFatal: true }),
+    15000,
   );
 });
