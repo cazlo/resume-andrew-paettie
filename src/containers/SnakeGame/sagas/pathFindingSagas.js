@@ -7,6 +7,7 @@ import { finishPathFind, pathNotFound } from '../actions/pathFindingAction';
 import { LEFT, RIGHT, UP, DOWN } from '../util/Direction';
 import PositionUtil from '../util/PositionUtil';
 import { computePerfectScore } from '../reducers/gameReducer';
+import Action from '../actions/Action';
 
 const getNeighboringNodeDirections = ({ x, y, numRows, numCols, wallsAreFatal }) => {
   const left = wallsAreFatal && x - 1 < 0 ? null : { x: x - 1 < 0 ? numCols - 1 : x - 1, y, direction: LEFT };
@@ -385,7 +386,7 @@ export function* pathFindingSaga() {
   // while (true) {
   //   yield take([Action.MOVE_FINISHED]);
   const state = yield select();
-  if (state.aiConfig.aStar) {
+  if (state.aiConfig.algorithm === Action.ALGORITHMS.astar) {
     const { snake } = state.game;
     const { food } = state.game;
     const { numRows, numCols, wallsAreFatal } = state.game.game;
@@ -420,7 +421,7 @@ export function* pathFindingSaga() {
         });
       }
     }
-  } else if (state.aiConfig.greedy) {
+  } else if (state.aiConfig.algorithm === Action.ALGORITHMS.greedy) {
     const { snake } = state.game;
     const { food } = state.game;
     const { numRows, numCols, wallsAreFatal } = state.game.game;

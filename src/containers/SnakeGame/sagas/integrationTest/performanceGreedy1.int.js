@@ -1,10 +1,10 @@
 import { performanceTest } from './testHelper';
-import { toggleGreedy } from '../../actions/aiConfigAction';
+import Action from '../../actions/Action';
 
 performanceTest({
   gamesToSimulate: 30,
   avgThreshold: 0.9,
   size: 8,
-  aiAction: toggleGreedy,
+  algorithm: Action.ALGORITHMS.greedy,
   name: 'Greedy SP->Tail 90% over 30 games',
 });

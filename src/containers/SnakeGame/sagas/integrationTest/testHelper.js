@@ -10,6 +10,7 @@ import { runGame } from '../gameSagas';
 import { play, setSize, setFrameLimit, toggleWallsAreFatal } from '../../actions/gameAction';
 import Action from '../../actions/Action';
 import { computePerfectScore } from '../../reducers/gameReducer';
+import { setAlgorithm } from '../../actions/aiConfigAction';
 
 const createStore = sagaMiddleware => {
   const middleware = [...getDefaultMiddleware(), sagaMiddleware];
@@ -20,12 +21,12 @@ const createStore = sagaMiddleware => {
   });
 };
 
-export const playGame = ({ size, aiAction, limit, wallsAreFatal = false }) => {
+export const playGame = ({ size, algorithm, limit, wallsAreFatal = false }) => {
   const sagaMiddleware = createSagaMiddleware();
   const store = createStore(sagaMiddleware);
   const saga = sagaMiddleware.run(() => runGame({}));
   store.dispatch(setSize({ numRows: size, numCols: size }));
-  store.dispatch(aiAction({ target: { checked: true } }));
+  store.dispatch(setAlgorithm(algorithm));
   if (limit) {
     store.dispatch(setFrameLimit({ limit }));
   }
@@ -45,17 +46,17 @@ export const playGame = ({ size, aiAction, limit, wallsAreFatal = false }) => {
 };
 
 // here avgThreshold is expected to be the % of perfect score which should be achieved on avg
-export const performanceTest = ({ gamesToSimulate, avgThreshold, size = 10, aiAction, name }) => {
+export const performanceTest = ({ gamesToSimulate, avgThreshold, size = 10, algorithm, name }) => {
   const threshold = computePerfectScore(size, size) * avgThreshold;
   return describe(name, () => {
     let results = [];
     let scores = [];
     beforeAll(async () => {
-      results = await Promise.map(new Array(gamesToSimulate), () => playGame({ size, aiAction }), {
+      results = await Promise.map(new Array(gamesToSimulate), () => playGame({ size, algorithm }), {
         concurrency: 5,
       });
       scores = results.map(s => s.score);
-    }, 120000);
+    }, 5 * 60 * 1000);
 
     it('average score at or above threshold', async () => {
       const avg = _.sum(scores) / gamesToSimulate;

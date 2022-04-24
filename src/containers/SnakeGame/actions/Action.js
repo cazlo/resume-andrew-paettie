@@ -23,10 +23,14 @@ const Action = {
   PATH_NOT_FOUND: 'PATH_NOT_FOUND',
   IGNORE_STALE_RESULT: 'IGNORE_STALE_RESULT',
   // AI config
-  TOGGLE_ENABLE_A_STAR: 'TOGGLE_ENABLE_A_STAR',
-  TOGGLE_GREEDY: 'TOGGLE_GREEDY',
+  SET_ALGORITHM: 'SET_ALGORITHM',
   TOGGLE_SHOW_PATH: 'TOGGLE_SHOW_PATH',
   CHANGE_NAME: 'CHANGE_NAME',
+  ALGORITHMS: {
+    greedy: 'greedy',
+    astar: 'astar',
+    none: 'none',
+  },
 };
 
 export default Action;

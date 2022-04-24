@@ -1,16 +1,9 @@
 import Action from './Action';
 
-export const toggleEnableAstar = event => dispatch => {
+export const setAlgorithm = algorithm => dispatch => {
   dispatch({
-    type: Action.TOGGLE_ENABLE_A_STAR,
-    checked: event.target.checked,
-  });
-};
-
-export const toggleGreedy = event => dispatch => {
-  dispatch({
-    type: Action.TOGGLE_GREEDY,
-    checked: event.target.checked,
+    type: Action.SET_ALGORITHM,
+    algorithm,
   });
 };
 

@@ -5,7 +5,7 @@ import rootReducer from '../../reducers';
 import { runGame } from '../gameSagas';
 import Action from '../../actions/Action';
 
-const createStore = (sagaMiddleware, food, aiConfig) => {
+const createStore = (sagaMiddleware, food, algorithm) => {
   const middleware = [...getDefaultMiddleware(), sagaMiddleware];
   return configureStore({
     reducer: rootReducer,
@@ -78,19 +78,17 @@ const createStore = (sagaMiddleware, food, aiConfig) => {
         highScores: [],
       },
       aiConfig: {
-        aStar: true,
+        algorithm,
         showPath: false,
-        greedy: false,
         playerName: 'SKYNET',
-        ...aiConfig,
       },
     },
   });
 };
 
-const playGame = (food, aiConfig) => {
+const playGame = (food, algorithm) => {
   const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(sagaMiddleware, food, aiConfig);
+  const store = createStore(sagaMiddleware, food, algorithm);
   const saga = sagaMiddleware.run(() => runGame({ waitOnPlay: false, doReset: false }));
   return saga.toPromise().then(() => {
     // assertions
@@ -109,14 +107,14 @@ describe('snake can accept the inevitability of death', () => {
       y: 2,
     },
   ];
-  it("A* doesn't try to step outside of the world", () => playGame(aFood, { aStar: true, greedy: false }), 10000);
-  it("Greedy doesn't try to step outside of the world", () => playGame(aFood, { greedy: true, aStar: false }), 10000);
+  it("A* doesn't try to step outside of the world", () => playGame(aFood, Action.ALGORITHMS.astar), 10000);
+  it("Greedy doesn't try to step outside of the world", () => playGame(aFood, Action.ALGORITHMS.greedy), 10000);
 });
 
 describe("snake doesn't care when there is no food", () => {
   const aFood = [];
-  it('A* DGAF about food', () => playGame(aFood, { aStar: true, greedy: false }), 10000);
-  it('Greedy DGAF about food', () => playGame(aFood, { greedy: true, aStar: false }), 10000);
+  it('A* DGAF about food', () => playGame(aFood, Action.ALGORITHMS.astar), 10000);
+  it('Greedy DGAF about food', () => playGame(aFood, Action.ALGORITHMS.greedy), 10000);
 });
 
 export default playGame;
