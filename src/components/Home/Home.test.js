@@ -10,6 +10,6 @@ it('renders without crashing', () => {
   root.render(
     <MemoryRouter location="someLocation" context={{}}>
       <Home />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 });

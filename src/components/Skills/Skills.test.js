@@ -11,7 +11,7 @@ it('renders skills with no data without crashing', () => {
   root.render(
     <MemoryRouter location="someLocation" context={{}}>
       <Skills skills={[]} tools={[]} styles={{}} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 });
 
@@ -21,6 +21,6 @@ it('renders skills with real data without crashing', () => {
   root.render(
     <MemoryRouter location="someLocation" context={{}}>
       <Skills skills={content.skills} tools={content.tools} styles={{}} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 });

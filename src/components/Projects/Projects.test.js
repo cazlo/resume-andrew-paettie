@@ -21,7 +21,7 @@ it('renders nothing without crashing', () => {
   root.render(
     <MemoryRouter location="someLocation" context={{}}>
       <Projects projects={[]} style={{}} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 });
 
@@ -31,6 +31,6 @@ it('renders content without crashing', () => {
   root.render(
     <MemoryRouter location="someLocation" context={{}}>
       <Projects projects={content.projects} style={{}} />
-    </MemoryRouter>
+    </MemoryRouter>,
   );
 });
