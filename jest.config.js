@@ -28,7 +28,7 @@ module.exports = {
     '^(?!.*\\.(js|jsx|css|json)$)': './node_modules/react-scripts/config/jest/fileTransform.js',
   },
   transformIgnorePatterns: [
-    // '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$',
+    '[/\\\\]node_modules[/\\\\].+\\.(mjs|cjs)$',
     '^.+\\.module\\.(css|sass|scss)$',
   ],
   moduleNameMapper: {
@@ -36,4 +36,5 @@ module.exports = {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
   moduleFileExtensions: ['web.js', 'js', 'json', 'web.jsx', 'jsx', 'node'],
+  moduleDirectories: ["node_modules", "src"],
 };
