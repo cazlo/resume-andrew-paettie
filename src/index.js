@@ -1,9 +1,10 @@
 import React from 'react';
-import { hydrate, render } from 'react-dom';
+import { hydrateRoot } from 'react-dom';
 import WebFont from 'webfontloader';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 
+import { createRoot } from 'react-dom/client';
 import App from './App';
 
 WebFont.load({
@@ -16,11 +17,12 @@ WebFont.load({
   },
 });
 
-const rootElement = document.getElementById('root');
-const spawnFn = rootElement.hasChildNodes() ? hydrate : render;
-spawnFn(
+const app = (
   <BrowserRouter>
     <App />
-  </BrowserRouter>,
-  document.getElementById('root'),
+  </BrowserRouter>
 );
+
+const rootElement = document.getElementById('root');
+if (rootElement.hasChildNodes()) hydrateRoot(rootElement, app);
+else createRoot(rootElement).render(app);
