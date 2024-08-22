@@ -1,9 +1,9 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "extends": [
 //    "eslint:recommended",
-    "react-app",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "airbnb",
     "prettier"
   ],
@@ -19,8 +19,12 @@
     "jsx-a11y"
   ],
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module",
+    "requireConfigFile": false,
+//    "ecmaVersion": 2018,
+//    "sourceType": "module",
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+    },
     "ecmaFeatures": {
       "jsx": true
     }

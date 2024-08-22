@@ -1,4 +1,4 @@
-FROM circleci/node:10.13-jessie-browsers
+FROM circleci/node:20-jessie-browsers
 RUN sudo mkdir /resume && sudo chown circleci /resume
 WORKDIR /resume
 COPY package.json package-lock.json ./

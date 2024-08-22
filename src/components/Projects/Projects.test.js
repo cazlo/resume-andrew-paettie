@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { MemoryRouter } from 'react-router-dom';
 
+import { createRoot } from 'react-dom/client';
 import Projects from './Projects';
 import content from '../../common/content';
 
@@ -17,20 +17,20 @@ window.IntersectionObserver = mock;
 
 it('renders nothing without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(
+  const root = createRoot(div);
+  root.render(
     <MemoryRouter location="someLocation" context={{}}>
       <Projects projects={[]} style={{}} />
-    </MemoryRouter>,
-    div,
+    </MemoryRouter>
   );
 });
 
 it('renders content without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(
+  const root = createRoot(div);
+  root.render(
     <MemoryRouter location="someLocation" context={{}}>
       <Projects projects={content.projects} style={{}} />
-    </MemoryRouter>,
-    div,
+    </MemoryRouter>
   );
 });

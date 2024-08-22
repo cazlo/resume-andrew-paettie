@@ -6,7 +6,7 @@ import { ReactComponent as ReactIcon } from 'devicon/icons/react/react-original.
 import { ReactComponent as JavascriptIcon } from 'devicon/icons/javascript/javascript-plain.svg';
 import { ReactComponent as NodeJsIcon } from 'devicon/icons/nodejs/nodejs-original.svg';
 import { ReactComponent as JavaIcon } from 'devicon/icons/java/java-original.svg';
-import { ReactComponent as AwsIcon } from 'devicon/icons/amazonwebservices/amazonwebservices-original.svg';
+import { ReactComponent as AwsIcon } from 'devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg';
 import { ReactComponent as DockerIcon } from 'devicon/icons/docker/docker-original.svg';
 import { ReactComponent as GithubIcon } from 'devicon/icons/github/github-original.svg';
 import { ReactComponent as PostgresIcon } from 'devicon/icons/postgresql/postgresql-original.svg';
@@ -25,7 +25,7 @@ import { ReactComponent as WebstormIcon } from 'devicon/icons/webstorm/webstorm-
 import { ReactComponent as TrelloIcon } from 'devicon/icons/trello/trello-plain.svg';
 import { ReactComponent as GitIcon } from 'devicon/icons/git/git-original.svg';
 import { ReactComponent as Bash } from 'devicon/icons/bash/bash-original.svg';
-import { ReactComponent as Gradle } from 'devicon/icons/gradle/gradle-plain.svg';
+import { ReactComponent as Gradle } from 'devicon/icons/gradle/gradle-original.svg';
 import { ReactComponent as Groovy } from 'devicon/icons/groovy/groovy-original.svg';
 import { ReactComponent as Nginx } from 'devicon/icons/nginx/nginx-original.svg';
 import { ReactComponent as Oracle } from 'devicon/icons/oracle/oracle-original.svg';
