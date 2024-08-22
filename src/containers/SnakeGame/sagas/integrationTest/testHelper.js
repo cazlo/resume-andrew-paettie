@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import * as Promise from 'bluebird';
 import _ from 'lodash';
@@ -12,14 +12,12 @@ import Action from '../../actions/Action';
 import { computePerfectScore } from '../../reducers/gameReducer';
 import { setAlgorithm } from '../../actions/aiConfigAction';
 
-const createStore = sagaMiddleware => {
-  const middleware = [...getDefaultMiddleware(), sagaMiddleware];
-  return configureStore({
+const createStore = sagaMiddleware =>
+  configureStore({
     reducer: rootReducer,
-    middleware,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
     devTools: process.env.NODE_ENV !== 'production',
   });
-};
 
 export const playGame = ({ size, algorithm, limit, wallsAreFatal = false }) => {
   const sagaMiddleware = createSagaMiddleware();

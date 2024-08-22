@@ -1,15 +1,14 @@
 import createSagaMiddleware from 'redux-saga';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import rootReducer from '../../reducers';
 import { runGame } from '../gameSagas';
 import Action from '../../actions/Action';
 
-const createStore = (sagaMiddleware, food, algorithm) => {
-  const middleware = [...getDefaultMiddleware(), sagaMiddleware];
-  return configureStore({
+const createStore = (sagaMiddleware, food, algorithm) =>
+  configureStore({
     reducer: rootReducer,
-    middleware,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
     devTools: process.env.NODE_ENV !== 'production',
     preloadedState: {
       // s snapshot of a state which produced a weird edge case for A* only
@@ -84,7 +83,6 @@ const createStore = (sagaMiddleware, food, algorithm) => {
       },
     },
   });
-};
 
 const playGame = (food, algorithm) => {
   const sagaMiddleware = createSagaMiddleware();
