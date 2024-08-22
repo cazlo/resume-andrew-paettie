@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer from './reducers';
 import gameSaga from './sagas/gameSagas';
@@ -6,10 +6,9 @@ import gameSaga from './sagas/gameSagas';
 const sagaMiddleware = createSagaMiddleware();
 
 export default function createStore() {
-  const middleware = [...getDefaultMiddleware(), sagaMiddleware];
   const store = configureStore({
     reducer: rootReducer,
-    middleware,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware),
     devTools: process.env.NODE_ENV !== 'production',
   });
   sagaMiddleware.run(gameSaga);

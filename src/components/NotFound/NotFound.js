@@ -19,6 +19,8 @@ const theme = createTheme({
   },
 });
 
+const store = createStore();
+
 export default function NotFound() {
   return (
     <StyledEngineProvider injectFirst>
@@ -39,7 +41,7 @@ export default function NotFound() {
             backgroundColor: '#424242',
           }}
         />
-        <Provider store={createStore()}>
+        <Provider store={store}>
           <SnakeGame />
         </Provider>
       </ThemeProvider>

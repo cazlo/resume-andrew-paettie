@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { combineReducers, createReducer } from '@reduxjs/toolkit';
+import { combineReducers, createAction, createReducer } from '@reduxjs/toolkit';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -61,131 +61,147 @@ const defaults = {
   ],
 };
 
+const moveAction = createAction(Action.MOVE);
+const eatFoodAction = createAction(Action.EAT_FOOD);
+const resetAction = createAction(Action.RESET);
+const changeDirectonAction = createAction(Action.CHANGE_DIRECTION);
+const spawnFoodAction = createAction(Action.SPAWN_FOOD);
+const gameOverAction = createAction(Action.GAME_OVER);
+const addScoreAction = createAction(Action.ADD_SCORE);
+const setSizeAction = createAction(Action.SET_SIZE);
+const setSpeedAction = createAction(Action.SET_SPEED);
+const changeNameAction = createAction(Action.CHANGE_NAME);
+const playAction = createAction(Action.PLAY);
+const tickAction = createAction(Action.TICK);
+const setFpsAction = createAction(Action.SET_FPS);
+const setFrameTimeoutAction = createAction(Action.SET_FRAME_TIMEOUT);
+const toggleWallsAreFatalAction = createAction(Action.TOGGLE_WALLS_ARE_FATAL);
+
 // ----------------- snake -------------------
 
-export const parts = createReducer(defaults.snake.parts, {
-  [Action.MOVE]: (state, action) => {
-    const { direction, numRows, numCols, wallsAreFatal } = action;
-    const x = state[0].x + direction.x;
-    const y = state[0].y + direction.y;
-    const head = {
-      ...state[0],
-      x: wallsAreFatal ? x : wrap(x, numCols),
-      y: wallsAreFatal ? y : wrap(y, numRows),
-    };
-    const newState = state.slice(0, -1);
-    newState.unshift(head);
-    return newState;
-  },
-  [Action.EAT_FOOD]: state => [...state, state[state.length - 1]],
-  [Action.RESET]: () => defaults.snake.parts,
+export const parts = createReducer(defaults.snake.parts, builder => {
+  builder
+    .addCase(moveAction, (state, action) => {
+      const { direction, numRows, numCols, wallsAreFatal } = action;
+      const x = state[0].x + direction.x;
+      const y = state[0].y + direction.y;
+      const head = {
+        ...state[0],
+        x: wallsAreFatal ? x : wrap(x, numCols),
+        y: wallsAreFatal ? y : wrap(y, numRows),
+      };
+      const newState = state.slice(0, -1);
+      newState.unshift(head);
+      return newState;
+    })
+    .addCase(eatFoodAction, state => [...state, state[state.length - 1]])
+    .addCase(resetAction, () => defaults.snake.parts);
 });
-export const direction = createReducer(defaults.snake.direction, {
-  [Action.CHANGE_DIRECTION]: (state, action) => action.direction,
-  [Action.RESET]: () => RIGHT,
+export const direction = createReducer(defaults.snake.direction, builder => {
+  builder.addCase(changeDirectonAction, (state, action) => action.direction).addCase(resetAction, () => RIGHT);
 });
 
 // ----------------- food -------------------
 
-export const food = createReducer(defaults.food, {
-  [Action.SPAWN_FOOD]: (state, action) => {
-    const themeName = FOOD_THEMES[_.random(0, FOOD_THEMES.length - 1)];
-    const theme = techTheme[themeName];
-    return [
-      ...state,
-      {
-        style: theme.style,
-        themeName,
-        x: action.x,
-        y: action.y,
-      },
-    ];
-  },
-  [Action.EAT_FOOD]: (state, action) => state.filter(({ x, y }) => x !== action.x || y !== action.y),
-  [Action.GAME_OVER]: () => [],
+export const food = createReducer(defaults.food, builder => {
+  builder
+    .addCase(spawnFoodAction, (state, action) => {
+      const themeName = FOOD_THEMES[_.random(0, FOOD_THEMES.length - 1)];
+      const theme = techTheme[themeName];
+      return [
+        ...state,
+        {
+          style: theme.style,
+          themeName,
+          x: action.x,
+          y: action.y,
+        },
+      ];
+    })
+    .addCase(eatFoodAction, (state, action) => state.filter(({ x, y }) => x !== action.x || y !== action.y))
+    .addCase(gameOverAction, () => []);
 });
 
 // ----------------- highscores -------------------
 
-export const highScores = createReducer(defaults.highScores, {
-  [Action.ADD_SCORE]: (state, action) =>
-    _.orderBy(
-      [
-        ...state,
+export const highScores = createReducer(defaults.highScores, builder => {
+  builder
+    .addCase(addScoreAction, (state, action) =>
+      _.orderBy(
+        [
+          ...state,
+          {
+            score: action.score,
+            name: action.playerName,
+            duration: Format.formatDuration(action.endTime - action.startTime),
+            frameCount: action.frameCount,
+            time: Format.formatTime(moment()),
+          },
+        ],
+        ['score'],
+        ['desc'],
+      ),
+    )
+    .addCase(setSizeAction, (state, { numRows, numCols }) => {
+      const score = computePerfectScore(numCols, numRows);
+      return [
         {
-          score: action.score,
-          name: action.playerName,
-          duration: Format.formatDuration(action.endTime - action.startTime),
-          frameCount: action.frameCount,
-          time: Format.formatTime(moment()),
+          score,
+          name: 'Perfect score',
+          duration: Format.formatDuration(404),
+          time: Format.formatTime(moment(0).utc()),
         },
-      ],
-      ['score'],
-      ['desc'],
-    ),
-  [Action.SET_SIZE]: (state, { numRows, numCols }) => {
-    const score = computePerfectScore(numCols, numRows);
-    return [
-      {
-        score,
-        name: 'Perfect score',
-        duration: Format.formatDuration(404),
-        time: Format.formatTime(moment(0).utc()),
-      },
-    ];
-  },
+      ];
+    });
 });
 
 // ----------------- "internal" game state -------------------
 // tick speed (ms per tick)
-export const speed = createReducer(defaults.game.speed, {
-  [Action.SET_SPEED]: (state, action) => action.speed,
+export const speed = createReducer(defaults.game.speed, builder => {
+  builder.addCase(setSpeedAction, (state, action) => action.speed);
   // [Action.EAT_FOOD]: (state) => Math.max(Math.floor(0.9 * state), MAX_SPEED),
   // [Action.RESET]: () => INITIAL_SPEED,
 });
-export const score = createReducer(defaults.game.score, {
-  [Action.EAT_FOOD]: state => state + 1,
-  [Action.RESET]: () => 0,
+export const score = createReducer(defaults.game.score, builder => {
+  builder.addCase(eatFoodAction, state => state + 1).addCase(resetAction, () => 0);
 });
-export const numCols = createReducer(defaults.game.numCols, {
-  [Action.SET_SIZE]: (state, action) => action.numCols,
+export const numCols = createReducer(defaults.game.numCols, builder => {
+  builder.addCase(setSizeAction, (state, action) => action.numCols);
 });
-export const numRows = createReducer(defaults.game.numRows, {
-  [Action.SET_SIZE]: (state, action) => action.numRows,
+export const numRows = createReducer(defaults.game.numRows, builder => {
+  builder.addCase(setSizeAction, (state, action) => action.numRows);
 });
-export const playerName = createReducer(defaults.game.playerName, {
-  [Action.CHANGE_NAME]: (state, action) => action.playerName,
+export const playerName = createReducer(defaults.game.playerName, builder => {
+  builder.addCase(changeNameAction, (state, action) => action.playerName);
 });
-export const startTime = createReducer(defaults.game.startTime, {
-  [Action.PLAY]: (state, action) => action.startTime,
+export const startTime = createReducer(defaults.game.startTime, builder => {
+  builder.addCase(playAction, (state, action) => action.startTime);
 });
-export const endTime = createReducer(defaults.game.endTime, {
-  [Action.GAME_OVER]: (state, action) => action.endTime,
+export const endTime = createReducer(defaults.game.endTime, builder => {
+  builder.addCase(gameOverAction, (state, action) => action.endTime);
 });
-export const frameCount = createReducer(defaults.game.frameCount, {
-  [Action.TICK]: state => state + 1,
-  [Action.RESET]: () => 0,
+export const frameCount = createReducer(defaults.game.frameCount, builder => {
+  builder.addCase(tickAction, state => state + 1).addCase(resetAction, () => 0);
 });
-export const fps = createReducer(defaults.game.fps, {
-  [Action.SET_FPS]: (state, action) => action.fps,
-  [Action.RESET]: () => 0,
+export const fps = createReducer(defaults.game.fps, builder => {
+  builder.addCase(setFpsAction, (state, action) => action.fps).addCase(resetAction, () => 0);
 });
-export const perfectScore = createReducer(defaults.game.perfectScore, {
-  [Action.SET_SIZE]: (state, action) => computePerfectScore(action.numRows, action.numCols),
+export const perfectScore = createReducer(defaults.game.perfectScore, builder => {
+  builder.addCase(setSizeAction, (state, action) => computePerfectScore(action.numRows, action.numCols));
 });
-export const frameTimeout = createReducer(defaults.game.frameTimeout, {
-  [Action.SET_SIZE]: (state, action) => computeFrameTimeout(action.numRows, action.numCols),
-  [Action.SET_FRAME_TIMEOUT]: (state, action) => action.limit,
+export const frameTimeout = createReducer(defaults.game.frameTimeout, builder => {
+  builder
+    .addCase(setSizeAction, (state, action) => computeFrameTimeout(action.numRows, action.numCols))
+    .addCase(setFrameTimeoutAction, (state, action) => action.limit);
 });
-export const computedFrameTimeout = createReducer(defaults.game.frameTimeout, {
-  [Action.SET_SIZE]: (state, action) => computeFrameTimeout(action.numRows, action.numCols),
+export const computedFrameTimeout = createReducer(defaults.game.frameTimeout, builder => {
+  builder.addCase(setSizeAction, (state, action) => computeFrameTimeout(action.numRows, action.numCols));
 });
-export const wallsAreFatal = createReducer(defaults.game.wallsAreFatal, {
-  [Action.TOGGLE_WALLS_ARE_FATAL]: (state, action) => action.checked,
+export const wallsAreFatal = createReducer(defaults.game.wallsAreFatal, builder => {
+  builder.addCase(toggleWallsAreFatalAction, (state, action) => action.checked);
 });
-export const state = createReducer(defaults.game.state, {
-  [Action.PLAY]: () => PLAYING,
-  [Action.GAME_OVER]: () => GAME_OVER,
+export const state = createReducer(defaults.game.state, builder => {
+  builder.addCase(playAction, () => PLAYING).addCase(gameOverAction, () => GAME_OVER);
 });
 
 export default combineReducers({

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline/CssBaseline';
@@ -21,14 +21,14 @@ const App = () => (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
-        <Switch>
-          <Route exact path="/" component={Resume} />
-          <Route exact path="/about" component={() => <Resume scrollTo="ResumeAboutMe" />} />
-          <Route exact path="/skills" component={() => <Resume scrollTo="ResumeSkills" />} />
-          <Route exact path="/experience" component={() => <Resume scrollTo="ResumeExperience" />} />
-          <Route exact path="/projects" component={() => <Resume scrollTo="ResumeProjects" />} />
-          <Route component={NotFound} />
-        </Switch>
+        <Routes>
+          <Route exact path="/" element={<Resume />} />
+          <Route exact path="/about" element={<Resume scrollTo="ResumeAboutMe" />} />
+          <Route exact path="/skills" element={<Resume scrollTo="ResumeSkills" />} />
+          <Route exact path="/experience" element={<Resume scrollTo="ResumeExperience" />} />
+          <Route exact path="/projects" element={<Resume scrollTo="ResumeProjects" />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
     </ThemeProvider>
   </StyledEngineProvider>

@@ -32,7 +32,7 @@ const sliders = props => {
       label: 'Speed (ms between frames)',
       value: speed,
       onChange: setSpeedOnChange,
-      max: 200,
+      max: 2000,
       min: 0,
       step: 1,
       avatar: <MdTimer />,
