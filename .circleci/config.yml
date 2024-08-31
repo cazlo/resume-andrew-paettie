@@ -32,7 +32,8 @@ jobs:
   unit-test:
     docker:
       - image: cimg/node:lts-browsers
-    parallelism: 1
+    parallelism: 2
+    resource_class: large
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
@@ -48,6 +49,7 @@ jobs:
     docker:
       - image: cimg/node:lts-browsers
     parallelism: 2
+    resource_class: large
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
