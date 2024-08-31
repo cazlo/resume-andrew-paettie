@@ -11,6 +11,9 @@ import { ReactComponent as DockerIcon } from 'devicon/icons/docker/docker-origin
 import { ReactComponent as GithubIcon } from 'devicon/icons/github/github-original.svg';
 import { ReactComponent as PostgresIcon } from 'devicon/icons/postgresql/postgresql-original.svg';
 import { ReactComponent as PythonIcon } from 'devicon/icons/python/python-original.svg';
+import { ReactComponent as FastAPIIcon } from 'devicon/icons/fastapi/fastapi-original.svg';
+import { ReactComponent as PytestIcon } from 'devicon/icons/pytest/pytest-original.svg';
+import { ReactComponent as SqlalchemyIcon } from 'devicon/icons/sqlalchemy/sqlalchemy-original.svg';
 import { ReactComponent as AndroidIcon } from 'devicon/icons/android/android-plain.svg';
 import { ReactComponent as AngularIcon } from 'devicon/icons/angularjs/angularjs-plain.svg';
 import { ReactComponent as SlackIcon } from 'devicon/icons/slack/slack-original.svg';
@@ -43,7 +46,10 @@ import { ReactComponent as Jenkins } from 'devicon/icons/jenkins/jenkins-origina
 import { ReactComponent as Twitter } from 'devicon/icons/twitter/twitter-original.svg';
 import { ReactComponent as Ansible } from 'devicon/icons/ansible/ansible-original.svg';
 import { ReactComponent as Gitlab } from 'devicon/icons/gitlab/gitlab-original.svg';
-// https://react-icons.github.io/
+import { ReactComponent as RedisIcon } from 'devicon/icons/redis/redis-original.svg';
+import { ReactComponent as AzureIcon } from 'devicon/icons/azure/azure-original.svg';
+import { ReactComponent as JiraIcon } from 'devicon/icons/jira/jira-original.svg';
+// https://react-icons.github.io/react-icons/search/?q=clear
 import { FaEllipsisH } from 'react-icons/fa';
 import { MdSecurity } from 'react-icons/md';
 import { GrMysql } from 'react-icons/gr';
@@ -67,6 +73,8 @@ import { ReactComponent as Dynamodb } from '../data/aws/Arch_Amazon-DynamoDB_64.
 import { ReactComponent as Rds } from '../data/aws/Arch_Amazon-RDS_64.svg';
 import { ReactComponent as IAM } from '../data/aws/Arch_AWS-Identity-and-Access-Management_64.svg';
 import { ReactComponent as Glue } from '../data/aws/Arch_AWS-Glue_64.svg';
+import { ReactComponent as EcsIcon } from '../data/aws/Arch_Amazon-Elastic-Container-Service_64.svg';
+import JamaIcon from '../data/jama.png';
 import Terraform from '../data/terraform-logo.png';
 import Consul from '../data/consul.png';
 // jfrog logo by https://jfrog.com/knowledge-base/artifactory-cleanup-methods-how-do-i-delete-old-artifacts/
@@ -405,6 +413,16 @@ const techTheme = {
       </Avatar>
     ),
   },
+  redis: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    icon: <RedisIcon />,
+  },
   rds: {
     style: {
       background: '#f48e3d',
@@ -459,6 +477,36 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--python',
     icon: <PythonIcon />,
+  },
+  fastAPI: {
+    style: {
+      background: '#059285pm ',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#059285',
+    },
+    icon: <FastAPIIcon />,
+  },
+  pytest: {
+    style: {
+      background: '#059285pm ',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#059285',
+    },
+    icon: <PytestIcon />,
+  },
+  sqlalchemy: {
+    style: {
+      background: '#059285pm ',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#059285',
+    },
+    icon: <SqlalchemyIcon />,
   },
   angular: {
     style: {
@@ -702,6 +750,22 @@ const techTheme = {
       color: '#179bb2',
     },
     icon: <K8s />,
+  },
+  ecs: {
+    style: {
+      background: '#3f586d',
+      color: '#179bb2',
+    },
+    icon: <EcsIcon />,
+  },
+  azure: {
+    icon: <AzureIcon />,
+  },
+  jira: {
+    icon: <JiraIcon />,
+  },
+  jama: {
+    icon: <img src={JamaIcon} alt="JAMA" style={{ maxWidth: '100%', maxHeight: '100%' }} />,
   },
 };
 
