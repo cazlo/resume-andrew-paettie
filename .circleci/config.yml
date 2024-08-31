@@ -6,7 +6,7 @@ version: 2.1
 jobs:
   install:
     docker:
-      - image: cimg/node:lts-browsers
+      - image: cimg/node:20.17-browsers
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
@@ -21,7 +21,7 @@ jobs:
           key: dependencies-{{ checksum "package.json" }}
   lint:
     docker:
-      - image: cimg/node:lts-browsers
+      - image: cimg/node:20.17-browsers
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
@@ -31,7 +31,7 @@ jobs:
       - run: npm run lint
   unit-test:
     docker:
-      - image: cimg/node:lts-browsers
+      - image: cimg/node:20.17-browsers
     parallelism: 2
     resource_class: large
     working_directory: /tmp/resume-andrew-paettie
@@ -47,7 +47,7 @@ jobs:
           path: /tmp/resume-andrew-paettie/reports/junit
   integration-test:
     docker:
-      - image: cimg/node:lts-browsers
+      - image: cimg/node:20.17-browsers
     parallelism: 2
     resource_class: large
     working_directory: /tmp/resume-andrew-paettie
@@ -63,7 +63,7 @@ jobs:
           path: /tmp/resume-andrew-paettie/reports/junit
   build:
     docker:
-      - image: cimg/node:lts-browsers
+      - image: cimg/node:20.17-browsers
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
