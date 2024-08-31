@@ -41,6 +41,7 @@ import {
   FcTimeline,
   FcManager,
   FcDeployment,
+  FcOrgUnit,
 } from 'react-icons/fc';
 import { ReactComponent as Selenium } from 'devicon/icons/selenium/selenium-original.svg';
 import { ReactComponent as Mongodb } from 'devicon/icons/mongodb/mongodb-original.svg';
@@ -57,6 +58,7 @@ import {
   SiNike,
   SiSplunk,
   SiSumologic,
+  SiUml,
 } from 'react-icons/si';
 import { IoRocket } from 'react-icons/io5';
 import { DiScrum } from 'react-icons/di';
@@ -172,7 +174,7 @@ export default {
   ],
   positions: [
     {
-      title: 'Site Reliability Engineer',
+      title: 'Senior Software Engineer (DevSecOps)',
       company: 'Blue Origin',
       startDate: '2021',
       endDate: 'Today',
@@ -205,7 +207,7 @@ export default {
       ],
       summary: (
         <span>
-          Devops position with technical leadership responsibilities
+          DevSecOps position with technical leadership responsibilities
           <br />
           Development and maintenance of foundational systems supporting software engineering across the organization
         </span>
@@ -402,6 +404,88 @@ export default {
       ],
       content: 'A simple portfolio site to show some projects I have built.',
       image: mySiteImage,
+    },
+    {
+      title: 'NASA Trick Containerization',
+      subtitle: 'Open source contribution',
+      date: `June 2024`,
+      techTheme: techTheme.c,
+      links: [
+        {
+          url: 'https://github.com/cazlo/trick/pull/1',
+          text: 'Pull Request',
+        },
+        {
+          url: 'https://github.com/nasa/trick',
+          text: 'NASA Trick source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+        },
+        {
+          name: 'C',
+          icon: techTheme.c.icon,
+        },
+        {
+          name: 'Docker',
+          icon: techTheme.docker.icon,
+        },
+      ],
+      content: 'Provide several containerized runtimes for NASA Trick simulation framework',
+    },
+    {
+      title: 'aws/res Containerization',
+      subtitle: 'Containerizing an Open Source AWS VDI tech',
+      date: `June 2024`,
+      techTheme: techTheme.docker,
+      links: [
+        {
+          url: 'https://github.com/cazlo/containres/pull/2',
+          text: 'Pull Request',
+        },
+        {
+          url: 'https://github.com/aws/res',
+          text: 'Upstream Source Code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+        },
+        {
+          name: 'Localstack',
+          icon: techTheme.aws.icon,
+        },
+        {
+          name: 'Docker',
+          icon: techTheme.docker.icon,
+        },
+      ],
+      content: 'Experimenting with converting a raw EC2, CDK deployment to containerized terraform based deploy',
+    },
+    {
+      title: 'GPU accelerated, containerized VDI',
+      subtitle: 'Investigating VDI GPU tech',
+      date: `December 2023`,
+      techTheme: techTheme.docker,
+      links: [
+        {
+          url: 'https://github.com/cazlo/gl-vdi-containers/pull/1',
+          text: 'Pull Request',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Docker',
+          icon: techTheme.docker.icon,
+        },
+      ],
+      // eslint-disable-next-line max-len
+      content: `Provide several working examples of GPU accelerated, fully containerized X environments accessible some Remote Desktop technology`,
     },
     {
       title: 'Crypto Trading Analysis Platform',
@@ -706,14 +790,14 @@ export default {
       languages: [
         {
           ...JavaTech,
-          experience: between(2014, 2017) + since(2019),
-          lastUsed: stillUsed(),
+          experience: between(2014, 2017) + between(2019, 2021),
+          lastUsed: 2021,
           frameworks: [
             {
               name: 'JUnit',
               description: 'Unit and integration testing',
               icon: JavaTech.icon,
-              experience: between(2015, 2017) + since(2019),
+              experience: between(2015, 2017) + between(2019, 2021),
               lastUsed: stillUsed(),
             },
             {
@@ -743,14 +827,14 @@ export default {
               description: 'Declarative stable java builds. Based on Ant',
               icon: techTheme.maven.icon,
               experience: between(2015, 2017) + between(2019, 2020),
-              lastUsed: stillUsed(),
+              lastUsed: 2021,
             },
             {
               name: 'Quarkus',
               description: 'Using GraalVM and AOT to make java code fast in "scale to 0" use cases',
               icon: techTheme.quarkus.icon,
               experience: between(2020, 2021) + since(2022),
-              lastUsed: stillUsed(),
+              lastUsed: 2021,
             },
             {
               name: 'Tomcat',
@@ -774,6 +858,13 @@ export default {
               lastUsed: stillUsed(),
             },
             {
+              name: 'TypeScript',
+              description: 'Typed javascript',
+              icon: techTheme.typescript.icon,
+              experience: since(2021),
+              lastUsed: stillUsed(),
+            },
+            {
               name: 'Jest',
               description: 'Test driven development for unit and integration tests of javascript code',
               icon: techTheme.jest.icon,
@@ -791,7 +882,7 @@ export default {
               name: 'Redux',
               description: 'Global state management for react with fantastic debugging capabilities',
               icon: techTheme.redux.icon,
-              experience: between(2017, 2019),
+              experience: between(2017, 2019) + since(2021),
               lastUsed: stillUsed(),
             },
             {
@@ -840,9 +931,9 @@ export default {
             {
               name: 'pytest',
               description: 'Unit and integration testing python code',
-              icon: techTheme.python.icon,
-              experience: between(2017, 2018),
-              lastUsed: 2018,
+              icon: techTheme.pytest.icon,
+              experience: between(2017, 2018) + since(2021),
+              lastUsed: stillUsed(),
             },
             {
               name: 'opencv',
@@ -850,6 +941,20 @@ export default {
               icon: techTheme.c.icon,
               experience: between(2021.5, 2022),
               lastUsed: 2022,
+            },
+            {
+              name: 'FastAPI',
+              description: 'Web framework for building HTTP based services',
+              icon: techTheme.fastAPI.icon,
+              experience: since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'sqlalchemy',
+              description: 'ORM abstracting SQL',
+              icon: techTheme.sqlalchemy.icon,
+              experience: since(2022),
+              lastUsed: stillUsed(),
             },
           ],
         },
@@ -903,8 +1008,8 @@ export default {
               name: 'mysql',
               description: 'Combination of DBA and query development of existing schemas',
               icon: techTheme.mysql.icon,
-              experience: between(2015, 2017) + since(2021.5),
-              lastUsed: stillUsed(),
+              experience: between(2015, 2017) + between(2021.5, 2022),
+              lastUsed: 2022,
             },
             {
               name: 'oracle',
@@ -925,15 +1030,15 @@ export default {
               name: 'DynamoDB',
               description: 'AWS Key value store with useful event streaming and DR capabilities',
               icon: techTheme.dynamoDb.icon,
-              experience: between(2019, 2021),
-              lastUsed: 2021,
+              experience: between(2019, 2021) + since(2024),
+              lastUsed: 2024,
             },
             {
-              name: 'Reddis',
-              description: 'In memory cache',
-              icon: techTheme.others.icon, // todo reddis
-              experience: between(2018, 2019),
-              lastUsed: 2019,
+              name: 'Redis',
+              description: 'In memory cache that can be tricked into being a message broker in some use cases',
+              icon: techTheme.redis.icon,
+              experience: between(2018, 2019) + since(2024),
+              lastUsed: 2024,
             },
             {
               name: 'Monogodb',
@@ -954,8 +1059,8 @@ export default {
               name: 'Elasticsearch',
               description: 'Full text search which builds on lucene',
               icon: <SiElasticsearch />,
-              experience: since(2016),
-              lastUsed: stillUsed(),
+              experience: between(2016, 2022),
+              lastUsed: 2022,
             },
             {
               name: 'Solr',
@@ -983,15 +1088,15 @@ export default {
               name: 'SQS',
               description: 'AWS queue service with guaranteed message delivery and useful DR capabilities',
               icon: techTheme.sqs.icon,
-              experience: between(2016, 2017) + between(2019, 2021.5),
-              lastUsed: 2021,
+              experience: between(2016, 2017) + between(2019, 2021.5) + since(2024),
+              lastUsed: 2024,
             },
             {
               name: 'RabbitMq',
               description: 'Full featured message broker (topics + queues) written in erlang',
               icon: techTheme.rabbitmq.icon,
-              experience: between(2015, 2017),
-              lastUsed: 2017,
+              experience: between(2015, 2017) + since(2024),
+              lastUsed: 2024,
             },
             {
               name: 'Kinesis',
@@ -1043,14 +1148,14 @@ export default {
             {
               name: 'DynamoDB',
               icon: techTheme.dynamoDb.icon,
-              experience: between(2019, 2021),
-              lastUsed: 2021,
+              experience: between(2019, 2021) + since(2024),
+              lastUsed: stillUsed(),
             },
             {
               name: 'Lambda',
               icon: techTheme.lambda.icon,
-              experience: between(2019, 2021),
-              lastUsed: 2021,
+              experience: between(2019, 2021) + since(2022),
+              lastUsed: stillUsed(),
             },
             {
               name: 'ApiGateway',
@@ -1073,17 +1178,47 @@ export default {
             {
               name: 'Route53',
               icon: techTheme.route53.icon,
-              experience: between(2019, 2021),
-              lastUsed: 2021,
+              experience: between(2019, 2021) + since(2022),
+              lastUsed: stillUsed(),
             },
-
             {
               name: 'Glue',
               icon: techTheme.glue.icon,
               experience: between(2017, 2019),
               lastUsed: 2019,
             },
+            {
+              name: 'EKS',
+              icon: techTheme.kubernetes.icon,
+              experience: since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'ECS',
+              icon: techTheme.ecs.icon,
+              experience: between(2020, 2021) + since(2023),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Config',
+              icon: techTheme.aws.icon,
+              experience: since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Security Hub',
+              icon: techTheme.aws.icon,
+              experience: since(2022),
+              lastUsed: stillUsed(),
+            },
           ],
+        },
+        {
+          name: 'Azure',
+          icon: techTheme.azure.icon,
+          experience: between(2014, 2014.5),
+          lastUsed: 2014,
+          frameworks: [],
         },
       ],
       operational: [
@@ -1119,7 +1254,7 @@ export default {
             {
               name: 'Podman',
               icon: <Avatar sx={{ backgroundColor: '#fff' }}>{techTheme.podman.icon}</Avatar>,
-              experience: 0.1,
+              experience: since(2021),
               lastUsed: stillUsed(),
             },
           ],
@@ -1144,9 +1279,9 @@ export default {
             },
             {
               name: 'AWS ECS',
-              icon: techTheme.aws.icon, // todo ecs icon
-              experience: between(2020, 2021),
-              lastUsed: 2021,
+              icon: techTheme.ecs.icon,
+              experience: between(2020, 2021) + since(2023),
+              lastUsed: stillUsed(),
             },
             {
               name: 'Kubernetes',
@@ -1198,8 +1333,8 @@ export default {
               lastUsed: 2021,
             },
             {
-              name: 'Gemnasium',
-              description: 'Scanning dependencies for known CVEs in Gitlab',
+              name: 'Trivy',
+              description: 'Scanning dependencies for known CVEs in Gitlab CI',
               icon: techTheme.gitlab.icon,
               experience: since(2021.5),
               lastUsed: stillUsed(),
@@ -1210,6 +1345,28 @@ export default {
               description: 'Pen testing wireless networks',
               experience: between(2014, 2015),
               lastUsed: 2015,
+            },
+            {
+              name: 'OSCAP',
+              icon: techTheme.security.icon,
+              description:
+                'Automated evaluation of security configuration checklists from sources like DISA STIG and CIS',
+              experience: since(2023),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'NIST 800-53',
+              icon: techTheme.security.icon,
+              description: 'Federal Government standard for security control definition',
+              experience: since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'NIST 800-171',
+              icon: techTheme.security.icon,
+              description: 'Federal Government standard for the storage and processing of CUI',
+              experience: since(2022),
+              lastUsed: stillUsed(),
             },
           ],
         },
@@ -1228,6 +1385,7 @@ export default {
               icon: <SiDatadog />,
               experience: between(2017, 2019) + since(2021.5),
               lastUsed: stillUsed(),
+              description: 'Dashboards and alarms for host and application layer metrics',
             },
             {
               name: 'Sumologic',
@@ -1253,8 +1411,8 @@ export default {
               description:
                 'Dashboard for auditing all events related to business transactions aggregated by correlation id',
               icon: <SiSplunk />,
-              experience: between(2019, 2021),
-              lastUsed: 2021,
+              experience: between(2019, 2021) + since(2022),
+              lastUsed: stillUsed(),
             },
             {
               name: 'Kibana',
@@ -1355,8 +1513,8 @@ export default {
             {
               name: 'Scrum',
               icon: <DiScrum />,
-              experience: between(2015, 2021),
-              lastUsed: 2021,
+              experience: between(2015, 2021) + since(2023),
+              lastUsed: stillUsed(),
             },
             {
               name: 'Kanban',
@@ -1379,6 +1537,12 @@ export default {
               lastUsed: 2019,
             },
             {
+              name: 'Jira',
+              icon: techTheme.jira.icon,
+              experience: since(2019),
+              lastUsed: stillUsed(),
+            },
+            {
               name: 'Slack',
               description: 'Bot development, meme production',
               icon: techTheme.slack.icon,
@@ -1392,16 +1556,40 @@ export default {
               experience: between(2016, 2018),
               lastUsed: 2018,
             },
+          ],
+        },
+        {
+          name: 'Architecture Definition',
+          icon: <FcOrgUnit />,
+          experience: since(2018),
+          lastUsed: new Date().getFullYear(),
+          frameworks: [
             {
               name: 'C4 diagrams',
+              description: <a href="https://c4model.com">C4 model</a>,
               icon: <FaProjectDiagram />,
               experience: since(2018),
               lastUsed: stillUsed(),
             },
             {
               name: 'Architecture Decision Records',
+              description: 'Maintaining 1 decisions made along the SDLC in Markdown right next to the code',
               icon: <MdArchitecture />,
               experience: since(2018),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'PlantUML',
+              description: 'Diagrams as Code',
+              icon: <SiUml />,
+              experience: since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'JAMA',
+              description: 'Requirements tracability tool',
+              icon: techTheme.jama.icon,
+              experience: since(2023),
               lastUsed: stillUsed(),
             },
           ],
