@@ -4,7 +4,7 @@ import React from 'react';
 // https://devicon.dev/
 import { ReactComponent as ReactIcon } from 'devicon/icons/react/react-original.svg';
 import { ReactComponent as JavascriptIcon } from 'devicon/icons/javascript/javascript-plain.svg';
-import { ReactComponent as NodeJsIcon } from 'devicon/icons/nodejs/nodejs-original.svg';
+import { ReactComponent as NodeJsIcon } from 'devicon/icons/nodejs/nodejs-original-wordmark.svg';
 import { ReactComponent as JavaIcon } from 'devicon/icons/java/java-original.svg';
 import { ReactComponent as AwsIcon } from 'devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg';
 import { ReactComponent as DockerIcon } from 'devicon/icons/docker/docker-original.svg';
@@ -18,7 +18,8 @@ import { ReactComponent as AndroidIcon } from 'devicon/icons/android/android-pla
 import { ReactComponent as AngularIcon } from 'devicon/icons/angularjs/angularjs-plain.svg';
 import { ReactComponent as SlackIcon } from 'devicon/icons/slack/slack-original.svg';
 import { ReactComponent as LinuxIcon } from 'devicon/icons/linux/linux-original.svg';
-import { ReactComponent as UbuntuIcon } from 'devicon/icons/ubuntu/ubuntu-plain.svg';
+import { ReactComponent as WindowsIcon } from 'devicon/icons/windows8/windows8-original.svg';
+import { ReactComponent as UbuntuIcon } from 'devicon/icons/ubuntu/ubuntu-original.svg';
 import { ReactComponent as NpmIcon } from 'devicon/icons/npm/npm-original-wordmark.svg';
 import { ReactComponent as DebianIcon } from 'devicon/icons/debian/debian-plain.svg';
 import { ReactComponent as CplusplusIcon } from 'devicon/icons/cplusplus/cplusplus-original.svg';
@@ -49,11 +50,14 @@ import { ReactComponent as Gitlab } from 'devicon/icons/gitlab/gitlab-original.s
 import { ReactComponent as RedisIcon } from 'devicon/icons/redis/redis-original.svg';
 import { ReactComponent as AzureIcon } from 'devicon/icons/azure/azure-original.svg';
 import { ReactComponent as JiraIcon } from 'devicon/icons/jira/jira-original.svg';
+import { ReactComponent as FedoraIcon } from 'devicon/icons/fedora/fedora-original.svg';
+import { ReactComponent as RedHatIcon } from 'devicon/icons/redhat/redhat-original.svg';
+import { ReactComponent as RockyIcon } from 'devicon/icons/rockylinux/rockylinux-original.svg';
 // https://react-icons.github.io/react-icons/search/?q=clear
 import { FaEllipsisH } from 'react-icons/fa';
 import { MdSecurity } from 'react-icons/md';
 import { GrMysql } from 'react-icons/gr';
-import { SiApachemaven, SiJquery } from 'react-icons/si';
+import { SiApachemaven, SiJquery, SiKalilinux, SiBurpsuite, SiWindows95 } from 'react-icons/si';
 import { FcCollaboration } from 'react-icons/fc';
 import Avatar from '@mui/material/Avatar';
 import { ReactComponent as JestSvg } from '../data/jest.svg';
@@ -74,6 +78,7 @@ import { ReactComponent as Rds } from '../data/aws/Arch_Amazon-RDS_64.svg';
 import { ReactComponent as IAM } from '../data/aws/Arch_AWS-Identity-and-Access-Management_64.svg';
 import { ReactComponent as Glue } from '../data/aws/Arch_AWS-Glue_64.svg';
 import { ReactComponent as EcsIcon } from '../data/aws/Arch_Amazon-Elastic-Container-Service_64.svg';
+import { ReactComponent as EksIcon } from '../data/aws/Arch_Amazon-EKS-Cloud_64.svg';
 import JamaIcon from '../data/jama.png';
 import Terraform from '../data/terraform-logo.png';
 import Consul from '../data/consul.png';
@@ -209,6 +214,11 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--nodejs',
     icon: <NodeJsIcon />,
+    avatar: (
+      <Avatar style={{ background: '#fff' }}>
+        <NodeJsIcon />
+      </Avatar>
+    ),
   },
   android: {
     style: {
@@ -506,7 +516,11 @@ const techTheme = {
     iconStyle: {
       background: '#059285',
     },
-    icon: <SqlalchemyIcon />,
+    icon: (
+      <Avatar>
+        <SqlalchemyIcon />
+      </Avatar>
+    ),
   },
   angular: {
     style: {
@@ -766,6 +780,37 @@ const techTheme = {
   },
   jama: {
     icon: <img src={JamaIcon} alt="JAMA" style={{ maxWidth: '100%', maxHeight: '100%' }} />,
+  },
+  kali: {
+    icon: <SiKalilinux />,
+  },
+  burpsuite: {
+    icon: <SiBurpsuite />,
+  },
+  eks: {
+    icon: <EksIcon />,
+  },
+  fedora: {
+    icon: <FedoraIcon />,
+  },
+  rhel: {
+    icon: <RedHatIcon />,
+  },
+  mandriva: {
+    style: {
+      background: '#4b5255',
+      color: '#fff',
+    },
+    icon: <LinuxIcon />,
+  },
+  windows: {
+    icon: <WindowsIcon />,
+  },
+  windowsServer: {
+    icon: <SiWindows95 />,
+  },
+  rockylinux: {
+    icon: <RockyIcon />,
   },
 };
 

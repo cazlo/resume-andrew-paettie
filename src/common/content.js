@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaCreditCard, FaHardHat, FaMicrochip, FaProjectDiagram, FaRobot, FaShoppingCart } from 'react-icons/fa';
+import { FaComputer } from 'react-icons/fa6';
 
 import moment from 'moment';
 import { MdArchitecture, MdSignalWifi4BarLock } from 'react-icons/md';
@@ -42,18 +43,31 @@ import {
   FcManager,
   FcDeployment,
   FcOrgUnit,
+  FcRules,
+  FcReading,
 } from 'react-icons/fc';
 import { ReactComponent as Selenium } from 'devicon/icons/selenium/selenium-original.svg';
 import { ReactComponent as Mongodb } from 'devicon/icons/mongodb/mongodb-original.svg';
+import { ReactComponent as Devicon } from 'devicon/icons/devicon/devicon-original.svg';
 import { AiFillRobot } from 'react-icons/ai';
-import { BsBugFill, BsChatSquareText, BsFillEnvelopeFill, BsFillKanbanFill } from 'react-icons/bs';
+import {
+  BsBugFill,
+  BsChatSquareText,
+  BsFillEnvelopeFill,
+  BsFillKanbanFill,
+  BsGpuCard,
+  BsWindowDesktop,
+} from 'react-icons/bs';
 import {
   SiApache,
   SiApacheant,
   SiApachesolr,
+  SiBurpsuite,
   SiDatadog,
   SiElasticsearch,
+  SiKalilinux,
   SiKibana,
+  SiNasa,
   SiNewrelic,
   SiNike,
   SiSplunk,
@@ -177,11 +191,11 @@ export default {
       title: 'Senior Software Engineer (DevSecOps)',
       company: 'Blue Origin',
       startDate: '2021',
-      endDate: 'Today',
-      isCurrent: true,
+      endDate: '2024',
+      isCurrent: false,
       tech: [
         JavaTech,
-        { name: 'Node', icon: techTheme.nodeJs.icon },
+        { name: 'Node', icon: techTheme.nodeJs.avatar },
         { name: 'Python', icon: techTheme.python.icon },
         { name: 'Linux', icon: techTheme.linux.icon },
         { name: 'Docker', icon: techTheme.docker.icon },
@@ -200,6 +214,7 @@ export default {
         { name: 'Business Workflow', icon: <FcWorkflow /> },
         { name: 'Standards Compliance', icon: <FcFinePrint /> },
         { name: 'Systems Administration', icon: <FcEngineering /> },
+        { name: 'Systems Engineering', icon: <SiNasa /> },
         { name: 'Monitoring', icon: <GiMicroscope /> },
         { name: 'Security', icon: <FcPrivacy /> },
         { name: 'On-call support', icon: <FcAssistant /> },
@@ -222,7 +237,7 @@ export default {
       isCurrent: false,
       tech: [
         JavaTech,
-        { name: 'Node', icon: techTheme.nodeJs.icon },
+        { name: 'Node', icon: techTheme.nodeJs.avatar },
         { name: '.Net', icon: techTheme.dotNet.icon },
         { name: 'Micronaut', icon: techTheme.micronaut.icon },
         { name: 'Cucumber', icon: techTheme.cucumber.icon },
@@ -255,7 +270,7 @@ export default {
       endDate: '2019',
       isCurrent: false,
       tech: [
-        { name: 'Node', icon: techTheme.nodeJs.icon },
+        { name: 'Node', icon: techTheme.nodeJs.avatar },
         { name: 'React', icon: techTheme.react.icon },
         { name: 'Python', icon: techTheme.python.icon },
         { name: 'Docker', icon: techTheme.docker.icon },
@@ -382,6 +397,10 @@ export default {
           icon: techTheme.react.icon,
         },
         {
+          name: 'devicon',
+          icon: <Devicon />,
+        },
+        {
           name: 'Jest',
           icon: techTheme.jest.icon,
         },
@@ -417,7 +436,7 @@ export default {
         },
         {
           url: 'https://github.com/nasa/trick',
-          text: 'NASA Trick source code',
+          text: 'Upstream source code',
         },
       ],
       technologies: [
@@ -430,8 +449,24 @@ export default {
           icon: techTheme.c.icon,
         },
         {
+          name: 'Java',
+          icon: techTheme.java.icon,
+        },
+        {
           name: 'Docker',
           icon: techTheme.docker.icon,
+        },
+        {
+          name: 'Ubuntu',
+          icon: techTheme.ubuntu.icon,
+        },
+        {
+          name: 'Rocky Linux',
+          icon: techTheme.rockylinux.icon,
+        },
+        {
+          name: 'GPU',
+          icon: <BsGpuCard />,
         },
       ],
       content: 'Provide several containerized runtimes for NASA Trick simulation framework',
@@ -443,8 +478,8 @@ export default {
       techTheme: techTheme.docker,
       links: [
         {
-          url: 'https://github.com/cazlo/containres/pull/2',
-          text: 'Pull Request',
+          url: 'https://github.com/cazlo/containres',
+          text: 'Source Code',
         },
         {
           url: 'https://github.com/aws/res',
@@ -474,14 +509,22 @@ export default {
       techTheme: techTheme.docker,
       links: [
         {
-          url: 'https://github.com/cazlo/gl-vdi-containers/pull/1',
-          text: 'Pull Request',
+          url: 'https://github.com/cazlo/gl-vdi-containers',
+          text: 'Source Code',
         },
       ],
       technologies: [
         {
           name: 'Docker',
           icon: techTheme.docker.icon,
+        },
+        {
+          name: 'GPU',
+          icon: <BsGpuCard />,
+        },
+        {
+          name: 'Virtual Desktop',
+          icon: <BsWindowDesktop />,
         },
       ],
       // eslint-disable-next-line max-len
@@ -501,7 +544,7 @@ export default {
       technologies: [
         {
           name: 'Node',
-          icon: techTheme.nodeJs.icon,
+          icon: techTheme.nodeJs.avatar,
         },
         {
           name: 'React',
@@ -566,7 +609,7 @@ export default {
         },
         {
           name: 'Node',
-          icon: techTheme.nodeJs.icon,
+          icon: techTheme.nodeJs.avatar,
         },
         {
           name: 'React',
@@ -704,7 +747,7 @@ export default {
       title: 'Backtrack',
       subtitle: 'Penetration testing',
       date: '2009',
-      techTheme: techTheme.security,
+      techTheme: techTheme.kali,
       technologies: [
         {
           name: 'Linux',
@@ -853,7 +896,7 @@ export default {
             {
               name: 'Node',
               description: 'Backend process/API development',
-              icon: techTheme.nodeJs.icon,
+              icon: techTheme.nodeJs.avatar,
               experience: since(2017),
               lastUsed: stillUsed(),
             },
@@ -1112,7 +1155,7 @@ export default {
         {
           name: 'AWS',
           icon: techTheme.aws.icon,
-          experience: since(2017),
+          experience: since(2016),
           lastUsed: stillUsed(),
           frameworks: [
             {
@@ -1201,13 +1244,13 @@ export default {
             },
             {
               name: 'Config',
-              icon: techTheme.aws.icon,
+              icon: <FcRules />,
               experience: since(2022),
               lastUsed: stillUsed(),
             },
             {
               name: 'Security Hub',
-              icon: techTheme.aws.icon,
+              icon: <FcFinePrint />,
               experience: since(2022),
               lastUsed: stillUsed(),
             },
@@ -1216,8 +1259,8 @@ export default {
         {
           name: 'Azure',
           icon: techTheme.azure.icon,
-          experience: between(2014, 2014.5),
-          lastUsed: 2014,
+          experience: between(2015, 2015.5),
+          lastUsed: 2015,
           frameworks: [],
         },
       ],
@@ -1262,11 +1305,11 @@ export default {
         {
           name: 'Container Orchestration',
           icon: techTheme.docker.icon,
-          experience: since(2018),
+          experience: since(2017),
           lastUsed: stillUsed(),
           frameworks: [
             {
-              name: 'docker-compose',
+              name: 'Docker compose',
               icon: techTheme.docker.icon,
               experience: since(2019),
               lastUsed: stillUsed(),
@@ -1289,12 +1332,30 @@ export default {
               experience: since(2021.5),
               lastUsed: stillUsed(),
             },
+            {
+              name: 'AWS EKS',
+              icon: techTheme.eks.icon,
+              experience: since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'microk8s',
+              icon: techTheme.ubuntu.icon,
+              experience: since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'minikube',
+              icon: KubernetesTech.icon,
+              experience: since(2021.5),
+              lastUsed: stillUsed(),
+            },
           ],
         },
         {
           name: 'Security Testing',
           icon: techTheme.security.icon,
-          experience: since(2015),
+          experience: since(2014),
           lastUsed: stillUsed(),
           frameworks: [
             {
@@ -1340,11 +1401,18 @@ export default {
               lastUsed: stillUsed(),
             },
             {
+              name: 'semgrep',
+              description: 'SAST scanning in Gitlab CI',
+              icon: techTheme.gitlab.icon,
+              experience: since(2023),
+              lastUsed: stillUsed(),
+            },
+            {
               name: 'Aircrack-ng',
-              icon: techTheme.security.icon,
+              icon: <MdSignalWifi4BarLock />,
               description: 'Pen testing wireless networks',
-              experience: between(2014, 2015),
-              lastUsed: 2015,
+              experience: between(2014, 2015) + since(2024.5),
+              lastUsed: 2024,
             },
             {
               name: 'OSCAP',
@@ -1356,16 +1424,34 @@ export default {
             },
             {
               name: 'NIST 800-53',
-              icon: techTheme.security.icon,
+              icon: <FcReading />,
               description: 'Federal Government standard for security control definition',
               experience: since(2022),
               lastUsed: stillUsed(),
             },
             {
               name: 'NIST 800-171',
-              icon: techTheme.security.icon,
+              icon: (
+                <Avatar>
+                  <FcPrivacy />
+                </Avatar>
+              ),
               description: 'Federal Government standard for the storage and processing of CUI',
               experience: since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Kali Linux',
+              icon: <SiKalilinux />,
+              description: '',
+              experience: since(2022),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'burpsuite',
+              icon: <SiBurpsuite />,
+              description: 'Automated pen testing tool',
+              experience: since(2024.5),
               lastUsed: stillUsed(),
             },
           ],
@@ -1457,6 +1543,13 @@ export default {
               lastUsed: stillUsed(),
             },
             {
+              name: 'GitLab Flow',
+              description: 'Effectively GitHub flow but with long lived release branches.',
+              icon: techTheme.gitlab.icon,
+              experience: since(2021.5),
+              lastUsed: stillUsed(),
+            },
+            {
               name: 'Gitlab CI',
               icon: techTheme.gitlab.icon,
               experience: since(2021.5),
@@ -1497,6 +1590,50 @@ export default {
               icon: <GiSquirrel />,
               experience: between(2019, 2021),
               lastUsed: 2021,
+            },
+          ],
+        },
+        {
+          name: 'OS Admin',
+          icon: <FaComputer />,
+          experience: since(2005),
+          lastUsed: stillUsed(),
+          frameworks: [
+            {
+              name: 'Ubuntu',
+              icon: techTheme.ubuntu.icon,
+              experience: between(2006, 2008) + since(2010),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'Fedora',
+              icon: techTheme.fedora.icon,
+              experience: since(2020),
+              lastUsed: stillUsed(),
+            },
+            {
+              name: 'RHEL/Centos/Rocky',
+              icon: techTheme.rhel.icon,
+              experience: since(2022),
+              lastUsed: 2024,
+            },
+            {
+              name: 'Mandriva',
+              icon: techTheme.mandriva.icon,
+              experience: between(2006, 2008),
+              lastUsed: 2008,
+            },
+            {
+              name: 'Windows',
+              icon: techTheme.windows.icon,
+              experience: between(2006, 2021),
+              lastUsed: 2021,
+            },
+            {
+              name: 'Windows Server',
+              icon: techTheme.windowsServer.icon,
+              experience: between(2015, 2016) + between(2021, 2022),
+              lastUsed: 2022,
             },
           ],
         },
