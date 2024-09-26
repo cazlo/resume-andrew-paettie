@@ -428,7 +428,7 @@ export default {
       title: 'NASA Trick Containerization',
       subtitle: 'Open source contribution',
       date: `June 2024`,
-      techTheme: techTheme.c,
+      techTheme: techTheme.docker,
       links: [
         {
           url: 'https://github.com/cazlo/trick/pull/1',
@@ -528,7 +528,7 @@ export default {
         },
       ],
       // eslint-disable-next-line max-len
-      content: `Provide several working examples of GPU accelerated, fully containerized X environments accessible some Remote Desktop technology`,
+      content: `Provide several working examples of GPU accelerated, fully containerized X Desktop Environment accessible from a Remote Desktop technology`,
     },
     {
       title: 'Crypto Trading Analysis Platform',
@@ -1233,7 +1233,7 @@ export default {
             {
               name: 'EKS',
               icon: techTheme.kubernetes.icon,
-              experience: since(2022),
+              experience: since(2021.5),
               lastUsed: stillUsed(),
             },
             {
@@ -1710,7 +1710,7 @@ export default {
             },
             {
               name: 'Architecture Decision Records',
-              description: 'Maintaining 1 decisions made along the SDLC in Markdown right next to the code',
+              description: 'Maintaining decisions made along the SDLC in Markdown right next to the code',
               icon: <MdArchitecture />,
               experience: since(2018),
               lastUsed: stillUsed(),
@@ -1735,7 +1735,7 @@ export default {
       softSkills: [
         {
           name: 'Customer Service',
-          icon: <FcCustomerSupport />, // ssss
+          icon: <FcCustomerSupport />,
           experience: since(2005),
           frameworks: [],
         },
