@@ -48,27 +48,25 @@ FrameworkChiplist.propTypes = {
 };
 
 function Row(props) {
-  const { row, hasFrameworks, hasLastUsed, frameworkAlias } = props;
+  const { row, hasLastUsed, frameworkAlias } = props;
+  const hasFrameworks = row.frameworks && row.frameworks.length > 0;
   const [open, setOpen] = React.useState(false);
 
   return (
     <>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} onClick={() => setOpen(!open)}>
-        {hasFrameworks && (
-          <TableCell>
-            <IconButton aria-label="expand row" size="small">
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-        )}
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" disabled={!hasFrameworks}>
+            {/* eslint-disable-next-line no-nested-ternary */}
+            {!hasFrameworks ? <KeyboardArrowDownIcon /> : open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
         <TableCell component="th" scope="row">
           <Chip label={row.name} avatar={row.icon} />
         </TableCell>
-        {hasFrameworks && (
-          <TableCell align="right">
-            <FrameworkChiplist frameworks={row.frameworks.sort((a, d) => d.lastUsed - a.lastUsed)} />
-          </TableCell>
-        )}
+        <TableCell align="right">
+          {hasFrameworks && <FrameworkChiplist frameworks={row.frameworks.sort((a, d) => d.lastUsed - a.lastUsed)} />}
+        </TableCell>
         <TableCell align="right">
           <SkillRating experience={row.experience} />
         </TableCell>
@@ -134,7 +132,6 @@ const RowPropType = PropTypes.shape({
 Row.propTypes = {
   row: RowPropType.isRequired,
   hasLastUsed: PropTypes.bool.isRequired,
-  hasFrameworks: PropTypes.bool.isRequired,
   frameworkAlias: PropTypes.string.isRequired,
 };
 
@@ -146,7 +143,7 @@ export default function SkillTable({ rows, languageAlias, frameworkAlias }) {
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
-            {hasFrameworks && <TableCell />}
+            <TableCell />
             <TableCell>{languageAlias}</TableCell>
             {hasFrameworks && <TableCell>{frameworkAlias}</TableCell>}
             <TableCell align="right">Day-to-Day Experience</TableCell>
@@ -155,13 +152,7 @@ export default function SkillTable({ rows, languageAlias, frameworkAlias }) {
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <Row
-              key={row.name}
-              row={row}
-              hasFrameworks={hasFrameworks}
-              hasLastUsed={hasLastUsed}
-              frameworkAlias={frameworkAlias}
-            />
+            <Row key={row.name} row={row} hasLastUsed={hasLastUsed} frameworkAlias={frameworkAlias} />
           ))}
         </TableBody>
       </Table>
