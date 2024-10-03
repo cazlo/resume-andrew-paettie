@@ -29,6 +29,7 @@ import { ReactComponent as WebstormIcon } from 'devicon/icons/webstorm/webstorm-
 import { ReactComponent as TrelloIcon } from 'devicon/icons/trello/trello-plain.svg';
 import { ReactComponent as GitIcon } from 'devicon/icons/git/git-original.svg';
 import { ReactComponent as Bash } from 'devicon/icons/bash/bash-original.svg';
+import { ReactComponent as Zsh } from 'devicon/icons/ohmyzsh/ohmyzsh-original.svg';
 import { ReactComponent as Gradle } from 'devicon/icons/gradle/gradle-original.svg';
 import { ReactComponent as Groovy } from 'devicon/icons/groovy/groovy-original.svg';
 import { ReactComponent as Nginx } from 'devicon/icons/nginx/nginx-original.svg';
@@ -53,6 +54,7 @@ import { ReactComponent as JiraIcon } from 'devicon/icons/jira/jira-original.svg
 import { ReactComponent as FedoraIcon } from 'devicon/icons/fedora/fedora-original.svg';
 import { ReactComponent as RedHatIcon } from 'devicon/icons/redhat/redhat-original.svg';
 import { ReactComponent as RockyIcon } from 'devicon/icons/rockylinux/rockylinux-original.svg';
+import { ReactComponent as PoetryIcon } from 'devicon/icons/poetry/poetry-original.svg';
 // https://react-icons.github.io/react-icons/search/?q=clear
 import { FaEllipsisH } from 'react-icons/fa';
 import { MdSecurity } from 'react-icons/md';
@@ -642,6 +644,9 @@ const techTheme = {
     },
     icon: <Bash />,
   },
+  zsh: {
+    icon: <Zsh />,
+  },
   gradle: {
     style: {
       background: '#003037',
@@ -811,6 +816,9 @@ const techTheme = {
   },
   rockylinux: {
     icon: <RockyIcon />,
+  },
+  poetry: {
+    icon: <PoetryIcon />,
   },
 };
 

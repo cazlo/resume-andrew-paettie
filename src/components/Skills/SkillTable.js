@@ -48,7 +48,7 @@ FrameworkChiplist.propTypes = {
 };
 
 function Row(props) {
-  const { row, hasLastUsed, frameworkAlias } = props;
+  const { row, frameworkAlias } = props;
   const hasFrameworks = row.frameworks && row.frameworks.length > 0;
   const [open, setOpen] = React.useState(false);
 
@@ -68,9 +68,10 @@ function Row(props) {
           {hasFrameworks && <FrameworkChiplist frameworks={row.frameworks.sort((a, d) => d.lastUsed - a.lastUsed)} />}
         </TableCell>
         <TableCell align="right">
-          <SkillRating experience={row.experience} />
+          <SkillRating experience={row.experience.toNumber()} />
         </TableCell>
-        {hasLastUsed && <TableCell align="right">{row.lastUsed}</TableCell>}
+        <TableCell align="right">{row.experience.toTimeline()}</TableCell>
+        <TableCell align="right">{row.experience.lastUsed()}</TableCell>
       </TableRow>
       {hasFrameworks && (
         <TableRow>
@@ -86,20 +87,22 @@ function Row(props) {
                       <TableCell>Name</TableCell>
                       <TableCell>Experience</TableCell>
                       <TableCell align="right">Description</TableCell>
+                      <TableCell align="right">Timeline</TableCell>
                       <TableCell align="right">Last Used</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {row.frameworks?.map(f => (
-                      <TableRow key={`${row.name}-${f.date}`}>
+                      <TableRow key={`${row.name}-${f.experience.toNumber()}`}>
                         <TableCell component="th" scope="row">
                           <Chip label={f.name} avatar={f.icon} />
                         </TableCell>
                         <TableCell>
-                          <SkillRating experience={f.experience} />
+                          <SkillRating experience={f.experience?.toNumber()} />
                         </TableCell>
                         <TableCell align="right">{f.description}</TableCell>
-                        <TableCell align="right">{f.lastUsed}</TableCell>
+                        <TableCell align="right">{f.experience.toTimeline()}</TableCell>
+                        <TableCell align="right">{f.experience.lastUsed()}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -116,28 +119,27 @@ function Row(props) {
 const RowPropType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   icon: PropTypes.element.isRequired,
-  experience: PropTypes.number.isRequired,
-  lastUsed: PropTypes.number,
+  // eslint-disable-next-line react/forbid-prop-types
+  experience: PropTypes.object.isRequired, // todo better type
   frameworks: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       description: PropTypes.string,
       icon: PropTypes.element.isRequired,
-      experience: PropTypes.number.isRequired,
-      lastUsed: PropTypes.number,
+      // eslint-disable-next-line react/forbid-prop-types
+      experience: PropTypes.object.isRequired, // todo better type
     }),
   ),
 });
 
 Row.propTypes = {
   row: RowPropType.isRequired,
-  hasLastUsed: PropTypes.bool.isRequired,
   frameworkAlias: PropTypes.string.isRequired,
 };
 
 export default function SkillTable({ rows, languageAlias, frameworkAlias }) {
   const hasFrameworks = rows.reduce((a, c) => (c.frameworks?.length || 0) + a, 0) > 0;
-  const hasLastUsed = rows.reduce((a, c) => (c.lastUsed ? 1 : 0) + a, 0) > 0;
+  // const hasLastUsed = rows.reduce((a, c) => (c.lastUsed ? 1 : 0) + a, 0) > 0;
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -147,12 +149,13 @@ export default function SkillTable({ rows, languageAlias, frameworkAlias }) {
             <TableCell>{languageAlias}</TableCell>
             {hasFrameworks && <TableCell>{frameworkAlias}</TableCell>}
             <TableCell align="right">Day-to-Day Experience</TableCell>
-            {hasLastUsed && <TableCell align="right">Last used</TableCell>}
+            <TableCell align="right">Timeline</TableCell>
+            <TableCell align="right">Last used</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <Row key={row.name} row={row} hasLastUsed={hasLastUsed} frameworkAlias={frameworkAlias} />
+            <Row key={row.name} row={row} frameworkAlias={frameworkAlias} />
           ))}
         </TableBody>
       </Table>
