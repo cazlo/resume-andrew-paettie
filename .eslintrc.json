@@ -1,5 +1,4 @@
 {
-  "parser": "@babel/eslint-parser",
   "extends": [
 //    "eslint:recommended",
     "plugin:react/recommended",
@@ -18,17 +17,6 @@
     "react",
     "jsx-a11y"
   ],
-  "parserOptions": {
-    "requireConfigFile": false,
-//    "ecmaVersion": 2018,
-//    "sourceType": "module",
-    "babelOptions": {
-      "presets": ["@babel/preset-react"]
-    },
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
   "rules": {
     "max-len": ["error", {"code": 120}],
     "react/prop-types": ["warn"],
