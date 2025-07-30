@@ -422,6 +422,80 @@ export default {
       image: mySiteImage,
     },
     {
+      title: 'Python Async Task API',
+      subtitle: 'Reference architecture for event driven python microservices',
+      date: 'May 2025',
+      techTheme: techTheme.python,
+      links: [
+        {
+          url: 'https://github.com/cazlo/fastapi-async-task-workflow',
+          text: 'Source Code',
+        },
+        {
+          url: 'https://cazlo.github.io/fastapi-async-task-workflow/index.html',
+          text: 'Architecture Documentation',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+        },
+        {
+          name: 'FastAPI',
+          icon: techTheme.fastAPI.icon,
+        },
+        {
+          name: 'Celery',
+          icon: techTheme.python.icon,
+        },
+        {
+          name: 'Postgres',
+          icon: techTheme.postgres.icon,
+        },
+        {
+          name: 'RabbitMQ',
+          icon: techTheme.rabbitmq.icon,
+        },
+      ],
+      content: 'Reference architecture for event driven python microservices using FastAPI',
+    },
+    {
+      title: 'AWS Config Compliance Mapper',
+      subtitle: 'Auto-updated derived view of AWS documentation',
+      date: 'Jan 2025',
+      techTheme: techTheme.python,
+      links: [
+        {
+          url: 'https://github.com/cazlo/aws-config-compliance-mapper',
+          text: 'Source Code',
+        },
+        {
+          url: 'https://cazlo.github.io/aws-config-compliance-mapper/',
+          text: 'Site',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+        },
+        {
+          name: 'React',
+          icon: techTheme.react.icon,
+        },
+        {
+          name: 'Playwright',
+          icon: techTheme.javascript.icon,
+        },
+        {
+          name: 'GitHub CI',
+          icon: techTheme.github.icon,
+        },
+      ],
+      content: 'Searchable mapping of AWS Config rule to their associated security controls',
+    },
+    {
       title: 'NASA Trick Containerization',
       subtitle: 'Open source contribution',
       date: `June 2024`,
