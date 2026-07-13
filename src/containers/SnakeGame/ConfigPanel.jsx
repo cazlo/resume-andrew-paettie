@@ -237,6 +237,10 @@ export const ConfigPanel = props => {
                     <MenuItem value={Action.ALGORITHMS.greedy}>
                       Shortest Path to Food Else Longest Path to Tail
                     </MenuItem>
+                    <MenuItem value={Action.ALGORITHMS.hamiltonian}>Hamiltonian Cycle (even boards)</MenuItem>
+                    <MenuItem value={Action.ALGORITHMS.hamiltonianShortcut}>
+                      Hamiltonian Cycle with Safe Shortcuts (even boards)
+                    </MenuItem>
                     <MenuItem value={Action.ALGORITHMS.none}>None</MenuItem>
                   </Select>
                 </FormControl>

@@ -5,8 +5,12 @@ import {
   stepDeterministicGame,
 } from './deterministicGame';
 import { createSeededFoodProvider } from './foodProviders';
-import createGreedyPathFindingSolver from './pathFindingSolver';
+import createGreedyPathFindingSolver, {
+  createHamiltonianPathFindingSolver,
+  createHamiltonianShortcutPathFindingSolver,
+} from './pathFindingSolver';
 import { RIGHT } from '../util/Direction';
+import Action from '../actions/Action';
 
 export const ARENA_RUNNING = 'running';
 
@@ -29,6 +33,7 @@ export const createArenaSimulation = ({
   seed = 0,
   board = { numCols: 6, numRows: 6, wallsAreFatal: true },
   maxFrames = 1500,
+  algorithm = Action.ALGORITHMS.greedy,
 } = {}) => {
   const foodProvider = createSeededFoodProvider(seed);
   const initialState = createSimulationState({
@@ -40,14 +45,21 @@ export const createArenaSimulation = ({
     },
   });
   const state = spawnInitialFood(initialState, foodProvider);
+  const createSolver =
+    {
+      [Action.ALGORITHMS.greedy]: createGreedyPathFindingSolver,
+      [Action.ALGORITHMS.hamiltonian]: createHamiltonianPathFindingSolver,
+      [Action.ALGORITHMS.hamiltonianShortcut]: createHamiltonianShortcutPathFindingSolver,
+    }[algorithm] || createGreedyPathFindingSolver;
 
   return {
     foodProvider,
     maxFrames,
+    algorithm,
     outcome: ARENA_RUNNING,
     seed,
     seen: new Set([deterministicStateSignature(state)]),
-    solver: createGreedyPathFindingSolver(),
+    solver: createSolver(),
     state,
   };
 };

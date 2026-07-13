@@ -29,6 +29,8 @@ const Action = {
   CHANGE_NAME: 'CHANGE_NAME',
   ALGORITHMS: {
     greedy: 'greedy',
+    hamiltonian: 'hamiltonian',
+    hamiltonianShortcut: 'hamiltonianShortcut',
     astar: 'astar',
     none: 'none',
   },

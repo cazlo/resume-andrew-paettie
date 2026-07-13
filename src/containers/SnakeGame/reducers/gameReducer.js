@@ -19,8 +19,8 @@ const FOOD_THEMES = _.keys(_.omit(techTheme, ['nodeJs']));
 const MAX_SPEED = 0;
 
 export { computePerfectScore } from '../model/gameModel';
-const computeFrameTimeout = (w, h) => (w * h * (w * h) - 1) / 4;
-// ^^ a large number that is not near worst case but long enough for sane algorithms to finish
+const computeFrameTimeout = (w, h) => w * h * (w * h - 1);
+// A Hamiltonian follower can need almost one full board traversal per food.
 
 const DEFAULT_PERFECT_SCORE = computePerfectScore(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);
 const DEFAULT_FRAME_TIMEOUT = computeFrameTimeout(DEFAULT_BOARD_SIZE, DEFAULT_BOARD_SIZE);

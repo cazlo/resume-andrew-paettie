@@ -2,6 +2,13 @@
 
 ![demo](../../data/snake.gif)
 
-A simple snake game implemented using react and [easystar](https://github.com/prettymuchbryce/easystarjs) for pathfinding.
-Main Entry point is in [SnakeGame.jsx](./SnakeGame.js).
+A React/Redux-Saga snake game with deterministic simulation and pathfinding.
+The default AI takes a safe shortest path to food and otherwise follows a long
+path to its tail. Two separate cycle-based options support rectangular boards
+with at least one even dimension: **Hamiltonian Cycle** strictly follows the
+cycle, while **Hamiltonian Cycle with Safe Shortcuts** takes deterministic
+forward jumps toward food only when cycle order and growth reserve remain safe.
+Both cycle strategies reach perfect score within
+`boardArea * (boardArea - 1)` frames.
 
+The main entry point is [SnakeGame.jsx](./SnakeGame.jsx).

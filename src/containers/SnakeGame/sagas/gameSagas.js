@@ -30,8 +30,9 @@ export function* snakeSaga() {
     },
   } = state;
   const { numRows, numCols, frameTimeout, frameCount, wallsAreFatal } = state.game.game;
-  if (frameCount > frameTimeout) {
+  if (frameCount >= frameTimeout) {
     yield put(gameOver());
+    return;
   }
   yield put(move({ direction, numRows, numCols, wallsAreFatal }));
   const {
@@ -47,6 +48,7 @@ export function* snakeSaga() {
   if (head.x < 0 || head.x >= numCols || head.y < 0 || head.y >= numRows) {
     // console.log(`Collision with game bounds`);
     yield put(gameOver());
+    return;
   }
   // collision with tail
   for (let i = 0; i < tail.length; i += 1) {
@@ -54,6 +56,7 @@ export function* snakeSaga() {
     if (x === head.x && y === head.y) {
       // console.log(`Collided with tail index ${i} (tail size:${tail.length})`);
       yield put(gameOver());
+      return;
     }
   }
   // collision with food
