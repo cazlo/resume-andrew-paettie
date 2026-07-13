@@ -15,6 +15,10 @@ export const gameOver = () => ({
   type: Action.GAME_OVER,
   endTime: moment().valueOf(),
 });
+export const win = () => ({
+  type: Action.WON,
+  endTime: moment().valueOf(),
+});
 export const move = ({ direction, numRows, numCols, wallsAreFatal }) => ({
   type: Action.MOVE,
   direction,

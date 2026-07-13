@@ -11,7 +11,7 @@ import Grid from '../util/Grid';
 import GameState from '../util/GameState';
 
 const { DEFAULT_BOARD_SIZE } = Grid;
-const { PLAYING, GAME_OVER } = GameState;
+const { PLAYING, GAME_OVER, WON } = GameState;
 
 const FOOD_THEMES = _.keys(_.omit(techTheme, ['nodeJs']));
 
@@ -67,6 +67,7 @@ const resetAction = createAction(Action.RESET);
 const changeDirectonAction = createAction(Action.CHANGE_DIRECTION);
 const spawnFoodAction = createAction(Action.SPAWN_FOOD);
 const gameOverAction = createAction(Action.GAME_OVER);
+const wonAction = createAction(Action.WON);
 const addScoreAction = createAction(Action.ADD_SCORE);
 const setSizeAction = createAction(Action.SET_SIZE);
 const setSpeedAction = createAction(Action.SET_SPEED);
@@ -119,7 +120,8 @@ export const food = createReducer(defaults.food, builder => {
       ];
     })
     .addCase(eatFoodAction, (state, action) => state.filter(({ x, y }) => x !== action.x || y !== action.y))
-    .addCase(gameOverAction, () => []);
+    .addCase(gameOverAction, () => [])
+    .addCase(wonAction, () => []);
 });
 
 // ----------------- highscores -------------------
@@ -178,7 +180,9 @@ export const startTime = createReducer(defaults.game.startTime, builder => {
   builder.addCase(playAction, (state, action) => action.startTime);
 });
 export const endTime = createReducer(defaults.game.endTime, builder => {
-  builder.addCase(gameOverAction, (state, action) => action.endTime);
+  builder
+    .addCase(gameOverAction, (state, action) => action.endTime)
+    .addCase(wonAction, (state, action) => action.endTime);
 });
 export const frameCount = createReducer(defaults.game.frameCount, builder => {
   builder.addCase(tickAction, state => state + 1).addCase(resetAction, () => 0);
@@ -201,7 +205,10 @@ export const wallsAreFatal = createReducer(defaults.game.wallsAreFatal, builder 
   builder.addCase(toggleWallsAreFatalAction, (state, action) => action.checked);
 });
 export const state = createReducer(defaults.game.state, builder => {
-  builder.addCase(playAction, () => PLAYING).addCase(gameOverAction, () => GAME_OVER);
+  builder
+    .addCase(playAction, () => PLAYING)
+    .addCase(gameOverAction, () => GAME_OVER)
+    .addCase(wonAction, () => WON);
 });
 
 export default combineReducers({

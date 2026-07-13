@@ -1,7 +1,9 @@
+import Action from '../actions/Action';
 import { eatFood, move } from '../actions/gameAction';
+import GameState from '../util/GameState';
 import { RIGHT } from '../util/Direction';
 import Position from '../util/Position';
-import { parts } from './gameReducer';
+import { endTime, parts, state as gameState } from './gameReducer';
 
 const p = Position;
 const board = { numRows: 4, numCols: 4, wallsAreFatal: true };
@@ -24,5 +26,14 @@ describe('snake growth', () => {
 
     expect(movedSnake).toEqual([p(3, 1), p(2, 1), p(1, 1)]);
     expect(movedSnake).not.toContainEqual(p(0, 1));
+  });
+});
+
+describe('game completion', () => {
+  it('records an explicit won state and end time', () => {
+    const action = { type: Action.WON, endTime: 1234 };
+
+    expect(gameState(undefined, action)).toBe(GameState.WON);
+    expect(endTime(undefined, action)).toBe(1234);
   });
 });

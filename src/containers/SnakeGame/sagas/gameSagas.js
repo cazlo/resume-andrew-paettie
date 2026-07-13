@@ -12,6 +12,7 @@ import {
   setFps,
   spawnFood,
   tick,
+  win,
 } from '../actions/gameAction';
 import PositionUtil from '../util/PositionUtil';
 import { pathFindingSaga } from './pathFindingSagas';
@@ -39,6 +40,7 @@ export function* snakeSaga() {
         parts: [head, ...tail],
       },
       food,
+      game: { perfectScore, score },
     },
   } = yield select();
   // bounds check
@@ -59,6 +61,10 @@ export function* snakeSaga() {
     const { x, y } = food[i];
     if (x === head.x && y === head.y) {
       yield put(eatFood(x, y));
+      if (score + 1 === perfectScore) {
+        yield put(win());
+        return;
+      }
     }
   }
   yield put(moveFinished());
@@ -121,7 +127,7 @@ export function* runGame({ waitOnPlay = true, doReset = true }) {
   if (doReset) {
     yield put(reset());
   }
-  yield take(Action.GAME_OVER);
+  yield take([Action.GAME_OVER, Action.WON]);
   yield cancel([...running]);
   const state = yield select();
   yield put(addScore(state.game.game));
