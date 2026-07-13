@@ -1,4 +1,13 @@
 import { createArenaSimulation, stepArenaSimulation } from './arenaSimulation';
+import { GameOutcome } from './deterministicGame';
+import Action from '../actions/Action';
+
+const UINT32_RANGE = 4294967296;
+
+const seedFor = (generation, index) => {
+  const value = Math.imul(generation + 1, 2654435761) + Math.imul(index + 1, 2246822519);
+  return ((value % UINT32_RANGE) + UINT32_RANGE) % UINT32_RANGE;
+};
 
 const advance = (simulation, frames) => {
   let current = simulation;
@@ -32,5 +41,36 @@ describe('arena simulation', () => {
     const completed = { ...simulation, outcome: 'won' };
 
     expect(stepArenaSimulation(completed)).toBe(completed);
+  });
+
+  it('wins the first 20-seed UI cohort with both cycle algorithms', () => {
+    const failures = [];
+    for (const algorithm of [Action.ALGORITHMS.hamiltonian, Action.ALGORITHMS.hamiltonianShortcut]) {
+      for (const wallsAreFatal of [true, false]) {
+        for (let index = 0; index < 20; index += 1) {
+          const seed = seedFor(0, index);
+          let simulation = createArenaSimulation({
+            seed,
+            board: { numRows: 6, numCols: 6, wallsAreFatal },
+            algorithm,
+          });
+          while (simulation.outcome === 'running') simulation = stepArenaSimulation(simulation);
+
+          if (simulation.outcome !== GameOutcome.WON) {
+            failures.push({
+              algorithm,
+              seed: seed.toString(16).toUpperCase().padStart(8, '0'),
+              wallsAreFatal,
+              outcome: simulation.outcome,
+              score: simulation.state.score,
+              frameCount: simulation.state.frameCount,
+            });
+          }
+          expect(simulation.state.perfectScore).toBe(35);
+          expect(simulation.state.frameCount).toBeLessThanOrEqual(simulation.maxFrames);
+        }
+      }
+    }
+    expect(failures).toEqual([]);
   });
 });

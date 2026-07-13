@@ -37,14 +37,21 @@ export const playGame = ({ size, algorithm, limit, wallsAreFatal = false }) => {
     expect([GameState.GAME_OVER, GameState.WON]).toContain(game.state);
     expect(game.score).toBeGreaterThan(0);
     if (limit) {
-      expect(game.frameCount).toBeLessThanOrEqual(limit + 1); // allow it to go 1 tick beyond
+      expect(game.frameCount).toBeLessThanOrEqual(limit);
     }
     return { duration: game.endTime - game.startTime, outcome: game.state, score: game.score };
   });
 };
 
 // here avgThreshold is expected to be the % of perfect score which should be achieved on avg
-export const performanceTest = ({ gamesToSimulate, avgThreshold, size = 10, algorithm, name }) => {
+export const performanceTest = ({
+  gamesToSimulate,
+  avgThreshold,
+  size = 10,
+  algorithm,
+  name,
+  requirePerfectScores = false,
+}) => {
   const threshold = computePerfectScore(size, size) * avgThreshold;
   return describe(name, () => {
     let results = [];
@@ -75,5 +82,12 @@ export const performanceTest = ({ gamesToSimulate, avgThreshold, size = 10, algo
       expect(max).toBeLessThanOrEqual(computePerfectScore(size, size));
       console.log(`${name} ${size}X${size} max: ${max}`);
     });
+
+    if (requirePerfectScores) {
+      it('every game reaches an explicit perfect-score win', () => {
+        expect(results.every(result => result.outcome === GameState.WON)).toBe(true);
+        expect(scores.every(score => score === computePerfectScore(size, size))).toBe(true);
+      });
+    }
   });
 };

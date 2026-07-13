@@ -1,5 +1,6 @@
 import { pathfind, pathfindGreedy, tryPathFindingToTail } from './pathFindingSagas';
 import Position from '../util/Position';
+import { fatal6x6SeedAA0F0E9FNoLegalMove } from '../simulation/greedyCounterexamples';
 
 const p = Position;
 
@@ -56,5 +57,17 @@ describe('stationary tail path finding', () => {
     const path = pathfindGreedy(snake, p(3, 3), fatalBoard);
 
     expect(path[0]).not.toEqual(expect.objectContaining(tail));
+  });
+
+  it('does not route to the tail through food that was rejected as unsafe', () => {
+    const { board, decisionState } = fatal6x6SeedAA0F0E9FNoLegalMove;
+    const { snake, food } = decisionState;
+
+    const tailPath = tryPathFindingToTail(snake, board, { lookForAlternates: true, food });
+    const greedyPath = pathfindGreedy(snake, food, board);
+
+    expect(tailPath).not.toContainEqual(expect.objectContaining(food));
+    expect(tailPath[0]).toEqual(expect.objectContaining(p(1, 4)));
+    expect(greedyPath[0]).not.toEqual(expect.objectContaining(food));
   });
 });

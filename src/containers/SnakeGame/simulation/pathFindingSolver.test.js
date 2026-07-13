@@ -1,7 +1,10 @@
-import { DOWN, RIGHT } from '../util/Direction';
+import { DOWN, RIGHT, UP } from '../util/Direction';
 import Position from '../util/Position';
 import { createSimulationState } from './deterministicGame';
-import createGreedyPathFindingSolver from './pathFindingSolver';
+import createGreedyPathFindingSolver, {
+  createHamiltonianPathFindingSolver,
+  createHamiltonianShortcutPathFindingSolver,
+} from './pathFindingSolver';
 
 const p = Position;
 
@@ -14,6 +17,8 @@ describe('deterministic food/tail solver adapter', () => {
     });
 
     expect(createGreedyPathFindingSolver()(state)).toEqual({ direction: RIGHT });
+    expect(createHamiltonianPathFindingSolver()(state)).toEqual({ direction: DOWN });
+    expect(createHamiltonianShortcutPathFindingSolver()(state)).toEqual({ direction: UP });
   });
 
   it('uses the configured stable neighbor order for survival fallback', () => {

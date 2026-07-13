@@ -8,6 +8,7 @@ import { LEFT, RIGHT, UP, DOWN } from '../util/Direction';
 import PositionUtil from '../util/PositionUtil';
 import { computePerfectScore } from '../reducers/gameReducer';
 import Action from '../actions/Action';
+import { findCycleSafeNextPosition, findCycleShortcutNextPosition } from './cycleSafePathFinding';
 
 const getNeighboringNodeDirections = ({ x, y, numRows, numCols, wallsAreFatal }) => {
   const left = wallsAreFatal && x - 1 < 0 ? null : { x: x - 1 < 0 ? numCols - 1 : x - 1, y, direction: LEFT };
@@ -170,7 +171,7 @@ const recordMetric = (metrics, name, value = 1) => {
 export const pathfind = (
   snake,
   goal,
-  { numRows, numCols, wallsAreFatal, metrics },
+  { numRows, numCols, wallsAreFatal, metrics, blockedPositions = [] },
   allowTail = false,
   returnEarly = false,
 ) => {
@@ -180,6 +181,7 @@ export const pathfind = (
   const [head, ...tailParts] = snake.parts;
   const tail = snake.parts[snake.parts.length - 1];
   const occupancyCounts = buildOccupancyCounts(snake.parts);
+  const blockedPositionIds = new Set(blockedPositions.map(positionId));
   // EAT_FOOD duplicates the tail, so a repeated tail coordinate remains occupied through the next MOVE.
   const canMoveIntoTail = willTailMove(snake.parts, occupancyCounts);
   if (wallsAreFatal && (head.x < 0 || head.x >= numCols || head.y < 0 || head.y >= numRows)) {
@@ -194,7 +196,7 @@ export const pathfind = (
       const position = { x, y };
       const posId = positionId(position);
       const isHead = head.x === x && head.y === y;
-      const isSnake = occupancyCounts.has(posId);
+      const isSnake = occupancyCounts.has(posId) || blockedPositionIds.has(posId);
       const isTail = tail.x === x && tail.y === y;
       graph.addNode(posId, { position, isSnake, isHead, isTail });
     }
@@ -340,13 +342,22 @@ export const tryPathFindingToTail = (
   { numRows, numCols, wallsAreFatal, metrics },
   { returnEarly = false, lookForAlternates = false, food } = {},
 ) => {
-  const pathToTail = pathfind(
+  let pathToTail = pathfind(
     snake,
     snake.parts[snake.parts.length - 1],
     { numRows, numCols, wallsAreFatal, metrics },
     true,
     returnEarly,
   );
+  if (food && pathToTail.some(point => isFood(point, food))) {
+    pathToTail = pathfind(
+      snake,
+      snake.parts[snake.parts.length - 1],
+      { numRows, numCols, wallsAreFatal, metrics, blockedPositions: [food] },
+      true,
+      returnEarly,
+    );
+  }
   if (!pathToTail || pathToTail.length <= 0) {
     return [];
   }
@@ -429,6 +440,16 @@ export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal, m
   return pathToFood;
 };
 
+export const pathfindHamiltonian = (snake, food, { numRows, numCols, wallsAreFatal }) => {
+  const nextPosition = findCycleSafeNextPosition(snake, food, { numRows, numCols, wallsAreFatal });
+  return nextPosition ? [nextPosition] : [];
+};
+
+export const pathfindHamiltonianShortcut = (snake, food, { numRows, numCols, wallsAreFatal }) => {
+  const nextPosition = findCycleShortcutNextPosition(snake, food, { numRows, numCols, wallsAreFatal });
+  return nextPosition ? [nextPosition] : [];
+};
+
 export function* pathFindingSaga() {
   // while (true) {
   //   yield take([Action.MOVE_FINISHED]);
@@ -487,6 +508,30 @@ export function* pathFindingSaga() {
         numCols,
         wallsAreFatal,
       });
+    }
+  } else if (state.aiConfig.algorithm === Action.ALGORITHMS.hamiltonian) {
+    const { snake } = state.game;
+    const { food } = state.game;
+    const { numRows, numCols, wallsAreFatal } = state.game.game;
+    const path = pathfindHamiltonian(snake, food[0], { numRows, numCols, wallsAreFatal });
+    if (!path.length) {
+      yield put(pathNotFound());
+      yield survivalMode(snake, { numRows, numCols, wallsAreFatal });
+    } else {
+      yield put(finishPathFind(path));
+      yield moveFromPath(path, snake.parts, { numRows, numCols, wallsAreFatal });
+    }
+  } else if (state.aiConfig.algorithm === Action.ALGORITHMS.hamiltonianShortcut) {
+    const { snake } = state.game;
+    const { food } = state.game;
+    const { numRows, numCols, wallsAreFatal } = state.game.game;
+    const path = pathfindHamiltonianShortcut(snake, food[0], { numRows, numCols, wallsAreFatal });
+    if (!path.length) {
+      yield put(pathNotFound());
+      yield survivalMode(snake, { numRows, numCols, wallsAreFatal });
+    } else {
+      yield put(finishPathFind(path));
+      yield moveFromPath(path, snake.parts, { numRows, numCols, wallsAreFatal });
     }
   }
   // }
