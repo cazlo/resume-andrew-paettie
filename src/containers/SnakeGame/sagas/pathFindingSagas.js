@@ -47,6 +47,22 @@ export const moveFromPath = (path, snake, { numRows, numCols, wallsAreFatal }) =
 
 const positionId = ({ x, y }) => `x${x}y${y}`;
 
+const countPartsAtPosition = (parts, position) =>
+  parts.filter(part => PositionUtil.isSamePosition(part, position)).length;
+
+const willTailMove = parts => {
+  const tail = parts[parts.length - 1];
+  return tail && countPartsAtPosition(parts, tail) === 1;
+};
+
+export const projectSnakeAlongPath = (parts, path, { growsAtEnd = false } = {}) => {
+  if (!parts.length) {
+    return [];
+  }
+  const projected = path.reduce((current, nextHead) => [nextHead, ...current.slice(0, -1)], [...parts]);
+  return growsAtEnd ? [...projected, projected[projected.length - 1]] : projected;
+};
+
 const getNeighboringNodes = ({ x, y, numRows, numCols, wallsAreFatal }) => {
   const left = wallsAreFatal && x - 1 < 0 ? null : { x: x - 1 < 0 ? numCols - 1 : x - 1, y };
   const right = wallsAreFatal && x + 1 > numCols - 1 ? null : { x: x + 1 > numCols - 1 ? 0 : x + 1, y };
@@ -141,7 +157,7 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
   const [head, ...tailParts] = snake.parts;
   const tail = snake.parts[snake.parts.length - 1];
   // EAT_FOOD duplicates the tail, so a repeated tail coordinate remains occupied through the next MOVE.
-  const tailWillMove = snake.parts.filter(part => part.x === tail.x && part.y === tail.y).length === 1;
+  const canMoveIntoTail = willTailMove(snake.parts);
   if (wallsAreFatal && (head.x < 0 || head.x >= numCols || head.y < 0 || head.y >= numRows)) {
     // don't attempt pathfinding if we are already out of bounds
     return [];
@@ -206,7 +222,11 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
     for (const neighbor of [left, right, up, down]) {
       if (neighbor) {
         const neighborNode = graph.getNode(neighbor).data;
-        if (neighborNode && (!neighborNode.isSnake || neighborNode.isHead) && (tailWillMove || !neighborNode.isHead)) {
+        if (
+          neighborNode &&
+          (!neighborNode.isSnake || neighborNode.isHead) &&
+          (canMoveIntoTail || !neighborNode.isHead)
+        ) {
           graph.addLink(tailId, neighbor);
         }
       }
@@ -228,7 +248,7 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
         didExpand: false,
         wallsAreFatal,
       });
-    } while (modifiedPath.didExpand && modifiedPath.totalExpansions <= 4);
+    } while (modifiedPath.didExpand && modifiedPath.totalExpansions < 4);
     // since we really only care about the first move, most of the "longest path"
     // will not matter for this context, so break early to avoid unnecessary computations
 
@@ -250,6 +270,8 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
 // if it has no food to pathfind to, just try not to collide with itself
 export const survivalMode = (snake, { numRows, numCols, wallsAreFatal }) => {
   const head = snake.parts[0];
+  const tail = snake.parts[snake.parts.length - 1];
+  const canMoveIntoTail = willTailMove(snake.parts);
   const neighbors = getNeighboringNodeDirections({
     x: head.x,
     y: head.y,
@@ -259,7 +281,8 @@ export const survivalMode = (snake, { numRows, numCols, wallsAreFatal }) => {
   });
   for (const n of _.shuffle(neighbors)) {
     const snakeMatches = snake.parts.filter(s => s.x === n.x && s.y === n.y);
-    if (!snakeMatches.length) {
+    const isVacatingTail = canMoveIntoTail && PositionUtil.isSamePosition(n, tail);
+    if (!snakeMatches.length || isVacatingTail) {
       return put(changeDirection(n.direction));
     }
   }
@@ -299,15 +322,7 @@ export const tryPathFindingToTail = (
     for (const n of neighbors) {
       const snakeMatches = snake.parts.filter(s => s.x === n.x && s.y === n.y);
       if (!snakeMatches.length) {
-        const snakeArr = _.clone(snake.parts);
-        const snakeLen = snakeArr.length;
-        let newSnake;
-        const reversedPath = [{ x: n.x, y: n.y }];
-        if (pathToTail.length >= snakeLen) {
-          newSnake = reversedPath.slice(0, snakeLen);
-        } else {
-          newSnake = [...reversedPath, ...snakeArr].slice(0, snakeLen);
-        }
+        const newSnake = projectSnakeAlongPath(snake.parts, [{ x: n.x, y: n.y }]);
         // as an optimization we don't need to do the longest path search here; SP is good enough
         // todo this doesn't seem needed anymore
         const pathToShiftedSnakeTail = pathfind(
@@ -346,15 +361,7 @@ export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal })
       // console.log("YOLO")
       return pathToFood;
     }
-    const snakeArr = _.clone(snake.parts);
-    const snakeLen = snakeArr.length;
-    let newSnake;
-    const reversedPath = _.reverse(_.clone(pathToFood));
-    if (pathToFood.length >= snakeLen) {
-      newSnake = reversedPath.slice(0, snakeLen);
-    } else {
-      newSnake = [...reversedPath, ...snakeArr].slice(0, snakeLen);
-    }
+    const newSnake = projectSnakeAlongPath(snake.parts, pathToFood, { growsAtEnd: true });
     // as an optimization we don't need to do the longest path search here; SP is good enough
     // todo this doesn't seem needed anymore
     const pathToShiftedSnakeTail = tryPathFindingToTail({ parts: newSnake }, { numRows, numCols, wallsAreFatal });
