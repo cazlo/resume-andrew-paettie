@@ -4,6 +4,7 @@ import Action from '../actions/Action';
 
 const pathNotFoundAction = createAction(Action.PATH_NOT_FOUND);
 const gameOverAction = createAction(Action.GAME_OVER);
+const wonAction = createAction(Action.WON);
 const finishPathFindAction = createAction(Action.FINISH_PATH_FIND);
 const startPathFindAction = createAction(Action.START_PATH_FIND);
 
@@ -11,6 +12,7 @@ export const path = createReducer([], builder => {
   builder
     .addCase(pathNotFoundAction, () => [])
     .addCase(gameOverAction, () => [])
+    .addCase(wonAction, () => [])
     .addCase(finishPathFindAction, (state, action) => action.payload);
 });
 export const grid = createReducer([], builder => {

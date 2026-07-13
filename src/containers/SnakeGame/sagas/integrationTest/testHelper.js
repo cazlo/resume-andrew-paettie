@@ -8,9 +8,9 @@ import Format from '../../util/Format';
 import rootReducer from '../../reducers/index';
 import { runGame } from '../gameSagas';
 import { play, setSize, setFrameLimit, toggleWallsAreFatal } from '../../actions/gameAction';
-import Action from '../../actions/Action';
 import { computePerfectScore } from '../../reducers/gameReducer';
 import { setAlgorithm } from '../../actions/aiConfigAction';
+import GameState from '../../util/GameState';
 
 const createStore = sagaMiddleware =>
   configureStore({
@@ -34,12 +34,12 @@ export const playGame = ({ size, algorithm, limit, wallsAreFatal = false }) => {
     // assertions
     const state = store.getState().game;
     const { game } = state;
-    expect(game.state).toEqual(Action.GAME_OVER);
+    expect([GameState.GAME_OVER, GameState.WON]).toContain(game.state);
     expect(game.score).toBeGreaterThan(0);
     if (limit) {
       expect(game.frameCount).toBeLessThanOrEqual(limit + 1); // allow it to go 1 tick beyond
     }
-    return { duration: game.endTime - game.startTime, score: game.score };
+    return { duration: game.endTime - game.startTime, outcome: game.state, score: game.score };
   });
 };
 
