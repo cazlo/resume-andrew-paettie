@@ -9,6 +9,7 @@ import { RIGHT } from '../util/Direction';
 import Format from '../util/Format';
 import Grid from '../util/Grid';
 import GameState from '../util/GameState';
+import { computePerfectScore, growSnake, moveSnake } from '../model/gameModel';
 
 const { DEFAULT_BOARD_SIZE } = Grid;
 const { PLAYING, GAME_OVER, WON } = GameState;
@@ -17,9 +18,7 @@ const FOOD_THEMES = _.keys(_.omit(techTheme, ['nodeJs']));
 
 const MAX_SPEED = 0;
 
-const wrap = (point, size) => (point < 0 ? point + size : point % size);
-
-export const computePerfectScore = (w, h) => w * h - 1; // -1 because the head occupies 1 space
+export { computePerfectScore } from '../model/gameModel';
 const computeFrameTimeout = (w, h) => (w * h * (w * h) - 1) / 4;
 // ^^ a large number that is not near worst case but long enough for sane algorithms to finish
 
@@ -82,20 +81,8 @@ const toggleWallsAreFatalAction = createAction(Action.TOGGLE_WALLS_ARE_FATAL);
 
 export const parts = createReducer(defaults.snake.parts, builder => {
   builder
-    .addCase(moveAction, (state, action) => {
-      const { direction, numRows, numCols, wallsAreFatal } = action;
-      const x = state[0].x + direction.x;
-      const y = state[0].y + direction.y;
-      const head = {
-        ...state[0],
-        x: wallsAreFatal ? x : wrap(x, numCols),
-        y: wallsAreFatal ? y : wrap(y, numRows),
-      };
-      const newState = state.slice(0, -1);
-      newState.unshift(head);
-      return newState;
-    })
-    .addCase(eatFoodAction, state => [...state, state[state.length - 1]])
+    .addCase(moveAction, (state, action) => moveSnake(state, action))
+    .addCase(eatFoodAction, state => growSnake(state))
     .addCase(resetAction, () => defaults.snake.parts);
 });
 export const direction = createReducer(defaults.snake.direction, builder => {
