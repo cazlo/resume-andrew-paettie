@@ -47,12 +47,18 @@ export const moveFromPath = (path, snake, { numRows, numCols, wallsAreFatal }) =
 
 const positionId = ({ x, y }) => `x${x}y${y}`;
 
-const countPartsAtPosition = (parts, position) =>
-  parts.filter(part => PositionUtil.isSamePosition(part, position)).length;
+export const buildOccupancyCounts = parts => {
+  const counts = new Map();
+  for (const part of parts) {
+    const id = positionId(part);
+    counts.set(id, (counts.get(id) || 0) + 1);
+  }
+  return counts;
+};
 
-const willTailMove = parts => {
+const willTailMove = (parts, occupancyCounts = buildOccupancyCounts(parts)) => {
   const tail = parts[parts.length - 1];
-  return tail && countPartsAtPosition(parts, tail) === 1;
+  return tail && occupancyCounts.get(positionId(tail)) === 1;
 };
 
 export const projectSnakeAlongPath = (parts, path, { growsAtEnd = false } = {}) => {
@@ -150,28 +156,40 @@ const searcher = pathFinder.nba(graph, {
   // heuristic: (from, to) => heuristic(from, to, numRows, numCols),
 });
 
-export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allowTail = false, returnEarly = false) => {
+const recordMetric = (metrics, name, value = 1) => {
+  if (metrics) {
+    Object.assign(metrics, { [name]: (metrics[name] || 0) + value });
+  }
+};
+
+export const pathfind = (
+  snake,
+  goal,
+  { numRows, numCols, wallsAreFatal, metrics },
+  allowTail = false,
+  returnEarly = false,
+) => {
   if (!snake.parts[0]) {
     return [];
   }
   const [head, ...tailParts] = snake.parts;
   const tail = snake.parts[snake.parts.length - 1];
+  const occupancyCounts = buildOccupancyCounts(snake.parts);
   // EAT_FOOD duplicates the tail, so a repeated tail coordinate remains occupied through the next MOVE.
-  const canMoveIntoTail = willTailMove(snake.parts);
+  const canMoveIntoTail = willTailMove(snake.parts, occupancyCounts);
   if (wallsAreFatal && (head.x < 0 || head.x >= numCols || head.y < 0 || head.y >= numRows)) {
     // don't attempt pathfinding if we are already out of bounds
     return [];
   }
+  const graphBuildStarted = metrics ? performance.now() : 0;
   graph.clear();
   // create a node for each x,y position in the play area
   for (let x = 0; x < numCols; x += 1) {
     for (let y = 0; y < numRows; y += 1) {
       const position = { x, y };
       const posId = positionId(position);
-      const matchingSnake = _.filter(tailParts, t => t.x === x && t.y === y);
-      // todo              may want to dictionary this ^^^ for O(1)
       const isHead = head.x === x && head.y === y;
-      const isSnake = matchingSnake.length > 0 || isHead;
+      const isSnake = occupancyCounts.has(posId);
       const isTail = tail.x === x && tail.y === y;
       graph.addNode(posId, { position, isSnake, isHead, isTail });
     }
@@ -233,8 +251,16 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
     }
   }
 
+  recordMetric(metrics, 'graphBuildCount');
+  recordMetric(metrics, 'graphBuildDurationMs', metrics ? performance.now() - graphBuildStarted : 0);
+  recordMetric(metrics, 'pathExpansionCount', 0);
+  recordMetric(metrics, 'expansionDurationMs', 0);
+  const searchStarted = metrics ? performance.now() : 0;
   const path = searcher.find(positionId(goal), positionId(head));
+  recordMetric(metrics, 'searchCount');
+  recordMetric(metrics, 'searchDurationMs', metrics ? performance.now() - searchStarted : 0);
   if (path.length >= 2 && allowTail && !returnEarly) {
+    const expansionStarted = metrics ? performance.now() : 0;
     let modifiedPath = {
       didExpand: false,
       pathSoFar: path,
@@ -249,6 +275,8 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
         wallsAreFatal,
       });
     } while (modifiedPath.didExpand && modifiedPath.totalExpansions < 4);
+    recordMetric(metrics, 'pathExpansionCount', modifiedPath.totalExpansions);
+    recordMetric(metrics, 'expansionDurationMs', metrics ? performance.now() - expansionStarted : 0);
     // since we really only care about the first move, most of the "longest path"
     // will not matter for this context, so break early to avoid unnecessary computations
 
@@ -271,7 +299,8 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
 export const survivalMode = (snake, { numRows, numCols, wallsAreFatal }) => {
   const head = snake.parts[0];
   const tail = snake.parts[snake.parts.length - 1];
-  const canMoveIntoTail = willTailMove(snake.parts);
+  const occupancyCounts = buildOccupancyCounts(snake.parts);
+  const canMoveIntoTail = willTailMove(snake.parts, occupancyCounts);
   const neighbors = getNeighboringNodeDirections({
     x: head.x,
     y: head.y,
@@ -280,9 +309,9 @@ export const survivalMode = (snake, { numRows, numCols, wallsAreFatal }) => {
     wallsAreFatal,
   });
   for (const n of _.shuffle(neighbors)) {
-    const snakeMatches = snake.parts.filter(s => s.x === n.x && s.y === n.y);
+    const isOccupied = occupancyCounts.has(positionId(n));
     const isVacatingTail = canMoveIntoTail && PositionUtil.isSamePosition(n, tail);
-    if (!snakeMatches.length || isVacatingTail) {
+    if (!isOccupied || isVacatingTail) {
       return put(changeDirection(n.direction));
     }
   }
@@ -294,13 +323,13 @@ const isFood = (point, food) => point && food && point.x === food.x && point.y =
 
 export const tryPathFindingToTail = (
   snake,
-  { numRows, numCols, wallsAreFatal },
+  { numRows, numCols, wallsAreFatal, metrics },
   { returnEarly = false, lookForAlternates = false, food } = {},
 ) => {
   const pathToTail = pathfind(
     snake,
     snake.parts[snake.parts.length - 1],
-    { numRows, numCols, wallsAreFatal },
+    { numRows, numCols, wallsAreFatal, metrics },
     true,
     returnEarly,
   );
@@ -319,16 +348,16 @@ export const tryPathFindingToTail = (
       numCols,
       wallsAreFatal,
     });
+    const occupancyCounts = buildOccupancyCounts(snake.parts);
     for (const n of neighbors) {
-      const snakeMatches = snake.parts.filter(s => s.x === n.x && s.y === n.y);
-      if (!snakeMatches.length) {
+      if (!occupancyCounts.has(positionId(n))) {
         const newSnake = projectSnakeAlongPath(snake.parts, [{ x: n.x, y: n.y }]);
         // as an optimization we don't need to do the longest path search here; SP is good enough
         // todo this doesn't seem needed anymore
         const pathToShiftedSnakeTail = pathfind(
           { parts: newSnake },
           newSnake[newSnake.length - 1],
-          { numRows, numCols, wallsAreFatal },
+          { numRows, numCols, wallsAreFatal, metrics },
           true,
           returnEarly,
         );
@@ -344,16 +373,16 @@ export const tryPathFindingToTail = (
   return pathToTail;
 };
 
-export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal }) => {
+export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal, metrics }) => {
   if (!food) {
     return [];
   }
   if (snake.parts[0].x === food.x && snake.parts[0].y === food.y && snake.parts.length >= 4) {
-    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal });
+    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal, metrics });
   }
-  const pathToFood = pathfind(snake, food, { numRows, numCols, wallsAreFatal });
+  const pathToFood = pathfind(snake, food, { numRows, numCols, wallsAreFatal, metrics });
   if (pathToFood === null || !pathToFood.length) {
-    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal }, { lookForAlternates: true, food });
+    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal, metrics }, { lookForAlternates: true, food });
   }
   if (snake.parts.length >= 4) {
     if (snake.parts.length === computePerfectScore(numRows, numCols)) {
@@ -364,7 +393,10 @@ export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal })
     const newSnake = projectSnakeAlongPath(snake.parts, pathToFood, { growsAtEnd: true });
     // as an optimization we don't need to do the longest path search here; SP is good enough
     // todo this doesn't seem needed anymore
-    const pathToShiftedSnakeTail = tryPathFindingToTail({ parts: newSnake }, { numRows, numCols, wallsAreFatal });
+    const pathToShiftedSnakeTail = tryPathFindingToTail(
+      { parts: newSnake },
+      { numRows, numCols, wallsAreFatal, metrics },
+    );
     if (pathToShiftedSnakeTail.length > 1) {
       return pathToFood;
     }
@@ -378,7 +410,7 @@ export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal })
     //   console.log("1 path to shifted tail - YOLO")
     //   return pathToFood;
     // }
-    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal }, { lookForAlternates: true, food });
+    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal, metrics }, { lookForAlternates: true, food });
   }
   return pathToFood;
 };
