@@ -22,6 +22,7 @@ import techTheme from '../../common/techTheme';
 import SnakeNav from './SnakeNav';
 import { drawGameFrame, prepareCanvas } from './snakeCanvasRenderer';
 import GameOutcomeOverlay from './GameOutcomeOverlay';
+import SimulationArena from './SimulationArena';
 
 const { DEFAULT_BOX_SIZE, DEFAULT_BOARD_SIZE } = GameGrid;
 const { PLAYING } = GameState;
@@ -370,6 +371,8 @@ class SnakeGame extends Component {
             </Paper>
           ))}
         </Box>
+
+        <SimulationArena />
 
         <Scoreboard scores={highScores} />
       </Root>
