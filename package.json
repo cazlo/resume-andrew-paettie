@@ -62,6 +62,7 @@
     "start": "vite",
     "build": "vite build",
     "build-run": "vite preview",
+    "bench:snake": "jest -c benchmark-test.config.js --runInBand",
     "test": "jest",
     "int-test": "jest -c integration-test.config.js --watch",
     "test-ci": "jest -c jest.config.js",
