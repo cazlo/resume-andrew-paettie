@@ -140,6 +140,8 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
   }
   const [head, ...tailParts] = snake.parts;
   const tail = snake.parts[snake.parts.length - 1];
+  // EAT_FOOD duplicates the tail, so a repeated tail coordinate remains occupied through the next MOVE.
+  const tailWillMove = snake.parts.filter(part => part.x === tail.x && part.y === tail.y).length === 1;
   if (wallsAreFatal && (head.x < 0 || head.x >= numCols || head.y < 0 || head.y >= numRows)) {
     // don't attempt pathfinding if we are already out of bounds
     return [];
@@ -204,7 +206,7 @@ export const pathfind = (snake, goal, { numRows, numCols, wallsAreFatal }, allow
     for (const neighbor of [left, right, up, down]) {
       if (neighbor) {
         const neighborNode = graph.getNode(neighbor).data;
-        if (neighborNode && (!neighborNode.isSnake || neighborNode.isHead)) {
+        if (neighborNode && (!neighborNode.isSnake || neighborNode.isHead) && (tailWillMove || !neighborNode.isHead)) {
           graph.addLink(tailId, neighbor);
         }
       }
@@ -270,9 +272,7 @@ const isFood = (point, food) => point && food && point.x === food.x && point.y =
 export const tryPathFindingToTail = (
   snake,
   { numRows, numCols, wallsAreFatal },
-  returnEarly = false,
-  lookForAlternates = false,
-  food,
+  { returnEarly = false, lookForAlternates = false, food } = {},
 ) => {
   const pathToTail = pathfind(
     snake,
@@ -335,12 +335,10 @@ export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal })
   }
   if (snake.parts[0].x === food.x && snake.parts[0].y === food.y && snake.parts.length >= 4) {
     return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal });
-    // todo this needs to take into account the fact the tail will not move for next move,
-    //  could just add food to snake array at the end (see EAT_FOOD action in snake reducer)
   }
   const pathToFood = pathfind(snake, food, { numRows, numCols, wallsAreFatal });
   if (pathToFood === null || !pathToFood.length) {
-    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal }, false, true, food);
+    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal }, { lookForAlternates: true, food });
   }
   if (snake.parts.length >= 4) {
     if (snake.parts.length === computePerfectScore(numRows, numCols)) {
@@ -359,11 +357,7 @@ export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal })
     }
     // as an optimization we don't need to do the longest path search here; SP is good enough
     // todo this doesn't seem needed anymore
-    const pathToShiftedSnakeTail = tryPathFindingToTail(
-      { parts: newSnake },
-      { numRows, numCols, wallsAreFatal },
-      false,
-    );
+    const pathToShiftedSnakeTail = tryPathFindingToTail({ parts: newSnake }, { numRows, numCols, wallsAreFatal });
     if (pathToShiftedSnakeTail.length > 1) {
       return pathToFood;
     }
@@ -377,7 +371,7 @@ export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal })
     //   console.log("1 path to shifted tail - YOLO")
     //   return pathToFood;
     // }
-    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal }, false, true, food);
+    return tryPathFindingToTail(snake, { numRows, numCols, wallsAreFatal }, { lookForAlternates: true, food });
   }
   return pathToFood;
 };
