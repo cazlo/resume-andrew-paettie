@@ -15,8 +15,6 @@ import Grid from '@mui/material/Grid/Grid';
 import Card from '@mui/material/Card/Card';
 import { CardContent, CardHeader, Container, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material';
 
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from '@mui/material/Typography';
 import { changeName, setAlgorithm, toggleShowPath } from './actions/aiConfigAction';
 import { setFrameLimit, setSize, setSpeed, toggleWallsAreFatal } from './actions/gameAction';
@@ -79,16 +77,36 @@ const gameSizeSliders = props => {
   ];
 };
 
+const settingsCardSx = {
+  background: 'linear-gradient(145deg, rgba(20, 34, 28, 0.98), rgba(11, 20, 16, 0.98))',
+  border: '1px solid rgba(255, 255, 255, 0.08)',
+  boxShadow: 'none',
+  flex: '1 1 300px',
+  minWidth: 0,
+  '& .MuiCardHeader-subheader': {
+    color: 'text.primary',
+    fontSize: '0.9rem',
+    fontWeight: 800,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+  },
+};
+
 export const ConfigPanel = props => {
   const { playerName, showPath, wallsAreFatal, algorithm } = props;
-  const theme = useTheme();
   return (
-    <Card sx={{ backgroundColor: theme.palette.grey['500'] }}>
-      <CardHeader title="Settings" />
-      <CardContent>
-        <Stack direction={useMediaQuery(theme.breakpoints.up('md')) ? 'row' : 'column'} spacing={4}>
-          <Card>
-            <CardHeader subheader="Game Settings " />
+    <Card sx={{ backgroundColor: 'transparent', boxShadow: 'none', p: { xs: 1, sm: 2.5 } }}>
+      <CardHeader
+        subheader="Tune simulation speed, board dimensions, and solver behavior. Changes apply to the next run."
+        subheaderTypographyProps={{ sx: { color: 'text.secondary', mt: 0.5 } }}
+        sx={{ pr: 8 }}
+        title="Simulation controls"
+        titleTypographyProps={{ sx: { fontWeight: 800, letterSpacing: '-0.02em' }, variant: 'h5' }}
+      />
+      <CardContent sx={{ pt: 1 }}>
+        <Stack direction={{ xs: 'column', lg: 'row' }} spacing={2}>
+          <Card sx={settingsCardSx}>
+            <CardHeader subheader="Game settings" />
             <CardContent>
               <Grid container sx={{ flexGrow: 1 }} justifyContent="center" spacing={2}>
                 <Grid item>
@@ -143,7 +161,7 @@ export const ConfigPanel = props => {
               </Grid>
             </CardContent>
           </Card>
-          <Card>
+          <Card sx={settingsCardSx}>
             <CardHeader subheader="Game Size" />
             <CardContent>
               <Stack direction="row">
@@ -201,10 +219,10 @@ export const ConfigPanel = props => {
               </Stack>
             </CardContent>
           </Card>
-          <Card>
-            <CardHeader subheader="Pathfinding Settings " />
+          <Card sx={settingsCardSx}>
+            <CardHeader subheader="Pathfinding" />
             <CardContent>
-              <Stack container spacing={4} direction="column">
+              <Stack spacing={4} direction="column">
                 <FormControl>
                   <InputLabel id="demo-simple-select-label">Algorithm</InputLabel>
                   <Select
