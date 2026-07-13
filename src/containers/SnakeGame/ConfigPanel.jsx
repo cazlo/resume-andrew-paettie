@@ -17,6 +17,7 @@ import { CardContent, CardHeader, Container, FormControl, InputLabel, MenuItem, 
 
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Typography from '@mui/material/Typography';
 import { changeName, setAlgorithm, toggleShowPath } from './actions/aiConfigAction';
 import { setFrameLimit, setSize, setSpeed, toggleWallsAreFatal } from './actions/gameAction';
 import Action from './actions/Action';
@@ -78,7 +79,7 @@ const gameSizeSliders = props => {
   ];
 };
 
-const ConfigPanel = props => {
+export const ConfigPanel = props => {
   const { playerName, showPath, wallsAreFatal, algorithm } = props;
   const theme = useTheme();
   return (
@@ -147,17 +148,52 @@ const ConfigPanel = props => {
             <CardContent>
               <Stack direction="row">
                 {gameSizeSliders(props).map(slider => (
-                  <Grid key={`${slider.label}`} container direction="column" sx={{ height: '150px', width: '150px' }}>
-                    <Grid item xs>
+                  <Grid
+                    key={`${slider.label}`}
+                    alignItems="center"
+                    container
+                    direction="column"
+                    sx={{ height: '190px', overflow: 'visible', px: 2, width: '150px' }}
+                  >
+                    <Grid item>
+                      <Typography
+                        id={`game-size-${slider.label.toLowerCase()}`}
+                        sx={{ color: 'text.primary', fontWeight: 700, mb: 1 }}
+                        variant="caption"
+                      >
+                        {slider.label}: {slider.value}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      data-testid={`game-size-${slider.label.toLowerCase()}-track`}
+                      sx={{
+                        alignItems: 'center',
+                        display: 'flex',
+                        flexGrow: 1,
+                        justifyContent: 'center',
+                        minHeight: 0,
+                        overflow: 'visible',
+                        width: slider.vertical ? 'auto' : '100%',
+                      }}
+                    >
                       <Slider
                         orientation={slider.vertical ? 'vertical' : 'horizontal'}
-                        valueLabelDisplay="on"
+                        valueLabelDisplay="auto"
                         value={slider.value}
                         max={slider.max}
                         min={slider.min}
                         step={slider.step}
-                        aria-labelledby={`${slider.label}: ${slider.value}`}
+                        aria-labelledby={`game-size-${slider.label.toLowerCase()}`}
                         onChange={slider.onChange}
+                        sx={{
+                          ...(slider.vertical ? { height: '120px' } : { width: '100%' }),
+                          '& .MuiSlider-valueLabel': {
+                            backgroundColor: 'primary.main',
+                            color: 'primary.contrastText',
+                            zIndex: 2,
+                          },
+                        }}
                       />
                     </Grid>
                   </Grid>

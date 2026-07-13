@@ -8,6 +8,9 @@
 /coverage/*
 junit.xml
 
+# local AI working notes
+/ai-plans/
+
 # production
 /build
 
