@@ -51,7 +51,13 @@ describe('Path finding tail chasing edge case', () => {
     const snake = {
       parts: [head, p(0, 3), p(0, 2), p(0, 1), p(0, 0), p(1, 0), p(2, 0), p(3, 0), p(3, 1), p(2, 1), p(2, 2), tail],
     };
-    const path = tryPathFindingToTail(snake, { numRows: 4, numCols: 4, wallsAreFatal: true }, false, true);
+    const path = tryPathFindingToTail(
+      snake,
+      { numRows: 4, numCols: 4, wallsAreFatal: true },
+      {
+        lookForAlternates: true,
+      },
+    );
     expect(path).toBeDefined();
     expect(path[0]).not.toEqual(expect.objectContaining(tail));
   });
@@ -71,7 +77,14 @@ describe('Path finding tail chasing edge case', () => {
     const snake = {
       parts: [head, p(0, 3), p(0, 2), p(0, 1), p(0, 0), p(1, 0), p(2, 0), p(3, 0), p(3, 1), p(2, 1), p(2, 2), tail],
     };
-    const path = tryPathFindingToTail(snake, { numRows: 4, numCols: 4, wallsAreFatal: true }, false, true, food);
+    const path = tryPathFindingToTail(
+      snake,
+      { numRows: 4, numCols: 4, wallsAreFatal: true },
+      {
+        lookForAlternates: true,
+        food,
+      },
+    );
     expect(path).toBeDefined();
     expect(path[0]).toEqual(expect.objectContaining(tail));
   });
