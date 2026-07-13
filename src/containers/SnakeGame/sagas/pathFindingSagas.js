@@ -23,7 +23,7 @@ const getNeighboringNodeDirections = ({ x, y, numRows, numCols, wallsAreFatal })
   return validDirections;
 };
 
-export const moveFromPath = (path, snake, { numRows, numCols, wallsAreFatal }) => {
+export const directionFromPath = (path, snake, { numRows, numCols, wallsAreFatal }) => {
   if (!path || (path && path.length === 0)) {
     return null;
   }
@@ -38,11 +38,16 @@ export const moveFromPath = (path, snake, { numRows, numCols, wallsAreFatal }) =
   });
   for (const n of neighbors) {
     if (firstMove.x === n.x && firstMove.y === n.y) {
-      return put(changeDirection(n.direction));
+      return n.direction;
     }
   }
   // console.log("No neighbors found to move to!")
   return null;
+};
+
+export const moveFromPath = (path, snake, board) => {
+  const direction = directionFromPath(path, snake, board);
+  return direction ? put(changeDirection(direction)) : null;
 };
 
 const positionId = ({ x, y }) => `x${x}y${y}`;
@@ -296,7 +301,11 @@ export const pathfind = (
 };
 
 // if it has no food to pathfind to, just try not to collide with itself
-export const survivalMode = (snake, { numRows, numCols, wallsAreFatal }) => {
+export const findSurvivalDirection = (
+  snake,
+  { numRows, numCols, wallsAreFatal },
+  orderNeighbors = neighbors => _.shuffle(neighbors),
+) => {
   const head = snake.parts[0];
   const tail = snake.parts[snake.parts.length - 1];
   const occupancyCounts = buildOccupancyCounts(snake.parts);
@@ -308,15 +317,20 @@ export const survivalMode = (snake, { numRows, numCols, wallsAreFatal }) => {
     numCols,
     wallsAreFatal,
   });
-  for (const n of _.shuffle(neighbors)) {
+  for (const n of orderNeighbors(neighbors)) {
     const isOccupied = occupancyCounts.has(positionId(n));
     const isVacatingTail = canMoveIntoTail && PositionUtil.isSamePosition(n, tail);
     if (!isOccupied || isVacatingTail) {
-      return put(changeDirection(n.direction));
+      return n.direction;
     }
   }
   // console.log("No neighbors found to move to for survival mode")
   return null;
+};
+
+export const survivalMode = (snake, board) => {
+  const direction = findSurvivalDirection(snake, board);
+  return direction ? put(changeDirection(direction)) : null;
 };
 
 const isFood = (point, food) => point && food && point.x === food.x && point.y === food.y;
