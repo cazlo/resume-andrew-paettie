@@ -580,6 +580,22 @@ export function* pathFindingSaga() {
   } else if (state.aiConfig.algorithm === Action.ALGORITHMS.greedy) {
     const { snake } = state.game;
     const { food } = state.game;
+    const { numRows, numCols, wallsAreFatal } = state.game.game;
+    const pathToFood = pathfindGreedy(snake, food[0], { numRows, numCols, wallsAreFatal });
+    if (pathToFood === null || !pathToFood.length) {
+      yield put(pathNotFound());
+      yield survivalMode(snake, { numRows, numCols, wallsAreFatal });
+    } else {
+      yield put(finishPathFind(pathToFood));
+      yield moveFromPath(pathToFood, snake.parts, {
+        numRows,
+        numCols,
+        wallsAreFatal,
+      });
+    }
+  } else if (state.aiConfig.algorithm === Action.ALGORITHMS.greedyRecovery) {
+    const { snake } = state.game;
+    const { food } = state.game;
     const { numRows, numCols, wallsAreFatal, frameCount, score } = state.game.game;
     const { path: pathToFood, solverState } = pathfindGreedyWithRecovery(
       snake,

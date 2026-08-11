@@ -12,9 +12,15 @@ const ALGORITHM_NOTES = [
   {
     name: 'Shortest Path to Food Else Longest Path to Tail (greedy)',
     note:
-      'Usually finishes in near-minimal steps compared to cycle-following, but can fall into loops and historically ' +
-      'would sometimes never converge. It now detects stall and late-game risk and bails into a Hamiltonian-cycle ' +
-      "recovery, so the runs shown here converge — but there's no general proof that greedy always does.",
+      'Usually finishes in near-minimal steps compared to cycle-following, but it has no notion of the board state ' +
+      "it's steering itself into. It can fall into loops and never converge — try it and watch.",
+  },
+  {
+    name: 'Shortest Path to Food Else Longest Path to Tail + Cycle Recovery',
+    note:
+      'Same greedy pathing, but it tracks stalled progress and projects late-game risk; when either trips it bails ' +
+      'onto a Hamiltonian cycle and rides safe shortcuts back toward food. Converges on every cohort tested here, ' +
+      "but there's no general proof it always will, and it needs an even board dimension to have a cycle to fall back on.",
   },
   {
     name: 'Hamiltonian Cycle',
@@ -34,7 +40,7 @@ const AlgorithmTradeoffs = () => (
       Algorithm tradeoffs
     </Typography>
     <Typography sx={{ color: 'text.secondary', mb: 2 }} variant="body2">
-      Pick one in Controls and watch it play out. Here&rsquo;s how the four options actually compare.
+      Pick one in Controls and watch it play out. Here&rsquo;s how the five options actually compare.
     </Typography>
 
     <Box

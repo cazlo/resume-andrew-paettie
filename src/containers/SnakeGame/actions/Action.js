@@ -30,6 +30,7 @@ const Action = {
   CHANGE_NAME: 'CHANGE_NAME',
   ALGORITHMS: {
     greedy: 'greedy',
+    greedyRecovery: 'greedyRecovery',
     hamiltonian: 'hamiltonian',
     hamiltonianShortcut: 'hamiltonianShortcut',
     astar: 'astar',

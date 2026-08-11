@@ -81,7 +81,7 @@ describe('arena simulation', () => {
       let simulation = createArenaSimulation({
         seed,
         board: { numRows: 6, numCols: 6, wallsAreFatal: true },
-        algorithm: Action.ALGORITHMS.greedy,
+        algorithm: Action.ALGORITHMS.greedyRecovery,
       });
       while (simulation.outcome === 'running') simulation = stepArenaSimulation(simulation);
       if (simulation.outcome !== GameOutcome.WON) {

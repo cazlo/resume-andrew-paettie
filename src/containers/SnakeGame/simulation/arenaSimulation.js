@@ -6,6 +6,7 @@ import {
 } from './deterministicGame';
 import { createSeededFoodProvider } from './foodProviders';
 import createGreedyPathFindingSolver, {
+  createGreedyRecoveryPathFindingSolver,
   createHamiltonianPathFindingSolver,
   createHamiltonianShortcutPathFindingSolver,
 } from './pathFindingSolver';
@@ -48,6 +49,7 @@ export const createArenaSimulation = ({
   const createSolver =
     {
       [Action.ALGORITHMS.greedy]: createGreedyPathFindingSolver,
+      [Action.ALGORITHMS.greedyRecovery]: createGreedyRecoveryPathFindingSolver,
       [Action.ALGORITHMS.hamiltonian]: createHamiltonianPathFindingSolver,
       [Action.ALGORITHMS.hamiltonianShortcut]: createHamiltonianShortcutPathFindingSolver,
     }[algorithm] || createGreedyPathFindingSolver;

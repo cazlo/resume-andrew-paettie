@@ -16,7 +16,7 @@ describe('greedy recovery per-frame cost', () => {
       let simulation = createArenaSimulation({
         seed: seedFor(0, index),
         board: { numRows: 6, numCols: 6, wallsAreFatal: true },
-        algorithm: Action.ALGORITHMS.greedy,
+        algorithm: Action.ALGORITHMS.greedyRecovery,
       });
       while (simulation.outcome === 'running') {
         const start = performance.now();
