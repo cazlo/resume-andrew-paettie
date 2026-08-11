@@ -32,18 +32,16 @@
     backdrop-filter: blur(12px);
 }
 
-/* The gradient stops stay light and the drop shadows stay dark: the tile grid
-   behind this panel is bright and busy, so the name needs its own contrast. */
+/* Solid white, not a gradient: the tile grid behind this panel keeps changing
+   color, and white is the only fill that stays legible against all of it. The
+   neon reads through the glow instead. */
 .ResumeHomeBlock-headline h1 {
     margin: 0;
     padding-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    background: linear-gradient(180deg, #ffffff 0%, #ece3ff 45%, #ff9ddc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 3px rgba(4, 1, 12, 0.95)) drop-shadow(0 0 26px rgba(255, 94, 196, 0.45));
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(4, 1, 12, 0.95), 0 0 28px rgba(255, 94, 196, 0.55);
 }
 
 .ResumeHomeBlock-headline h2 {
@@ -69,53 +67,64 @@
 }
 
 /*
- * Neon sweep over the tech tile grid.
+ * Neon color wave over the tech tile grid.
  *
- * mix-blend-mode: color takes hue and saturation from this overlay and keeps
- * the tiles' own luminance, so the technology artwork stays legible while the
- * palette drifts across it.
+ * Each tile carries its own single-color overlay and eases from one palette
+ * color to the next, so a tile is never split across two colors. GridBackground
+ * gives each tile a --tile-wave-delay based on its position along the diagonal;
+ * those staggered phases are what make the color read as a wave crossing the
+ * grid rather than the whole hero pulsing at once.
  *
- * The overlay is three container-widths wide with a gradient that repeats once
- * per container width, so translating it by exactly one third of its own width
- * loops seamlessly. Animating transform (rather than background-position)
- * keeps this on the compositor: no layout, no repaint per frame.
+ * mix-blend-mode: color takes hue and saturation from the overlay and keeps the
+ * tile's own luminance, so the technology artwork underneath stays legible.
+ * The logos are white, which has no hue to shift, so they stay white.
  */
-.ResumeHomeBlock-squares::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -100%;
-    width: 300%;
-    pointer-events: none;
-    mix-blend-mode: color;
-    background: repeating-linear-gradient(100deg,
-        #01cdfe 0%,
-        #b967ff 8.333%,
-        #ff5ec4 16.666%,
-        #05ffa1 25%,
-        #01cdfe 33.333%);
-    animation: vw-neon-sweep 20s linear infinite;
-    will-change: transform;
+.ResumeHomeBlock-squares .GridItem {
+    position: relative;
 }
 
-@keyframes vw-neon-sweep {
-    from {
-        transform: translate3d(0, 0, 0);
+.ResumeHomeBlock-squares .GridItem::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: color;
+    background-color: #01cdfe;
+    animation: vw-tile-cycle 16s linear infinite;
+    animation-delay: var(--tile-wave-delay, 0s);
+}
+
+@keyframes vw-tile-cycle {
+    0% {
+        background-color: #01cdfe;
     }
-    to {
-        transform: translate3d(-33.333%, 0, 0);
+    25% {
+        background-color: #b967ff;
+    }
+    50% {
+        background-color: #ff5ec4;
+    }
+    75% {
+        background-color: #05ffa1;
+    }
+    100% {
+        background-color: #01cdfe;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .ResumeHomeBlock-squares::after {
+    .ResumeHomeBlock-squares .GridItem::after {
         animation: none;
     }
 }
 
+/*
+ * The color blend happens per tile, inside this group, so the group's opacity
+ * fades the blended result toward the backdrop. 0.35 left the palette looking
+ * washed out; the tiles need to stay bright for the wave to read as neon.
+ */
 .ResumeHomeBlock-squares > div {
-    opacity: 0.35;
+    opacity: 0.72;
 }
 
 .ResumeHomeBlock-squares > div > div > div {

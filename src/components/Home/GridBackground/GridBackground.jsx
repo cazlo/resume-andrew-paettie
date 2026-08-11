@@ -7,6 +7,12 @@ import GridItem from './GridItem';
 
 // import GridItemTransition from './GridItemTransition';
 
+// Seconds of phase offset per step along the diagonal. Each tile holds one
+// color at a time and eases into the next; offsetting neighbours by a fraction
+// of the cycle is what makes the color read as a wave crossing the grid.
+// See the vw-tile-cycle animation in Home.css.
+const TILE_WAVE_STEP_SECONDS = 0.55;
+
 class GridBackground extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -42,6 +48,7 @@ class GridBackground extends React.PureComponent {
     const { children, innerWidth } = this.props;
 
     const itemsNumberByLine = Math.floor(innerWidth / itemWidth);
+    const columns = Number.isFinite(itemsNumberByLine) && itemsNumberByLine > 0 ? itemsNumberByLine : 1;
     let interval = 0;
 
     return _.map(_.range(150), i => {
@@ -50,6 +57,11 @@ class GridBackground extends React.PureComponent {
       if (i - itemsNumberByLine >= 0 && i % itemsNumberByLine === 0) {
         interval += itemsNumberByLine - 2;
       }
+
+      // Negative delay starts each tile part way into the cycle, so the wave is
+      // already travelling on first paint rather than every tile starting on
+      // the same color and drifting apart.
+      const wavePhase = -((i % columns) + Math.floor(i / columns)) * TILE_WAVE_STEP_SECONDS;
 
       const child = React.createElement(children[(i - interval) % children.length].type, {
         ...children[(i - interval) % children.length].props,
@@ -61,7 +73,14 @@ class GridBackground extends React.PureComponent {
         },
       });
       return (
-        <GridItem key={`home-grid-${i}`} width={itemWidth} height={itemHeight} delay={1000} duration={100} style={{}}>
+        <GridItem
+          key={`home-grid-${i}`}
+          width={itemWidth}
+          height={itemHeight}
+          delay={1000}
+          duration={100}
+          style={{ '--tile-wave-delay': `${wavePhase}s` }}
+        >
           {child}
         </GridItem>
       );
