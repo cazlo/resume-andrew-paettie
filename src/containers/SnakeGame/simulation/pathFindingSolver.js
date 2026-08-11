@@ -1,4 +1,5 @@
 import {
+  pathfindGreedy,
   directionFromPath,
   findSurvivalDirection,
   pathfindGreedyWithRecovery,
@@ -9,6 +10,19 @@ import {
 const stableOrder = neighbors => neighbors;
 
 const createGreedyPathFindingSolver =
+  ({ orderSurvivalNeighbors = stableOrder } = {}) =>
+  state => {
+    const path = pathfindGreedy(state.snake, state.food, state.board);
+    if (path && path.length) {
+      const direction = directionFromPath(path, state.snake.parts, state.board);
+      return direction ? { direction } : null;
+    }
+
+    const direction = findSurvivalDirection(state.snake, state.board, orderSurvivalNeighbors);
+    return direction ? { direction } : null;
+  };
+
+export const createGreedyRecoveryPathFindingSolver =
   ({ orderSurvivalNeighbors = stableOrder } = {}) =>
   state => {
     const { path, solverState } = pathfindGreedyWithRecovery(state.snake, state.food, state.board, {

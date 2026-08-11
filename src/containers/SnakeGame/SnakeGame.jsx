@@ -23,9 +23,16 @@ import SnakeNav from './SnakeNav';
 import { drawGameFrame, prepareCanvas } from './snakeCanvasRenderer';
 import GameOutcomeOverlay from './GameOutcomeOverlay';
 import AlgorithmTradeoffs from './AlgorithmTradeoffs';
+import Action from './actions/Action';
 
 const { DEFAULT_BOX_SIZE, DEFAULT_BOARD_SIZE } = GameGrid;
 const { PLAYING } = GameState;
+
+const SOLVER_MODE_LABELS = {
+  greedy: 'solver: greedy',
+  recovery: 'solver: recovering',
+  cycle: 'solver: cycle shortcuts',
+};
 
 // Rendering is cosmetic and must never become the game-loop speed limit. A
 // 1000x500 headless-Chrome benchmark (120 frames) measured the old per-segment
@@ -214,11 +221,16 @@ class SnakeGame extends Component {
       game: { state, score, frameCount, fps, frameTimeout, perfectScore, numRows, numCols },
       highScores,
       snake,
+      aiConfig,
+      greedySolverState,
     } = this.props;
     const innerHeight = DEFAULT_BOX_SIZE * numRows;
     const innerWidth = DEFAULT_BOX_SIZE * numCols;
     const boardCells = numRows * numCols;
     const occupancy = normalise(snake.parts.length, 0, boardCells);
+    const engineState = state === PLAYING ? 'Simulation running' : state.replace('_', ' ').toLowerCase();
+    const isGreedyRecovery = aiConfig.algorithm === Action.ALGORITHMS.greedyRecovery;
+    const solverModeLabel = isGreedyRecovery ? SOLVER_MODE_LABELS[greedySolverState?.mode] : null;
     const metrics = [
       {
         accent: '#8fc160',
@@ -248,7 +260,7 @@ class SnakeGame extends Component {
         accent: '#ffcc66',
         icon: <MdMemory />,
         label: 'Engine',
-        meta: state === PLAYING ? 'Simulation running' : state.replace('_', ' ').toLowerCase(),
+        meta: solverModeLabel ? `${engineState} · ${solverModeLabel}` : engineState,
         progress: null,
         value: `${fps.toLocaleString()} FPS`,
       },
@@ -389,6 +401,7 @@ SnakeGame.propTypes = {
   snake: PropTypes.object.isRequired,
   game: PropTypes.object.isRequired,
   aiConfig: PropTypes.object.isRequired,
+  greedySolverState: PropTypes.object,
   highScores: PropTypes.arrayOf(Object).isRequired,
   food: PropTypes.arrayOf(Object).isRequired,
   path: PropTypes.arrayOf(Object).isRequired,
