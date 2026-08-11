@@ -134,8 +134,16 @@
     z-index: -1;
 }
 
+/*
+ * react-icons renders its glyphs with height="1em" baked onto the <svg>. Left
+ * alone that pins those logos to text height while the devicon artwork, which
+ * carries no height attribute, scales with the tile. Setting height explicitly
+ * overrides the attribute so every logo is sized from its own viewBox ratio at
+ * the same 40% width.
+ */
 .ResumeHomeBlock-squares svg {
     width: 40%;
+    height: auto;
 }
 
 .ResumeHomeBlock-squares svg path,

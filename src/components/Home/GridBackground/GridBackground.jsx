@@ -9,11 +9,16 @@ import GridItem from './GridItem';
 // color at a time and eases into the next; offsetting neighbours by a fraction
 // of the cycle is what makes the color read as a wave crossing the grid.
 // See the vw-tile-cycle animation in Home.css.
-const TILE_WAVE_STEP_SECONDS = 0.55;
+// This is deliberately smaller than it would be for a coarse grid: the step is
+// per tile, so a denser grid spans the same distance in more, smaller hops. The
+// wave therefore covers roughly the same stretch of the cycle as before while
+// reading as a smooth gradient rather than a visible staircase.
+const TILE_WAVE_STEP_SECONDS = 0.35;
 
-// The hero is always six tiles tall; the column count is whatever makes those
-// tiles come out closest to square at the current viewport size.
-const ROWS = 6;
+// Tile rows in the hero. The column count is whatever makes those tiles come
+// out closest to square at the current viewport size, so this one number sets
+// the density of the whole grid.
+const ROWS = 9;
 
 class GridBackground extends React.PureComponent {
   /*
