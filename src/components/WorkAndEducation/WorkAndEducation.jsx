@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@mui/material/Typography/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -12,6 +12,8 @@ import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import EducationTile from './EducationTile';
 import ReactiveTimelineItem from '../common/ReactiveTimelineItem';
 import WorkTile from './WorkTile';
+import DetailDialog from '../common/DetailDialog';
+import { positionDetail, educationDetail } from './detailModel';
 
 const formatPeriod = duration => `${duration.startDate} – ${duration.endDate}`;
 
@@ -21,6 +23,10 @@ const moveDateToCardBreakpoint = 'md';
 const WorkAndEducation = ({ positions, educations }) => {
   const theme = useTheme();
   const ref = useRef(null);
+  // One dialog for the whole timeline rather than one per tile: only a single
+  // drill-down can be open, and every tile renders the same way.
+  const [detail, setDetail] = useState(null);
+
   return (
     <ScreenBlock id="Resume-work" className="ResumeWorkAndEducationBlock">
       <Container ref={ref}>
@@ -35,7 +41,7 @@ const WorkAndEducation = ({ positions, educations }) => {
               periodDescription={formatPeriod(position)}
               key={formatPeriod(position)}
               icon={<Avatar sx={{ backgroundColor: '#fff' }}>{position.icon || <FcBriefcase />}</Avatar>}
-              child={<WorkTile position={position} elevation={24} />}
+              child={<WorkTile position={position} elevation={24} onOpen={() => setDetail(positionDetail(position))} />}
             />
           ))}
           {educations.map(education => (
@@ -47,11 +53,18 @@ const WorkAndEducation = ({ positions, educations }) => {
                   {education.icon || <FcGraduationCap />}
                 </Avatar>
               }
-              child={<EducationTile education={education} elevation={24} />}
+              child={
+                <EducationTile
+                  education={education}
+                  elevation={24}
+                  onOpen={() => setDetail(educationDetail(education))}
+                />
+              }
             />
           ))}
         </Timeline>
       </Container>
+      <DetailDialog open={Boolean(detail)} onClose={() => setDetail(null)} detail={detail} />
     </ScreenBlock>
   );
 };
