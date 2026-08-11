@@ -60,6 +60,8 @@ import { ReactComponent as GrafanaIcon } from 'devicon/icons/grafana/grafana-ori
 import { ReactComponent as PrometheusIcon } from 'devicon/icons/prometheus/prometheus-original.svg';
 import { ReactComponent as OpentelemetryIcon } from 'devicon/icons/opentelemetry/opentelemetry-original.svg';
 import { ReactComponent as ArgocdIcon } from 'devicon/icons/argocd/argocd-original.svg';
+import { ReactComponent as GithubActionsIcon } from 'devicon/icons/githubactions/githubactions-original.svg';
+import { ReactComponent as PlaywrightIcon } from 'devicon/icons/playwright/playwright-original.svg';
 // https://react-icons.github.io/react-icons/search/?q=clear
 import { FaEllipsisH } from 'react-icons/fa';
 import { MdSecurity, MdVerifiedUser } from 'react-icons/md';
@@ -79,6 +81,7 @@ import {
   SiRust,
   SiInfluxdb,
   SiHelm,
+  SiNasa,
 } from 'react-icons/si';
 import { FcCollaboration } from 'react-icons/fc';
 import Avatar from '@mui/material/Avatar';
@@ -101,6 +104,7 @@ import { ReactComponent as IAM } from '../data/aws/Arch_AWS-Identity-and-Access-
 import { ReactComponent as Glue } from '../data/aws/Arch_AWS-Glue_64.svg';
 import { ReactComponent as EcsIcon } from '../data/aws/Arch_Amazon-Elastic-Container-Service_64.svg';
 import { ReactComponent as EksIcon } from '../data/aws/Arch_Amazon-EKS-Cloud_64.svg';
+import { ReactComponent as Vpc } from '../data/aws/Arch_Amazon-Virtual-Private-Cloud_64.svg';
 import JamaIcon from '../data/jama.png';
 import Terraform from '../data/terraform-logo.png';
 import Consul from '../data/consul.png';
@@ -926,6 +930,46 @@ const techTheme = {
       color: '#fff',
     },
     icon: <SiRocket />,
+  },
+  githubActions: {
+    style: {
+      background: '#2088ff',
+      color: '#fff',
+    },
+    icon: <GithubActionsIcon />,
+  },
+  /*
+   * The simple-icons NASA wordmark ("the worm") draws with currentColor, so it
+   * gets the official red explicitly to stay readable on dark surfaces.
+   */
+  nasa: {
+    style: {
+      background: '#0b3d91',
+      color: '#fc3d21',
+    },
+    icon: <SiNasa color="#fc3d21" />,
+  },
+  playwright: {
+    style: {
+      background: '#2d4552',
+      color: '#2ead33',
+    },
+    icon: <PlaywrightIcon />,
+  },
+  vpc: {
+    style: {
+      background: '#f48e3d',
+      color: '#fff',
+    },
+    iconStyle: {
+      background: '#303233',
+    },
+    className: 'vertical-timeline-element--aws',
+    icon: (
+      <Avatar>
+        <Vpc />
+      </Avatar>
+    ),
   },
 };
 
