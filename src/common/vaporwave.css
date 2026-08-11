@@ -72,17 +72,6 @@ body::after {
   }
 }
 
-/* CRT scanlines over the whole surface. */
-#root::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  pointer-events: none;
-  opacity: 0.5;
-  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 3px);
-}
-
 /* Neon section headings. */
 .heading h2,
 .ScreenBlock h2 {
