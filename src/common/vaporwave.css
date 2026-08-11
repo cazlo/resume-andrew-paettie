@@ -1,0 +1,114 @@
+/*
+ * Retro vaporwave chrome for the site.
+ *
+ * Everything here is decorative and non-interactive: a fixed sunset backdrop,
+ * a perspective grid horizon, a CRT scanline overlay, and neon heading
+ * treatment. Removing this stylesheet from main.jsx restores plain surfaces
+ * without touching layout.
+ */
+
+:root {
+  --vw-void: #120726;
+  --vw-night: #1b0e33;
+  --vw-dusk: #2a1450;
+  --vw-cyan: #01cdfe;
+  --vw-magenta: #ff5ec4;
+  --vw-lavender: #b967ff;
+  --vw-mint: #05ffa1;
+  --vw-sun: #ff9f6e;
+}
+
+body {
+  background-color: var(--vw-void);
+  color: #f4ecff;
+}
+
+/* Sunset backdrop. Sits behind everything, including the home grid. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 120% 60% at 50% 78%, rgba(255, 94, 196, 0.28) 0%, rgba(255, 94, 196, 0) 60%),
+    radial-gradient(ellipse 90% 45% at 50% 82%, rgba(255, 159, 110, 0.22) 0%, rgba(255, 159, 110, 0) 55%),
+    linear-gradient(180deg, #0b0418 0%, #1b0e33 42%, #35135c 72%, #5b1a63 88%, #7a1f57 100%);
+}
+
+/* Perspective grid receding to the horizon. */
+body::after {
+  content: '';
+  position: fixed;
+  left: -50%;
+  right: -50%;
+  bottom: -30vh;
+  height: 90vh;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.4;
+  transform: perspective(38vh) rotateX(58deg);
+  transform-origin: 50% 0;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(1, 205, 254, 0.5) 0 1px, transparent 1px 5vw),
+    repeating-linear-gradient(0deg, rgba(255, 94, 196, 0.45) 0 1px, transparent 1px 5vh);
+  animation: vw-grid-drift 6s linear infinite;
+}
+
+@keyframes vw-grid-drift {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      0 0,
+      0 5vh;
+  }
+}
+
+/* CRT scanlines over the whole surface. */
+#root::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: 0.5;
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 3px);
+}
+
+/* Neon section headings. */
+.heading h2,
+.ScreenBlock h2 {
+  color: #f4ecff;
+  letter-spacing: 0.08em;
+  text-shadow:
+    0 0 12px rgba(1, 205, 254, 0.55),
+    0 0 32px rgba(185, 103, 255, 0.35);
+}
+
+.heading::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 2px;
+  margin: 10px auto 0;
+  background: linear-gradient(90deg, transparent, var(--vw-cyan), var(--vw-magenta), transparent);
+}
+
+.heading p {
+  color: #b7a4d8;
+}
+
+.active {
+  color: var(--vw-cyan) !important;
+  text-shadow: 0 0 12px rgba(1, 205, 254, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+  }
+}
