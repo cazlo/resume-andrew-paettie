@@ -1441,6 +1441,76 @@ export default {
           ],
         },
         {
+          name: 'Rust',
+          icon: techTheme.rust.icon,
+          experience: new Experience([new Interval(2025, null)]),
+
+          frameworks: [
+            {
+              name: 'Cargo',
+              description: 'Build, dependency, and workspace management, including clippy and rustfmt in CI',
+              icon: techTheme.rust.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'tokio',
+              description: 'Async runtime underneath most production Rust services',
+              icon: techTheme.rust.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'axum',
+              description: 'HTTP service framework built on tower and hyper',
+              icon: techTheme.rust.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'sqlx',
+              description: 'Compile time checked SQL against Postgres',
+              icon: techTheme.postgres.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'tracing',
+              description: 'Structured, span based instrumentation exported through OpenTelemetry',
+              icon: techTheme.opentelemetry.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+          ],
+        },
+        {
+          name: 'Go',
+          icon: techTheme.go.icon,
+          experience: new Experience([new Interval(2025, null)]),
+
+          frameworks: [
+            {
+              name: 'Go modules',
+              description: 'Dependency management, including private module proxies and toolchain contributions',
+              icon: techTheme.go.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'go test',
+              description: 'Table driven unit tests and coverage instrumented integration tests',
+              icon: techTheme.go.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'golangci-lint',
+              description: 'Aggregated static analysis enforced in CI',
+              icon: techTheme.go.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'Delve',
+              description: 'Debugging go processes, including inside containers',
+              icon: techTheme.go.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+          ],
+        },
+        {
           name: 'Shell',
           icon: techTheme.linux.icon,
           experience: new Experience([new Interval(2006, null)]),
@@ -1969,6 +2039,19 @@ export default {
           experience: new Experience([new Interval(2015, null)]),
 
           frameworks: [
+            {
+              name: 'GitHub Actions',
+              description: 'Pipelines for build, test, scan, and release, including self-hosted runners',
+              icon: techTheme.githubActions.icon,
+              experience: new Experience([new Interval(2024, null)]),
+            },
+            {
+              name: 'Reusable Workflows',
+              description:
+                'One reviewed pipeline definition shared across repos via `workflow_call` and composite actions',
+              icon: techTheme.githubActions.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
             {
               name: 'CircleCI',
               icon: CircleCiTech.icon,
