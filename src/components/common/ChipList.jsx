@@ -8,7 +8,10 @@ const ListItem = styled('li')(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-export default function ChipList({ chips, getIcon, getLabel, getKey }) {
+// Tiles that open a drill-down are themselves one big button, and a link nested
+// inside a button is neither valid markup nor operable by keyboard. Those tiles
+// pass disableLinks and surface the links in the dialog instead.
+export default function ChipList({ chips, getIcon, getLabel, getKey, disableLinks }) {
   return (
     <Box
       flexWrap="wrap"
@@ -23,19 +26,22 @@ export default function ChipList({ chips, getIcon, getLabel, getKey }) {
       }}
       component="ul"
     >
-      {chips.map(chip => (
-        <ListItem key={getKey(chip)}>
-          <Chip
-            variant="filled"
-            size="medium"
-            avatar={getIcon(chip)}
-            label={getLabel(chip)}
-            clickable={chip.link !== undefined}
-            href={chip.link}
-            component={!chip.link ? 'div' : 'a'}
-          />
-        </ListItem>
-      ))}
+      {chips.map(chip => {
+        const link = disableLinks ? undefined : chip.link;
+        return (
+          <ListItem key={getKey(chip)}>
+            <Chip
+              variant="filled"
+              size="medium"
+              avatar={getIcon(chip)}
+              label={getLabel(chip)}
+              clickable={link !== undefined}
+              href={link}
+              component={!link ? 'div' : 'a'}
+            />
+          </ListItem>
+        );
+      })}
     </Box>
   );
 }
@@ -50,4 +56,9 @@ ChipList.propTypes = {
   getIcon: PropTypes.func.isRequired,
   getLabel: PropTypes.func.isRequired,
   getKey: PropTypes.func.isRequired,
+  disableLinks: PropTypes.bool,
+};
+
+ChipList.defaultProps = {
+  disableLinks: false,
 };
