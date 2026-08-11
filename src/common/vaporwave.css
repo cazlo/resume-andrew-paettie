@@ -23,12 +23,17 @@ body {
   color: #f4ecff;
 }
 
-/* Sunset backdrop. Sits behind everything, including the home grid. */
+/*
+ * Backdrop layers, back to front:
+ *   -3  sunset gradient (body::before)
+ *   -2  perspective grid horizon (body::after)
+ *   -1  light cycles (LightCycles.css)
+ */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: -3;
   pointer-events: none;
   background:
     radial-gradient(ellipse 120% 60% at 50% 78%, rgba(255, 94, 196, 0.28) 0%, rgba(255, 94, 196, 0) 60%),
@@ -51,7 +56,7 @@ body::after {
   right: -50%;
   bottom: -30vh;
   height: 95vh;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
   opacity: 0.4;
   transform: perspective(38vh) rotateX(58deg);
