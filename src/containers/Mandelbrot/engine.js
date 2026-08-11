@@ -28,7 +28,7 @@ import MandelbrotWorker from './mandelbrotWorker?worker';
 import { alignDimension, renderBand, splitBands, COARSE_STRIDE } from './renderer';
 import { buildLut, interiorRgb, paletteById } from './palette';
 import chooseTarget from './autopilot';
-import { DEFAULT_FORMULA_ID, formulaById } from './formulas';
+import { DEFAULT_FORMULA_ID, formulaById, trapById } from './formulas';
 import {
   advanceView,
   aspectOf,
@@ -97,6 +97,7 @@ export default class ZoomEngine {
       zoomRate: 0.32,
       paletteId: 'sunset',
       formulaId: DEFAULT_FORMULA_ID,
+      trapId: 'none',
       detail: 'sharp',
       density: 1.15,
       phase: 0,
@@ -139,6 +140,36 @@ export default class ZoomEngine {
   /** True while the camera is flying itself; false when held or hand-driven. */
   moving() {
     return this.options.running && this.options.autopilot;
+  }
+
+  /**
+   * The window on the plane actually being drawn.
+   *
+   * Usually that is the camera. A formula with a `staticView` renders a fixed
+   * window instead and reads the camera as an animation clock — phyllotaxis
+   * does not travel anywhere, it grows.
+   */
+  planeView() {
+    return this.formula.staticView || this.view;
+  }
+
+  /** Kernel parameters for the current frame. */
+  frameParam() {
+    return this.formula.paramFromView ? this.formula.paramFromView(this.view, this.param) : this.param;
+  }
+
+  trapKind() {
+    return this.formula.trappable ? trapById(this.options.trapId).kind : 0;
+  }
+
+  /**
+   * Frame-time target. A formula that animates its content rather than its
+   * camera can ask for a shorter one: the blit tween can carry a zoom between
+   * keyframes, but it cannot carry a bloom growing outward, so those frames
+   * have to land often enough to be the animation themselves.
+   */
+  targetMs() {
+    return this.formula.frameBudgetMs || this.detail().targetMs;
   }
 
   createWorkers() {
@@ -208,9 +239,11 @@ export default class ZoomEngine {
     if (dt > 0) this.fps += (1 / dt - this.fps) * 0.1;
 
     if (this.moving()) {
-      this.view = advanceView(this.view, this.target, this.options.zoomRate, dt);
+      this.view = advanceView(this.view, this.formula.fixedCenter ? null : this.target, this.options.zoomRate, dt);
       this.settled = false;
+      this.wrapZoom();
       if (atPrecisionFloor(this.view)) this.warp();
+      if (this.formula.maxCount && this.frameParam().count > this.formula.maxCount) this.warp();
     }
     if (this.flash > 0) this.flash = Math.max(0, this.flash - dt * 1.8);
 
@@ -221,6 +254,33 @@ export default class ZoomEngine {
     this.emitStats(now);
   }
 
+  /**
+   * Keep a looping formula's camera inside one period of its self-similarity.
+   *
+   * A Droste spiral is exactly itself again after zooming by its period, so
+   * multiplying the camera — and every cached frame, which stays just as valid
+   * — straight back is invisible on screen. Nothing about the picture changes;
+   * what changes is that the coordinates never get small enough for doubles to
+   * run out, so this dive has no floor and never has to warp.
+   */
+  wrapZoom() {
+    const period = this.formula.zoomPeriod;
+    if (!period) return;
+    const home = this.formula.defaultView.halfHeight;
+    let factor = 1;
+    while (this.view.halfHeight * factor < home / period) factor *= period;
+    while (this.view.halfHeight * factor > home) factor /= period;
+    if (factor === 1) return;
+    this.view = { ...this.view, halfHeight: this.view.halfHeight * factor };
+    this.frames.forEach(frame => {
+      Object.assign(frame, { view: { ...frame.view, halfHeight: frame.view.halfHeight * factor } });
+    });
+    if (this.pending) {
+      const { frame } = this.pending;
+      Object.assign(frame, { view: { ...frame.view, halfHeight: frame.view.halfHeight * factor } });
+    }
+  }
+
   draw() {
     const { ctx, canvas } = this;
     const w = canvas.width;
@@ -229,7 +289,7 @@ export default class ZoomEngine {
     ctx.fillRect(0, 0, w, h);
     for (let i = 0; i < this.frames.length; i += 1) {
       const frame = this.frames[i];
-      const r = frameDestRect(frame, this.view, w, h);
+      const r = frameDestRect(frame, this.planeView(), w, h);
       if (r.dw > 0.5 && r.dh > 0.5) ctx.drawImage(frame.canvas, r.dx, r.dy, r.dw, r.dh);
     }
     if (this.flash > 0) {
@@ -248,7 +308,7 @@ export default class ZoomEngine {
     const w = this.canvas.width;
     const h = this.canvas.height;
     while (this.frames.length > 1) {
-      const rect = frameDestRect(this.frames[1], this.view, w, h);
+      const rect = frameDestRect(this.frames[1], this.planeView(), w, h);
       if (!coversViewport(rect, w, h)) break;
       this.recycle(this.frames.shift());
     }
@@ -275,9 +335,12 @@ export default class ZoomEngine {
 
     // Aim the render at where the view will be when it lands, so it arrives a
     // touch downscaled — and therefore sharp — instead of already stretched.
-    const lookahead = this.moving() ? clamp((this.frameMs / 1000) * 1.5, 0, 0.9) : 0;
+    // A static-window formula is not travelling, so there is nothing to lead.
+    const lookahead = this.moving() && !this.formula.staticView ? clamp((this.frameMs / 1000) * 1.5, 0, 0.9) : 0;
     const view =
-      lookahead > 0 ? advanceView(this.view, this.target, this.options.zoomRate, lookahead) : { ...this.view };
+      lookahead > 0
+        ? advanceView(this.view, this.formula.fixedCenter ? null : this.target, this.options.zoomRate, lookahead)
+        : { ...this.planeView() };
 
     this.jobId += 1;
     const coarseW = Math.floor(width / COARSE_STRIDE);
@@ -288,7 +351,12 @@ export default class ZoomEngine {
       height,
       aspect: aspectOf(width, height),
       view,
-      maxIter: maxIterForView(view, { scale: this.detail().iterScale * this.formula.iterScale }),
+      maxIter: maxIterForView(view, {
+        ...this.formula.iterProfile,
+        scale: this.detail().iterScale * this.formula.iterScale,
+      }),
+      param: this.frameParam(),
+      trap: this.trapKind(),
       coarse: new Float32Array(coarseW * coarseH),
       coarseW,
       coarseH,
@@ -313,7 +381,8 @@ export default class ZoomEngine {
       aspect: frame.aspect,
       maxIter: frame.maxIter,
       formulaId: this.formula.id,
-      param: this.param,
+      param: frame.param,
+      trap: frame.trap,
       lut: this.lut,
       lutSize: LUT_SIZE,
       density: this.options.density,
@@ -377,7 +446,8 @@ export default class ZoomEngine {
     this.pending = null;
 
     const elapsed = performance.now() - started;
-    const { targetMs, maxQuality } = this.detail();
+    const targetMs = this.targetMs();
+    const { maxQuality } = this.detail();
     this.frameMs += (elapsed - this.frameMs) * 0.35;
     // Nudge resolution toward the frame-time target. The exponent damps the
     // correction so a single slow frame cannot collapse the image quality.
@@ -389,7 +459,9 @@ export default class ZoomEngine {
   }
 
   steer(frame) {
-    if (!this.options.autopilot) return;
+    // A fixed-centre formula has nowhere to steer: its geometry is built
+    // around the origin and moving off it would break the symmetry.
+    if (!this.options.autopilot || this.formula.fixedCenter) return;
     const target = chooseTarget(frame.coarse, frame.coarseW, frame.coarseH, frame.view, frame.aspect);
     if (target) {
       this.lost = 0;
@@ -409,12 +481,14 @@ export default class ZoomEngine {
     const paletteChanged = partial.paletteId && partial.paletteId !== this.options.paletteId;
     const detailChanged = partial.detail && partial.detail !== this.options.detail;
     const formulaChanged = partial.formulaId && partial.formulaId !== this.options.formulaId;
+    const previousTrap = this.options.trapId;
     this.options = { ...this.options, ...partial };
     if (formulaChanged) this.setFormula(partial.formulaId);
     if (detailChanged) {
       this.quality = clamp(this.quality, MIN_QUALITY, this.detail().maxQuality);
       this.settled = false;
     }
+    if (partial.trapId && partial.trapId !== previousTrap) this.abort();
     if (paletteChanged || partial.density !== undefined || partial.phase !== undefined) {
       this.applyPalette();
       // Existing frames keep their old colours until the pipeline catches up,
@@ -470,7 +544,12 @@ export default class ZoomEngine {
    * the fractal itself becomes a different one.
    */
   warp() {
-    const seed = nextSeed(this.formula.seeds, this.seedName) || driftSeed(this.formula.defaultView);
+    // A fixed-centre formula has no other address to go to, so a warp is a
+    // fresh start: the bloom begins again from its first seeds.
+    const fallback = this.formula.fixedCenter
+      ? { name: 'Home', ...this.formula.defaultView }
+      : driftSeed(this.formula.defaultView);
+    const seed = nextSeed(this.formula.seeds, this.seedName) || fallback;
     this.seedName = seed.name;
     this.view = { cx: seed.cx, cy: seed.cy, halfHeight: seed.halfHeight };
     if (seed.param) this.param = seed.param;
@@ -504,21 +583,31 @@ export default class ZoomEngine {
   }
 
   zoomAt(px, py, factor) {
-    this.view = zoomAtPixel(this.view, px, py, factor, this.canvas.width, this.canvas.height);
+    const { width, height } = this.canvas;
+    // Zooming about the cursor moves the centre; a fixed-centre formula zooms
+    // about the origin instead.
+    this.view = this.formula.fixedCenter
+      ? { ...this.view, halfHeight: this.view.halfHeight / factor }
+      : zoomAtPixel(this.view, px, py, factor, width, height);
     const ceiling = this.formula.defaultView.halfHeight * 2;
     if (this.view.halfHeight < PRECISION_FLOOR) this.view.halfHeight = PRECISION_FLOOR;
     if (this.view.halfHeight > ceiling) this.view.halfHeight = ceiling;
+    this.wrapZoom();
     this.abort();
   }
 
   panBy(dxPx, dyPx) {
+    // Panning a spiral or a bloom off its centre would break the very
+    // symmetry that makes it work, so those formulas hold the origin.
+    if (this.formula.fixedCenter) return;
     this.view = panByPixels(this.view, dxPx, dyPx, this.canvas.height);
     this.abort();
   }
 
   /** Point the autopilot at a pixel the visitor picked. */
   focusAt(px, py) {
-    const at = pixelToComplex(px, py, this.view, this.canvas.width, this.canvas.height);
+    if (this.formula.fixedCenter) return;
+    const at = pixelToComplex(px, py, this.planeView(), this.canvas.width, this.canvas.height);
     this.target = { cx: at.re, cy: at.im, score: 1, kind: 'manual' };
     this.lost = 0;
   }
@@ -551,6 +640,9 @@ export default class ZoomEngine {
       formulaId: this.formula.id,
       param: this.param,
       canJulia: Boolean(this.formula.juliaSource) || this.formula.id === 'julia',
+      trappable: Boolean(this.formula.trappable),
+      looping: Boolean(this.formula.zoomPeriod),
+      note: this.formula.describe ? this.formula.describe(this.frameParam()) : '',
       cx: this.view.cx,
       cy: this.view.cy,
       magnification: magnification(this.view, reference),

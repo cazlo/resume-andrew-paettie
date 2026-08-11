@@ -1,11 +1,21 @@
 import {
-  FORMULAS,
   DEFAULT_FORMULA_ID,
+  DROSTE_PERIOD,
+  FIBONACCI,
+  FORMULAS,
+  GOLDEN_ANGLE,
+  TRAPS,
+  armCount,
   burningShipSample,
+  drosteSample,
   formulaById,
+  indexAngle,
   juliaSample,
+  kaliSample,
   mandelbrotSample,
   newtonSample,
+  phyllotaxisSample,
+  trapById,
 } from './formulas';
 
 describe('mandelbrotSample', () => {
@@ -113,6 +123,164 @@ describe('newtonSample', () => {
         const value = newtonSample(re, im, 400);
         expect(value === -1 || (value >= 0 && value < 1)).toBe(true);
       }
+    }
+  });
+});
+
+describe('orbit traps', () => {
+  const c = { re: -0.123, im: 0.745 };
+
+  it('colours bounded orbits instead of leaving them a silhouette', () => {
+    // Escape time has nothing to say about a point inside the set.
+    expect(mandelbrotSample(-0.2, 0, 400)).toBe(-1);
+    // A trap does: still flagged bounded, but carrying a colour.
+    const trapped = mandelbrotSample(-0.2, 0, 400, null, 1);
+    expect(trapped).toBeLessThan(-2);
+    expect(-trapped - 2).toBeGreaterThan(0);
+  });
+
+  it('keeps the bounded encoding clear of the plain solid marker', () => {
+    // -1 means "solid, nothing to say"; a trapped bounded orbit must never
+    // land there, or the renderer would flat-fill a coloured pixel.
+    for (let re = -2; re <= 0.5; re += 0.07) {
+      for (let im = -1.2; im <= 1.2; im += 0.07) {
+        TRAPS.forEach(trap => {
+          const value = mandelbrotSample(re, im, 200, null, trap.kind);
+          expect(value === -1 || value >= 0 || value <= -2).toBe(true);
+        });
+      }
+    }
+  });
+
+  it('skips the algebraic interior tests, which never compute an orbit', () => {
+    // Dead centre of the main cardioid: the shortcut would return before the
+    // trap had seen a single step.
+    expect(mandelbrotSample(-0.1, 0, 300, null, 2)).toBeLessThan(-2);
+  });
+
+  it('gives each trap shape a different answer for the same point', () => {
+    const values = TRAPS.map(trap => juliaSample(0.35, 0.2, 300, c, trap.kind));
+    expect(new Set(values).size).toBe(TRAPS.length);
+  });
+
+  it('resolves trap ids with a fallback to plain escape time', () => {
+    expect(trapById('cross').kind).toBe(2);
+    expect(trapById('nope').kind).toBe(0);
+  });
+});
+
+describe('kaliSample', () => {
+  it('colours every pixel, since the orbit never escapes', () => {
+    for (let re = -1.2; re <= 1.2; re += 0.11) {
+      for (let im = -1.2; im <= 1.2; im += 0.11) {
+        expect(kaliSample(re, im, 16, { re: 0.75, im: 0.75 })).toBeGreaterThanOrEqual(0);
+      }
+    }
+  });
+
+  it('produces structure that varies across the plane', () => {
+    const values = [];
+    for (let i = 0; i < 40; i += 1) values.push(kaliSample(-1 + i * 0.05, 0.3, 16, { re: 0.75, im: 0.75 }));
+    const mean = values.reduce((a, b) => a + b) / values.length;
+    const spread = Math.sqrt(values.reduce((a, b) => a + (b - mean) ** 2, 0) / values.length);
+    expect(spread).toBeGreaterThan(0.05);
+  });
+
+  it('survives the origin, where the inversion is undefined', () => {
+    expect(Number.isFinite(kaliSample(0, 0, 16, { re: 0.75, im: 0.75 }))).toBe(true);
+  });
+});
+
+describe('drosteSample', () => {
+  const param = { re: -0.4, im: 0.6 };
+  const at = (x, y) => drosteSample(x, y, 300, param);
+
+  it('is exactly unchanged by a zoom of one period', () => {
+    // This is the whole trick: the camera can multiply its scale back by the
+    // period forever, because the image at both scales is the same image.
+    [
+      [0.4, 0.13],
+      [-0.62, 0.27],
+      [0.05, -0.8],
+      [-0.31, -0.44],
+    ].forEach(([x, y]) => {
+      expect(at(x * DROSTE_PERIOD, y * DROSTE_PERIOD)).toBeCloseTo(at(x, y), 6);
+      expect(at(x / DROSTE_PERIOD, y / DROSTE_PERIOD)).toBeCloseTo(at(x, y), 6);
+    });
+  });
+
+  it('has no seam where the tile wraps', () => {
+    // Either side of the branch cut at angle pi, which is where a naive
+    // log-polar tiling tears.
+    const r = 0.5;
+    const above = at(-r * Math.cos(1e-7), r * Math.sin(1e-7) + 0);
+    const below = at(-r * Math.cos(1e-7), -r * Math.sin(1e-7));
+    expect(Math.abs(above - below)).toBeLessThan(0.5);
+  });
+
+  it('has no tile at the fixed point itself', () => {
+    expect(at(0, 0)).toBe(-1);
+  });
+});
+
+describe('phyllotaxis', () => {
+  const param = { count: 1400, scale: 0.029 };
+
+  it('measures the golden angle without losing precision at large indices', () => {
+    // The naive index * GOLDEN_ANGLE has thrown away the fractional part long
+    // before this, which is the only part that matters.
+    [0, 1, 2, 987, 1e6, 1e9].forEach(index => {
+      const angle = indexAngle(index);
+      expect(angle).toBeGreaterThanOrEqual(0);
+      expect(angle).toBeLessThan(Math.PI * 2 + 1e-9);
+    });
+    expect(indexAngle(1)).toBeCloseTo(GOLDEN_ANGLE, 12);
+    expect(indexAngle(3)).toBeCloseTo((3 * GOLDEN_ANGLE) % (Math.PI * 2), 9);
+  });
+
+  it('counts arms in Fibonacci numbers', () => {
+    [20, 150, 1000, 7000, 60000].forEach(depth => expect(FIBONACCI).toContain(armCount(depth)));
+    // Deeper into the bloom means more arms, stepping up the sequence.
+    expect(armCount(20000)).toBeGreaterThan(armCount(150));
+  });
+
+  it('finds a seed near every seed position and background between them', () => {
+    // Seed j sits at angle j*phi and radius scale*sqrt(count - j).
+    [200, 700, 1300].forEach(j => {
+      const r = param.scale * Math.sqrt(param.count - j);
+      const angle = indexAngle(j);
+      const value = phyllotaxisSample(r * Math.cos(angle), r * Math.sin(angle), 1, param);
+      expect(value).toBeGreaterThanOrEqual(0);
+      expect(value).toBeLessThan(1);
+    });
+  });
+
+  it('leaves the space beyond the outermost seed empty', () => {
+    const rim = param.scale * Math.sqrt(param.count);
+    expect(phyllotaxisSample(rim * 1.4, 0, 1, param)).toBe(-1);
+  });
+
+  it('finds the same nearest seed as an exhaustive search', () => {
+    // The windowed search is the only reason this is affordable; if the window
+    // is too tight it silently picks the wrong seed and the arms go crooked.
+    const exhaustive = (x, y) => {
+      let best = Infinity;
+      for (let j = 0; j <= param.count; j += 1) {
+        const rj = param.scale * Math.sqrt(param.count - j);
+        const angle = indexAngle(j);
+        const d = (rj * Math.cos(angle) - x) ** 2 + (rj * Math.sin(angle) - y) ** 2;
+        if (d < best) best = d;
+      }
+      return Math.sqrt(best) / param.scale;
+    };
+    for (let i = 0; i < 40; i += 1) {
+      const angle = i * 0.618 * Math.PI * 2;
+      const r = 0.05 + (i / 40) * 0.95;
+      const x = r * Math.cos(angle);
+      const y = r * Math.sin(angle);
+      const inside = phyllotaxisSample(x, y, 1, param) >= 0;
+      // The kernel reports a seed exactly when the true nearest one is close.
+      expect(inside).toBe(exhaustive(x, y) <= 0.34);
     }
   });
 });
