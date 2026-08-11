@@ -422,6 +422,310 @@ export default {
       image: mySiteImage,
     },
     {
+      title: 'Artifact Keeper',
+      subtitle: 'Open source contributions to a universal artifact registry',
+      date: 'June 2026 - Present',
+      techTheme: techTheme.rust,
+      links: [
+        {
+          url: 'https://github.com/artifact-keeper/artifact-keeper/pulls?q=is%3Apr+author%3Acazlo',
+          text: 'Pull Requests',
+        },
+        {
+          url: 'https://github.com/artifact-keeper/artifact-keeper',
+          text: 'Upstream source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Rust',
+          icon: techTheme.rust.icon,
+        },
+        {
+          name: 'Postgres',
+          icon: techTheme.postgres.icon,
+        },
+        {
+          name: 'Distributed Systems',
+          icon: <FcServices />,
+        },
+        {
+          name: 'Supply Chain Security',
+          icon: techTheme.sigstore.icon,
+        },
+        {
+          name: 'Typescript',
+          icon: techTheme.typescript.icon,
+        },
+        GithubTech,
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'Correctness and supply chain work on a Rust artifact registry: fixing races where multiple replicas double-executed background jobs, webhook retries, and sync tasks; fanning out authorization cache invalidation across replicas; adding publisher attestation verification, structured audit export, and proxy download policy for npm, PyPI, and Go.',
+    },
+    {
+      title: 'Homelab GitOps Cluster',
+      subtitle: 'Self-hosted platform managed as code',
+      date: '2023 - Present',
+      techTheme: techTheme.kubernetes,
+      links: [],
+      technologies: [
+        KubernetesTech,
+        {
+          name: 'Flux',
+          icon: techTheme.flux.icon,
+        },
+        {
+          name: 'Ansible',
+          icon: techTheme.ansible.icon,
+        },
+        {
+          name: 'Gitea',
+          icon: techTheme.gitea.icon,
+        },
+        {
+          name: 'Harbor',
+          icon: techTheme.harbor.icon,
+        },
+        {
+          name: 'Home Assistant',
+          icon: techTheme.homeassistant.icon,
+        },
+        {
+          name: 'Local LLM',
+          icon: <AiIcon />,
+        },
+        {
+          name: 'Grafana',
+          icon: techTheme.grafana.icon,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'A highly available MicroK8s cluster bootstrapped with Ansible and reconciled from git with Flux. Runs self-hosted CI runners, a Gitea forge, a Harbor OCI registry that proxies upstream pulls, a local LLM gateway, home automation, and cert-manager plus external-dns for automated TLS and DNS.',
+    },
+    {
+      title: 'Go and sigstore Upstream Contributions',
+      subtitle: 'Open source contributions',
+      date: 'July 2026',
+      techTheme: techTheme.go,
+      links: [
+        {
+          url: 'https://github.com/golang/go/pull/80371',
+          text: 'Go Pull Request',
+        },
+        {
+          url: 'https://github.com/sigstore/sigstore-rs/pull/615',
+          text: 'sigstore-rs Pull Request',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Go',
+          icon: techTheme.go.icon,
+        },
+        {
+          name: 'Rust',
+          icon: techTheme.rust.icon,
+        },
+        {
+          name: 'TLS',
+          icon: techTheme.security.icon,
+        },
+        {
+          name: 'sigstore',
+          icon: techTheme.sigstore.icon,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'Added GOAUTH support for TLS client certificates to the Go toolchain, so private module proxies can authenticate with mTLS. Made DSSE bundle verification in sigstore-rs multi-subject and multi-algorithm after finding that npm provenance attestations are sha512-only and failed to parse before any crypto ran.',
+    },
+    {
+      title: 'framework-fan',
+      subtitle: 'Userspace thermal policy controller',
+      date: 'July 2026',
+      techTheme: techTheme.rust,
+      links: [
+        {
+          url: 'https://github.com/cazlo/framework-fan',
+          text: 'Source Code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Rust',
+          icon: techTheme.rust.icon,
+        },
+        {
+          name: 'Linux',
+          icon: techTheme.linux.icon,
+        },
+        {
+          name: 'Embedded Controller',
+          icon: <FaMicrochip />,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'A fan policy daemon for the Framework 13 that deliberately never takes over fan RPM. It selects between bounded firmware thermal profiles with a fail-closed degraded state, and every decision can be observed, recorded, explained, and replayed before the daemon is trusted to act on it.',
+    },
+    {
+      title: 'Supply Chain as a Service',
+      subtitle: 'Hardening the supply chain of a supply chain tool',
+      date: 'June 2026',
+      techTheme: techTheme.sigstore,
+      links: [
+        {
+          url: 'https://github.com/cazlo/supply-chain-as-a-service',
+          text: 'Source Code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Rust',
+          icon: techTheme.rust.icon,
+        },
+        {
+          name: 'Docker',
+          icon: techTheme.docker.icon,
+        },
+        {
+          name: 'sigstore',
+          icon: techTheme.sigstore.icon,
+        },
+        {
+          name: 'Flux',
+          icon: techTheme.flux.icon,
+        },
+        KubernetesTech,
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'A reference architecture for vendoring an upstream registry rather than deploying its images directly: import reviewed source snapshots with recorded provenance, build and scan on controlled runners, gate the result through isolated runtime tests, and promote only signed immutable digests into a release registry a GitOps cluster consumes.',
+    },
+    {
+      title: 'Why FIPS Matters',
+      subtitle: 'TLS policy memo with a runnable proof',
+      date: 'May 2026',
+      techTheme: techTheme.security,
+      links: [
+        {
+          url: 'https://github.com/cazlo/why-fips-matters',
+          text: 'Source Code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+        },
+        {
+          name: 'TLS',
+          icon: techTheme.security.icon,
+        },
+        {
+          name: 'Docker',
+          icon: techTheme.docker.icon,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'An argument that conservative crypto policy is good engineering even with no compliance obligation, paired with a lab that demonstrates it: a recorded TLS 1.2 session using AES-GCM is decrypted after the fact from the server private key alone, because the cipher suite negotiated static RSA key exchange and had no forward secrecy.',
+    },
+    {
+      title: 'GitHub PR Year in Review',
+      subtitle: 'Grounding performance review narratives in real data',
+      date: 'December 2025',
+      techTheme: techTheme.python,
+      links: [
+        {
+          url: 'https://github.com/cazlo/github-pr-year-in-review',
+          text: 'Source Code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+        },
+        GithubTech,
+        {
+          name: 'AI',
+          icon: <AiIcon />,
+        },
+        {
+          name: 'Pytest',
+          icon: techTheme.pytest.icon,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        "Walks a year of an organization's pull requests and computes the parts a language model should never guess at: conventional commit ratios, time to close, review velocity, code churn, and work item traceability. The deterministic reports become the grounded input an LLM summarizes into performance review talking points.",
+    },
+    {
+      title: 'Outside-In Testing Strategy',
+      subtitle: 'Reference services in Go and Python',
+      date: 'December 2025',
+      techTheme: techTheme.go,
+      links: [
+        {
+          url: 'https://github.com/cazlo/go-outside-in-testing-strategy-example',
+          text: 'Go Example',
+        },
+        {
+          url: 'https://github.com/cazlo/python-outside-in-testing-strategy-example',
+          text: 'Python Example',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Go',
+          icon: techTheme.go.icon,
+        },
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+        },
+        {
+          name: 'Postgres',
+          icon: techTheme.postgres.icon,
+        },
+        {
+          name: 'Docker',
+          icon: techTheme.docker.icon,
+        },
+        KubernetesTech,
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'Worked examples of testing a service from the outside in: exercise it through its public HTTP interface, treat dependencies as black boxes, and run the same suite unchanged against local, Docker, and Kubernetes deployments so the tests keep their meaning as the environment changes.',
+    },
+    {
+      title: 'Renovate for Kubernetes',
+      subtitle: 'Known-good dependency automation recipes',
+      date: 'August 2025',
+      techTheme: techTheme.renovate,
+      links: [
+        {
+          url: 'https://github.com/cazlo/k8s-renovate',
+          text: 'Source Code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Renovate',
+          icon: techTheme.renovate.icon,
+        },
+        KubernetesTech,
+        TerraformTech,
+        GithubTech,
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'A working reference for keeping Kubernetes manifests, Helm charts, and container digests current with Renovate, including the custom regex managers that are hard to get right the first time. I reuse these as known-good examples across other projects.',
+    },
+    {
       title: 'Python Async Task API',
       subtitle: 'Reference architecture for event driven python microservices',
       date: 'May 2025',
@@ -494,6 +798,51 @@ export default {
         },
       ],
       content: 'Searchable mapping of AWS Config rule to their associated security controls',
+    },
+    {
+      title: 'Rocket Avionics Observability',
+      subtitle: 'Open source contribution',
+      date: 'December 2024',
+      techTheme: techTheme.grafana,
+      links: [
+        {
+          url: 'https://github.com/i2ocketguy/ksp-krpc-rocket-avionics/pull/1',
+          text: 'Telemetry Pull Request',
+        },
+        {
+          url: 'https://github.com/cazlo/ksp-krpc-rocket-avionics/pull/2',
+          text: 'Performance Pull Request',
+        },
+      ],
+      technologies: [
+        {
+          name: 'Python',
+          icon: techTheme.python.icon,
+        },
+        {
+          name: 'Grafana',
+          icon: techTheme.grafana.icon,
+        },
+        {
+          name: 'Prometheus',
+          icon: techTheme.prometheus.icon,
+        },
+        {
+          name: 'InfluxDB',
+          icon: techTheme.influxdb.icon,
+        },
+        {
+          name: 'Docker',
+          icon: techTheme.docker.icon,
+        },
+        {
+          name: 'Avionics',
+          icon: techTheme.rocketry.icon,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'Added live telemetry graphing to a rocket guidance and control system, then used that instrumentation to fix what it exposed. Control frame overruns were the SLI: moving telemetry reads onto the kRPC streaming API removed roughly 67k remote procedure calls and took overruns at 50Hz to near zero, and trimming per-frame recomputation out of the landing burn solver recovered tens of milliseconds per frame.',
     },
     {
       title: 'NASA Trick Containerization',
