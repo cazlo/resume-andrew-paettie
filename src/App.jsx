@@ -1,20 +1,12 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { ThemeProvider, StyledEngineProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline/CssBaseline';
 
-import { blue, red } from '@mui/material/colors';
 import Resume from './containers/Resume/Resume';
 import NotFound from './components/NotFound/NotFound';
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: blue,
-    secondary: red,
-  },
-});
+import theme from './common/vaporwaveTheme';
 
 const App = () => (
   <StyledEngineProvider injectFirst>
