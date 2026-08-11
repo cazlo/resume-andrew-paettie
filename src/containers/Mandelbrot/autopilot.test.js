@@ -1,4 +1,4 @@
-import { chooseTarget, interiorFraction } from './autopilot';
+import chooseTarget from './autopilot';
 
 const SIZE = 17; // odd, so there is a true centre cell
 const view = { cx: -0.5, cy: 0.25, halfHeight: 0.5 };
@@ -56,12 +56,5 @@ describe('chooseTarget', () => {
     const grid = new Float32Array(SIZE * SIZE).fill(12);
     for (let y = 0; y < SIZE; y += 1) grid[y * SIZE] = -1;
     expect(chooseTarget(grid, SIZE, SIZE, view, ASPECT)).toBeNull();
-  });
-});
-
-describe('interiorFraction', () => {
-  it('measures how much of the frame never escapes', () => {
-    expect(interiorFraction(new Float32Array([-1, -1, 4, 9]))).toBe(0.5);
-    expect(interiorFraction(new Float32Array(0))).toBe(0);
   });
 });

@@ -7,7 +7,7 @@
  * megabytes of structured clone.
  */
 
-import { renderBand } from './mandelbrot';
+import { renderBand } from './renderer';
 
 // `self` is the worker's global scope. The lint rule that restricts it exists
 // to catch window-vs-self confusion in page code; here it is the only handle
