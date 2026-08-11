@@ -55,11 +55,31 @@ import { ReactComponent as FedoraIcon } from 'devicon/icons/fedora/fedora-origin
 import { ReactComponent as RedHatIcon } from 'devicon/icons/redhat/redhat-original.svg';
 import { ReactComponent as RockyIcon } from 'devicon/icons/rockylinux/rockylinux-original.svg';
 import { ReactComponent as PoetryIcon } from 'devicon/icons/poetry/poetry-original.svg';
+import { ReactComponent as RustIcon } from 'devicon/icons/rust/rust-original.svg';
+import { ReactComponent as GoIcon } from 'devicon/icons/go/go-original.svg';
+import { ReactComponent as GrafanaIcon } from 'devicon/icons/grafana/grafana-original.svg';
+import { ReactComponent as PrometheusIcon } from 'devicon/icons/prometheus/prometheus-original.svg';
+import { ReactComponent as InfluxdbIcon } from 'devicon/icons/influxdb/influxdb-original.svg';
+import { ReactComponent as HelmIcon } from 'devicon/icons/helm/helm-original.svg';
+import { ReactComponent as OpentelemetryIcon } from 'devicon/icons/opentelemetry/opentelemetry-original.svg';
+import { ReactComponent as ArgocdIcon } from 'devicon/icons/argocd/argocd-original.svg';
 // https://react-icons.github.io/react-icons/search/?q=clear
 import { FaEllipsisH } from 'react-icons/fa';
-import { MdSecurity } from 'react-icons/md';
+import { MdSecurity, MdVerifiedUser } from 'react-icons/md';
 import { GrMysql } from 'react-icons/gr';
-import { SiApachemaven, SiJquery, SiKalilinux, SiBurpsuite, SiWindows95 } from 'react-icons/si';
+import {
+  SiApachemaven,
+  SiJquery,
+  SiKalilinux,
+  SiBurpsuite,
+  SiWindows95,
+  SiGitea,
+  SiFlux,
+  SiRenovatebot,
+  SiHarbor,
+  SiHomeassistant,
+  SiRocket,
+} from 'react-icons/si';
 import { FcCollaboration } from 'react-icons/fc';
 import Avatar from '@mui/material/Avatar';
 import { ReactComponent as JestSvg } from '../data/jest.svg';
@@ -819,6 +839,87 @@ const techTheme = {
   },
   poetry: {
     icon: <PoetryIcon />,
+  },
+  rust: {
+    style: {
+      background: '#2b2523',
+      color: '#dea584',
+    },
+    icon: <RustIcon />,
+  },
+  go: {
+    style: {
+      background: '#00acd7',
+      color: '#fff',
+    },
+    icon: <GoIcon />,
+  },
+  grafana: {
+    style: {
+      background: '#181b1f',
+      color: '#f46800',
+    },
+    icon: <GrafanaIcon />,
+  },
+  prometheus: {
+    style: {
+      background: '#2f2f2f',
+      color: '#e6522c',
+    },
+    icon: <PrometheusIcon />,
+  },
+  influxdb: {
+    style: {
+      background: '#22adf6',
+      color: '#fff',
+    },
+    icon: <InfluxdbIcon />,
+  },
+  helm: {
+    icon: <HelmIcon />,
+  },
+  opentelemetry: {
+    icon: <OpentelemetryIcon />,
+  },
+  argocd: {
+    icon: <ArgocdIcon />,
+  },
+  flux: {
+    style: {
+      background: '#3f586d',
+      color: '#5c6bc0',
+    },
+    icon: <SiFlux />,
+  },
+  gitea: {
+    icon: <SiGitea />,
+  },
+  harbor: {
+    icon: <SiHarbor />,
+  },
+  homeassistant: {
+    style: {
+      background: '#18bcf2',
+      color: '#fff',
+    },
+    icon: <SiHomeassistant />,
+  },
+  renovate: {
+    icon: <SiRenovatebot />,
+  },
+  sigstore: {
+    style: {
+      background: '#2f2f2f',
+      color: '#fff',
+    },
+    icon: <MdVerifiedUser />,
+  },
+  rocketry: {
+    style: {
+      background: '#0b1a33',
+      color: '#fff',
+    },
+    icon: <SiRocket />,
   },
 };
 
