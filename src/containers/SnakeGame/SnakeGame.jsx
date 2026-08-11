@@ -22,7 +22,7 @@ import techTheme from '../../common/techTheme';
 import SnakeNav from './SnakeNav';
 import { drawGameFrame, prepareCanvas } from './snakeCanvasRenderer';
 import GameOutcomeOverlay from './GameOutcomeOverlay';
-import SimulationArena from './SimulationArena';
+import AlgorithmTradeoffs from './AlgorithmTradeoffs';
 
 const { DEFAULT_BOX_SIZE, DEFAULT_BOARD_SIZE } = GameGrid;
 const { PLAYING } = GameState;
@@ -260,14 +260,14 @@ class SnakeGame extends Component {
         <Box className={classes.hero}>
           <Box sx={{ maxWidth: 760 }}>
             <Typography sx={{ color: 'primary.main', fontWeight: 800, letterSpacing: '0.16em' }} variant="overline">
-              404 // AUTONOMOUS SIMULATION
+              404 — page not found
             </Typography>
             <Typography sx={{ fontSize: { xs: '2rem', md: '3rem' }, letterSpacing: '-0.035em', mt: 0.25 }} variant="h3">
-              Watch the algorithm think.
+              A self-playing snake, instead.
             </Typography>
             <Typography sx={{ color: 'text.secondary', fontSize: { xs: '0.95rem', md: '1.05rem' }, mt: 1 }}>
-              A live pathfinding experiment disguised as a missing page. Tune the board, inspect the route, and see
-              whether the snake can clear every cell.
+              The page you wanted doesn&rsquo;t exist, so here&rsquo;s a snake that plays itself. Pick a pathfinding
+              algorithm from Controls and watch how it trades safety against speed.
             </Typography>
           </Box>
           <Stack direction="row" flexWrap="wrap" gap={1}>
@@ -315,7 +315,7 @@ class SnakeGame extends Component {
         <Paper className={classes.boardShell} elevation={0}>
           <Box sx={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between', px: 0.75, pb: 1.25 }}>
             <Typography sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.12em' }} variant="caption">
-              LIVE BOARD
+              BOARD
             </Typography>
             <Typography sx={{ color: 'rgba(255,255,255,0.4)' }} variant="caption">
               {innerWidth} × {innerHeight}px
@@ -372,7 +372,7 @@ class SnakeGame extends Component {
           ))}
         </Box>
 
-        <SimulationArena />
+        <AlgorithmTradeoffs />
 
         <Scoreboard scores={highScores} />
       </Root>

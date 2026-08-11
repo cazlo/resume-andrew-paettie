@@ -8,12 +8,12 @@ import GameState from './util/GameState';
 
 const outcomeContent = {
   [GameState.WON]: {
-    eyebrow: 'VICTORY',
+    eyebrow: 'PERFECT GAME',
     title: 'Board cleared',
     accent: '#8fc160',
   },
   [GameState.GAME_OVER]: {
-    eyebrow: 'RUN ENDED',
+    eyebrow: 'GAME OVER',
     title: 'Game over',
     accent: '#ef6a78',
   },

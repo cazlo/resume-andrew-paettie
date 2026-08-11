@@ -67,7 +67,7 @@ const SnakeNav = () => {
                 }}
               />
               <Typography sx={{ fontWeight: 800, letterSpacing: '0.14em' }} variant="subtitle1">
-                SNAKE//LAB
+                Snake — 404
               </Typography>
             </Box>
             <Typography
@@ -75,7 +75,7 @@ const SnakeNav = () => {
               sx={{ color: 'text.secondary', display: { xs: 'none', sm: 'block' }, lineHeight: 1.2 }}
               variant="caption"
             >
-              Autonomous pathfinding playground
+              Self-playing pathfinding demo
             </Typography>
           </Box>
 
