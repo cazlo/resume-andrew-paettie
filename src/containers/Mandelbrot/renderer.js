@@ -30,8 +30,16 @@ export const COARSE_STRIDE = 8;
 export function renderBand(job) {
   const { width, height, y0, y1, view, maxIter, lut, lutSize, density, phase, interior, formulaId, param } = job;
   const formula = formulaById(formulaId);
-  const { sample, logSpace } = formula;
+  const { sample } = formula;
+  const trap = job.trap || 0;
   const ramp = formula.density === undefined ? density : formula.density;
+  // A trap replaces the escape count with a distance, which is already in
+  // palette units — the log remap belongs to escape time only.
+  const logSpace = trap === 0 ? formula.logSpace : false;
+  // With a trap running, bounded orbits carry a colour of their own instead of
+  // the flat interior fill, offset half a cycle so the set still reads as a
+  // distinct body rather than blending into its surroundings.
+  const boundedPhase = phase + 0.5;
 
   const bandHeight = y1 - y0;
   const rgba = new Uint8ClampedArray(width * bandHeight * 4);
@@ -50,11 +58,18 @@ export function renderBand(job) {
     const coarseRow = (y - y0) % COARSE_STRIDE === 0 ? ((y - y0) / COARSE_STRIDE) * coarseW : -1;
     for (let x = 0; x < width; x += 1) {
       const cr = left + (x + 0.5) * perPixel;
-      const value = sample(cr, ci, maxIter, param);
+      const value = sample(cr, ci, maxIter, param, trap);
       if (value < 0) {
-        rgba[p] = ir;
-        rgba[p + 1] = ig;
-        rgba[p + 2] = ib;
+        if (value <= -2) {
+          const idx = lutIndex(-value - 2, lutSize, ramp, boundedPhase, logSpace) * 3;
+          rgba[p] = lut[idx];
+          rgba[p + 1] = lut[idx + 1];
+          rgba[p + 2] = lut[idx + 2];
+        } else {
+          rgba[p] = ir;
+          rgba[p + 1] = ig;
+          rgba[p + 2] = ib;
+        }
       } else {
         const idx = lutIndex(value, lutSize, ramp, phase, logSpace) * 3;
         rgba[p] = lut[idx];

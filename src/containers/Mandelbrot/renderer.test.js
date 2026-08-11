@@ -1,5 +1,6 @@
 import { COARSE_STRIDE, alignDimension, renderBand, splitBands } from './renderer';
 import { buildLut, PALETTES } from './palette';
+import { FORMULAS, TRAPS } from './formulas';
 
 describe('splitBands', () => {
   it('splits into stride-aligned bands that tile the frame', () => {
@@ -81,6 +82,50 @@ describe('renderBand', () => {
     const rabbit = renderBand(job(view, 0, 16, { formulaId: 'julia', param: { re: -0.123, im: 0.745 } }));
     const disk = renderBand(job(view, 0, 16, { formulaId: 'julia', param: { re: 0, im: 0 } }));
     expect(Array.from(rabbit.coarse)).not.toEqual(Array.from(disk.coarse));
+  });
+
+  it('draws real structure for every formula in the registry', () => {
+    // A whole-pipeline smoke test: a formula that returns a constant, a NaN or
+    // an out-of-range value renders as a flat wash, and nothing else here
+    // would notice.
+    FORMULAS.forEach(formula => {
+      const view = formula.staticView || formula.defaultView;
+      const param = formula.paramFromView ? formula.paramFromView(view, formula.defaultParam) : formula.defaultParam;
+      const out = renderBand({
+        ...job(view, 0, 16),
+        width: 64,
+        height: 64,
+        y1: 64,
+        formulaId: formula.id,
+        param,
+        maxIter: (formula.iterProfile && formula.iterProfile.base) || 300,
+      });
+      const colours = new Set();
+      for (let i = 0; i < out.rgba.length; i += 4) {
+        colours.add(`${out.rgba[i]},${out.rgba[i + 1]},${out.rgba[i + 2]}`);
+      }
+      expect(colours.size).toBeGreaterThan(8);
+      out.coarse.forEach(value => expect(Number.isFinite(value)).toBe(true));
+    });
+  });
+
+  it('colours bounded orbits once a trap has something to say about them', () => {
+    const view = { cx: -0.6, cy: 0, halfHeight: 1.3 };
+    const plain = renderBand(job(view, 0, 16));
+    const trapped = renderBand(job(view, 0, 16, { trap: TRAPS[1].kind }));
+    const colourAt = (out, i) => `${out.rgba[i]},${out.rgba[i + 1]},${out.rgba[i + 2]}`;
+
+    // Every pixel escape time gave up on and filled flat...
+    const silhouette = [];
+    for (let i = 0; i < plain.rgba.length; i += 4) {
+      if (colourAt(plain, i) === '7,8,9') silhouette.push(i);
+    }
+    expect(silhouette.length).toBeGreaterThan(10);
+
+    // ...has structure once the trap measures the orbit instead.
+    const trappedColours = new Set(silhouette.map(i => colourAt(trapped, i)));
+    expect(trappedColours.size).toBeGreaterThan(1);
+    expect(Array.from(trapped.coarse)).not.toEqual(Array.from(plain.coarse));
   });
 
   it('lets a formula override the palette density it is coloured with', () => {

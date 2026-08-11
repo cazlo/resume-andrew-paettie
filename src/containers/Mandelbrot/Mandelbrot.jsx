@@ -8,7 +8,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import ZoomEngine from './engine';
 import { PALETTES } from './palette';
-import { FORMULAS } from './formulas';
+import { FORMULAS, TRAPS } from './formulas';
 import './Mandelbrot.css';
 
 /*
@@ -66,6 +66,7 @@ export default function Mandelbrot() {
     zoomRate: 0.32,
     detail: 'sharp',
     formulaId: FORMULAS[0].id,
+    trapId: TRAPS[0].id,
     paletteId: PALETTES[0].id,
   });
 
@@ -209,8 +210,14 @@ export default function Mandelbrot() {
           <h1 className="Mandelbrot-title">{stats ? stats.formula : 'Mandelbrot'} Drive</h1>
           <p className="Mandelbrot-subtitle">
             {stats ? stats.mode : 'BOOTING'} <span className="Mandelbrot-sep">//</span> sector{' '}
-            {stats ? stats.seed : '--'} <span className="Mandelbrot-sep">//</span> locked on{' '}
-            {stats ? stats.target : '--'}
+            {stats ? stats.seed : '--'} <span className="Mandelbrot-sep">//</span>{' '}
+            {stats && stats.note ? stats.note : `locked on ${stats ? stats.target : '--'}`}
+            {stats && stats.looping && (
+              <>
+                {' '}
+                <span className="Mandelbrot-sep">//</span> no precision floor
+              </>
+            )}
           </p>
         </div>
         <Link className="Mandelbrot-back" to="/">
@@ -221,7 +228,7 @@ export default function Mandelbrot() {
       <section className="Mandelbrot-hud" aria-label="renderer telemetry">
         <Readout label="re" value={stats ? formatCoord(stats.cx, magnification) : '--'} wide />
         <Readout label="im" value={stats ? formatCoord(stats.cy, magnification) : '--'} wide />
-        <Readout label="zoom" value={formatMagnitude(magnification)} />
+        <Readout label={stats && stats.looping ? 'loop' : 'zoom'} value={formatMagnitude(magnification)} />
         <Readout label="iter" value={stats ? stats.maxIter : '--'} />
         <Readout label="fps" value={stats ? stats.fps.toFixed(0) : '--'} />
         <Readout label="frame" value={stats ? `${stats.frameMs.toFixed(0)}ms` : '--'} />
@@ -298,6 +305,25 @@ export default function Mandelbrot() {
             ))}
           </ToggleButtonGroup>
         </div>
+
+        {stats && stats.trappable && (
+          <div className="Mandelbrot-controlRow">
+            <span className="Mandelbrot-readoutLabel">orbit trap</span>
+            <ToggleButtonGroup
+              size="small"
+              exclusive
+              value={ui.trapId}
+              onChange={(event, value) => value && update({ trapId: value })}
+              aria-label="orbit trap"
+            >
+              {TRAPS.map(trap => (
+                <ToggleButton key={trap.id} value={trap.id} aria-label={`${trap.name} trap`}>
+                  {trap.name}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
+          </div>
+        )}
 
         <div className="Mandelbrot-controlRow">
           <span className="Mandelbrot-readoutLabel">detail</span>
