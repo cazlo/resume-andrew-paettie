@@ -1537,7 +1537,7 @@ export default {
         },
         {
           ...JavaTech,
-          experience: new Experience([new Interval(2014, 2017), new Interval(2019, 2021)]),
+          experience: new Experience([new Interval(2014, 2017), new Interval(2019, 2022.5)]),
           frameworks: [
             {
               name: 'JUnit',
@@ -1573,7 +1573,7 @@ export default {
               name: 'Quarkus',
               description: 'Using GraalVM and AOT to make java code fast in "scale to 0" use cases',
               icon: techTheme.quarkus.icon,
-              experience: new Experience([new Interval(2020, 2021), new Interval(2022, null)]),
+              experience: new Experience([new Interval(2020, 2021), new Interval(2022, 2022.5)]),
             },
             {
               name: 'Tomcat',
@@ -2024,14 +2024,14 @@ export default {
             },
             {
               name: 'Trivy',
-              description: 'Scanning dependencies for known CVEs in Gitlab CI',
-              icon: techTheme.gitlab.icon,
+              description: 'Scanning dependencies and container images for known CVEs in CI',
+              icon: techTheme.security.icon,
               experience: new Experience([new Interval(2021.5, null)]),
             },
             {
               name: 'semgrep',
-              description: 'SAST scanning in Gitlab CI',
-              icon: techTheme.gitlab.icon,
+              description: 'SAST scanning in CI',
+              icon: techTheme.security.icon,
               experience: new Experience([new Interval(2023, null)]),
             },
             {
@@ -2212,7 +2212,7 @@ export default {
             {
               name: 'Gitlab CI',
               icon: techTheme.gitlab.icon,
-              experience: new Experience([new Interval(2021.5, null)]),
+              experience: new Experience([new Interval(2021.5, 2024)]),
             },
           ],
         },
