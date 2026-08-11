@@ -13,7 +13,7 @@
  * loops -5vh to 0 every 6s, which is invisible on the grid because its lines
  * repeat every 5vh, but a rider and its trail are unique objects: they would
  * snap a full row every time the loop restarted. Instead each lane runs its own
- * copy of the same drift, and the timings below keep it in phase with the grid.
+ * copy of the same drift, and the timings keep it in phase with the grid.
  *
  * Locking works because every period is a multiple of the grid's 6s drift and
  * each run is exactly one 6s drift cycle long:
@@ -23,15 +23,11 @@
  * length, and the lane's transform resets only at the end of the period, when
  * the trail is already dark and the rider is off screen.
  *
- * Inside the plane, movement is in grid units: the grid rules every 5vw across
- * and 5vh into the distance, so every leg is a whole multiple of those and
- * every turn is a right angle.
- *
- * The plane runs from the horizon at local y = 0 to the camera plane at about
- * y = 45vh, past which geometry falls behind the viewer. Rows between y = 10vh
- * and y = 30vh land on screen at roughly 42vh to 83vh, so the path stays in
- * that band. x = 100vw is screen center; the visible half-width shrinks with
- * depth, from about 37vw at y = 12vh to 25vw at y = 22vh.
+ * Where a rider actually goes is not here: routes are generated per run in
+ * lightCycleRoutes.js, which emits the vw-path-*, vw-heading-* and vw-seg-*
+ * keyframes and the per-segment geometry. This file owns everything that does
+ * not depend on the route. The 48s period and the 87.5% run start are shared
+ * between the two and must be changed together.
  *
  * Only transform and opacity are animated, so a run costs no layout and no
  * repaint.
@@ -55,17 +51,25 @@
     transform: perspective(38vh) rotateX(58deg);
 }
 
-/* Second rider: mirrored and one grid row nearer, so the two runs differ. */
-.LightCycles-mirror {
-    position: absolute;
-    inset: 0;
-    transform: scaleX(-1) translateY(5vh);
+/*
+ * Animation name and delay are set inline by LightCycles.jsx, because both
+ * depend on the route drawn for this run. Everything else about the timing is
+ * fixed and lives here.
+ */
+.LightCycles-lane,
+.LightCycles-rider,
+.LightCycles-heading,
+.LightCycles-trail,
+.LightCycles-seg {
+    animation-duration: 48s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 
 .LightCycles-lane {
     position: absolute;
     inset: 0;
-    animation: vw-lane-drift 48s linear infinite;
+    animation-name: vw-lane-drift;
 }
 
 .LightCycles-lane--a {
@@ -74,51 +78,22 @@
 
 .LightCycles-lane--b {
     color: #ff5ec4;
-    animation-delay: -24s;
 }
 
-/*
- * The path, in plane coordinates:
- *   P0 55vw 12vh -> P1 90vw 12vh -> P2 90vw 22vh -> P3 110vw 22vh
- *   -> P4 110vw 12vh -> P5 140vw 12vh
- * Legs are 35 across, 10 near, 20 across, 10 far, 30 across = 105 grid units.
- * The run occupies the last 12.5% of the period and each leg gets
- * 12.5% * leg/105, so speed stays constant through the turns. Leg boundaries
- * land at
- *   87.5% -> 91.667% -> 92.857% -> 95.238% -> 96.429% -> 100%
- * and the rider path, the heading, and the trail segments all key off those
- * same numbers.
- */
-.LightCycles-rider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    animation: vw-cycle-path 48s linear infinite;
-}
-
+.LightCycles-rider,
 .LightCycles-heading {
     position: absolute;
     top: 0;
     left: 0;
     width: 0;
     height: 0;
-    animation: vw-cycle-heading 48s linear infinite;
 }
 
 .LightCycles-trail {
     position: absolute;
     inset: 0;
     opacity: 0;
-    animation: vw-trail-show 48s linear infinite;
-}
-
-.LightCycles-lane--b .LightCycles-rider,
-.LightCycles-lane--b .LightCycles-heading,
-.LightCycles-lane--b .LightCycles-trail,
-.LightCycles-lane--b .LightCycles-seg {
-    animation-delay: -24s;
+    animation-name: vw-trail-show;
 }
 
 /* Sizes are in the plane's local space; perspective scales them up by roughly
@@ -146,7 +121,7 @@
  * Each segment is pinned to the start of its leg and grows along it. Rotation
  * comes from --seg-rot so one keyframe shape works for every orientation, and
  * transform-origin at the left edge makes the growth start where the previous
- * leg ended.
+ * leg ended. Position, width and rotation are set inline from the route.
  */
 .LightCycles-seg {
     position: absolute;
@@ -157,46 +132,6 @@
     filter: blur(1px) drop-shadow(0 0 10px currentColor);
     transform-origin: 0 50%;
     transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
-    animation-duration: 48s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
-.LightCycles-seg--1 {
-    left: 55vw;
-    top: 12vh;
-    width: 35vw;
-    animation-name: vw-seg-1;
-}
-
-.LightCycles-seg--2 {
-    left: 90vw;
-    top: 12vh;
-    width: 10vh;
-    --seg-rot: 90deg;
-    animation-name: vw-seg-2;
-}
-
-.LightCycles-seg--3 {
-    left: 90vw;
-    top: 22vh;
-    width: 20vw;
-    animation-name: vw-seg-3;
-}
-
-.LightCycles-seg--4 {
-    left: 110vw;
-    top: 22vh;
-    width: 10vh;
-    --seg-rot: -90deg;
-    animation-name: vw-seg-4;
-}
-
-.LightCycles-seg--5 {
-    left: 110vw;
-    top: 12vh;
-    width: 30vw;
-    animation-name: vw-seg-5;
 }
 
 /*
@@ -212,52 +147,6 @@
     }
     100% {
         transform: translate3d(0, 0, 0);
-    }
-}
-
-@keyframes vw-cycle-path {
-    0%,
-    87.5% {
-        transform: translate3d(55vw, 12vh, 0);
-    }
-    91.667% {
-        transform: translate3d(90vw, 12vh, 0);
-    }
-    92.857% {
-        transform: translate3d(90vw, 22vh, 0);
-    }
-    95.238% {
-        transform: translate3d(110vw, 22vh, 0);
-    }
-    96.429% {
-        transform: translate3d(110vw, 12vh, 0);
-    }
-    100% {
-        transform: translate3d(140vw, 12vh, 0);
-    }
-}
-
-/* Heading snaps at each turn: duplicated stops give an instant right angle. */
-@keyframes vw-cycle-heading {
-    0%,
-    91.667% {
-        transform: rotate(0deg);
-    }
-    91.677%,
-    92.857% {
-        transform: rotate(90deg);
-    }
-    92.867%,
-    95.238% {
-        transform: rotate(0deg);
-    }
-    95.248%,
-    96.429% {
-        transform: rotate(-90deg);
-    }
-    96.439%,
-    100% {
-        transform: rotate(0deg);
     }
 }
 
@@ -277,60 +166,6 @@
     }
     100% {
         opacity: 0;
-    }
-}
-
-@keyframes vw-seg-1 {
-    0%,
-    87.5% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
-    }
-    91.667%,
-    100% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
-    }
-}
-
-@keyframes vw-seg-2 {
-    0%,
-    91.667% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
-    }
-    92.857%,
-    100% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
-    }
-}
-
-@keyframes vw-seg-3 {
-    0%,
-    92.857% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
-    }
-    95.238%,
-    100% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
-    }
-}
-
-@keyframes vw-seg-4 {
-    0%,
-    95.238% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
-    }
-    96.429%,
-    100% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
-    }
-}
-
-@keyframes vw-seg-5 {
-    0%,
-    96.429% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
-    }
-    100% {
-        transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
     }
 }
 
