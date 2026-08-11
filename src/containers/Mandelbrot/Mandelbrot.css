@@ -1,0 +1,255 @@
+/*
+ * Chrome for the Mandelbrot page.
+ *
+ * The canvas owns the whole viewport and every other layer floats over it with
+ * pointer-events off, so nothing here can steal a wheel or drag gesture from
+ * the renderer. Colours come from the site-wide vaporwave custom properties in
+ * common/vaporwave.css.
+ */
+
+.Mandelbrot {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #05010f;
+  font-family: ui-monospace, 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+}
+
+/*
+ * The site-wide sunset and the drifting perspective grid (common/vaporwave.css)
+ * have no business under a full-bleed fractal: they are hidden behind the
+ * canvas, yet the grid keeps animating and repainting for nothing. `content:
+ * none` stops the pseudo-elements being generated at all. The page component
+ * adds this class to <body> while it is mounted.
+ */
+body.Mandelbrot-page {
+  overflow: hidden;
+  background-color: #05010f;
+}
+
+body.Mandelbrot-page::before,
+body.Mandelbrot-page::after {
+  content: none;
+}
+
+.Mandelbrot-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/*
+ * Vignette only. Scanlines over a fractal cost real detail — they mask exactly
+ * the fine filament structure the renderer works hardest to resolve.
+ */
+.Mandelbrot-crt {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse 82% 74% at 50% 50%, transparent 55%, rgba(5, 1, 15, 0.55) 100%);
+}
+
+.Mandelbrot-header,
+.Mandelbrot-hud,
+.Mandelbrot-controls {
+  position: absolute;
+  z-index: 3;
+}
+
+.Mandelbrot-header {
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(6, 2, 18, 0.78) 0%, rgba(6, 2, 18, 0) 100%);
+}
+
+.Mandelbrot-title {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: clamp(1.1rem, 3.4vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--vw-cyan);
+  text-shadow: 0 0 18px rgba(1, 205, 254, 0.65), 2px 0 0 rgba(255, 94, 196, 0.55), -2px 0 0 rgba(5, 255, 161, 0.35);
+}
+
+.Mandelbrot-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--vw-magenta);
+}
+
+.Mandelbrot-sep {
+  color: rgba(185, 103, 255, 0.7);
+  padding: 0 4px;
+}
+
+.Mandelbrot-back {
+  pointer-events: auto;
+  flex: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--vw-mint);
+  border: 1px solid rgba(5, 255, 161, 0.35);
+  border-radius: 4px;
+  padding: 6px 10px;
+  background: rgba(10, 3, 26, 0.55);
+  transition: color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.Mandelbrot-back:hover {
+  color: var(--vw-cyan);
+  border-color: rgba(1, 205, 254, 0.75);
+  box-shadow: 0 0 16px rgba(1, 205, 254, 0.35);
+}
+
+/* Telemetry column. Deliberately narrow so the picture keeps the frame. */
+.Mandelbrot-hud {
+  top: 84px;
+  left: 18px;
+  width: 220px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 12px;
+  pointer-events: none;
+  border: 1px solid rgba(185, 103, 255, 0.32);
+  border-radius: 6px;
+  background: linear-gradient(160deg, rgba(30, 12, 58, 0.62) 0%, rgba(9, 3, 24, 0.72) 100%);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 0 1px rgba(1, 205, 254, 0.12), 0 16px 40px rgba(3, 0, 12, 0.6);
+}
+
+.Mandelbrot-readout--wide,
+.Mandelbrot-depth {
+  grid-column: 1 / -1;
+}
+
+.Mandelbrot-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.Mandelbrot-readoutLabel {
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(183, 164, 216, 0.85);
+}
+
+.Mandelbrot-readoutValue {
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  color: var(--vw-cyan);
+  text-shadow: 0 0 10px rgba(1, 205, 254, 0.4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Mandelbrot-depthTrack {
+  margin-top: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.09);
+  overflow: hidden;
+}
+
+.Mandelbrot-depthFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--vw-cyan), var(--vw-lavender), var(--vw-magenta));
+  box-shadow: 0 0 12px rgba(255, 94, 196, 0.55);
+  transition: width 200ms linear;
+}
+
+.Mandelbrot-controls {
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  max-width: min(760px, calc(100vw - 24px));
+  border: 1px solid rgba(255, 94, 196, 0.38);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(27, 14, 51, 0.78) 0%, rgba(9, 3, 24, 0.88) 100%);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 24px rgba(255, 94, 196, 0.18);
+}
+
+.Mandelbrot-controlRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.Mandelbrot-controls .MuiButton-root,
+.Mandelbrot-controls .MuiToggleButton-root {
+  font-family: inherit;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+}
+
+.Mandelbrot-controls .MuiToggleButton-root {
+  color: rgba(183, 164, 216, 0.9);
+  border-color: rgba(185, 103, 255, 0.35);
+}
+
+.Mandelbrot-controls .MuiToggleButton-root.Mui-selected {
+  color: var(--vw-mint);
+  background: rgba(5, 255, 161, 0.1);
+}
+
+.Mandelbrot-hint {
+  margin: 0;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(183, 164, 216, 0.75);
+}
+
+/* Small screens: the picture matters more than the telemetry. */
+@media (max-width: 720px) {
+  .Mandelbrot-hud {
+    top: auto;
+    bottom: 168px;
+    left: 12px;
+    width: 168px;
+    padding: 8px;
+  }
+
+  .Mandelbrot-hint {
+    display: none;
+  }
+}
+
+@media (max-height: 520px) {
+  .Mandelbrot-hud {
+    display: none;
+  }
+}

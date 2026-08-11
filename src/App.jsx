@@ -5,6 +5,7 @@ import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline/CssBaseline';
 
 import Resume from './containers/Resume/Resume';
+import Mandelbrot from './containers/Mandelbrot/Mandelbrot';
 import NotFound from './components/NotFound/NotFound';
 import theme from './common/vaporwaveTheme';
 
@@ -19,6 +20,10 @@ const App = () => (
           <Route exact path="/skills" element={<Resume scrollTo="ResumeSkills" />} />
           <Route exact path="/experience" element={<Resume scrollTo="ResumeExperience" />} />
           <Route exact path="/projects" element={<Resume scrollTo="ResumeProjects" />} />
+          {/* Second spelling kept on purpose: the fractal is misspelled far
+              more often than it is spelled right. */}
+          <Route exact path="/mandelbrot" element={<Mandelbrot />} />
+          <Route exact path="/mandlebrot" element={<Mandelbrot />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
