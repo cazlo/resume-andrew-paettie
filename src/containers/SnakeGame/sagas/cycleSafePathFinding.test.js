@@ -65,6 +65,13 @@ describe('cycle-safe path finding', () => {
     expect(findCycleShortcutNextPosition(snake, p(2, 2), board)).toEqual(p(2, 2));
   });
 
+  it('supports deterministic shortcuts in reverse cycle order for greedy recovery', () => {
+    const cycle = [...buildHamiltonianCycle(board)].reverse();
+    const snake = { parts: [cycle[2], cycle[1], cycle[0]] };
+
+    expect(findCycleShortcutNextPosition(snake, cycle[5], board, { reverse: true })).toEqual(cycle[3]);
+  });
+
   it('defers food when growth would consume the cycle reserve', () => {
     const cycle = buildHamiltonianCycle(board);
     const snake = { parts: [p(2, 1), p(1, 1)] };

@@ -12,7 +12,7 @@ import createGreedyPathFindingSolver from './pathFindingSolver';
 
 const p = Position;
 
-describe('food/tail deterministic baseline counterexamples', () => {
+describe('food/tail deterministic counterexample recovery', () => {
   [
     fatal2x3Seed7NoLegalMove,
     fatal6x6Seed0NoLegalMove,
@@ -33,7 +33,7 @@ describe('food/tail deterministic baseline counterexamples', () => {
         foodProvider: provider,
         maxFrames: fixture.maxFrames,
       });
-      const expected = fixture.currentExpected || fixture.expected;
+      const expected = fixture.recoveryExpected || fixture.currentExpected || fixture.expected;
 
       expect(result.outcome).toBe(expected.outcome);
       expect(result.state).toMatchObject({
