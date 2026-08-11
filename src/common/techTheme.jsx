@@ -55,12 +55,9 @@ import { ReactComponent as FedoraIcon } from 'devicon/icons/fedora/fedora-origin
 import { ReactComponent as RedHatIcon } from 'devicon/icons/redhat/redhat-original.svg';
 import { ReactComponent as RockyIcon } from 'devicon/icons/rockylinux/rockylinux-original.svg';
 import { ReactComponent as PoetryIcon } from 'devicon/icons/poetry/poetry-original.svg';
-import { ReactComponent as RustIcon } from 'devicon/icons/rust/rust-original.svg';
 import { ReactComponent as GoIcon } from 'devicon/icons/go/go-original.svg';
 import { ReactComponent as GrafanaIcon } from 'devicon/icons/grafana/grafana-original.svg';
 import { ReactComponent as PrometheusIcon } from 'devicon/icons/prometheus/prometheus-original.svg';
-import { ReactComponent as InfluxdbIcon } from 'devicon/icons/influxdb/influxdb-original.svg';
-import { ReactComponent as HelmIcon } from 'devicon/icons/helm/helm-original.svg';
 import { ReactComponent as OpentelemetryIcon } from 'devicon/icons/opentelemetry/opentelemetry-original.svg';
 import { ReactComponent as ArgocdIcon } from 'devicon/icons/argocd/argocd-original.svg';
 // https://react-icons.github.io/react-icons/search/?q=clear
@@ -79,6 +76,9 @@ import {
   SiHarbor,
   SiHomeassistant,
   SiRocket,
+  SiRust,
+  SiInfluxdb,
+  SiHelm,
 } from 'react-icons/si';
 import { FcCollaboration } from 'react-icons/fc';
 import Avatar from '@mui/material/Avatar';
@@ -840,12 +840,18 @@ const techTheme = {
   poetry: {
     icon: <PoetryIcon />,
   },
+  /*
+   * The devicon artwork for rust, influxdb, and helm is solid black or near
+   * black, which disappears on this site's dark surfaces. The simple-icons
+   * glyphs below draw with currentColor, so they get an explicit readable
+   * color instead.
+   */
   rust: {
     style: {
       background: '#2b2523',
-      color: '#dea584',
+      color: '#ffa06b',
     },
-    icon: <RustIcon />,
+    icon: <SiRust color="#ffa06b" />,
   },
   go: {
     style: {
@@ -873,10 +879,10 @@ const techTheme = {
       background: '#22adf6',
       color: '#fff',
     },
-    icon: <InfluxdbIcon />,
+    icon: <SiInfluxdb color="#22adf6" />,
   },
   helm: {
-    icon: <HelmIcon />,
+    icon: <SiHelm color="#8fa6ff" />,
   },
   opentelemetry: {
     icon: <OpentelemetryIcon />,
