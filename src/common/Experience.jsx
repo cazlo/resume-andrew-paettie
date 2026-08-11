@@ -26,10 +26,12 @@ export class Experience {
     const currentYear = new Date().getFullYear();
     return this.intervals
       .reduce((prev, current) => {
-        if (current.startYear === current.endYear) {
-          prev.push(`${current.startYear}`);
-        } else if (current.endYear === currentYear) {
+        // An interval still running through the current year reads as ongoing, even
+        // when it started this year and so has the same start and end.
+        if (current.endYear === currentYear) {
           prev.push(`${current.startYear} - current`);
+        } else if (current.startYear === current.endYear) {
+          prev.push(`${current.startYear}`);
         } else {
           prev.push(`${current.startYear} - ${current.endYear}`);
         }
