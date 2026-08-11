@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
 import { Card, CardActionArea, CardContent } from '@mui/material';
 import ChipList from '../common/ChipList';
+import formatPeriod from './formatPeriod';
 
 export default function EducationTile({ education, elevation, onOpen }) {
   return (
@@ -11,6 +12,10 @@ export default function EducationTile({ education, elevation, onOpen }) {
       {/* See WorkTile: the tile is the control, so its chips cannot be links. */}
       <CardActionArea onClick={onOpen} aria-label={`${education.schoolName}, show details`}>
         <CardContent>
+          {/* See WorkTile: dates belong in the card, not on the rail. */}
+          <Typography variant="overline" color="text.secondary" display="block">
+            {formatPeriod(education)}
+          </Typography>
           <Typography variant="h5">{education.schoolName}</Typography>
           <Typography variant="h6">{education.degree}</Typography>
           <ChipList

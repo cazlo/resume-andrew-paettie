@@ -1,0 +1,472 @@
+/*
+ * Outrun highway. See RoadScene.jsx for the shared vanishing point and the
+ * three Beziers everything on the ground plane is sampled from.
+ *
+ * One 24s run, looping continuously rather than restarting visibly:
+ *
+ *   road-dash-travel           one centre dash, horizon to camera, 24s. Ten
+ *                               copies, delays spaced 2.4s apart, so several
+ *                               are always mid-run while others cover for
+ *                               them — each dash only reads as one once it
+ *                               has scaled up over the back half of its run,
+ *                               so it takes more than a couple of copies for
+ *                               a still frame to show a visible cadence.
+ *   road-marker-left-travel,
+ *   road-marker-right-travel   the same idea on the road's edges, five
+ *                               copies per side, delays spaced by 4.8s.
+ *   road-hero-drift              24s, the hero car's tiny sideways sway plus
+ *                               a degree of lean as the curve bends under it.
+ *                               In phase with the ground so it never looks
+ *                               like it is cutting its own corner.
+ *   road-hero-bob, road-taillight-pulse
+ *                               6s, one clean division of the 24s run: a
+ *                               riding-the-road bob and brake-light flicker,
+ *                               not tied to ground travel at all — the hero
+ *                               car holds the camera's speed, so it never
+ *                               gains or loses ground.
+ *   road-oncoming-travel        18s (still a multiple of the 6s grid drift),
+ *                               three copies spaced 6s apart. Unlike the
+ *                               dashes and markers this one is deliberately
+ *                               NOT a near-continuous stream: only the first
+ *                               40% of each run is the visible close-and-pass
+ *                               arc (0-40% below), the remaining 60% is an
+ *                               invisible reset held at the spawn pose, which
+ *                               is what turns "three copies 6s apart" into
+ *                               real gaps between waves of oncoming traffic
+ *                               instead of another crawl-then-flash stream.
+ *                               An oncoming car's own closing speed (ours
+ *                               plus theirs) is why it crosses the frame in
+ *                               a fraction of a dash's 24s lifetime.
+ *
+ * Every travelling element fades in near the vanishing point and out again
+ * just past the bottom of the frame, so the moment a copy's animation wraps
+ * from 100% back to 0% happens while it is invisible either way — that is
+ * the whole trick behind the recycling reading as continuous.
+ *
+ * Reduced motion drops every animation to its statically declared value, not
+ * to the animation's 0% keyframe (see ExperienceBackdrop.css). The three
+ * road-oncoming-travel copies would otherwise all revert to their native,
+ * untransformed SVG position — the same point near the vanishing point — and
+ * stack on each other, visibly, in the frozen frame. `.RoadScene-oncoming`
+ * below declares its spawn pose (tiny, transparent) as a static rule for
+ * exactly this reason.
+ */
+
+/* Ambient halo: a plain blurred circle, unrelated to the mask below it, so nothing about the scanline cut leaks into the glow. */
+.RoadScene-sunGlow {
+    fill: currentColor;
+    opacity: 0.5;
+    filter: blur(28px);
+}
+
+/* Crisp scanline disc. No blur here — see the JSX comment for why it stays separate from the glow. */
+.RoadScene-sun {
+    fill: currentColor;
+    opacity: 0.92;
+}
+
+.RoadScene-horizonLine {
+    fill: none;
+    stroke: var(--vw-magenta, #ff5ec4);
+    stroke-width: 1.4;
+    opacity: 0.45;
+    filter: drop-shadow(0 0 8px var(--vw-magenta, #ff5ec4));
+}
+
+/* Rim-lit silhouette: the fill alone nearly disappears against the night sky away from the sun, so the outline itself carries a thin glow. */
+.RoadScene-ridge {
+    fill: rgba(20, 10, 38, 0.92);
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-opacity: 0.55;
+    filter: drop-shadow(0 0 5px currentColor);
+}
+
+/* Faint hint of the centre line between dashes, so the road reads even on the frozen first frame. */
+.RoadScene-guide {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.16;
+}
+
+.RoadScene-edge {
+    fill: none;
+    stroke: var(--vw-magenta, #ff5ec4);
+    stroke-width: 2;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 6px var(--vw-magenta, #ff5ec4));
+}
+
+/* --- Travelling ground elements ------------------------------------------ */
+
+.RoadScene-dash {
+    fill: currentColor;
+    filter: drop-shadow(0 0 6px currentColor);
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: road-dash-travel 24s linear infinite;
+}
+
+.RoadScene-markerLeft,
+.RoadScene-markerRight {
+    fill: none;
+    stroke: var(--vw-cyan, #01cdfe);
+    stroke-width: 1.6;
+    filter: drop-shadow(0 0 5px var(--vw-cyan, #01cdfe));
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+}
+
+.RoadScene-markerLeft {
+    animation: road-marker-left-travel 24s linear infinite;
+}
+
+.RoadScene-markerRight {
+    animation: road-marker-right-travel 24s linear infinite;
+}
+
+/* --- Hero car (right lane, close to camera) -------------------------------- */
+
+.RoadScene-heroDrift {
+    transform-box: view-box;
+    transform-origin: 680px 482px;
+    /* Static: straight and level. The reduced-motion frame, and also just a
+       sensible rest pose — the sway either side of it is symmetric. */
+    transform: translateX(0) rotate(0deg);
+    animation: road-hero-drift 24s ease-in-out infinite;
+}
+
+.RoadScene-heroBob {
+    transform-box: view-box;
+    transform-origin: 680px 492px;
+    transform: translateY(0);
+    animation: road-hero-bob 6s ease-in-out infinite alternate;
+}
+
+.RoadScene-heroShadow {
+    fill: rgba(5, 2, 10, 0.4);
+}
+
+.RoadScene-heroBody,
+.RoadScene-heroCabin {
+    fill: rgba(15, 8, 30, 0.9);
+    stroke: currentColor;
+    stroke-width: 1.4;
+    opacity: 0.88;
+}
+
+/* Light bar joining the two lamps, the way a lot of rear ends actually
+   read at a glance before the individual lamps resolve. Pulses with them so
+   it never looks like a separate, unrelated stripe. */
+.RoadScene-heroBrakeBar {
+    fill: currentColor;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 8px currentColor);
+    animation: road-taillight-pulse 6s ease-in-out infinite alternate;
+}
+
+.RoadScene-heroTailLight {
+    fill: currentColor;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 10px currentColor);
+    animation: road-taillight-pulse 6s ease-in-out infinite alternate;
+}
+
+/* --- Oncoming traffic (left lane, vanishing point to camera) --------------- */
+
+.RoadScene-oncoming {
+    transform-box: view-box;
+    transform-origin: 561.8px 217.8px;
+    /*
+     * Static spawn pose — see the file-level comment. This is what every
+     * copy falls back to under reduced motion, so all three collapse onto
+     * this one tiny, invisible frame instead of stacking visibly at full
+     * size. It is also exactly the 0%/100% keyframe value, so a paused
+     * mid-run frame and the reduced-motion frame never disagree.
+     */
+    opacity: 0;
+    transform: translate(0, 0) scale(0.067);
+    animation: road-oncoming-travel 18s linear infinite;
+}
+
+.RoadScene-oncomingBody,
+.RoadScene-oncomingCabin {
+    fill: rgba(10, 14, 26, 0.88);
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.85;
+}
+
+/*
+ * Headlights, not tail lights: white/cyan rather than the scene's warm
+ * currentColor, so oncoming traffic reads as facing us at a glance. A single
+ * drop-shadow'd white fill read as flat and dim next to the body's lit
+ * outline — a drop-shadow colours a blurred copy of its own source's alpha,
+ * so stacking a cyan drop-shadow under a near-opaque white fill just buries
+ * the cyan under the white it is supposed to halo, leaving a dull grey smudge
+ * with no real colour separation. Splitting it into two actual shapes (below)
+ * fixes that: a wide, solid-cyan, blurred glow ellipse behind a small, crisp
+ * white core, the same crisp-disc-over-blurred-glow split the sun uses two
+ * circles for. Both still live inside the same scaled/translated <g> as the
+ * rest of the car, so the whole headlight — glow and core alike — grows and
+ * shrinks with it exactly like the body does; nothing here is sized off the
+ * viewport.
+ */
+.RoadScene-headlightGlow {
+    fill: var(--vw-cyan, #01cdfe);
+    opacity: 0.85;
+    filter: blur(2.6px) drop-shadow(0 0 7px var(--vw-cyan, #01cdfe));
+}
+
+.RoadScene-headlight {
+    fill: #ffffff;
+    filter: drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 5px #ffffff);
+}
+
+/* --- Keyframes ------------------------------------------------------------ */
+
+/*
+ * Centre dash, horizon to camera. Position and scale are sampled off the
+ * centre Bezier at t = (time/100)^2.3, so the steps below cover a growing
+ * arc of curve as time goes on — the same real-world speed reads as
+ * acceleration once it is put through perspective.
+ */
+@keyframes road-dash-travel {
+    0% {
+        transform: translate(0, 0) scale(0.1);
+        opacity: 0;
+    }
+    5% {
+        transform: translate(1px, 2px) scale(0.1);
+        opacity: 0.6;
+    }
+    10% {
+        transform: translate(5.9px, 9.6px) scale(0.11);
+        opacity: 1;
+    }
+    20% {
+        transform: translate(13.9px, 24.5px) scale(0.13);
+    }
+    30% {
+        transform: translate(24.8px, 47.5px) scale(0.19);
+    }
+    40% {
+        transform: translate(36.3px, 79.3px) scale(0.3);
+    }
+    50% {
+        transform: translate(45.6px, 120.4px) scale(0.48);
+    }
+    60% {
+        transform: translate(47.6px, 171.7px) scale(0.77);
+    }
+    70% {
+        transform: translate(36.2px, 233.4px) scale(1.2);
+    }
+    80% {
+        transform: translate(3.6px, 306px) scale(1.8);
+    }
+    90% {
+        transform: translate(-37.1px, 363.7px) scale(2.34);
+        opacity: 1;
+    }
+    97% {
+        transform: translate(-60px, 390px) scale(2.6);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(-78px, 409.5px) scale(2.75);
+        opacity: 0;
+    }
+}
+
+/* Left edge: spine offset by -halfWidth(t), same t-schedule as the centre dash. */
+@keyframes road-marker-left-travel {
+    0% {
+        transform: translate(0, 0) scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        transform: translate(0.7px, 1.95px) scale(0.1);
+        opacity: 1;
+    }
+    30% {
+        transform: translate(1.7px, 24.5px) scale(0.13);
+    }
+    50% {
+        transform: translate(-19.9px, 79.3px) scale(0.3);
+    }
+    70% {
+        transform: translate(-105.9px, 171.7px) scale(0.77);
+    }
+    90% {
+        transform: translate(-321.9px, 306px) scale(1.8);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-506px, 390px) scale(2.6);
+        opacity: 0;
+    }
+}
+
+/* Right edge: spine offset by +halfWidth(t), same t-schedule as the left edge. */
+@keyframes road-marker-right-travel {
+    0% {
+        transform: translate(0, 0) scale(0.1);
+        opacity: 0;
+    }
+    10% {
+        transform: translate(1.7px, 1.95px) scale(0.1);
+        opacity: 1;
+    }
+    30% {
+        transform: translate(26.1px, 24.5px) scale(0.13);
+    }
+    50% {
+        transform: translate(92.5px, 79.3px) scale(0.3);
+    }
+    70% {
+        transform: translate(201.1px, 171.7px) scale(0.77);
+    }
+    90% {
+        transform: translate(329.1px, 306px) scale(1.8);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(386px, 390px) scale(2.6);
+        opacity: 0;
+    }
+}
+
+/* The hero car never travels the road — it holds the camera's own speed, so
+   it only sways a few pixels and leans a degree or two with the bend. */
+@keyframes road-hero-drift {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+    25% {
+        transform: translateX(6px) rotate(0.9deg);
+    }
+    50% {
+        transform: translateX(2px) rotate(0.2deg);
+    }
+    75% {
+        transform: translateX(-5px) rotate(-0.8deg);
+    }
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+}
+
+@keyframes road-hero-bob {
+    from {
+        transform: translateY(-3px);
+    }
+    to {
+        transform: translateY(3px);
+    }
+}
+
+@keyframes road-taillight-pulse {
+    from {
+        opacity: 0.7;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/*
+ * Oncoming car, left lane. Translate is sampled off spine(t) and
+ * halfWidth(t) (see RoadScene.jsx) at t = 1.12 * (p/40)^2.3, where p is the
+ * percent of this 18s run spent in the visible 0-40% arc. The exponent
+ * overshoots t past 1 by 40% so the car is fully below y=600 — off the drawn
+ * road entirely — before it is held at the spawn pose for the remaining 60%
+ * of the run, which is the actual gap between waves of traffic. Lane
+ * position at each stop is spine(t).x - halfWidth(t) * 0.42, kept a
+ * consistent 42% of the half-width short of the true left edge at every
+ * step, so it never drifts onto the shoulder through the bend the way a
+ * hand-eyeballed curve could.
+ *
+ * Scale is NOT sampled independently: the hero car and this one must render
+ * at the same size whenever they sit at the same screen y, because that is
+ * what "same y" means in a one-point-perspective scene — same depth. So both
+ * read off one shared function of depth, scale(t) = K * halfWidth(t) /
+ * halfWidth(tCalib):
+ *
+ *   tCalib = (482 - 210) / 390    the hero's own screen y (see
+ *                                  .RoadScene-heroDrift's transform-origin)
+ *                                  converted back to a depth via spine-y's
+ *                                  linear t, i.e. "the depth whose spine-y
+ *                                  is exactly where the hero sits".
+ *   K = 124 / 26                  the hero's native body width over this
+ *                                  car's native body width, i.e. what makes
+ *                                  scale(tCalib) blow this car's tiny art up
+ *                                  to the hero's actual, unscaled size.
+ *
+ * scale(tCalib) is therefore exactly 4.769 by construction, and 26 * 4.769
+ * == 124 == the hero's own body width — an oncoming car passing through
+ * y=482 matches the hero pixel-for-pixel there, not just "close enough".
+ * The 32.55% stop below is t = tCalib exactly, kept as an explicit keyframe
+ * rather than left to interpolation so that crossing point is a real,
+ * checkable value rather than an accident of the curve either side of it.
+ */
+@keyframes road-oncoming-travel {
+    0% {
+        transform: translate(-3.5px, -7.8px) scale(0.067);
+        opacity: 0;
+    }
+    3% {
+        transform: translate(-2.9px, -6.7px) scale(0.071);
+        opacity: 0;
+    }
+    6% {
+        transform: translate(-0.9px, -2.2px) scale(0.097);
+        opacity: 0.5;
+    }
+    10% {
+        transform: translate(3.5px, 10.2px) scale(0.205);
+        opacity: 0.9;
+    }
+    15% {
+        transform: translate(9px, 38px) scale(0.531);
+        opacity: 1;
+    }
+    20% {
+        transform: translate(8.2px, 80.9px) scale(1.163);
+    }
+    25% {
+        transform: translate(-8.9px, 140.4px) scale(2.202);
+    }
+    30% {
+        transform: translate(-56.9px, 217.6px) scale(3.75);
+        opacity: 1;
+    }
+    /* t = tCalib exactly — the hero-crossing depth. Same y as the hero
+       car (see .RoadScene-heroDrift), and by the scale(t) formula above,
+       the same rendered size too: 26 * 4.767 = 124.0, the hero's own body
+       width. */
+    32.55% {
+        transform: translate(-99.2px, 264.1px) scale(4.767);
+        opacity: 0.7;
+    }
+    34% {
+        transform: translate(-130.3px, 292.8px) scale(5.421);
+        opacity: 0.55;
+    }
+    37% {
+        transform: translate(-213.7px, 357.3px) scale(6.961);
+        opacity: 0.15;
+    }
+    40% {
+        transform: translate(-328.1px, 429px) scale(8.771);
+        opacity: 0;
+    }
+    /* Held at the spawn pose (matches 0% and the static rule above) for the
+       rest of the run — the actual silent gap between waves of traffic. */
+    40.01%,
+    100% {
+        transform: translate(-3.5px, -7.8px) scale(0.067);
+        opacity: 0;
+    }
+}

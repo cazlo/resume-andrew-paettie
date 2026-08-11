@@ -1,0 +1,349 @@
+/*
+ * Runners on a track. See RunnersScene.jsx for the shape of the figure and
+ * why the animated and static transforms are split across two nested groups.
+ *
+ * There is no single 24s narrative arc the way LunarScene has a descent —
+ * this scene is a loop of independent crossings, so the "one 24s period"
+ * rule is satisfied per lane instead of as one timeline:
+ *
+ *   far lane   24s per crossing, 1 runner
+ *   mid lane   18s per crossing, 2 runners, staggered (not half a cycle —
+ *              see the comment on RUNNERS in the .jsx for why)
+ *   near lane   6s per crossing, 2 runners, staggered the same way
+ *
+ * 6, 18 and 24 are all multiples of the site's 6s grid drift, so every lane
+ * realigns with the grid at the same moment the far lane completes one
+ * crossing (24s) — nothing drifts slowly out of phase with the rest of the
+ * page. Each crossing itself starts and ends off the left/right edge of the
+ * viewBox, so the instant wrap from 100% back to 0% is never on screen.
+ *
+ * The track itself (lane lines, dividers, horizon) is static line art, not
+ * animated — a one-point vanishing-point track used to sell depth by
+ * converging its lines toward the centre, but that fought the runners'
+ * straight left-to-right travel, so depth here is drawn once as vertical
+ * compression (closer/thinner/dimmer rows toward the horizon) rather than
+ * performed by any keyframe.
+ */
+
+/* --- Sky and track ------------------------------------------------------- */
+
+.RunnersScene-skyGlow {
+    pointer-events: none;
+}
+
+/*
+ * Static light standards. No animation on purpose: this is ambient sky
+ * detail, not a thing the eye should be tracking, and it needs to survive
+ * reduced motion unchanged since it was never moving in the first place.
+ */
+.RunnersScene-standardPole {
+    stroke: var(--vw-lavender, #b967ff);
+    stroke-width: 1.4;
+    opacity: 0.22;
+}
+
+.RunnersScene-standardGlow {
+    fill: var(--vw-lavender, #b967ff);
+    opacity: 0.18;
+    filter: blur(6px);
+}
+
+.RunnersScene-standardLamp {
+    fill: var(--vw-lavender, #b967ff);
+    opacity: 0.4;
+    filter: drop-shadow(0 0 5px var(--vw-lavender, #b967ff));
+}
+
+/* Grandstand silhouette: darker than the sky wash behind it but still no
+   brighter than the horizon glow — texture at the horizon, not a shape that
+   competes with the runners for attention. */
+.RunnersScene-grandstand {
+    fill: rgba(18, 8, 34, 0.55);
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-opacity: 0.1;
+}
+
+/*
+ * The track surface itself — see the gradient definition in RunnersScene.jsx
+ * for the violet-at-horizon-to-clay-at-camera fill. Filling this band is
+ * what turns the lane lines below into lines drawn ON a surface instead of
+ * wires strung over open background: before this fill existed the lanes were
+ * just thin strokes floating on the sky gradient.
+ */
+.RunnersScene-field {
+    pointer-events: none;
+}
+
+/*
+ * Six lane boundary lines, in document order from nearest-the-horizon (top,
+ * most compressed) to nearest-the-viewer (bottom): 306/334 bracket the far
+ * lane, 393/429 the mid lane, 525/598 the near lane (see RunnersScene.jsx for
+ * why those numbers). Row spacing grows going down the frame — that widening
+ * gap is the depth cue, standing in for the convergence a straight-on
+ * vanishing point would otherwise draw, now stretched across the horizon-to-
+ * camera range (y=300-598) instead of squeezed into the frame's bottom
+ * third. Opacity and stroke-width grow the same direction so the far lane
+ * all but dissolves into the horizon glow and the near lane reads as the
+ * most solid line on the ground.
+ */
+.RunnersScene-lanes line {
+    stroke: currentColor;
+    fill: none;
+}
+
+.RunnersScene-lanes line:nth-child(1) {
+    stroke-width: 1;
+    opacity: 0.16;
+}
+
+.RunnersScene-lanes line:nth-child(2) {
+    stroke-width: 1.2;
+    opacity: 0.2;
+}
+
+.RunnersScene-lanes line:nth-child(3) {
+    stroke-width: 1.5;
+    opacity: 0.25;
+}
+
+.RunnersScene-lanes line:nth-child(4) {
+    stroke-width: 1.8;
+    opacity: 0.3;
+}
+
+.RunnersScene-lanes line:nth-child(5) {
+    stroke-width: 2.2;
+    opacity: 0.34;
+}
+
+.RunnersScene-lanes line:nth-child(6) {
+    stroke-width: 2.6;
+    opacity: 0.4;
+}
+
+/* Dashed inner dividers sitting in the gaps between occupied lanes — more
+   track texture, kept well under the boundary lines' opacity so they don't
+   read as a fourth lane. */
+.RunnersScene-laneDividers line {
+    fill: none;
+    stroke: var(--vw-lavender, #b967ff);
+    stroke-dasharray: 14 10;
+}
+
+.RunnersScene-laneDividers line:nth-child(1) {
+    stroke-width: 1;
+    opacity: 0.1;
+}
+
+.RunnersScene-laneDividers line:nth-child(2) {
+    stroke-width: 1.3;
+    opacity: 0.14;
+}
+
+/*
+ * Masked out toward both edges and kept dim: a full-width, full-brightness
+ * line here is the single highest-contrast stroke in the scene and reads as
+ * a hard seam cutting the frame in half rather than a horizon.
+ */
+.RunnersScene-horizon {
+    stroke: currentColor;
+    stroke-width: 1.4;
+    opacity: 0.32;
+    filter: drop-shadow(0 0 4px currentColor);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+/* --- Runner: outer group, the only thing that crosses the frame --------- */
+
+.RunnersScene-runner {
+    transform-box: view-box;
+    transform-origin: 0px 0px;
+    /*
+     * Static fallback for reduced motion, which drops the whole `animation`
+     * shorthand and leaves this as the rendered value: a resting position
+     * spread across the frame (see RUNNERS' restX) rather than the
+     * off-canvas 0% keyframe every runner would otherwise share.
+     */
+    transform: translate3d(var(--runner-rest-x, 400px), 0, 0);
+    animation-name: runners-cross;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* Depth fade: further lanes sit behind more of the night air. Far nudged up
+   from 0.55 — against the new, brighter track surface a runner that dim was
+   nearly unfindable even at the larger scale above. */
+.RunnersScene-runner--far {
+    opacity: 0.62;
+}
+
+.RunnersScene-runner--mid {
+    opacity: 0.8;
+}
+
+.RunnersScene-runner--near {
+    opacity: 1;
+}
+
+/*
+ * Depth placement: unanimated, so it never fights the outer group for control
+ * of `transform`. Scale is applied first (it is the rightmost function, so it
+ * acts on the figure's own local coordinates), then translate places the
+ * scaled figure's feet on the lane's line of the track.
+ */
+.RunnersScene-depth {
+    transform-box: view-box;
+    transform-origin: 0px 0px;
+}
+
+/*
+ * Near was originally scale(1.3) — big enough that, sweeping through the
+ * centre of the frame (unavoidable once a lap, for every lane), it read as a
+ * huge bright figure parked under the section heading. Cut by more than
+ * half; far and mid come down with it so the near/mid/far size order (the
+ * whole point of the depth illusion) doesn't collapse.
+ *
+ * These went back up from that cut (0.3/0.4/0.5) once the track itself grew
+ * to fill the frame: at the old, compressed track scale the figures were
+ * legible but small, and the far lane in particular was too dim and too
+ * small to find. translateY tracks each lane's new depth band above; scale
+ * keeps the same near > mid > far ordering, just larger across the board.
+ * The near figure's lowest point (a trailing foot at local y=12) lands at
+ * 553 + 12 * 0.85 = 563.2, comfortably above the y=580 clipping floor.
+ */
+.RunnersScene-depth--far {
+    transform: translate(0px, 317px) scale(0.5);
+}
+
+.RunnersScene-depth--mid {
+    transform: translate(0px, 410px) scale(0.65);
+}
+
+.RunnersScene-depth--near {
+    transform: translate(0px, 553px) scale(0.85);
+}
+
+/* --- Figure --------------------------------------------------------------
+ * Fat round-capped strokes rather than a thin outline: at this scale a thin
+ * line reads as a wobbly wire, a chunky one reads as a limb.
+ */
+
+.RunnersScene-limb {
+    stroke: currentColor;
+    stroke-width: 8;
+    stroke-linecap: round;
+    fill: none;
+}
+
+/* Lower leg/arm segment: thinner than the upper, so a limb tapers toward the
+   hand or foot instead of reading as one uniform rod. */
+.RunnersScene-limb--lower {
+    stroke-width: 5.5;
+}
+
+/* Torso widened relative to the limbs (was closer to the limb width) so the
+   figure reads as a body with mass, not a stick figure with a thick pen. */
+.RunnersScene-torso {
+    stroke-width: 15;
+}
+
+.RunnersScene-head {
+    fill: currentColor;
+}
+
+.RunnersScene-streaks line {
+    stroke: currentColor;
+    stroke-width: 4;
+    stroke-linecap: round;
+    opacity: 0.4;
+}
+
+.RunnersScene-streaks line:nth-child(2) {
+    opacity: 0.28;
+}
+
+.RunnersScene-streaks line:nth-child(3) {
+    opacity: 0.16;
+}
+
+/*
+ * The whole runner is lit once here rather than per limb — one drop-shadow
+ * over the composited group instead of eight over individual strokes.
+ */
+.RunnersScene-stride {
+    filter: drop-shadow(0 0 4px currentColor);
+    animation: runners-bob 0.4s steps(1) infinite;
+}
+
+/*
+ * Two static drawings, one shown at a time. Toggling opacity with a hard cut
+ * at the midpoint (rather than a fade) is what makes it read as a footfall
+ * instead of a cross-dissolve between two overlapping figures.
+ *
+ * The base `opacity` (outside the animation) is the reduced-motion fallback:
+ * with the animation shorthand nulled, poseA statically wins and poseB
+ * statically loses, so the frozen scene holds one clean pose instead of both
+ * double-exposed on top of each other.
+ */
+.RunnersScene-poseA {
+    opacity: 1;
+    animation: runners-pose-a 0.4s steps(1) infinite;
+}
+
+.RunnersScene-poseB {
+    opacity: 0;
+    animation: runners-pose-b 0.4s steps(1) infinite;
+}
+
+/* --- Keyframes ------------------------------------------------------------ */
+
+/*
+ * Shared by every runner regardless of lane: the distance in viewBox units is
+ * always the same, only `animation-duration` (set inline per lane) changes,
+ * which is exactly what makes nearer lanes read as faster.
+ */
+@keyframes runners-cross {
+    from {
+        transform: translate3d(-180px, 0, 0);
+    }
+    to {
+        transform: translate3d(1180px, 0, 0);
+    }
+}
+
+@keyframes runners-pose-a {
+    0%,
+    49% {
+        opacity: 1;
+    }
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes runners-pose-b {
+    0%,
+    49% {
+        opacity: 0;
+    }
+    50%,
+    100% {
+        opacity: 1;
+    }
+}
+
+/* A couple of viewBox pixels of lift on the drive step, dropped back on the
+   reach step — enough to read as a footfall, not enough to look like a hop. */
+@keyframes runners-bob {
+    0%,
+    49% {
+        transform: translateY(0px);
+    }
+    50%,
+    100% {
+        transform: translateY(-3px);
+    }
+}

@@ -1,0 +1,155 @@
+/*
+ * Radar PPI scope. See RadarScene.jsx for how the geometry is generated.
+ *
+ * There is no narrative arc to loop here, unlike the lander's one-shot descent
+ * — a scope just turns. Two independent clocks, both a clean divisor of the
+ * 6s grid drift in vaporwave.css:
+ *
+ *   RadarScene-sweep   12s linear, one full clockwise turn, forever
+ *   RadarScene-blip     each blip runs the same 12s cycle, offset by
+ *                        `animation-delay` so its one bright frame lands the
+ *                        instant the arm passes its bearing
+ *
+ * Because both run on the same 12s clock with no phase drift between them,
+ * every revolution repeats identically — the loop has nothing to snap at.
+ */
+
+/* --- Face -------------------------------------------------------------- */
+
+.RadarScene-ring {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.22;
+}
+
+.RadarScene-rim {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 6px currentColor);
+}
+
+.RadarScene-crosshairCardinal {
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.3;
+}
+
+.RadarScene-crosshairDiagonal {
+    stroke: currentColor;
+    stroke-width: 0.75;
+    opacity: 0.14;
+}
+
+.RadarScene-tickMinor {
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.3;
+}
+
+.RadarScene-tickMajor {
+    stroke: currentColor;
+    stroke-width: 1.3;
+    opacity: 0.5;
+}
+
+.RadarScene-tickCardinal {
+    stroke: currentColor;
+    stroke-width: 1.6;
+    opacity: 0.75;
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* Housing outside the phosphor face: physical, not neon, so it stays out of
+   the palette's glow treatment entirely. */
+.RadarScene-bezel {
+    fill: none;
+    stroke: var(--vw-dusk, #2a1450);
+    stroke-width: 7;
+    opacity: 0.55;
+}
+
+.RadarScene-hub {
+    fill: currentColor;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* Dark gaps between scan rows. Static: it does not need to move to read as a
+   tube, and animating it would cost a full-frame repaint every tick. */
+.RadarScene-scanlines {
+    opacity: 0.16;
+    mix-blend-mode: multiply;
+}
+
+/* --- Blips --------------------------------------------------------------- */
+
+.RadarScene-blip {
+    fill: currentColor;
+    filter: drop-shadow(0 0 5px currentColor);
+    transform-box: fill-box;
+    transform-origin: center;
+    /* Resting state when the animation is off (reduced motion): a contact
+       sitting quietly between sweeps, not mid-flash. */
+    opacity: 0.35;
+    animation: radar-blip-flash 12s linear infinite;
+}
+
+/* --- Sweep ---------------------------------------------------------------- */
+
+.RadarScene-sweep {
+    transform-box: view-box;
+    transform-origin: 500px 300px;
+    animation: radar-sweep-rotate 12s linear infinite;
+}
+
+.RadarScene-arm {
+    stroke: currentColor;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.RadarScene-wedge path {
+    fill: currentColor;
+    stroke: none;
+}
+
+/* --- Keyframes ------------------------------------------------------------ */
+
+@keyframes radar-sweep-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        /* A full turn, not a partial one, so the wedge and arm land exactly
+           back where they started and the next revolution is indistinguishable
+           from this one. */
+        transform: rotate(360deg);
+    }
+}
+
+/*
+ * Delay is set per-blip from its bearing, so 0% below always lands the instant
+ * the arm sweeps across that blip's position. The rest of the curve is the
+ * decay back to resting brightness before the arm comes back around.
+ */
+@keyframes radar-blip-flash {
+    0% {
+        opacity: 1;
+        transform: scale(1.6);
+    }
+    8% {
+        opacity: 0.9;
+        transform: scale(1.1);
+    }
+    30% {
+        opacity: 0.55;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.35;
+        transform: scale(1);
+    }
+}

@@ -1,0 +1,339 @@
+/*
+ * Lunar descent. See LunarScene.jsx for the shape of the run and the craft.
+ *
+ * One 24s period:
+ *   0 - 72%   powered descent in from the upper left, braking attitude
+ *             pitching upright as horizontal travel is nulled out
+ *   72 - 80%  final vertical descent and touchdown
+ *   80 - 92%  landed, engine out, dust settling
+ *   92 - 100% fade out, and the reset back to the start happens unseen
+ *
+ * 24s is four full cycles of the 6s grid drift in vaporwave.css, so the scene
+ * and the grid stay in phase instead of slowly beating against each other.
+ *
+ * The three flight groups all pivot on the touchdown point (660, 456) in
+ * view-box units, so the craft rotates and scales about its own footpads
+ * rather than swinging around some corner of its bounding box.
+ */
+
+.LunarScene-stars circle {
+    fill: currentColor;
+    opacity: 0.55;
+    animation: lunar-twinkle 4.5s ease-in-out infinite alternate;
+}
+
+.LunarScene-earthRim {
+    fill: none;
+    stroke: #7fc8ff;
+    stroke-width: 1;
+    opacity: 0.5;
+    filter: drop-shadow(0 0 10px #3fa9ff);
+}
+
+.LunarScene-regolith {
+    fill: #17142e;
+}
+
+.LunarScene-horizon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.LunarScene-crater {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.16;
+}
+
+/* --- Craft -------------------------------------------------------------- */
+
+.LunarScene-body {
+    fill: rgba(20, 16, 51, 0.82);
+    stroke: currentColor;
+    stroke-width: 1.6;
+    filter: drop-shadow(0 0 5px currentColor);
+}
+
+.LunarScene-skirt {
+    fill: rgba(255, 159, 110, 0.22);
+    stroke: var(--vw-sun, #ff9f6e);
+    stroke-width: 1.2;
+}
+
+.LunarScene-inset,
+.LunarScene-truss,
+.LunarScene-strut {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.3;
+    opacity: 0.72;
+}
+
+/* The lattice reads as depth, so it stays quieter than the hull outline. */
+.LunarScene-truss {
+    stroke-width: 1;
+    opacity: 0.5;
+}
+
+.LunarScene-tank {
+    fill: rgba(223, 231, 255, 0.09);
+    stroke: currentColor;
+    stroke-width: 0.8;
+    opacity: 0.45;
+}
+
+.LunarScene-band {
+    fill: none;
+    stroke: #01cdfe;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 5px #01cdfe);
+}
+
+.LunarScene-hatch {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    opacity: 0.6;
+}
+
+.LunarScene-pad {
+    fill: rgba(20, 16, 51, 0.9);
+    stroke: currentColor;
+    stroke-width: 1.3;
+}
+
+.LunarScene-port {
+    fill: none;
+    stroke: #01cdfe;
+    stroke-width: 2.4;
+    filter: drop-shadow(0 0 5px #01cdfe);
+}
+
+circle.LunarScene-port {
+    fill: #01cdfe;
+    stroke: none;
+}
+
+/* --- Flight ------------------------------------------------------------- */
+
+.LunarScene-flight,
+.LunarScene-altitude,
+.LunarScene-attitude,
+.LunarScene-scale {
+    transform-box: view-box;
+    transform-origin: 660px 456px;
+}
+
+.LunarScene-flight {
+    animation: lunar-downrange 24s linear infinite;
+}
+
+.LunarScene-altitude {
+    animation: lunar-descend 24s linear infinite;
+}
+
+.LunarScene-attitude {
+    animation: lunar-pitch 24s linear infinite;
+}
+
+/* Static: the craft is drawn full size and shrunk here, so the geometry above
+   stays in round numbers. */
+.LunarScene-scale {
+    transform: scale(0.72);
+}
+
+/*
+ * Two layers so the fast flicker does not have to be spelled out across a 24s
+ * timeline: the gate owns the long schedule, the jet just shudders.
+ */
+/*
+ * The static opacity is the reduced-motion frame, not a starting value: killing
+ * the animation drops every property back to what is declared here rather than
+ * to the 0% keyframe, and a landed lander still firing its engine would be
+ * worse than no plume at all. The other flight groups need no equivalent —
+ * their untransformed state is already the landed one.
+ */
+.LunarScene-plumeGate {
+    opacity: 0;
+    animation: lunar-plume-gate 24s linear infinite;
+}
+
+.LunarScene-plumeJet {
+    transform-box: fill-box;
+    transform-origin: 50% 0;
+    animation: lunar-plume-flicker 0.24s ease-in-out infinite alternate;
+}
+
+.LunarScene-dust ellipse {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: lunar-dust 24s linear infinite;
+}
+
+.LunarScene-dust ellipse:last-child {
+    animation-delay: -0.6s;
+}
+
+/* --- Keyframes ---------------------------------------------------------- */
+
+@keyframes lunar-twinkle {
+    from {
+        opacity: 0.2;
+    }
+    to {
+        opacity: 0.8;
+    }
+}
+
+/*
+ * Downrange travel, braking the whole way: big strides early, then almost
+ * nothing. It arrives over the site at 72% and the last stretch is vertical.
+ */
+@keyframes lunar-downrange {
+    0% {
+        transform: translate3d(-600px, 0, 0);
+    }
+    15% {
+        transform: translate3d(-470px, 0, 0);
+    }
+    30% {
+        transform: translate3d(-344px, 0, 0);
+    }
+    45% {
+        transform: translate3d(-226px, 0, 0);
+    }
+    57% {
+        transform: translate3d(-134px, 0, 0);
+    }
+    65% {
+        transform: translate3d(-66px, 0, 0);
+    }
+    72%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/*
+ * Altitude. Shallow on the way in, steepest through the middle, then a flare
+ * that all but stops it just above the surface.
+ */
+@keyframes lunar-descend {
+    0% {
+        transform: translate3d(0, -430px, 0);
+        opacity: 0;
+    }
+    3% {
+        transform: translate3d(0, -424px, 0);
+        opacity: 1;
+    }
+    15% {
+        transform: translate3d(0, -398px, 0);
+    }
+    30% {
+        transform: translate3d(0, -344px, 0);
+    }
+    45% {
+        transform: translate3d(0, -268px, 0);
+    }
+    57% {
+        transform: translate3d(0, -190px, 0);
+    }
+    65% {
+        transform: translate3d(0, -122px, 0);
+    }
+    72% {
+        transform: translate3d(0, -56px, 0);
+    }
+    76% {
+        transform: translate3d(0, -16px, 0);
+    }
+    80%,
+    92% {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(0, 0, 0);
+        opacity: 0;
+    }
+}
+
+/*
+ * Pitch. It comes in tipped back against the direction of travel, which is
+ * where the braking thrust has to point, and stands up as that thrust is no
+ * longer needed.
+ */
+@keyframes lunar-pitch {
+    0%,
+    22% {
+        transform: rotate(-32deg);
+    }
+    45% {
+        transform: rotate(-25deg);
+    }
+    62% {
+        transform: rotate(-13deg);
+    }
+    72% {
+        transform: rotate(-4deg);
+    }
+    78%,
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes lunar-plume-gate {
+    0%,
+    2% {
+        opacity: 0;
+    }
+    5%,
+    74% {
+        opacity: 0.9;
+    }
+    /* Cut on contact, not faded: the engine stops. */
+    79% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes lunar-plume-flicker {
+    from {
+        transform: scaleY(0.86) scaleX(0.94);
+    }
+    to {
+        transform: scaleY(1.08) scaleX(1.04);
+    }
+}
+
+@keyframes lunar-dust {
+    0%,
+    76% {
+        transform: scale(0.15);
+        opacity: 0;
+    }
+    80% {
+        opacity: 0.5;
+    }
+    92% {
+        transform: scale(2.1);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(2.1);
+        opacity: 0;
+    }
+}
