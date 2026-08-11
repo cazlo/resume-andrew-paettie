@@ -28,27 +28,29 @@
     color: #fff;
     border: 1px solid rgba(1, 205, 254, 0.6);
     box-shadow: 0 0 24px rgba(1, 205, 254, 0.3), inset 0 0 40px rgba(255, 94, 196, 0.12);
-    background: rgba(11, 4, 24, 0.55);
-    backdrop-filter: blur(4px);
+    background: rgba(8, 3, 18, 0.86);
+    backdrop-filter: blur(12px);
 }
 
+/* The gradient stops stay light and the drop shadows stay dark: the tile grid
+   behind this panel is bright and busy, so the name needs its own contrast. */
 .ResumeHomeBlock-headline h1 {
     margin: 0;
     padding-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    background: linear-gradient(180deg, #ffffff 0%, #d8c7ff 42%, #ff5ec4 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #ece3ff 45%, #ff9ddc 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 22px rgba(255, 94, 196, 0.5));
+    filter: drop-shadow(0 2px 3px rgba(4, 1, 12, 0.95)) drop-shadow(0 0 26px rgba(255, 94, 196, 0.45));
 }
 
 .ResumeHomeBlock-headline h2 {
     margin: 0;
-    color: #01cdfe;
+    color: #7fe8ff;
     letter-spacing: 0.08em;
-    text-shadow: 0 0 14px rgba(1, 205, 254, 0.5);
+    text-shadow: 0 1px 3px rgba(4, 1, 12, 0.95), 0 0 16px rgba(1, 205, 254, 0.5);
 }
 
 .ResumeHomeBlock-heading {
@@ -66,18 +68,50 @@
     background: radial-gradient(ellipse at 50% 30%, #2a1450 0%, #0b0418 70%);
 }
 
-/* Pull the tech tile grid into the vaporwave hue range without touching the
-   per-technology brand colors used elsewhere on the site. */
+/*
+ * Neon sweep over the tech tile grid.
+ *
+ * mix-blend-mode: color takes hue and saturation from this overlay and keeps
+ * the tiles' own luminance, so the technology artwork stays legible while the
+ * palette drifts across it.
+ *
+ * The overlay is three container-widths wide with a gradient that repeats once
+ * per container width, so translating it by exactly one third of its own width
+ * loops seamlessly. Animating transform (rather than background-position)
+ * keeps this on the compositor: no layout, no repaint per frame.
+ */
 .ResumeHomeBlock-squares::after {
     content: '';
     position: absolute;
-    inset: 0;
+    top: 0;
+    bottom: 0;
+    left: -100%;
+    width: 300%;
     pointer-events: none;
     mix-blend-mode: color;
-    background: linear-gradient(155deg,
-        rgba(1, 205, 254, 0.75) 0%,
-        rgba(185, 103, 255, 0.75) 45%,
-        rgba(255, 94, 196, 0.8) 100%);
+    background: repeating-linear-gradient(100deg,
+        #01cdfe 0%,
+        #b967ff 8.333%,
+        #ff5ec4 16.666%,
+        #05ffa1 25%,
+        #01cdfe 33.333%);
+    animation: vw-neon-sweep 20s linear infinite;
+    will-change: transform;
+}
+
+@keyframes vw-neon-sweep {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(-33.333%, 0, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ResumeHomeBlock-squares::after {
+        animation: none;
+    }
 }
 
 .ResumeHomeBlock-squares > div {

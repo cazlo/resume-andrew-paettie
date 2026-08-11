@@ -36,14 +36,21 @@ body::before {
     linear-gradient(180deg, #0b0418 0%, #1b0e33 42%, #35135c 72%, #5b1a63 88%, #7a1f57 100%);
 }
 
-/* Perspective grid receding to the horizon. */
+/*
+ * Perspective grid receding to the horizon.
+ *
+ * The drift animates the composed transform rather than background-position:
+ * the grid lines repeat every 5vh in the element's local space, so translating
+ * local Y by exactly 5vh loops seamlessly and the whole thing stays on the
+ * compositor instead of repainting a viewport-sized gradient every frame.
+ */
 body::after {
   content: '';
   position: fixed;
   left: -50%;
   right: -50%;
   bottom: -30vh;
-  height: 90vh;
+  height: 95vh;
   z-index: -1;
   pointer-events: none;
   opacity: 0.4;
@@ -53,18 +60,15 @@ body::after {
     repeating-linear-gradient(90deg, rgba(1, 205, 254, 0.5) 0 1px, transparent 1px 5vw),
     repeating-linear-gradient(0deg, rgba(255, 94, 196, 0.45) 0 1px, transparent 1px 5vh);
   animation: vw-grid-drift 6s linear infinite;
+  will-change: transform;
 }
 
 @keyframes vw-grid-drift {
   from {
-    background-position:
-      0 0,
-      0 0;
+    transform: perspective(38vh) rotateX(58deg) translate3d(0, -5vh, 0);
   }
   to {
-    background-position:
-      0 0,
-      0 5vh;
+    transform: perspective(38vh) rotateX(58deg) translate3d(0, 0, 0);
   }
 }
 
