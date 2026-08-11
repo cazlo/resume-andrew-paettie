@@ -4,11 +4,13 @@ import _ from 'lodash';
 import flow from 'lodash/flow';
 import withWindowSize from './withWindowSize';
 import GridItem from './GridItem';
+import assignBands from './bandAssignment';
 
 // Seconds of phase offset per step along the diagonal. Each tile holds one
 // color at a time and eases into the next; offsetting neighbours by a fraction
 // of the cycle is what makes the color read as a wave crossing the grid.
 // See the vw-tile-cycle animation in Home.css.
+//
 // This is deliberately smaller than it would be for a coarse grid: the step is
 // per tile, so a denser grid spans the same distance in more, smaller hops. The
 // wave therefore covers roughly the same stretch of the cycle as before while
@@ -19,6 +21,12 @@ const TILE_WAVE_STEP_SECONDS = 0.35;
 // out closest to square at the current viewport size, so this one number sets
 // the density of the whole grid.
 const ROWS = 9;
+
+// How far the technology pattern shifts when it moves down one row. This is
+// what turns the tiling into diagonal bands rather than vertical stripes, and
+// it also sets how many distinct bands exist: a larger step means more bands,
+// so more of the technology list gets on screen at once.
+const ROW_BAND_STEP = 3;
 
 class GridBackground extends React.PureComponent {
   /*
@@ -41,37 +49,27 @@ class GridBackground extends React.PureComponent {
   };
 
   generateDOM(columns) {
-    const { children } = this.props;
-    let interval = 0;
+    const { tiles } = this.props;
+    const assignment = assignBands(tiles, { rows: ROWS, columns, bandStep: ROW_BAND_STEP });
 
-    return _.map(_.range(columns * ROWS), i => {
-      // Shift which technology starts each row, so the icons read as diagonal
-      // bands across the grid instead of vertical stripes.
-      if (i - columns >= 0 && i % columns === 0) {
-        interval += columns - 2;
-      }
+    return _.flatten(
+      _.range(ROWS).map(row =>
+        _.range(columns).map(column => {
+          const tile = tiles[assignment[ROW_BAND_STEP * row + column]];
 
-      // Negative delay starts each tile part way into the cycle, so the wave is
-      // already travelling on first paint rather than every tile starting on
-      // the same color and drifting apart.
-      const wavePhase = -((i % columns) + Math.floor(i / columns)) * TILE_WAVE_STEP_SECONDS;
+          // Negative delay starts each tile part way into the cycle, so the wave
+          // is already travelling on first paint rather than every tile starting
+          // on the same color and drifting apart.
+          const wavePhase = -(row + column) * TILE_WAVE_STEP_SECONDS;
 
-      const source = children[(i - interval) % children.length];
-      const child = React.createElement(source.type, {
-        ...source.props,
-        style: {
-          ...source.props.style,
-          width: '100%',
-          height: '100%',
-        },
-      });
-
-      return (
-        <GridItem key={`home-grid-${i}`} style={{ '--tile-wave-delay': `${wavePhase}s` }}>
-          {child}
-        </GridItem>
-      );
-    });
+          return (
+            <GridItem key={`home-grid-${row}-${column}`} style={{ '--tile-wave-delay': `${wavePhase}s` }}>
+              {React.cloneElement(tile.node, { style: { ...tile.node.props.style, width: '100%', height: '100%' } })}
+            </GridItem>
+          );
+        }),
+      ),
+    );
   }
 
   render() {
@@ -100,13 +98,21 @@ class GridBackground extends React.PureComponent {
 GridBackground.propTypes = {
   innerHeight: PropTypes.number.isRequired,
   innerWidth: PropTypes.number.isRequired,
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  tiles: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      weight: PropTypes.number.isRequired,
+      node: PropTypes.element.isRequired,
+    }),
+  ).isRequired,
 };
 
 GridBackground.defaultPropTypes = {
   innerHeight: 0,
   innerWidth: 0,
 };
+
+export { ROWS, ROW_BAND_STEP };
 
 const decorators = flow([withWindowSize]);
 
