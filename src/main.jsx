@@ -3,6 +3,7 @@ import { hydrateRoot } from 'react-dom';
 import WebFont from 'webfontloader';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
+import './common/vaporwave.css';
 
 import { createRoot } from 'react-dom/client';
 import App from './App';

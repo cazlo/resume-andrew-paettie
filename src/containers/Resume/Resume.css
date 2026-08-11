@@ -8,7 +8,10 @@
 }
 
 .Resume div:nth-child(odd) .ScreenBlockContainer .ScreenBlock {
-    background: #757575;
+    background: linear-gradient(180deg, rgba(42, 20, 80, 0.55) 0%, rgba(18, 7, 38, 0.55) 100%);
+    border-top: 1px solid rgba(1, 205, 254, 0.25);
+    border-bottom: 1px solid rgba(255, 94, 196, 0.25);
+    backdrop-filter: blur(2px);
 }
 
 @media only screen and (max-width: 800px) {
