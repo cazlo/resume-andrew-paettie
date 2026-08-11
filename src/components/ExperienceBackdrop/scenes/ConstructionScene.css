@@ -1,0 +1,502 @@
+/*
+ * Tower crane building something. See ConstructionScene.jsx for the layout.
+ *
+ * One 24s period, five build cycles roughly 14% (3.4s) apart. Each cycle:
+ * the trolley runs out over the frame, the hook pays out to that floor's
+ * height, the floor's girder rises into place and settles, then the trolley
+ * retracts toward the mast for the next load.
+ *
+ *   0 -  2%  idle, trolley parked at the mast
+ *   4 -  9%  cycle 1: floor 1 rises, hook down at the ground floor
+ *  13 - 16%  idle
+ *  18 - 23%  cycle 2: floor 2 rises
+ *  27 - 30%  idle
+ *  32 - 37%  cycle 3: floor 3 rises
+ *  41 - 44%  idle
+ *  46 - 51%  cycle 4: floor 4 rises
+ *  55 - 58%  idle
+ *  60 - 65%  cycle 5: floor 5 rises, hook up near the top
+ *  69 - 90%  topped out, crane idle, frame fully visible
+ *  90 - 95%  the whole frame fades out
+ *  95 -100%  empty lot, unseen, until the loop wraps and floor 1 rises again
+ *
+ * The girders reset from "fully built" back to "unbuilt" only inside that
+ * 95-100% window, where opacity is already 0 — never in view.
+ *
+ * 24s is four full cycles of the 6s grid drift in vaporwave.css, so the
+ * scene and the grid stay in phase instead of slowly beating against
+ * each other.
+ *
+ * Every animated element is drawn at its own natural, fully-built or
+ * fully-extended position. The keyframes below only ever subtract from
+ * that via transform/opacity, so with animation stripped globally (see
+ * ExperienceBackdrop.css) the scene still reads correctly: a finished
+ * building, crane idle, hook resting at the ground floor.
+ */
+
+/* --- Backdrop ------------------------------------------------------------ */
+
+.ConstructionScene-siteglow {
+    opacity: 0.55;
+}
+
+.ConstructionScene-skyline rect {
+    fill: var(--vw-night, #1b0e33);
+    opacity: 0.32;
+}
+
+.ConstructionScene-lights circle {
+    fill: var(--vw-sun, #ff9f6e);
+    opacity: 0.5;
+    animation: construction-twinkle 4s ease-in-out infinite alternate;
+}
+
+.ConstructionScene-dirt {
+    fill: #150c28;
+}
+
+.ConstructionScene-horizon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: 0.55;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.ConstructionScene-crates rect,
+.ConstructionScene-crates path {
+    fill: rgba(20, 16, 51, 0.7);
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.4;
+}
+
+/* --- Hazard stripes -------------------------------------------------------
+   The one small hit of the signature colour played at full strength: a
+   striped base plate under the crane and a barrier tape at the frame's foot.
+*/
+.ConstructionScene-hazard rect {
+    fill: url(#construction-hazard);
+    stroke: #1b0e33;
+    stroke-width: 1;
+    opacity: 0.92;
+}
+
+/* --- Scaffold --------------------------------------------------------------
+   Permanent site equipment alongside the frame. Unlike the frame it never
+   resets — it is simply always there, so it stays static and visually
+   quieter than the amber structure it serves.
+*/
+.ConstructionScene-scaffold path {
+    fill: none;
+    stroke: var(--vw-lavender, #b967ff);
+    stroke-width: 1;
+    opacity: 0.4;
+}
+
+/* --- The rising frame ------------------------------------------------------ */
+
+.ConstructionScene-girder {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    filter: drop-shadow(0 0 5px currentColor);
+    opacity: 1;
+    transform-box: view-box;
+}
+
+.ConstructionScene-girder1 {
+    animation: construction-girder-1 24s linear infinite;
+}
+
+.ConstructionScene-girder2 {
+    animation: construction-girder-2 24s linear infinite;
+}
+
+.ConstructionScene-girder3 {
+    animation: construction-girder-3 24s linear infinite;
+}
+
+.ConstructionScene-girder4 {
+    animation: construction-girder-4 24s linear infinite;
+}
+
+.ConstructionScene-girder5 {
+    animation: construction-girder-5 24s linear infinite;
+}
+
+/* --- Crane ------------------------------------------------------------- */
+
+.ConstructionScene-boom,
+.ConstructionScene-mast {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+.ConstructionScene-cab {
+    fill: rgba(20, 16, 51, 0.85);
+    stroke: currentColor;
+    stroke-width: 1.3;
+}
+
+.ConstructionScene-counterweight {
+    fill: rgba(20, 16, 51, 0.9);
+    stroke: currentColor;
+    stroke-width: 1.3;
+}
+
+.ConstructionScene-beacon {
+    fill: var(--vw-cyan, #01cdfe);
+    filter: drop-shadow(0 0 5px var(--vw-cyan, #01cdfe));
+    opacity: 1;
+    animation: construction-beacon 1.6s ease-in-out infinite;
+}
+
+/* Trolley: the only piece that travels the jib's full length, so it is the
+   one element here using px translation rather than a settle-in-place. */
+.ConstructionScene-trolley {
+    transform-box: view-box;
+    animation: construction-trolley-x 24s linear infinite;
+}
+
+.ConstructionScene-trolleyBody {
+    fill: rgba(20, 16, 51, 0.9);
+    stroke: currentColor;
+    stroke-width: 1.3;
+}
+
+/* The hoist (cable + hook) swings gently on its own short clock, independent
+   of the build schedule, pivoting on the fixed point where it hangs from the
+   trolley — same trick as the girders, decoupled timing keeps the file
+   readable. */
+.ConstructionScene-hoist {
+    transform-box: view-box;
+    transform-origin: 610px 164px;
+    animation: construction-sway 4.5s ease-in-out infinite alternate;
+}
+
+.ConstructionScene-cable {
+    transform-box: view-box;
+    transform-origin: 610px 164px;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    opacity: 0.85;
+    animation: construction-cable 24s linear infinite;
+}
+
+.ConstructionScene-hook {
+    transform-box: view-box;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    filter: drop-shadow(0 0 4px currentColor);
+    animation: construction-hook 24s linear infinite;
+}
+
+/* --- Keyframes: backdrop details ---------------------------------------- */
+
+@keyframes construction-twinkle {
+    from {
+        opacity: 0.25;
+    }
+    to {
+        opacity: 0.75;
+    }
+}
+
+@keyframes construction-beacon {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.25;
+    }
+}
+
+@keyframes construction-sway {
+    from {
+        transform: rotate(-3deg);
+    }
+    to {
+        transform: rotate(3deg);
+    }
+}
+
+/* --- Keyframes: the hoist, on the build schedule ------------------------- */
+
+/*
+ * Trolley x-offset. 0 parks it at the mast; -280px carries it out over the
+ * frame at x=380. Ten value-pairs: out / hold / back, five times.
+ */
+@keyframes construction-trolley-x {
+    0%,
+    2% {
+        transform: translateX(0);
+    }
+    4%,
+    9% {
+        transform: translateX(-230px);
+    }
+    13%,
+    16% {
+        transform: translateX(0);
+    }
+    18%,
+    23% {
+        transform: translateX(-230px);
+    }
+    27%,
+    30% {
+        transform: translateX(0);
+    }
+    32%,
+    37% {
+        transform: translateX(-230px);
+    }
+    41%,
+    44% {
+        transform: translateX(0);
+    }
+    46%,
+    51% {
+        transform: translateX(-230px);
+    }
+    55%,
+    58% {
+        transform: translateX(0);
+    }
+    60%,
+    65% {
+        transform: translateX(-230px);
+    }
+    69%,
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/*
+ * Cable length, as a scale on the natural full-length line (164 to 424, the
+ * ground floor). 1 is that natural length; smaller factors are how far up
+ * each later floor sits, so the hook needs less cable to reach it.
+ */
+@keyframes construction-cable {
+    0%,
+    2% {
+        transform: scaleY(0.054);
+    }
+    4%,
+    9% {
+        transform: scaleY(1);
+    }
+    13%,
+    16% {
+        transform: scaleY(0.054);
+    }
+    18%,
+    23% {
+        transform: scaleY(0.785);
+    }
+    27%,
+    30% {
+        transform: scaleY(0.054);
+    }
+    32%,
+    37% {
+        transform: scaleY(0.569);
+    }
+    41%,
+    44% {
+        transform: scaleY(0.054);
+    }
+    46%,
+    51% {
+        transform: scaleY(0.354);
+    }
+    55%,
+    58% {
+        transform: scaleY(0.054);
+    }
+    60%,
+    65% {
+        transform: scaleY(0.138);
+    }
+    69%,
+    100% {
+        transform: scaleY(0.054);
+    }
+}
+
+/*
+ * Hook offset from its drawn position (the ground floor, y=424). Negative
+ * values lift it toward the trolley; 0 is the ground floor itself. Mirrors
+ * construction-cable so the hook always sits right at the cable's end.
+ */
+@keyframes construction-hook {
+    0%,
+    2% {
+        transform: translateY(-246px);
+    }
+    4%,
+    9% {
+        transform: translateY(0);
+    }
+    13%,
+    16% {
+        transform: translateY(-246px);
+    }
+    18%,
+    23% {
+        transform: translateY(-56px);
+    }
+    27%,
+    30% {
+        transform: translateY(-246px);
+    }
+    32%,
+    37% {
+        transform: translateY(-112px);
+    }
+    41%,
+    44% {
+        transform: translateY(-246px);
+    }
+    46%,
+    51% {
+        transform: translateY(-168px);
+    }
+    55%,
+    58% {
+        transform: translateY(-246px);
+    }
+    60%,
+    65% {
+        transform: translateY(-224px);
+    }
+    69%,
+    100% {
+        transform: translateY(-246px);
+    }
+}
+
+/* --- Keyframes: the frame itself ------------------------------------------
+   Each girder is drawn at its final, settled position (translateY(0)). It
+   stays hidden below ground (translateY(26px), opacity 0) until its rise,
+   overshoots slightly on the way up for a bit of weight, then holds through
+   90% before fading out with the rest of the frame. 100% matches 0% exactly
+   so the loop point is never a visible jump.
+*/
+
+@keyframes construction-girder-1 {
+    0%,
+    4% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+    6.5% {
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+    8%,
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    95%,
+    100% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+}
+
+@keyframes construction-girder-2 {
+    0%,
+    18% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+    20.5% {
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+    22%,
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    95%,
+    100% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+}
+
+@keyframes construction-girder-3 {
+    0%,
+    32% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+    34.5% {
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+    36%,
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    95%,
+    100% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+}
+
+@keyframes construction-girder-4 {
+    0%,
+    46% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+    48.5% {
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+    50%,
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    95%,
+    100% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+}
+
+@keyframes construction-girder-5 {
+    0%,
+    60% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+    62.5% {
+        opacity: 1;
+        transform: translateY(-5px);
+    }
+    64%,
+    90% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    95%,
+    100% {
+        opacity: 0;
+        transform: translateY(26px);
+    }
+}

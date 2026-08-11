@@ -1,0 +1,46 @@
+/*
+ * Shared frame for the experience backdrop scenes. See SceneLayer.jsx for what
+ * each layer is for.
+ *
+ * Nothing here is interactive and nothing here participates in layout: the
+ * whole thing is absolutely positioned inside the fixed ExperienceBackdrop.
+ */
+
+.SceneLayer {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.SceneLayer-wash,
+.SceneLayer-art,
+.SceneLayer-scrim {
+    position: absolute;
+    inset: 0;
+}
+
+.SceneLayer-wash {
+    background: var(--scene-wash, transparent);
+}
+
+/*
+ * `color` is the contract with the scenes: art is drawn with currentColor so a
+ * scene changes its whole palette by changing one prop.
+ */
+.SceneLayer-art {
+    color: var(--scene-glow, #f4ecff);
+}
+
+.SceneLayer-art svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/*
+ * Darkens the band the section copy sits in without touching the top and
+ * bottom of the frame, where the art has room to be bright.
+ */
+.SceneLayer-scrim {
+    background: radial-gradient(ellipse 85% 55% at 50% 50%, rgba(12, 5, 26, 0.62) 0%, rgba(12, 5, 26, 0) 78%);
+}

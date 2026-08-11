@@ -16,6 +16,14 @@
   --vw-lavender: #b967ff;
   --vw-mint: #05ffa1;
   --vw-sun: #ff9f6e;
+
+  /*
+   * How long the handover between the vaporwave backdrop and an experience
+   * scene takes. Shared by vaporwave.css, LightCycles.css and
+   * ExperienceBackdrop.css so every layer crosses at the same rate; changing it
+   * in one place retimes the whole handover.
+   */
+  --scene-fade: 1200ms;
 }
 
 body {
@@ -25,9 +33,14 @@ body {
 
 /*
  * Backdrop layers, back to front:
+ *   -4  experience scenes (ExperienceBackdrop.css)
  *   -3  sunset gradient (body::before)
  *   -2  perspective grid horizon (body::after)
  *   -1  light cycles (LightCycles.css)
+ *
+ * While an experience scene is up, <body> carries .has-scene and both the
+ * sunset and the grid clear out entirely: the scene owns the whole frame,
+ * horizon included. Each scene therefore has to draw its own ground plane.
  */
 body::before {
   content: '';
@@ -35,6 +48,8 @@ body::before {
   inset: 0;
   z-index: -3;
   pointer-events: none;
+  opacity: 1;
+  transition: opacity var(--scene-fade) ease-in-out;
   background:
     radial-gradient(ellipse 120% 60% at 50% 78%, rgba(255, 94, 196, 0.28) 0%, rgba(255, 94, 196, 0) 60%),
     radial-gradient(ellipse 90% 45% at 50% 82%, rgba(255, 159, 110, 0.22) 0%, rgba(255, 159, 110, 0) 55%),
@@ -59,6 +74,7 @@ body::after {
   z-index: -2;
   pointer-events: none;
   opacity: 0.4;
+  transition: opacity var(--scene-fade) ease-in-out;
   transform: perspective(38vh) rotateX(58deg);
   transform-origin: 50% 0;
   background-image:
@@ -66,6 +82,14 @@ body::after {
     repeating-linear-gradient(0deg, rgba(255, 94, 196, 0.45) 0 1px, transparent 1px 5vh);
   animation: vw-grid-drift 6s linear infinite;
   will-change: transform;
+}
+
+body.has-scene::before {
+  opacity: 0;
+}
+
+body.has-scene::after {
+  opacity: 0;
 }
 
 @keyframes vw-grid-drift {

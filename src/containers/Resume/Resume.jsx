@@ -10,6 +10,7 @@ import Skills from '../../components/Skills/Skills';
 import BottomNav from '../../components/BottomNav/BottomNav';
 import Copyright from '../../components/Copyright/Copyright';
 import LightCycles from '../../components/common/LightCycles';
+import ExperienceBackdrop from '../../components/ExperienceBackdrop/ExperienceBackdrop';
 import content from '../../common/content';
 
 import './Resume.css';
@@ -44,9 +45,10 @@ class Resume extends Component {
         </Element>
         <Copyright />
         <BottomNav />
-        {/* Fixed decorative layer. Kept last so it does not shift the
+        {/* Fixed decorative layers. Kept last so they do not shift the
             nth-child indices that Resume.css uses to band alternate sections. */}
         <LightCycles />
+        <ExperienceBackdrop />
       </div>
     );
   }

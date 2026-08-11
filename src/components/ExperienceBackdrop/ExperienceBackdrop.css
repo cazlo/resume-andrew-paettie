@@ -1,0 +1,52 @@
+/*
+ * Scroll-driven scene backdrop for the experience timeline.
+ *
+ * Sits at the very back of the backdrop stack declared in vaporwave.css:
+ *   -4  experience scenes (this file)
+ *   -3  sunset gradient (body::before)   — cleared while a scene is up
+ *   -2  perspective grid (body::after)   — cleared while a scene is up
+ *   -1  light cycles (LightCycles.css)   — cleared while a scene is up
+ *
+ * A scene owns the whole frame, so every scene has to draw its own ground
+ * plane: nothing else is left behind it.
+ *
+ * Negative z-index still paints above the body background colour, so the void
+ * never shows through.
+ */
+
+.ExperienceBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ExperienceBackdrop-slot {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--scene-fade, 1200ms) ease-in-out;
+}
+
+.ExperienceBackdrop-slot.is-visible {
+    opacity: 1;
+}
+
+/*
+ * Everything the scenes animate is decorative motion. Under reduced motion the
+ * art still renders — the scene is the point, the movement is not — it just
+ * holds its first frame. Scenes get this for free and cannot opt out of it by
+ * forgetting to write their own media query.
+ */
+@media (prefers-reduced-motion: reduce) {
+    .ExperienceBackdrop *,
+    .ExperienceBackdrop *::before,
+    .ExperienceBackdrop *::after {
+        animation: none !important;
+    }
+
+    .ExperienceBackdrop-slot {
+        transition-duration: 200ms;
+    }
+}

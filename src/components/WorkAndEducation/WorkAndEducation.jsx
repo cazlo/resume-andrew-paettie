@@ -14,8 +14,8 @@ import ReactiveTimelineItem from '../common/ReactiveTimelineItem';
 import WorkTile from './WorkTile';
 import DetailDialog from '../common/DetailDialog';
 import { positionDetail, educationDetail } from './detailModel';
-
-const formatPeriod = duration => `${duration.startDate} – ${duration.endDate}`;
+import sceneForPosition from '../ExperienceBackdrop/sceneForPosition';
+import formatPeriod from './formatPeriod';
 
 const moveDateToCardBreakpoint = 'md';
 
@@ -37,16 +37,18 @@ const WorkAndEducation = ({ positions, educations }) => {
 
         <Timeline position={useMediaQuery(theme.breakpoints.up(moveDateToCardBreakpoint)) ? 'alternate' : 'right'}>
           {positions.map(position => (
+            /* No periodDescription: the tiles print their own dates, because a
+               date on the timeline rail sits directly on the scene backdrop
+               and stops being readable. */
             <ReactiveTimelineItem
-              periodDescription={formatPeriod(position)}
               key={formatPeriod(position)}
               icon={<Avatar sx={{ backgroundColor: '#fff' }}>{position.icon || <FcBriefcase />}</Avatar>}
+              sceneId={sceneForPosition(position)}
               child={<WorkTile position={position} elevation={24} onOpen={() => setDetail(positionDetail(position))} />}
             />
           ))}
           {educations.map(education => (
             <ReactiveTimelineItem
-              periodDescription={formatPeriod(education)}
               key={formatPeriod(education)}
               icon={
                 <Avatar sx={{ backgroundColor: '#c65121' /* utd color */ }}>

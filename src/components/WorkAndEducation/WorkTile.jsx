@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Card, CardActionArea, CardContent } from '@mui/material';
 
 import ChipList from '../common/ChipList';
+import formatPeriod from './formatPeriod';
 
 export default function WorkTile({ position, elevation, onOpen }) {
   return (
@@ -15,6 +16,11 @@ export default function WorkTile({ position, elevation, onOpen }) {
       */}
       <CardActionArea onClick={onOpen} aria-label={`${position.title} at ${position.company}, show details`}>
         <CardContent>
+          {/* The dates live in the card rather than on the timeline rail: the
+              rail sits on the animated scene backdrop, where they wash out. */}
+          <Typography variant="overline" color="text.secondary" display="block">
+            {formatPeriod(position)}
+          </Typography>
           <Typography variant="h6">{position.title}</Typography>
           <Typography variant="subtitle1">{position.company}</Typography>
           <Typography variant="caption">{position.summary}</Typography>

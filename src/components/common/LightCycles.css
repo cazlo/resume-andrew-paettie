@@ -39,6 +39,16 @@
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
+    transition: opacity var(--scene-fade, 1200ms) ease-in-out;
+}
+
+/*
+ * Riders take the night off while an experience scene is up: neon bikes reading
+ * across a lunar surface or a radar scope is one decorative layer too many.
+ * The class is set on <body> by ExperienceBackdrop.
+ */
+body.has-scene .LightCycles {
+    opacity: 0;
 }
 
 .LightCycles-plane {
