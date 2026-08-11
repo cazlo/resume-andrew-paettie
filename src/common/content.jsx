@@ -929,7 +929,7 @@ export default {
       title: 'NASA Trick Containerization',
       subtitle: 'Open source contribution',
       date: `June 2024`,
-      techTheme: techTheme.docker,
+      techTheme: techTheme.nasa,
       links: [
         {
           url: 'https://github.com/cazlo/trick/pull/1',
@@ -941,6 +941,10 @@ export default {
         },
       ],
       technologies: [
+        {
+          name: 'NASA Trick',
+          icon: techTheme.nasa.icon,
+        },
         {
           name: 'Python',
           icon: techTheme.python.icon,
