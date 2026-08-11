@@ -5,10 +5,23 @@
  * and it sits at z-index -1, behind all content but in front of the grid
  * horizon (-2) and sunset backdrop (-3) declared in vaporwave.css.
  *
- * .LightCycles-plane repeats the grid's geometry and borrows its vw-grid-drift
- * animation, so the riders are locked to the same ground plane and drift with
- * it. If the grid's transform in vaporwave.css changes, this must change with
- * it or the riders will float off the lines.
+ * .LightCycles-plane repeats the grid's perspective transform so the riders sit
+ * on the same ground plane. If the grid's transform in vaporwave.css changes,
+ * this must change with it or the riders will float off the lines.
+ *
+ * The plane itself does NOT carry the grid's drift animation. That animation
+ * loops -5vh to 0 every 6s, which is invisible on the grid because its lines
+ * repeat every 5vh, but a rider and its trail are unique objects: they would
+ * snap a full row every time the loop restarted. Instead each lane runs its own
+ * copy of the same drift, and the timings below keep it in phase with the grid.
+ *
+ * Locking works because every period is a multiple of the grid's 6s drift and
+ * each run is exactly one 6s drift cycle long:
+ *   - 48s period, run = the last 6s = the last 12.5% of the timeline
+ *   - lane b offset by -24s, also a multiple of 6s
+ * So a run always begins at drift phase 0, tracks the grid for its whole
+ * length, and the lane's transform resets only at the end of the period, when
+ * the trail is already dark and the rider is off screen.
  *
  * Inside the plane, movement is in grid units: the grid rules every 5vw across
  * and 5vh into the distance, so every leg is a whole multiple of those and
@@ -40,7 +53,6 @@
     height: 95vh;
     transform-origin: 50% 0;
     transform: perspective(38vh) rotateX(58deg);
-    animation: vw-grid-drift 6s linear infinite;
 }
 
 /* Second rider: mirrored and one grid row nearer, so the two runs differ. */
@@ -53,6 +65,7 @@
 .LightCycles-lane {
     position: absolute;
     inset: 0;
+    animation: vw-lane-drift 48s linear infinite;
 }
 
 .LightCycles-lane--a {
@@ -61,6 +74,7 @@
 
 .LightCycles-lane--b {
     color: #ff5ec4;
+    animation-delay: -24s;
 }
 
 /*
@@ -68,10 +82,12 @@
  *   P0 55vw 12vh -> P1 90vw 12vh -> P2 90vw 22vh -> P3 110vw 22vh
  *   -> P4 110vw 12vh -> P5 140vw 12vh
  * Legs are 35 across, 10 near, 20 across, 10 far, 30 across = 105 grid units.
- * The run occupies the last 14% of the period and each leg gets 14% * leg/105,
- * so speed stays constant through the turns. Leg boundaries land at
- *   86% -> 90.667% -> 92% -> 94.667% -> 96% -> 100%
- * and both the rider path and the trail segments key off those same numbers.
+ * The run occupies the last 12.5% of the period and each leg gets
+ * 12.5% * leg/105, so speed stays constant through the turns. Leg boundaries
+ * land at
+ *   87.5% -> 91.667% -> 92.857% -> 95.238% -> 96.429% -> 100%
+ * and the rider path, the heading, and the trail segments all key off those
+ * same numbers.
  */
 .LightCycles-rider {
     position: absolute;
@@ -79,6 +95,7 @@
     left: 0;
     width: 0;
     height: 0;
+    animation: vw-cycle-path 48s linear infinite;
 }
 
 .LightCycles-heading {
@@ -87,42 +104,21 @@
     left: 0;
     width: 0;
     height: 0;
+    animation: vw-cycle-heading 48s linear infinite;
 }
 
-.LightCycles-lane--a .LightCycles-rider {
-    animation: vw-cycle-path 39s linear infinite;
+.LightCycles-trail {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: vw-trail-show 48s linear infinite;
 }
 
-.LightCycles-lane--a .LightCycles-heading {
-    animation: vw-cycle-heading 39s linear infinite;
-}
-
-.LightCycles-lane--a .LightCycles-trail {
-    animation: vw-trail-show 39s linear infinite;
-}
-
-.LightCycles-lane--a .LightCycles-seg {
-    animation-duration: 39s;
-}
-
-.LightCycles-lane--b .LightCycles-rider {
-    animation: vw-cycle-path 53s linear infinite;
-    animation-delay: -21s;
-}
-
-.LightCycles-lane--b .LightCycles-heading {
-    animation: vw-cycle-heading 53s linear infinite;
-    animation-delay: -21s;
-}
-
-.LightCycles-lane--b .LightCycles-trail {
-    animation: vw-trail-show 53s linear infinite;
-    animation-delay: -21s;
-}
-
+.LightCycles-lane--b .LightCycles-rider,
+.LightCycles-lane--b .LightCycles-heading,
+.LightCycles-lane--b .LightCycles-trail,
 .LightCycles-lane--b .LightCycles-seg {
-    animation-duration: 53s;
-    animation-delay: -21s;
+    animation-delay: -24s;
 }
 
 /* Sizes are in the plane's local space; perspective scales them up by roughly
@@ -146,12 +142,6 @@
     opacity: 0.95;
 }
 
-.LightCycles-trail {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-}
-
 /*
  * Each segment is pinned to the start of its leg and grows along it. Rotation
  * comes from --seg-rot so one keyframe shape works for every orientation, and
@@ -167,6 +157,7 @@
     filter: blur(1px) drop-shadow(0 0 10px currentColor);
     transform-origin: 0 50%;
     transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
+    animation-duration: 48s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
@@ -208,21 +199,37 @@
     animation-name: vw-seg-5;
 }
 
+/*
+ * The lane's copy of the grid drift. It only advances during the run, which is
+ * exactly one 6s grid cycle, so the rider tracks the lines for the whole run.
+ * The reset at the end of the period happens with the trail dark and the rider
+ * off screen, so it is never seen.
+ */
+@keyframes vw-lane-drift {
+    0%,
+    87.5% {
+        transform: translate3d(0, -5vh, 0);
+    }
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
 @keyframes vw-cycle-path {
     0%,
-    86% {
+    87.5% {
         transform: translate3d(55vw, 12vh, 0);
     }
-    90.667% {
+    91.667% {
         transform: translate3d(90vw, 12vh, 0);
     }
-    92% {
+    92.857% {
         transform: translate3d(90vw, 22vh, 0);
     }
-    94.667% {
+    95.238% {
         transform: translate3d(110vw, 22vh, 0);
     }
-    96% {
+    96.429% {
         transform: translate3d(110vw, 12vh, 0);
     }
     100% {
@@ -233,22 +240,22 @@
 /* Heading snaps at each turn: duplicated stops give an instant right angle. */
 @keyframes vw-cycle-heading {
     0%,
-    90.667% {
+    91.667% {
         transform: rotate(0deg);
     }
-    90.677%,
-    92% {
+    91.677%,
+    92.857% {
         transform: rotate(90deg);
     }
-    92.01%,
-    94.667% {
+    92.867%,
+    95.238% {
         transform: rotate(0deg);
     }
-    94.677%,
-    96% {
+    95.248%,
+    96.429% {
         transform: rotate(-90deg);
     }
-    96.01%,
+    96.439%,
     100% {
         transform: rotate(0deg);
     }
@@ -261,11 +268,11 @@
  */
 @keyframes vw-trail-show {
     0%,
-    85.9% {
+    87.4% {
         opacity: 0;
     }
-    86%,
-    98.5% {
+    87.5%,
+    99% {
         opacity: 0.85;
     }
     100% {
@@ -275,10 +282,10 @@
 
 @keyframes vw-seg-1 {
     0%,
-    86% {
+    87.5% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
     }
-    90.667%,
+    91.667%,
     100% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
     }
@@ -286,10 +293,10 @@
 
 @keyframes vw-seg-2 {
     0%,
-    90.667% {
+    91.667% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
     }
-    92%,
+    92.857%,
     100% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
     }
@@ -297,10 +304,10 @@
 
 @keyframes vw-seg-3 {
     0%,
-    92% {
+    92.857% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
     }
-    94.667%,
+    95.238%,
     100% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
     }
@@ -308,10 +315,10 @@
 
 @keyframes vw-seg-4 {
     0%,
-    94.667% {
+    95.238% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
     }
-    96%,
+    96.429%,
     100% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(1);
     }
@@ -319,7 +326,7 @@
 
 @keyframes vw-seg-5 {
     0%,
-    96% {
+    96.429% {
         transform: rotate(var(--seg-rot, 0deg)) scaleX(0);
     }
     100% {

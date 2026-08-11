@@ -36,14 +36,15 @@ Rider.propTypes = {
 /**
  * Light cycles running the perspective grid.
  *
- * The riders live inside a plane that carries the same perspective transform
- * and the same drift animation as the grid horizon in vaporwave.css, so they
- * sit on the grid rather than floating over it. Inside that plane they move in
- * grid units — 5vw across, 5vh into the distance — turning only at right
- * angles, and the heading snaps between legs so the turns read as instant.
+ * The riders live inside a plane that carries the same perspective transform as
+ * the grid horizon in vaporwave.css, so they sit on the grid rather than
+ * floating over it. Inside that plane they move in grid units — 5vw across, 5vh
+ * into the distance — turning only at right angles, and the heading snaps
+ * between legs so the turns read as instant.
  *
  * Each rider is parked off the plane for the bulk of its period and makes one
- * run; the two use different periods so they do not pair up.
+ * run, offset from the other so they do not arrive together. See LightCycles.css
+ * for how a run is kept in phase with the grid's own drift.
  */
 const LightCycles = () => (
   <div className="LightCycles" aria-hidden="true">
