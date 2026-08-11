@@ -1371,6 +1371,12 @@ export default {
               experience: new Experience([new Interval(2017, 2019), new Interval(2021, null)]),
             },
             {
+              name: 'Playwright',
+              description: 'Browser driven end to end tests, including scraping for data pipelines',
+              icon: techTheme.playwright.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
               name: 'Cucumber',
               description: 'Integration tests focusing on end user behavior',
               icon: techTheme.cucumber.icon,
@@ -1799,6 +1805,16 @@ export default {
               experience: new Experience([new Interval(2020, 2021), new Interval(2023, null)]),
             },
             {
+              name: 'VPC',
+              icon: techTheme.vpc.icon,
+              experience: new Experience([new Interval(2017, null)]),
+            },
+            {
+              name: 'Control Tower',
+              icon: techTheme.aws.icon,
+              experience: new Experience([new Interval(2022, null)]),
+            },
+            {
               name: 'Config',
               icon: <FcRules />,
               experience: new Experience([new Interval(2022, null)]),
@@ -1849,6 +1865,12 @@ export default {
               icon: <Avatar sx={{ backgroundColor: '#fff' }}>{techTheme.podman.icon}</Avatar>,
               experience: new Experience([new Interval(2021, null)]),
             },
+            {
+              name: 'Localstack',
+              description: 'Running AWS dependent integration tests locally and in CI without an AWS account',
+              icon: techTheme.aws.icon,
+              experience: new Experience([new Interval(2018, 2019), new Interval(2024, null)]),
+            },
           ],
         },
         {
@@ -1888,9 +1910,79 @@ export default {
               experience: new Experience([new Interval(2022, null)]),
             },
             {
+              name: 'Helm',
+              description: 'Packaging and templating kubernetes manifests as versioned, digest pinned charts',
+              icon: techTheme.helm.icon,
+              experience: new Experience([new Interval(2022, null)]),
+            },
+            {
               name: 'minikube',
               icon: KubernetesTech.icon,
               experience: new Experience([new Interval(2021.5, null)]),
+            },
+          ],
+        },
+        {
+          name: 'GitOps',
+          icon: <IoMdGitBranch />,
+          experience: new Experience([new Interval(2021.5, null)]),
+
+          frameworks: [
+            {
+              name: 'Flux',
+              description: 'Continuous reconciliation of a cluster against the manifests committed to git',
+              icon: techTheme.flux.icon,
+              experience: new Experience([new Interval(2023, null)]),
+            },
+            {
+              name: 'ArgoCD',
+              description: 'Declarative delivery with a UI for drift and sync state across environments',
+              icon: techTheme.argocd.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'Renovate',
+              description: 'Automated dependency and digest updates raised as reviewable pull requests',
+              icon: techTheme.renovate.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'Digest Pinning',
+              description: 'Promoting immutable image digests between environments rather than mutable tags',
+              icon: techTheme.sigstore.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+          ],
+        },
+        {
+          name: 'Artifact Management',
+          icon: techTheme.artifactory.icon,
+          experience: new Experience([new Interval(2021.5, null)]),
+
+          frameworks: [
+            {
+              name: 'Artifactory',
+              description: 'Administering a universal artifact registry as shared organizational infrastructure',
+              icon: techTheme.artifactory.icon,
+              experience: new Experience([new Interval(2021.5, 2024)]),
+            },
+            {
+              name: 'Harbor',
+              description: 'OCI registry which proxies and caches upstream pulls behind a controlled boundary',
+              icon: techTheme.harbor.icon,
+              experience: new Experience([new Interval(2023, null)]),
+            },
+            {
+              name: 'Gitea',
+              description: 'Self-hosted git forge with its own CI runners',
+              icon: techTheme.gitea.icon,
+              experience: new Experience([new Interval(2023, null)]),
+            },
+            {
+              name: 'Package Proxies',
+              description: 'npm, PyPI, Go, and container proxies with download and curation policy applied at the edge',
+              icon: techTheme.npm.icon,
+              experience: new Experience([new Interval(2025, null)]),
             },
           ],
         },
@@ -1983,6 +2075,18 @@ export default {
               description: 'Automated pen testing tool',
               experience: new Experience([new Interval(2024.5, null)]),
             },
+            {
+              name: 'sigstore / cosign',
+              icon: techTheme.sigstore.icon,
+              description: 'Keyless signing and verification of container images and packages',
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'Provenance Attestations',
+              icon: techTheme.sigstore.icon,
+              description: 'in-toto/DSSE attestations and SBOMs verified before an artifact is allowed to be promoted',
+              experience: new Experience([new Interval(2025, null)]),
+            },
           ],
         },
         {
@@ -1995,6 +2099,30 @@ export default {
           experience: new Experience([new Interval(2017, null)]),
 
           frameworks: [
+            {
+              name: 'Prometheus',
+              description: 'Pull based metrics and alerting rules, scraped from workloads running on Kubernetes',
+              icon: techTheme.prometheus.icon,
+              experience: new Experience([new Interval(2023, null)]),
+            },
+            {
+              name: 'Grafana',
+              description: 'Dashboards over Prometheus, InfluxDB, and log sources',
+              icon: techTheme.grafana.icon,
+              experience: new Experience([new Interval(2023, null)]),
+            },
+            {
+              name: 'OpenTelemetry',
+              description: 'Vendor neutral traces and structured spans emitted from application code',
+              icon: techTheme.opentelemetry.icon,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'InfluxDB',
+              description: 'Time series storage for high frequency telemetry',
+              icon: techTheme.influxdb.icon,
+              experience: new Experience([new Interval(2024.5, 2025)]),
+            },
             {
               name: 'Datadog',
               icon: <SiDatadog />,
@@ -2085,6 +2213,33 @@ export default {
               name: 'Gitlab CI',
               icon: techTheme.gitlab.icon,
               experience: new Experience([new Interval(2021.5, null)]),
+            },
+          ],
+        },
+        {
+          name: 'AI Assisted Development',
+          icon: <AiIcon />,
+          experience: new Experience([new Interval(2025, null)]),
+
+          frameworks: [
+            {
+              name: 'Coding Agents',
+              description: 'Custom agent definitions, plus in-line agentic code and security review of real changes',
+              icon: <AiIcon />,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'Deterministic Grounding',
+              description:
+                'Computing the facts in code and letting the model summarize them, instead of asking it to guess',
+              icon: <GiBrain />,
+              experience: new Experience([new Interval(2025, null)]),
+            },
+            {
+              name: 'Local LLM Inference',
+              description: 'Self-hosted models served from consumer GPUs and NPUs on the homelab cluster',
+              icon: <BsGpuCard />,
+              experience: new Experience([new Interval(2025, null)]),
             },
           ],
         },
