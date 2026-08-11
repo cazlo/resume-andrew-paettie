@@ -16,7 +16,7 @@ describe('deterministic food/tail solver adapter', () => {
       food: p(3, 1),
     });
 
-    expect(createGreedyPathFindingSolver()(state)).toEqual({ direction: RIGHT });
+    expect(createGreedyPathFindingSolver()(state)).toMatchObject({ direction: RIGHT });
     expect(createHamiltonianPathFindingSolver()(state)).toEqual({ direction: DOWN });
     expect(createHamiltonianShortcutPathFindingSolver()(state)).toEqual({ direction: UP });
   });
@@ -30,6 +30,6 @@ describe('deterministic food/tail solver adapter', () => {
       orderSurvivalNeighbors: neighbors => [...neighbors].reverse(),
     });
 
-    expect(solver(state)).toEqual({ direction: DOWN });
+    expect(solver(state)).toMatchObject({ direction: DOWN });
   });
 });

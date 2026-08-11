@@ -4,3 +4,4 @@ import Action from './Action';
 
 export const finishPathFind = createAction(Action.FINISH_PATH_FIND);
 export const pathNotFound = createAction(Action.PATH_NOT_FOUND);
+export const setGreedySolverState = createAction(Action.SET_GREEDY_SOLVER_STATE);

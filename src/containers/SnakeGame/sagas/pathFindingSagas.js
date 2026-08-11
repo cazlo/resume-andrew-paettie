@@ -3,12 +3,18 @@ import { put, select } from 'redux-saga/effects';
 import createGraph from 'ngraph.graph';
 import * as pathFinder from 'ngraph.path';
 import { changeDirection } from '../actions/gameAction';
-import { finishPathFind, pathNotFound } from '../actions/pathFindingAction';
+import { finishPathFind, pathNotFound, setGreedySolverState } from '../actions/pathFindingAction';
 import { LEFT, RIGHT, UP, DOWN } from '../util/Direction';
 import PositionUtil from '../util/PositionUtil';
 import { computePerfectScore } from '../reducers/gameReducer';
 import Action from '../actions/Action';
-import { findCycleSafeNextPosition, findCycleShortcutNextPosition } from './cycleSafePathFinding';
+import {
+  buildHamiltonianCycle,
+  findCycleSafeNextPosition,
+  findCycleShortcutNextPosition,
+  isSnakeCycleOrdered,
+} from './cycleSafePathFinding';
+import findPathToHamiltonianCycle from './greedyRecoveryPathFinding';
 
 const getNeighboringNodeDirections = ({ x, y, numRows, numCols, wallsAreFatal }) => {
   const left = wallsAreFatal && x - 1 < 0 ? null : { x: x - 1 < 0 ? numCols - 1 : x - 1, y, direction: LEFT };
@@ -440,6 +446,88 @@ export const pathfindGreedy = (snake, food, { numRows, numCols, wallsAreFatal, m
   return pathToFood;
 };
 
+const createGreedySolverState = (solverState, score) => {
+  const previous = solverState || { lastScore: score, mode: 'greedy', stalledFrames: 0 };
+  return {
+    ...previous,
+    lastScore: score,
+    stalledFrames: previous.lastScore === score ? previous.stalledFrames + 1 : 0,
+  };
+};
+
+const remainingRecoveryPath = (path, head) =>
+  path && path.length && PositionUtil.isSamePosition(path[0], head) ? path.slice(1) : path || [];
+
+export const pathfindGreedyWithRecovery = (
+  snake,
+  food,
+  { numRows, numCols, wallsAreFatal, metrics },
+  { frameCount = 0, score = snake.parts.length - 1, solverState } = {},
+) => {
+  const board = { numRows, numCols, wallsAreFatal };
+  const area = numRows * numCols;
+  const cycle = buildHamiltonianCycle(board);
+  let nextSolverState = createGreedySolverState(solverState, score);
+  const recoveryCycle = cycle && nextSolverState.cycleDirection === 'reverse' ? [...cycle].reverse() : cycle;
+  const isOrdered = recoveryCycle && isSnakeCycleOrdered(snake.parts, recoveryCycle);
+
+  if (nextSolverState.mode === 'recovery') {
+    const recoveryPath = remainingRecoveryPath(nextSolverState.recoveryPath, snake.parts[0]);
+    if (!isOrdered && recoveryPath.length) {
+      return { path: recoveryPath, solverState: { ...nextSolverState, recoveryPath } };
+    }
+    nextSolverState = { ...nextSolverState, recoveryPath };
+  }
+
+  if (nextSolverState.mode === 'cycle' || (nextSolverState.mode === 'recovery' && isOrdered)) {
+    const next = findCycleShortcutNextPosition(snake, food, board, {
+      reverse: nextSolverState.cycleDirection === 'reverse',
+    });
+    if (next) {
+      return { path: [next], solverState: { ...nextSolverState, mode: 'cycle', recoveryPath: [] } };
+    }
+    nextSolverState = { ...nextSolverState, mode: 'greedy', recoveryPath: [] };
+  }
+
+  const greedyPath = pathfindGreedy(snake, food, { ...board, metrics });
+  const reachesFood = greedyPath.length > 0 && PositionUtil.isSamePosition(greedyPath[greedyPath.length - 1], food);
+  let riskDetected = false;
+  if (snake.parts.length >= Math.ceil(area * 0.5) && reachesFood && nextSolverState.riskCheckedScore !== score) {
+    const projected = projectSnakeAlongPath(snake.parts, greedyPath, { growsAtEnd: true });
+    // This is a cheap conservative probe. Exhausting the small budget enters
+    // recovery early; it never certifies an unsafe projected body as safe.
+    riskDetected = !findPathToHamiltonianCycle({ parts: projected }, null, board, { maxNodes: 500 });
+    nextSolverState = { ...nextSolverState, riskCheckedScore: score };
+  }
+
+  const recoveryRetryFrames = area;
+  const stalled =
+    nextSolverState.stalledFrames >= area &&
+    frameCount - (nextSolverState.lastRecoveryAttemptFrame || 0) >= recoveryRetryFrames;
+  if (riskDetected || stalled) {
+    nextSolverState = { ...nextSolverState, lastRecoveryAttemptFrame: frameCount };
+    // Wrapping and larger boards add enough branching to make the 6x6 proof
+    // budget visibly pause the UI without improving the measured cohorts.
+    const recoveryMaxNodes = wallsAreFatal && area <= 36 ? 50000 : 1000;
+    const recovery = findPathToHamiltonianCycle(snake, food, board, { maxNodes: recoveryMaxNodes });
+    if (recovery) {
+      const recoveryState = {
+        ...nextSolverState,
+        cycleDirection: recovery.cycleDirection,
+        mode: recovery.path.length ? 'recovery' : 'cycle',
+        recoveryPath: recovery.path,
+      };
+      if (recovery.path.length) return { path: recovery.path, solverState: recoveryState };
+      const next = findCycleShortcutNextPosition(snake, food, board, {
+        reverse: recovery.cycleDirection === 'reverse',
+      });
+      if (next) return { path: [next], solverState: recoveryState };
+    }
+  }
+
+  return { path: greedyPath, solverState: { ...nextSolverState, mode: 'greedy', recoveryPath: [] } };
+};
+
 export const pathfindHamiltonian = (snake, food, { numRows, numCols, wallsAreFatal }) => {
   const nextPosition = findCycleSafeNextPosition(snake, food, { numRows, numCols, wallsAreFatal });
   return nextPosition ? [nextPosition] : [];
@@ -492,12 +580,14 @@ export function* pathFindingSaga() {
   } else if (state.aiConfig.algorithm === Action.ALGORITHMS.greedy) {
     const { snake } = state.game;
     const { food } = state.game;
-    const { numRows, numCols, wallsAreFatal } = state.game.game;
-    const pathToFood = pathfindGreedy(snake, food[0], {
-      numRows,
-      numCols,
-      wallsAreFatal,
-    });
+    const { numRows, numCols, wallsAreFatal, frameCount, score } = state.game.game;
+    const { path: pathToFood, solverState } = pathfindGreedyWithRecovery(
+      snake,
+      food[0],
+      { numRows, numCols, wallsAreFatal },
+      { frameCount, score, solverState: state.pathFinding.greedySolverState },
+    );
+    yield put(setGreedySolverState(solverState));
     if (pathToFood === null || !pathToFood.length) {
       yield put(pathNotFound());
       yield survivalMode(snake, { numRows, numCols, wallsAreFatal });

@@ -71,6 +71,12 @@ export const fatal6x6Seed0NoLegalMove = {
     head: p(3, 5),
     duplicatedTail: p(2, 5),
   },
+  recoveryExpected: {
+    outcome: 'won',
+    frameCount: 222,
+    score: 35,
+    food: null,
+  },
 };
 
 export const fatal6x6SeedAA0F0E9FNoLegalMove = {
@@ -158,6 +164,12 @@ export const fatal6x6SeedAA0F0E9FNoLegalMove = {
     head: p(0, 1),
     tail: p(2, 5),
   },
+  recoveryExpected: {
+    outcome: 'won',
+    frameCount: 171,
+    score: 35,
+    food: null,
+  },
 };
 
 export const fatal6x6SeedB5E6A38DRepeatedState = {
@@ -211,5 +223,11 @@ export const fatal6x6SeedB5E6A38DRepeatedState = {
     direction: p(1, 0),
     head: p(2, 1),
     tail: p(3, 1),
+  },
+  recoveryExpected: {
+    outcome: 'won',
+    frameCount: 233,
+    score: 35,
+    food: null,
   },
 };

@@ -1,7 +1,7 @@
 import {
   directionFromPath,
   findSurvivalDirection,
-  pathfindGreedy,
+  pathfindGreedyWithRecovery,
   pathfindHamiltonian,
   pathfindHamiltonianShortcut,
 } from '../sagas/pathFindingSagas';
@@ -11,14 +11,18 @@ const stableOrder = neighbors => neighbors;
 const createGreedyPathFindingSolver =
   ({ orderSurvivalNeighbors = stableOrder } = {}) =>
   state => {
-    const path = pathfindGreedy(state.snake, state.food, state.board);
+    const { path, solverState } = pathfindGreedyWithRecovery(state.snake, state.food, state.board, {
+      frameCount: state.frameCount,
+      score: state.score,
+      solverState: state.solverState,
+    });
     if (path && path.length) {
       const direction = directionFromPath(path, state.snake.parts, state.board);
-      return direction ? { direction } : null;
+      return direction ? { direction, solverState } : null;
     }
 
     const direction = findSurvivalDirection(state.snake, state.board, orderSurvivalNeighbors);
-    return direction ? { direction } : null;
+    return direction ? { direction, solverState } : null;
   };
 
 export const createHamiltonianPathFindingSolver = () => state => {

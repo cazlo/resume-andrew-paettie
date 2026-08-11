@@ -73,4 +73,26 @@ describe('arena simulation', () => {
     }
     expect(failures).toEqual([]);
   });
+
+  it('recovers every fatal-wall greedy game in the first 20-seed UI cohort', () => {
+    const failures = [];
+    for (let index = 0; index < 20; index += 1) {
+      const seed = seedFor(0, index);
+      let simulation = createArenaSimulation({
+        seed,
+        board: { numRows: 6, numCols: 6, wallsAreFatal: true },
+        algorithm: Action.ALGORITHMS.greedy,
+      });
+      while (simulation.outcome === 'running') simulation = stepArenaSimulation(simulation);
+      if (simulation.outcome !== GameOutcome.WON) {
+        failures.push({
+          seed: seed.toString(16).toUpperCase().padStart(8, '0'),
+          outcome: simulation.outcome,
+          score: simulation.state.score,
+          frameCount: simulation.state.frameCount,
+        });
+      }
+    }
+    expect(failures).toEqual([]);
+  });
 });

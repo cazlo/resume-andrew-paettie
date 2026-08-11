@@ -1,4 +1,6 @@
-const positionId = ({ x, y }) => `${x},${y}`;
+// A numeric key (rather than a "x,y" string) is cheap to hash in Maps/Sets and is still
+// unique for any realistic board size; used heavily by the recovery BFS's ordered checks.
+const positionId = ({ x, y }) => x * 100000 + y;
 
 const samePosition = (first, second) => first.x === second.x && first.y === second.y;
 
@@ -46,14 +48,19 @@ const neighboringPositions = ({ x, y }, { numRows, numCols, wallsAreFatal }) => 
   return [...new Map(normalized.map(position => [positionId(position), position])).values()];
 };
 
-export const isSnakeCycleOrdered = (parts, cycle) => {
+export const buildCycleIndexes = cycle => new Map(cycle.map((position, index) => [positionId(position), index]));
+
+// indexes lets hot callers (e.g. the recovery BFS) precompute the cycle's
+// positionId -> index Map once and reuse it across many calls instead of
+// rebuilding it per invocation.
+export const isSnakeCycleOrdered = (parts, cycle, indexes = null) => {
   if (parts.length <= 1) return true;
-  const indexes = new Map(cycle.map((position, index) => [positionId(position), index]));
-  const headIndex = indexes.get(positionId(parts[0]));
+  const cycleIndexes = indexes || buildCycleIndexes(cycle);
+  const headIndex = cycleIndexes.get(positionId(parts[0]));
   if (headIndex === undefined) return false;
   let previousDistance = cycle.length;
   for (let index = 1; index < parts.length; index += 1) {
-    const partIndex = indexes.get(positionId(parts[index]));
+    const partIndex = cycleIndexes.get(positionId(parts[index]));
     if (partIndex === undefined) return false;
     const distance = forwardDistance(headIndex, partIndex, cycle.length);
     const duplicatedTail = index === parts.length - 1 && samePosition(parts[index], parts[index - 1]);
@@ -106,7 +113,7 @@ export const findCycleSafeNextPosition = (snake, food, board) => {
   const cycle = buildHamiltonianCycle(board);
   if (!cycle || !snake.parts.length || !isSnakeCycleOrdered(snake.parts, cycle)) return null;
 
-  const indexes = new Map(cycle.map((position, index) => [positionId(position), index]));
+  const indexes = buildCycleIndexes(cycle);
   const [head] = snake.parts;
   const headIndex = indexes.get(positionId(head));
   const successor = cycle[(headIndex + 1) % cycle.length];
@@ -114,11 +121,12 @@ export const findCycleSafeNextPosition = (snake, food, board) => {
   return occupiedAfterTailRemoval.some(part => samePosition(part, successor)) ? null : successor;
 };
 
-export const findCycleShortcutNextPosition = (snake, food, board) => {
-  const cycle = buildHamiltonianCycle(board);
+export const findCycleShortcutNextPosition = (snake, food, board, { reverse = false } = {}) => {
+  const builtCycle = buildHamiltonianCycle(board);
+  const cycle = builtCycle && reverse ? [...builtCycle].reverse() : builtCycle;
   if (!cycle || !snake.parts.length || !food || !isSnakeCycleOrdered(snake.parts, cycle)) return null;
 
-  const indexes = new Map(cycle.map((position, index) => [positionId(position), index]));
+  const indexes = buildCycleIndexes(cycle);
   const [head] = snake.parts;
   const headIndex = indexes.get(positionId(head));
   const foodIndex = indexes.get(positionId(food));
@@ -138,7 +146,7 @@ export const findCycleShortcutNextPosition = (snake, food, board) => {
       }
       const reachesFood = samePosition(position, food);
       const projectedParts = projectMove(snake.parts, position, reachesFood);
-      if (!isSnakeCycleOrdered(projectedParts, cycle)) return false;
+      if (!isSnakeCycleOrdered(projectedParts, cycle, indexes)) return false;
       if (reachesFood) {
         return canSurviveSuccessorGrowths(projectedParts, cycle, indexes);
       }
