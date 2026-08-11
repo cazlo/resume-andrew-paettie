@@ -67,7 +67,6 @@ import {
   SiElasticsearch,
   SiKalilinux,
   SiKibana,
-  SiNasa,
   SiNewrelic,
   SiNike,
   SiSplunk,
@@ -185,43 +184,125 @@ export default {
   ],
   positions: [
     {
-      title: 'Senior Software Engineer (DevSecOps)',
+      title: 'Staff Site Reliability Engineer (Platform)',
+      company: 'Undisclosed — Defense and Space',
+      startDate: '2025',
+      endDate: 'Present',
+      isCurrent: true,
+      tech: [
+        KubernetesTech,
+        { name: 'AWS', icon: techTheme.aws.icon },
+        { name: 'EKS', icon: techTheme.eks.icon },
+        { name: 'Postgres', icon: techTheme.postgres.icon },
+        TerraformTech,
+        { name: 'Docker', icon: techTheme.docker.icon },
+        { name: 'Go', icon: techTheme.go.icon },
+        { name: 'Rust', icon: techTheme.rust.icon },
+        { name: 'Python', icon: techTheme.python.icon },
+        { name: 'Github Actions', icon: techTheme.githubActions.icon },
+        { name: 'Linux', icon: techTheme.linux.icon },
+        { name: 'Grafana', icon: techTheme.grafana.icon },
+      ],
+      domains: [
+        { name: 'Department of Defense', icon: <FcPrivacy /> },
+        { name: 'Space', icon: <GiSpaceSuit /> },
+        { name: 'Platform Engineering', icon: <GiServerRack /> },
+        { name: 'Site Reliability Engineering', icon: <FcEngineering /> },
+        { name: 'Developer Enablement', icon: <FcCommandLine /> },
+        { name: 'Observability', icon: <FcBinoculars /> },
+        { name: 'On-call support', icon: <FcAssistant /> },
+      ],
+      summary: (
+        <span>
+          Staff level SRE on a platform team building the Kubernetes, AWS, and data infrastructure that product teams
+          deploy onto.
+          <br />
+          Customer and program details are intentionally omitted; the work sits in the defense and space domains.
+        </span>
+      ),
+      icon: techTheme.kubernetes.icon,
+    },
+    {
+      title: 'Cyber Security Architect — Artemis Program',
       company: 'Blue Origin',
-      startDate: '2021',
+      startDate: '2023',
       endDate: '2024',
       isCurrent: false,
       tech: [
-        JavaTech,
-        { name: 'Node', icon: techTheme.nodeJs.avatar },
         { name: 'Python', icon: techTheme.python.icon },
         { name: 'Linux', icon: techTheme.linux.icon },
         { name: 'Docker', icon: techTheme.docker.icon },
         KubernetesTech,
         { name: 'Gitlab (CI)', icon: techTheme.gitlab.icon },
         { name: 'Artifactory', icon: techTheme.artifactory.icon },
-        TerraformTech,
         { name: 'Ansible', icon: techTheme.ansible.icon },
+        TerraformTech,
         { name: 'AWS', icon: techTheme.aws.icon },
-        { name: 'EC2', icon: <Avatar>{techTheme.ec2.icon}</Avatar> },
+        { name: 'OSCAP', icon: techTheme.security.icon },
+        { name: 'JAMA', icon: techTheme.jama.icon },
       ],
       domains: [
-        { name: 'Space Exploration', icon: <GiSpaceSuit /> },
-        { name: 'Rocket Engines', icon: <IoRocket /> },
-        { name: 'Developer Enablement', icon: <FcCommandLine /> },
-        { name: 'Business Workflow', icon: <FcWorkflow /> },
-        { name: 'Standards Compliance', icon: <FcFinePrint /> },
-        { name: 'Systems Administration', icon: <FcEngineering /> },
-        { name: 'Systems Engineering', icon: <SiNasa /> },
-        { name: 'Monitoring', icon: <GiMicroscope /> },
-        { name: 'Security', icon: <FcPrivacy /> },
-        { name: 'On-call support', icon: <FcAssistant /> },
+        { name: "NASA's Artemis Program", icon: techTheme.nasa.icon },
+        { name: 'Lunar Lander', icon: <IoRocket /> },
+        { name: 'Security Architecture', icon: <FcPrivacy /> },
+        { name: 'NIST 800-171 (CUI)', icon: <FcFinePrint /> },
+        { name: 'NASA 7150.2D', icon: techTheme.nasa.icon },
+        { name: 'Systems Engineering', icon: <MdArchitecture /> },
+        { name: 'Hardware in the Loop', icon: <FaMicrochip /> },
+        { name: 'Risk Management', icon: <FcRules /> },
         { name: 'Technical Project Management', icon: <FcParallelTasks /> },
       ],
       summary: (
         <span>
-          DevSecOps position with technical leadership responsibilities
+          Security architect for the lunar flight software development environment supporting NASA&apos;s Artemis
+          missions.
           <br />
-          Development and maintenance of foundational systems supporting software engineering across the organization
+          Architected and authorized Linux development platforms for CUI, established a Secure Development Framework
+          (NIST 800-218) aligned to NIST 800-53 and NASA 7150.2D, and led the security assessments for the on-prem data
+          centers behind hardware-in-the-loop testing for Artemis V.
+        </span>
+      ),
+      icon: <BlueLogo />,
+    },
+    {
+      title: 'SRE Lead — Lunar Mission Operations',
+      company: 'Blue Origin',
+      startDate: '2021',
+      endDate: '2023',
+      isCurrent: false,
+      tech: [
+        KubernetesTech,
+        { name: 'Gitlab (CI)', icon: techTheme.gitlab.icon },
+        { name: 'Docker', icon: techTheme.docker.icon },
+        { name: 'Linux', icon: techTheme.linux.icon },
+        { name: 'Ansible', icon: techTheme.ansible.icon },
+        TerraformTech,
+        { name: 'AWS', icon: techTheme.aws.icon },
+        { name: 'EC2', icon: techTheme.ec2.icon },
+        { name: 'Artifactory', icon: techTheme.artifactory.icon },
+        JavaTech,
+        { name: 'Node', icon: techTheme.nodeJs.avatar },
+        { name: 'Python', icon: techTheme.python.icon },
+      ],
+      domains: [
+        { name: 'Lunar Mission Operations', icon: <GiSpaceSuit /> },
+        { name: 'Ground Command and Control', icon: <FaProjectDiagram /> },
+        { name: 'Zero Trust (NIST 800-207)', icon: <FcPrivacy /> },
+        { name: 'GitOps', icon: <IoMdGitBranch /> },
+        { name: 'Developer Enablement', icon: <FcCommandLine /> },
+        { name: 'Golden Images', icon: <FcImageFile /> },
+        { name: 'Systems Administration', icon: <FcEngineering /> },
+        { name: 'Monitoring', icon: <GiMicroscope /> },
+        { name: 'On-call support', icon: <FcAssistant /> },
+      ],
+      summary: (
+        <span>
+          Site reliability lead for the ground based command and control systems behind lunar missions, supporting the
+          MK1 Lunar Lander.
+          <br />
+          Designed a Zero Trust, Kubernetes native architecture for Lunar Ground Control Systems inspired by the DoD
+          Platform One model, and built the GitOps CI/CD pipelines, hardened OCI and AMI golden images, and click-button
+          developer environments that flight software shipped through.
         </span>
       ),
       icon: <BlueLogo />,
