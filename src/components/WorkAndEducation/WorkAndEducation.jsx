@@ -30,15 +30,15 @@ const WorkAndEducation = ({ positions, educations }) => {
         </div>
 
         <Timeline position={useMediaQuery(theme.breakpoints.up(moveDateToCardBreakpoint)) ? 'alternate' : 'right'}>
-          {positions.map((position, i) => (
+          {positions.map(position => (
             <ReactiveTimelineItem
               periodDescription={formatPeriod(position)}
               key={formatPeriod(position)}
               icon={<Avatar sx={{ backgroundColor: '#fff' }}>{position.icon || <FcBriefcase />}</Avatar>}
-              child={<WorkTile position={position} index={i} elevation={24 - i * 5.7} />}
+              child={<WorkTile position={position} elevation={24} />}
             />
           ))}
-          {educations.map((education, i) => (
+          {educations.map(education => (
             <ReactiveTimelineItem
               periodDescription={formatPeriod(education)}
               key={formatPeriod(education)}
@@ -47,7 +47,7 @@ const WorkAndEducation = ({ positions, educations }) => {
                   {education.icon || <FcGraduationCap />}
                 </Avatar>
               }
-              child={<EducationTile education={education} elevation={24 - i} />}
+              child={<EducationTile education={education} elevation={24} />}
             />
           ))}
         </Timeline>
