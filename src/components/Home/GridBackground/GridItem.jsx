@@ -1,23 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const GridItem = ({ width, height, style, children, className }) => (
-  <div className={`GridItem ${className}`} style={{ width, height, ...style }}>
+// Sizing comes from the parent grid track, not from this element, so that a row
+// of tiles always fills the container width exactly. See GridBackground.
+const GridItem = ({ style, children, className }) => (
+  <div className={`GridItem ${className}`} style={style}>
     {children}
   </div>
 );
 
 GridItem.propTypes = {
-  height: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  style: PropTypes.object.isRequired,
+  style: PropTypes.object,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
 };
 
 GridItem.defaultProps = {
   className: '',
+  style: {},
 };
 
 export default GridItem;
