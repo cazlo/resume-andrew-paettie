@@ -13,6 +13,12 @@ remote for that repository.
 - `src/containers/Resume/` — resume presentation.
 - `src/containers/SnakeGame/` — snake UI, Redux state, sagas, pathfinding, and
   tests.
+- `src/containers/Mandelbrot/` — the `/mandelbrot` fractal zoomer: escape-time
+  kernels, a worker pool, and the keyframe/tween engine that makes the dive
+  continuous. `engine.js` owns the browser plumbing; everything it leans on
+  (`formulas.js`, `renderer.js`, `autopilot.js`, `viewMath.js`, `palette.js`)
+  is pure and unit-tested. Jest cannot load `engine.js` — it imports a Vite
+  `?worker` module — so keep testable logic out of it.
 - `public/` — static assets copied into the build.
 - `lambda/emailForward/` — separate email-forward Lambda package.
 - `.circleci/config.yml` — existing CI pipeline.

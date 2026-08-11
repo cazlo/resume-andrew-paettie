@@ -25,15 +25,16 @@
 // keeps the import.meta.url dance out of application code.
 // eslint-disable-next-line import/no-unresolved, import/extensions
 import MandelbrotWorker from './mandelbrotWorker?worker';
-import { alignDimension, renderBand, splitBands, COARSE_STRIDE } from './mandelbrot';
+import { alignDimension, renderBand, splitBands, COARSE_STRIDE } from './renderer';
 import { buildLut, interiorRgb, paletteById } from './palette';
-import { chooseTarget } from './autopilot';
+import chooseTarget from './autopilot';
+import { DEFAULT_FORMULA_ID, formulaById } from './formulas';
 import {
-  DEFAULT_VIEW,
   advanceView,
   aspectOf,
   atPrecisionFloor,
   coversViewport,
+  driftSeed,
   frameDestRect,
   magnification,
   maxIterForView,
@@ -95,12 +96,16 @@ export default class ZoomEngine {
       autopilot: true,
       zoomRate: 0.32,
       paletteId: 'sunset',
+      formulaId: DEFAULT_FORMULA_ID,
       detail: 'sharp',
       density: 1.15,
       phase: 0,
     };
 
-    this.view = { ...DEFAULT_VIEW };
+    this.formula = formulaById(this.options.formulaId);
+    this.param = this.formula.defaultParam || null;
+    this.juliaReturn = null;
+    this.view = { ...this.formula.defaultView };
     this.target = null;
     this.seedName = 'Home';
     this.frames = [];
@@ -283,7 +288,7 @@ export default class ZoomEngine {
       height,
       aspect: aspectOf(width, height),
       view,
-      maxIter: maxIterForView(view, { scale: this.detail().iterScale }),
+      maxIter: maxIterForView(view, { scale: this.detail().iterScale * this.formula.iterScale }),
       coarse: new Float32Array(coarseW * coarseH),
       coarseW,
       coarseH,
@@ -307,6 +312,8 @@ export default class ZoomEngine {
       view: frame.view,
       aspect: frame.aspect,
       maxIter: frame.maxIter,
+      formulaId: this.formula.id,
+      param: this.param,
       lut: this.lut,
       lutSize: LUT_SIZE,
       density: this.options.density,
@@ -401,7 +408,9 @@ export default class ZoomEngine {
   setOptions(partial) {
     const paletteChanged = partial.paletteId && partial.paletteId !== this.options.paletteId;
     const detailChanged = partial.detail && partial.detail !== this.options.detail;
+    const formulaChanged = partial.formulaId && partial.formulaId !== this.options.formulaId;
     this.options = { ...this.options, ...partial };
+    if (formulaChanged) this.setFormula(partial.formulaId);
     if (detailChanged) {
       this.quality = clamp(this.quality, MIN_QUALITY, this.detail().maxQuality);
       this.settled = false;
@@ -414,11 +423,57 @@ export default class ZoomEngine {
     }
   }
 
-  /** Warp to a fresh seed: used at the precision floor and on dead ends. */
+  /**
+   * Switch fractal. Each one lives in its own patch of the plane, so the view
+   * and the steering start over; only the palette and pacing carry across.
+   */
+  setFormula(formulaId, param) {
+    this.options = { ...this.options, formulaId };
+    this.formula = formulaById(formulaId);
+    this.param = param || this.formula.defaultParam || null;
+    this.seedName = 'Home';
+    this.view = { ...this.formula.defaultView };
+    this.target = null;
+    this.lost = 0;
+    this.flash = 1;
+    this.clearFrames();
+    this.abort();
+  }
+
+  /**
+   * Drop into the Julia set for whatever point the camera is sitting on.
+   *
+   * This is the one place the two fractals genuinely connect: the Julia set
+   * for a c on the Mandelbrot boundary is as intricate as the boundary
+   * neighbourhood the camera is looking at, so a good dive hands off to a good
+   * Julia. Calling it again comes back to where the dive was left.
+   */
+  juliaHere() {
+    if (this.formula.id === 'julia') {
+      const back = this.juliaReturn;
+      this.juliaReturn = null;
+      this.setFormula(back ? back.formulaId : DEFAULT_FORMULA_ID);
+      if (back) {
+        this.view = back.view;
+        this.seedName = back.seedName;
+      }
+      return;
+    }
+    if (!this.formula.juliaSource) return;
+    this.juliaReturn = { formulaId: this.formula.id, view: { ...this.view }, seedName: this.seedName };
+    this.setFormula('julia', { re: this.view.cx, im: this.view.cy });
+  }
+
+  /**
+   * Warp: a fresh address for the same fractal. For Julia there is no address
+   * to change — the whole plane is one set — so a warp swaps the constant and
+   * the fractal itself becomes a different one.
+   */
   warp() {
-    const seed = nextSeed(this.seedName);
+    const seed = nextSeed(this.formula.seeds, this.seedName) || driftSeed(this.formula.defaultView);
     this.seedName = seed.name;
     this.view = { cx: seed.cx, cy: seed.cy, halfHeight: seed.halfHeight };
+    if (seed.param) this.param = seed.param;
     this.target = null;
     this.lost = 0;
     this.flash = 1;
@@ -428,7 +483,7 @@ export default class ZoomEngine {
 
   reset() {
     this.seedName = 'Home';
-    this.view = { ...DEFAULT_VIEW };
+    this.view = { ...this.formula.defaultView };
     this.target = null;
     this.lost = 0;
     this.clearFrames();
@@ -450,8 +505,9 @@ export default class ZoomEngine {
 
   zoomAt(px, py, factor) {
     this.view = zoomAtPixel(this.view, px, py, factor, this.canvas.width, this.canvas.height);
+    const ceiling = this.formula.defaultView.halfHeight * 2;
     if (this.view.halfHeight < PRECISION_FLOOR) this.view.halfHeight = PRECISION_FLOOR;
-    if (this.view.halfHeight > DEFAULT_VIEW.halfHeight * 2) this.view.halfHeight = DEFAULT_VIEW.halfHeight * 2;
+    if (this.view.halfHeight > ceiling) this.view.halfHeight = ceiling;
     this.abort();
   }
 
@@ -487,12 +543,17 @@ export default class ZoomEngine {
     let mode = 'MANUAL';
     if (!this.options.running) mode = 'HOLD';
     else if (this.options.autopilot) mode = 'AUTOPILOT';
+    const reference = this.formula.defaultView.halfHeight;
     this.onStats({
       mode,
       seed: this.seedName,
+      formula: this.formula.name,
+      formulaId: this.formula.id,
+      param: this.param,
+      canJulia: Boolean(this.formula.juliaSource) || this.formula.id === 'julia',
       cx: this.view.cx,
       cy: this.view.cy,
-      magnification: magnification(this.view),
+      magnification: magnification(this.view, reference),
       maxIter: frame ? frame.maxIter : maxIterForView(this.view, { scale: this.detail().iterScale }),
       fps: this.fps,
       frameMs: this.frameMs,
@@ -500,7 +561,7 @@ export default class ZoomEngine {
       sampling: frame ? frame.width / Math.max(1, this.canvas.width) : this.quality,
       workers: this.workers.length,
       depth: clamp(
-        1 - Math.log10(this.view.halfHeight / PRECISION_FLOOR) / Math.log10(DEFAULT_VIEW.halfHeight / PRECISION_FLOOR),
+        1 - Math.log10(this.view.halfHeight / PRECISION_FLOOR) / Math.log10(reference / PRECISION_FLOOR),
         0,
         1,
       ),

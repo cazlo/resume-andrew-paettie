@@ -1,11 +1,11 @@
 import {
   DEFAULT_VIEW,
   PRECISION_FLOOR,
-  SEEDS,
   advanceView,
   approach,
   atPrecisionFloor,
   coversViewport,
+  driftSeed,
   frameDestRect,
   magnification,
   maxIterForView,
@@ -15,6 +15,7 @@ import {
   zoomAtPixel,
   zoomStep,
 } from './viewMath';
+import { FORMULAS } from './formulas';
 
 const WIDTH = 800;
 const HEIGHT = 400;
@@ -144,14 +145,44 @@ describe('depth budgeting', () => {
 });
 
 describe('nextSeed', () => {
+  const { seeds } = FORMULAS.find(f => f.id === 'mandelbrot');
+
   it('never hands back the seed already in use', () => {
-    SEEDS.forEach(seed => {
-      [0, 0.5, 0.999].forEach(roll => expect(nextSeed(seed.name, roll).name).not.toBe(seed.name));
+    seeds.forEach(seed => {
+      [0, 0.5, 0.999].forEach(roll => expect(nextSeed(seeds, seed.name, roll).name).not.toBe(seed.name));
     });
   });
 
   it('stays in range at the ends of the roll', () => {
-    expect(nextSeed('Home', 0)).toBe(SEEDS[0]);
-    expect(nextSeed('Home', 1)).toBe(SEEDS[SEEDS.length - 1]);
+    expect(nextSeed(seeds, 'Home', 0)).toBe(seeds[0]);
+    expect(nextSeed(seeds, 'Home', 1)).toBe(seeds[seeds.length - 1]);
+  });
+
+  it('has nothing to offer a formula with no curated addresses', () => {
+    expect(nextSeed([], 'Home', 0.5)).toBeNull();
+    expect(nextSeed(FORMULAS.find(f => f.id === 'newton').seeds, 'Home')).toBeNull();
+  });
+});
+
+describe('driftSeed', () => {
+  it('lands inside the formula default view', () => {
+    const home = { cx: 0, cy: 0, halfHeight: 1.6 };
+    [
+      [0, 0],
+      [1, 1],
+      [0.5, 0.5],
+      [0.2, 0.9],
+    ].forEach(([rx, ry]) => {
+      const seed = driftSeed(home, rx, ry);
+      expect(Math.abs(seed.cx - home.cx)).toBeLessThanOrEqual(home.halfHeight);
+      expect(Math.abs(seed.cy - home.cy)).toBeLessThanOrEqual(home.halfHeight);
+      expect(seed.halfHeight).toBeLessThan(home.halfHeight);
+    });
+  });
+
+  it('lands somewhere different each roll, or every warp would replay the dive', () => {
+    expect(driftSeed({ cx: 0, cy: 0, halfHeight: 1 }, 0.1, 0.1)).not.toEqual(
+      driftSeed({ cx: 0, cy: 0, halfHeight: 1 }, 0.9, 0.9),
+    );
   });
 });

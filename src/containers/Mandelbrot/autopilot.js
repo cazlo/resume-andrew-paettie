@@ -28,7 +28,7 @@ const SIGMA = 0.36;
  * @param aspect   frame width / height
  * @returns { cx, cy, score, kind } or null when nothing worth chasing is in frame
  */
-export function chooseTarget(coarse, coarseW, coarseH, view, aspect) {
+export default function chooseTarget(coarse, coarseW, coarseH, view, aspect) {
   let best = null;
 
   for (let y = 1; y < coarseH - 1; y += 1) {
@@ -84,17 +84,4 @@ export function chooseTarget(coarse, coarseW, coarseH, view, aspect) {
   }
 
   return best && best.score > 0 ? best : null;
-}
-
-/**
- * How much of the frame the set still occupies. The engine uses this to notice
- * it has dived into a solid region (or lost the set entirely) and should warp
- * somewhere new rather than zoom into a flat colour.
- */
-export function interiorFraction(coarse) {
-  let interior = 0;
-  for (let i = 0; i < coarse.length; i += 1) {
-    if (coarse[i] < 0) interior += 1;
-  }
-  return coarse.length ? interior / coarse.length : 0;
 }

@@ -8,6 +8,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 import ZoomEngine from './engine';
 import { PALETTES } from './palette';
+import { FORMULAS } from './formulas';
 import './Mandelbrot.css';
 
 /*
@@ -64,6 +65,7 @@ export default function Mandelbrot() {
     autopilot: true,
     zoomRate: 0.32,
     detail: 'sharp',
+    formulaId: FORMULAS[0].id,
     paletteId: PALETTES[0].id,
   });
 
@@ -156,6 +158,7 @@ export default function Mandelbrot() {
         },
         j: () => engine.warp(),
         r: () => engine.reset(),
+        x: () => engine.juliaHere(),
       };
       const action = keys[event.key.toLowerCase()] || keys[event.key];
       if (action) {
@@ -203,7 +206,7 @@ export default function Mandelbrot() {
 
       <header className="Mandelbrot-header">
         <div>
-          <h1 className="Mandelbrot-title">Mandelbrot Drive</h1>
+          <h1 className="Mandelbrot-title">{stats ? stats.formula : 'Mandelbrot'} Drive</h1>
           <p className="Mandelbrot-subtitle">
             {stats ? stats.mode : 'BOOTING'} <span className="Mandelbrot-sep">//</span> sector{' '}
             {stats ? stats.seed : '--'} <span className="Mandelbrot-sep">//</span> locked on{' '}
@@ -225,6 +228,13 @@ export default function Mandelbrot() {
         <Readout label="grid" value={stats ? stats.resolution : '--'} wide />
         <Readout label="sample" value={stats ? `${stats.sampling.toFixed(2)}x` : '--'} />
         <Readout label="threads" value={stats ? stats.workers || 'main' : '--'} />
+        {stats && stats.param && (
+          <Readout
+            label="constant c"
+            value={`${stats.param.re.toFixed(4)}${stats.param.im >= 0 ? '+' : ''}${stats.param.im.toFixed(4)}i`}
+            wide
+          />
+        )}
         <div className="Mandelbrot-depth" title="descent toward the double-precision floor">
           <span className="Mandelbrot-readoutLabel">depth</span>
           <div className="Mandelbrot-depthTrack">
@@ -258,6 +268,35 @@ export default function Mandelbrot() {
           <Button variant="outlined" size="small" onClick={() => engineRef.current.reset()}>
             reset
           </Button>
+          {stats && stats.canJulia && (
+            <Button
+              variant="outlined"
+              size="small"
+              color="secondary"
+              onClick={() => engineRef.current.juliaHere()}
+              title="the Julia set for the point in the middle of this view"
+            >
+              {stats.formulaId === 'julia' ? 'back to mandelbrot' : 'julia here'}
+            </Button>
+          )}
+        </div>
+
+        <div className="Mandelbrot-controlRow">
+          <ToggleButtonGroup
+            size="small"
+            exclusive
+            /* Read from the engine, not local state: "julia here" switches the
+               formula without going through the toggle. */
+            value={stats ? stats.formulaId : ui.formulaId}
+            onChange={(event, value) => value && update({ formulaId: value })}
+            aria-label="fractal"
+          >
+            {FORMULAS.map(formula => (
+              <ToggleButton key={formula.id} value={formula.id} aria-label={formula.name}>
+                {formula.name}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
         </div>
 
         <div className="Mandelbrot-controlRow">
@@ -306,7 +345,7 @@ export default function Mandelbrot() {
 
         <p className="Mandelbrot-hint">
           scroll to zoom &middot; drag to pan &middot; double-click to steer the dive &middot; space holds, a toggles
-          autopilot, j warps, r resets
+          autopilot, j warps, x jumps to the julia set here, r resets
         </p>
       </footer>
     </div>

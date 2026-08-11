@@ -60,8 +60,8 @@ export function coversViewport(rect, width, height, slack = 0.5) {
   );
 }
 
-/** Zoom depth relative to the opening shot. */
-export const magnification = view => DEFAULT_VIEW.halfHeight / view.halfHeight;
+/** Zoom depth relative to an opening shot — by default the Mandelbrot's. */
+export const magnification = (view, reference = DEFAULT_VIEW.halfHeight) => reference / view.halfHeight;
 
 /**
  * Iteration budget for a depth. Boundary detail needs more iterations the
@@ -122,22 +122,27 @@ export function panByPixels(view, dxPx, dyPx, height) {
 export const atPrecisionFloor = view => view.halfHeight <= PRECISION_FLOOR;
 
 /**
- * Hand-picked places to start a dive. Every one of them sits on a stretch of
- * boundary dense enough that the autopilot has somewhere to go for the next
- * dozen orders of magnitude.
+ * Pick a seed from a formula's list, never the one already in use, or null if
+ * the formula has no curated addresses.
  */
-export const SEEDS = [
-  { name: 'Seahorse Valley', cx: -0.743643887037151, cy: 0.13182590420533, halfHeight: 0.9 },
-  { name: 'Elephant Valley', cx: 0.2925755, cy: -0.0149977, halfHeight: 0.55 },
-  { name: 'Triple Spiral', cx: -0.088, cy: 0.654, halfHeight: 0.5 },
-  { name: 'Misiurewicz Point', cx: -0.77568377, cy: 0.13646737, halfHeight: 0.45 },
-  { name: 'Scepter Variant', cx: -1.25066, cy: 0.02012, halfHeight: 0.35 },
-  { name: 'Quad Spiral', cx: -0.235125, cy: 0.827215, halfHeight: 0.4 },
-  { name: 'Feather Shoals', cx: -1.7687796, cy: 0.0017396, halfHeight: 0.02 },
-];
-
-/** Next seed after `currentName`, wrapping. Keeps successive warps distinct. */
-export function nextSeed(currentName, roll = Math.random()) {
-  const others = SEEDS.filter(s => s.name !== currentName);
+export function nextSeed(seeds, currentName, roll = Math.random()) {
+  const others = seeds.filter(s => s.name !== currentName);
+  if (others.length === 0) return null;
   return others[Math.min(others.length - 1, Math.floor(roll * others.length))];
+}
+
+/**
+ * Fallback entry point for formulas whose boundary is interesting everywhere,
+ * so there is nothing to curate. Randomising the drop point is what keeps
+ * successive warps from replaying the same dive: the autopilot is
+ * deterministic, so an identical start would produce an identical descent.
+ */
+export function driftSeed(defaultView, rollX = Math.random(), rollY = Math.random()) {
+  const reach = defaultView.halfHeight * 0.7;
+  return {
+    name: 'Open Water',
+    cx: defaultView.cx + (rollX * 2 - 1) * reach,
+    cy: defaultView.cy + (rollY * 2 - 1) * reach,
+    halfHeight: defaultView.halfHeight * 0.6,
+  };
 }

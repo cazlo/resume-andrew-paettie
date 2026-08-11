@@ -90,16 +90,20 @@ export function buildLut(palette, size = 1024) {
 }
 
 /**
- * Map a smooth escape count onto a LUT index.
+ * Map a kernel's output onto a LUT index.
  *
  * Escape counts grow logarithmically as the view descends into the boundary,
  * so the ramp is indexed by log(1 + mu). That keeps band spacing roughly
  * constant at every zoom depth instead of smearing at the surface and
  * strobing down deep. `density` sets how many colour cycles fit in that space
- * and `phase` rotates the whole ramp for the palette-cycling animation.
+ * and `phase` rotates the whole ramp.
+ *
+ * Convergence kernels (Newton) hand back a palette position directly rather
+ * than a count, and pass `logSpace: false` so it is used as given.
  */
-export function lutIndex(mu, size, density = 1.15, phase = 0) {
-  const t = Math.log(1 + Math.max(0, mu)) * density + phase;
+export function lutIndex(value, size, density = 1.15, phase = 0, logSpace = true) {
+  const v = Math.max(0, value);
+  const t = (logSpace ? Math.log(1 + v) : v) * density + phase;
   const f = t - Math.floor(t);
   const i = Math.floor(f * size);
   return i < 0 ? 0 : Math.min(size - 1, i);
