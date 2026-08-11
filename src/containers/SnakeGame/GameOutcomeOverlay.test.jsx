@@ -8,7 +8,7 @@ describe('GameOutcomeOverlay', () => {
   it('shows a victory message for a won game', () => {
     render(<GameOutcomeOverlay state={GameState.WON} score={36} perfectScore={36} />);
 
-    expect(screen.getByRole('status')).toHaveTextContent('VICTORY');
+    expect(screen.getByRole('status')).toHaveTextContent('PERFECT GAME');
     expect(screen.getByRole('status')).toHaveTextContent('Board cleared');
     expect(screen.getByRole('status')).toHaveTextContent('Score: 36 / 36');
   });
@@ -16,7 +16,7 @@ describe('GameOutcomeOverlay', () => {
   it('shows a loss message for game over', () => {
     render(<GameOutcomeOverlay state={GameState.GAME_OVER} score={12} perfectScore={36} />);
 
-    expect(screen.getByRole('status')).toHaveTextContent('RUN ENDED');
+    expect(screen.getByRole('status')).toHaveTextContent('GAME OVER');
     expect(screen.getByRole('status')).toHaveTextContent('Game over');
   });
 
