@@ -180,6 +180,24 @@ export default {
         { name: 'Major', value: '3.8' },
         { name: 'Overall', value: '3.2' },
       ],
+      detail: {
+        overview: (
+          <span>
+            Bachelor of Science in Computer Science, with coursework across AI, machine learning, network security, and
+            computer architecture. The last year was done alongside a full time engineering job.
+          </span>
+        ),
+        highlights: [
+          'Coursework projects kept in the open, from a MIPS assembler to AI and machine learning experiments.',
+          'Network security and Linux administration alongside the core computer science curriculum.',
+        ],
+        links: [
+          { url: 'https://github.com/cazlo/exploring-AI', text: 'Exploring AI' },
+          { url: 'https://github.com/cazlo/exploring-machine-learning', text: 'Exploring Machine Learning' },
+          { url: 'https://github.com/cazlo/academic-stuff', text: 'Academic Work' },
+          { url: 'https://github.com/cazlo/MOOPS-Moo-on-MIPS', text: 'MOOPS' },
+        ],
+      },
     },
   ],
   positions: [
@@ -212,14 +230,21 @@ export default {
         { name: 'Observability', icon: <FcBinoculars /> },
         { name: 'On-call support', icon: <FcAssistant /> },
       ],
-      summary: (
-        <span>
-          Staff level SRE on a platform team building the Kubernetes, AWS, and data infrastructure that product teams
-          deploy onto.
-          <br />
-          Customer and program details are intentionally omitted; the work sits in the defense and space domains.
-        </span>
-      ),
+      summary: <span>Platform team SRE for the Kubernetes and AWS foundations other teams deploy onto.</span>,
+      detail: {
+        overview: (
+          <span>
+            Staff level site reliability engineering on a platform team, in the defense and space domains. The customer
+            and the program are intentionally left out here.
+          </span>
+        ),
+        highlights: [
+          'Shared EKS and AWS platform that product teams build and deploy onto.',
+          'Postgres and the surrounding data infrastructure run as a platform service rather than per team.',
+          'CI/CD and developer enablement for the teams shipping onto that platform.',
+          'Observability, on-call, and incident response owned at the platform layer.',
+        ],
+      },
       icon: techTheme.kubernetes.icon,
     },
     {
@@ -252,16 +277,24 @@ export default {
         { name: 'Risk Management', icon: <FcRules /> },
         { name: 'Technical Project Management', icon: <FcParallelTasks /> },
       ],
-      summary: (
-        <span>
-          Security architect for the lunar flight software development environment supporting NASA&apos;s Artemis
-          missions.
-          <br />
-          Architected and authorized Linux development platforms for CUI, established a Secure Development Framework
-          (NIST 800-218) aligned to NIST 800-53 and NASA 7150.2D, and led the security assessments for the on-prem data
-          centers behind hardware-in-the-loop testing for Artemis V.
-        </span>
-      ),
+      summary: <span>Security architect for the lunar flight software development environment behind Artemis.</span>,
+      detail: {
+        overview: (
+          <span>
+            Owned the security architecture and the authorization case for the environment lunar flight software is
+            developed and verified in, supporting NASA&apos;s Artemis missions.
+          </span>
+        ),
+        highlights: [
+          'Architected and administered Linux development platforms authorized for CUI (NIST 800-171).',
+          'Established a Secure Development Framework (NIST 800-218) aligned to NIST 800-53 and NASA 7150.2D.',
+          'Wrote System Security Plans and POA&Ms, automating the compliance process around them.',
+          'Built web based risk management frameworks to communicate security standards to stakeholders.',
+          'Led security review of peer merge requests and of open source dependencies.',
+          'Ran security assessments of the data centers behind hardware-in-the-loop testing for Artemis V.',
+          'Designed and roadmapped cloud based deployments for flight software verification.',
+        ],
+      },
       icon: <BlueLogo />,
     },
     {
@@ -296,15 +329,29 @@ export default {
         { name: 'On-call support', icon: <FcAssistant /> },
       ],
       summary: (
-        <span>
-          Site reliability lead for the ground based command and control systems behind lunar missions, supporting the
-          MK1 Lunar Lander.
-          <br />
-          Designed a Zero Trust, Kubernetes native architecture for Lunar Ground Control Systems inspired by the DoD
-          Platform One model, and built the GitOps CI/CD pipelines, hardened OCI and AMI golden images, and click-button
-          developer environments that flight software shipped through.
-        </span>
+        <span>Site reliability lead for the ground based command and control systems behind lunar missions.</span>
       ),
+      detail: {
+        overview: (
+          <span>
+            Led site reliability for Lunar Mission Operations, building the Kubernetes and GitOps foundations that
+            ground control systems and the teams behind them ran on, taking the DoD Platform One model as the reference.
+            Supported the MK1 Lunar Lander mission.
+          </span>
+        ),
+        highlights: [
+          'Designed a Zero Trust Architecture (NIST 800-207) for Lunar Ground Control Systems.',
+          'Established the CI/CD pipelines and templates behind it, a first for GitLab CI runner management.',
+          'Led hardened golden image development for containers and AWS machine images, with Image Builder and SCAP.',
+          'Built a click-button provisioning system giving engineers a consistent Linux development environment.',
+          'Cut CI pipeline time through Kubernetes performance analysis, saving ~20,000 engineer hours a year.',
+          'Delivered an update process that reduced vulnerability remediation time by 90%.',
+          'Administered and stabilized the shared developer tooling estate and the Rancher based Kubernetes platform.',
+          'Drove security compliance for ISO 27001, CMMC, and FIPS, and the architecture work behind them.',
+          'Defined functional requirements and end user documentation so the system could be measured.',
+        ],
+        links: [{ url: 'https://www.blueorigin.com/blue-moon/mark-1', text: 'Blue Moon MK1' }],
+      },
       icon: <BlueLogo />,
     },
     {
@@ -338,7 +385,25 @@ export default {
         { name: 'On-call support', icon: <FcAssistant /> },
         { name: 'Agile', icon: techTheme.agile.icon },
       ],
-      summary: <span>Devops position with technical leadership and architecture responsibilities</span>,
+      summary: <span>Multi-region payment services for a global retail platform.</span>,
+      detail: {
+        overview: (
+          <span>
+            Global Payment Team, with a stint on Retail Services. Devops position with technical leadership and
+            architecture responsibilities.
+          </span>
+        ),
+        highlights: [
+          'Designed multi-region cloud payment services for high availability and reliability in AWS.',
+          "Led the launch of services into China's AWS partition, meeting the regional regulatory requirements.",
+          'Built scalable APIs in Java and Node with a layered unit, integration, and behavioural test strategy.',
+          'Spearheaded safe deployment using AWS canary traffic shifting for Lambda.',
+          'Ran chaos engineering exercises to improve resilience in a serverless environment.',
+          'Implemented active-active high availability, improving service reliability across regions.',
+          'Removed $10k a month of operational overhead through Elasticsearch efficiency improvements.',
+          'Mentored junior engineers and built a culture of pair programming.',
+        ],
+      },
       icon: <SiNike />,
     },
     {
@@ -369,13 +434,20 @@ export default {
         { name: 'On-call support', icon: <FcAssistant /> },
         { name: 'Agile', icon: techTheme.agile.icon },
       ],
-      summary: (
-        <span>
-          Devops position with technical leadership responsibilities
-          <br />
-          Vehicle Catalog Data Ingestion and Management
-        </span>
-      ),
+      summary: <span>Technical lead for vehicle catalog data ingestion and management.</span>,
+      detail: {
+        overview: <span>Data Solutions Team. Technical lead driving technology and architectural decisions.</span>,
+        highlights: [
+          'Created a standardized vehicle language adopted across multiple business units.',
+          'Built a single point of ingestion, maintenance, and viewing for vehicle catalog data.',
+          'Simplified tangled configuration logic with MinSAT, removing tautologies and unsatisfiable terms.',
+          'Designed RESTful APIs with direct feedback from their internal consumers.',
+          'Automated functional integration testing with localstack and CircleCI.',
+          'Designed and implemented cloud deployment infrastructure using Consul, Nomad, Terraform, and Docker.',
+          'Installed monitoring and alerting for visibility into key performance indicators.',
+          'Defined documentation and code quality standards through pair programming and formal code review.',
+        ],
+      },
       icon: <img src={coxAutoImage} style={{ maxWidth: '100%', maxHeight: '100%' }} alt="cox automotive" />,
     },
     {
@@ -402,13 +474,18 @@ export default {
         { name: 'On-call support', icon: <FcAssistant /> },
         { name: 'Agile', icon: techTheme.agile.icon },
       ],
-      summary: (
-        <span>
-          Software developer
-          <br />
-          High throughput inventory management systems
-        </span>
-      ),
+      summary: <span>High throughput vehicle inventory management systems.</span>,
+      detail: {
+        overview: <span>Dealer.com Inventory Team. Promoted into technical lead during the role.</span>,
+        highlights: [
+          'Built the system that migrated image hosting onto AWS.',
+          'Developed and maintained microservices aggregating and serving vehicle data at scale.',
+          'Migrated core systems onto a more maintainable stack, Spring 3 to Spring Boot and Java 7 to Java 8.',
+          'Integrated with automated deployment tooling to support continuous integration and deployment.',
+          'Installed monitoring and alerting for visibility into key performance indicators.',
+          'Created internal full stack web applications that made troubleshooting and testing easier.',
+        ],
+      },
       icon: <img src={coxAutoImage} style={{ maxWidth: '100%', maxHeight: '100%' }} alt="cox automotive" />,
     },
     {
@@ -442,13 +519,22 @@ export default {
         { name: 'Accounting', icon: <FcDataSheet /> },
         { name: 'Business Workflow', icon: <FcWorkflow /> },
       ],
-      summary: (
-        <span>
-          Sys admin, web app development, and test automation
-          <br />
-          Construction management and accounting software
-        </span>
-      ),
+      summary: <span>Sys admin, web app development, and test automation.</span>,
+      detail: {
+        overview: (
+          <span>
+            Construction management and accounting software, worked full time alongside the final year of the computer
+            science degree.
+          </span>
+        ),
+        highlights: [
+          'Front-end and back-end development of a J2EE application.',
+          'Designed and implemented GIS management interfaces with jQuery and JSP.',
+          'Implemented an ANT build process that cut build time by 75%.',
+          'Built an automated regression testing system with Selenium.',
+          'Set up and administered the servers behind source control, issue tracking, the database, and app server.',
+        ],
+      },
     },
   ],
   projects: [
