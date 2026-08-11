@@ -56,6 +56,19 @@ import { ReactComponent as RedHatIcon } from 'devicon/icons/redhat/redhat-origin
 import { ReactComponent as RockyIcon } from 'devicon/icons/rockylinux/rockylinux-original.svg';
 import { ReactComponent as PoetryIcon } from 'devicon/icons/poetry/poetry-original.svg';
 import { ReactComponent as GoIcon } from 'devicon/icons/go/go-original.svg';
+import { ReactComponent as GoWordmarkIcon } from 'devicon/icons/go/go-original-wordmark.svg';
+import { ReactComponent as DockerPlainIcon } from 'devicon/icons/docker/docker-plain.svg';
+import { ReactComponent as TerraformSvgIcon } from 'devicon/icons/terraform/terraform-original.svg';
+import { ReactComponent as PostgresPlainIcon } from 'devicon/icons/postgresql/postgresql-plain.svg';
+import { ReactComponent as TypescriptPlainIcon } from 'devicon/icons/typescript/typescript-plain.svg';
+import { ReactComponent as LinuxPlainIcon } from 'devicon/icons/linux/linux-plain.svg';
+import { ReactComponent as RedisPlainIcon } from 'devicon/icons/redis/redis-plain.svg';
+import { ReactComponent as GrafanaPlainIcon } from 'devicon/icons/grafana/grafana-plain.svg';
+import { ReactComponent as ArgocdPlainIcon } from 'devicon/icons/argocd/argocd-plain.svg';
+import { ReactComponent as AnsiblePlainIcon } from 'devicon/icons/ansible/ansible-plain.svg';
+import { ReactComponent as GitPlainIcon } from 'devicon/icons/git/git-plain.svg';
+import { ReactComponent as PodmanPlainIcon } from 'devicon/icons/podman/podman-plain.svg';
+import { ReactComponent as UbuntuPlainIcon } from 'devicon/icons/ubuntu/ubuntu-plain.svg';
 import { ReactComponent as GrafanaIcon } from 'devicon/icons/grafana/grafana-original.svg';
 import { ReactComponent as PrometheusIcon } from 'devicon/icons/prometheus/prometheus-original.svg';
 import { ReactComponent as OpentelemetryIcon } from 'devicon/icons/opentelemetry/opentelemetry-original.svg';
@@ -214,6 +227,13 @@ const techTheme = {
     className: 'vertical-timeline-element--javascript',
     icon: <JavascriptIcon />,
   },
+  /*
+   * `heroIcon` is the variant to use on the landing page grid, which flattens
+   * every path to white (see Home.css). Detailed multi-part artwork collapses
+   * into an unreadable silhouette under that rule, so technologies whose normal
+   * icon is an illustration carry a single-color alternative here. Everywhere
+   * else keeps using `icon`, which stays in the technology's real colors.
+   */
   docker: {
     style: {
       background: '#2f9ec4',
@@ -221,6 +241,7 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--docker',
     icon: <DockerIcon />,
+    heroIcon: <DockerPlainIcon />,
   },
   podman: {
     style: {
@@ -229,6 +250,7 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--docker',
     icon: <PodmanIcon />,
+    heroIcon: <PodmanPlainIcon />,
   },
   nodeJs: {
     style: {
@@ -277,6 +299,7 @@ const techTheme = {
       background: '#eeeeee',
     },
     icon: <Ansible />,
+    heroIcon: <AnsiblePlainIcon />,
   },
   aws: {
     style: {
@@ -458,6 +481,7 @@ const techTheme = {
       background: '#303233',
     },
     icon: <RedisIcon />,
+    heroIcon: <RedisPlainIcon />,
   },
   rds: {
     style: {
@@ -494,6 +518,7 @@ const techTheme = {
     },
     className: 'vertical-timeline-element--postgres',
     icon: <PostgresIcon />,
+    heroIcon: <PostgresPlainIcon />,
   },
   mysql: {
     style: {
@@ -568,6 +593,7 @@ const techTheme = {
       color: '#fff',
     },
     icon: <LinuxIcon />,
+    heroIcon: <LinuxPlainIcon />,
   },
   ubuntu: {
     style: {
@@ -575,6 +601,7 @@ const techTheme = {
       color: '#fff',
     },
     icon: <UbuntuIcon />,
+    heroIcon: <UbuntuPlainIcon />,
   },
   others: {
     style: {
@@ -590,6 +617,7 @@ const techTheme = {
       color: '#fff',
     },
     icon: <GitIcon />,
+    heroIcon: <GitPlainIcon />,
   },
   trello: {
     style: {
@@ -737,6 +765,7 @@ const techTheme = {
       color: '#fff',
     },
     icon: <Typescript />,
+    heroIcon: <TypescriptPlainIcon />,
   },
   jquery: {
     style: {
@@ -765,6 +794,9 @@ const techTheme = {
       color: '#fff',
     },
     icon: <img src={Terraform} alt="Terraform" style={{ maxWidth: '100%', maxHeight: '100%' }} />,
+    // The stock icon is a raster logo, which the hero grid can neither recolor
+    // nor scale with the tile, so the hero uses the vector mark instead.
+    heroIcon: <TerraformSvgIcon />,
   },
   consul: {
     style: {
@@ -863,6 +895,7 @@ const techTheme = {
       color: '#fff',
     },
     icon: <GoIcon />,
+    heroIcon: <GoWordmarkIcon />,
   },
   grafana: {
     style: {
@@ -870,6 +903,7 @@ const techTheme = {
       color: '#f46800',
     },
     icon: <GrafanaIcon />,
+    heroIcon: <GrafanaPlainIcon />,
   },
   prometheus: {
     style: {
@@ -893,6 +927,7 @@ const techTheme = {
   },
   argocd: {
     icon: <ArgocdIcon />,
+    heroIcon: <ArgocdPlainIcon />,
   },
   flux: {
     style: {
