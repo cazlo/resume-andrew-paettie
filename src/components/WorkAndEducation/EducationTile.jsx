@@ -2,36 +2,42 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
 import Avatar from '@mui/material/Avatar';
-import { Card, CardContent } from '@mui/material';
+import { Card, CardActionArea, CardContent } from '@mui/material';
 import ChipList from '../common/ChipList';
 
-export default function EducationTile({ education, elevation }) {
+export default function EducationTile({ education, elevation, onOpen }) {
   return (
     <Card elevation={Math.floor(elevation)}>
-      <CardContent>
-        <Typography variant="h5">{education.schoolName}</Typography>
-        <Typography variant="h6">{education.degree}</Typography>
-        <ChipList
-          chips={education.areasOfStudy}
-          getIcon={f => f.icon}
-          getLabel={f => f.name}
-          getKey={f => `${education.schoolName}-focus-${f.name}`}
-        />
-        <br />
-        <ChipList
-          chips={education.languages}
-          getIcon={f => f.icon}
-          getLabel={f => f.name}
-          getKey={f => `${education.schoolName}-language-${f.name}`}
-        />
-        <br />
-        <ChipList
-          chips={education.gpa}
-          getIcon={gpa => <Avatar>{gpa.value}</Avatar>}
-          getLabel={gpa => `${gpa.name} GPA`}
-          getKey={gpa => `${gpa.name} GPA`}
-        />
-      </CardContent>
+      {/* See WorkTile: the tile is the control, so its chips cannot be links. */}
+      <CardActionArea onClick={onOpen} aria-label={`${education.schoolName}, show details`}>
+        <CardContent>
+          <Typography variant="h5">{education.schoolName}</Typography>
+          <Typography variant="h6">{education.degree}</Typography>
+          <ChipList
+            chips={education.areasOfStudy}
+            getIcon={f => f.icon}
+            getLabel={f => f.name}
+            getKey={f => `${education.schoolName}-focus-${f.name}`}
+            disableLinks
+          />
+          <br />
+          <ChipList
+            chips={education.languages}
+            getIcon={f => f.icon}
+            getLabel={f => f.name}
+            getKey={f => `${education.schoolName}-language-${f.name}`}
+            disableLinks
+          />
+          <br />
+          <ChipList
+            chips={education.gpa}
+            getIcon={gpa => <Avatar>{gpa.value}</Avatar>}
+            getLabel={gpa => `${gpa.name} GPA`}
+            getKey={gpa => `${gpa.name} GPA`}
+            disableLinks
+          />
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 }
@@ -64,4 +70,5 @@ EducationTile.propTypes = {
     ),
   }).isRequired,
   elevation: PropTypes.number.isRequired,
+  onOpen: PropTypes.func.isRequired,
 };
