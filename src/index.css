@@ -1,3 +1,14 @@
+/*
+ * The site is dark-only, so declare it. This is the CSS half of the
+ * <meta name="color-scheme"> in index.html: it keeps UA-rendered chrome
+ * (scrollbars, form controls, the pre-paint background) dark instead of
+ * flashing white, and it is the signal well-behaved dark-mode extensions
+ * check before deciding a page needs inverting.
+ */
+:root {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   padding: 0;
