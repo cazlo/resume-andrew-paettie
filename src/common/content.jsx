@@ -589,6 +589,43 @@ export default {
       image: mySiteImage,
     },
     {
+      title: 'Fractal Zoomer',
+      subtitle: 'Continuously zooming escape-time renderer',
+      date: 'August 2026',
+      techTheme: techTheme.react,
+      links: [
+        {
+          url: '/mandelbrot',
+          text: 'Site',
+        },
+        {
+          url: 'https://github.com/cazlo/resume-andrew-paettie/tree/main/src/containers/Mandelbrot',
+          text: 'View source code',
+        },
+      ],
+      technologies: [
+        {
+          name: 'React',
+          icon: techTheme.react.icon,
+        },
+        {
+          name: 'Web Workers',
+          icon: <FcParallelTasks />,
+        },
+        {
+          name: 'Canvas',
+          icon: <FcImageFile />,
+        },
+        {
+          name: 'Complex Dynamics',
+          icon: <FcScatterPlot />,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'A self-driving fractal dive rendered by a pool of web workers. Seven escape-time formulas share one renderer, palette set and autopilot, which steers toward the set boundary using a coarse grid sampled from each completed frame. The view and the render loop are decoupled so motion stays smooth no matter how long a frame takes, and render resolution is closed-loop against a target frame interval.',
+    },
+    {
       title: 'Artifact Keeper',
       subtitle: 'Open source contributions to a universal artifact registry',
       date: 'June 2026 - Present',
@@ -629,47 +666,6 @@ export default {
       content:
         // eslint-disable-next-line max-len
         'Correctness and supply chain work on a Rust artifact registry: fixing races where multiple replicas double-executed background jobs, webhook retries, and sync tasks; fanning out authorization cache invalidation across replicas; adding publisher attestation verification, structured audit export, and proxy download policy for npm, PyPI, and Go.',
-    },
-    {
-      title: 'Homelab GitOps Cluster',
-      subtitle: 'Self-hosted platform managed as code',
-      date: '2023 - Present',
-      techTheme: techTheme.kubernetes,
-      links: [],
-      technologies: [
-        KubernetesTech,
-        {
-          name: 'Flux',
-          icon: techTheme.flux.icon,
-        },
-        {
-          name: 'Ansible',
-          icon: techTheme.ansible.icon,
-        },
-        {
-          name: 'Gitea',
-          icon: techTheme.gitea.icon,
-        },
-        {
-          name: 'Harbor',
-          icon: techTheme.harbor.icon,
-        },
-        {
-          name: 'Home Assistant',
-          icon: techTheme.homeassistant.icon,
-        },
-        {
-          name: 'Local LLM',
-          icon: <AiIcon />,
-        },
-        {
-          name: 'Grafana',
-          icon: techTheme.grafana.icon,
-        },
-      ],
-      content:
-        // eslint-disable-next-line max-len
-        'A highly available MicroK8s cluster bootstrapped with Ansible and reconciled from git with Flux. Runs self-hosted CI runners, a Gitea forge, a Harbor OCI registry that proxies upstream pulls, a local LLM gateway, home automation, and cert-manager plus external-dns for automated TLS and DNS.',
     },
     {
       title: 'Go and sigstore Upstream Contributions',
@@ -1120,6 +1116,47 @@ export default {
       ],
       // eslint-disable-next-line max-len
       content: `Provide several working examples of GPU accelerated, fully containerized X Desktop Environment accessible from a Remote Desktop technology`,
+    },
+    {
+      title: 'Homelab GitOps Cluster',
+      subtitle: 'Self-hosted platform managed as code',
+      date: '2023 - Present',
+      techTheme: techTheme.kubernetes,
+      links: [],
+      technologies: [
+        KubernetesTech,
+        {
+          name: 'Flux',
+          icon: techTheme.flux.icon,
+        },
+        {
+          name: 'Ansible',
+          icon: techTheme.ansible.icon,
+        },
+        {
+          name: 'Gitea',
+          icon: techTheme.gitea.icon,
+        },
+        {
+          name: 'Harbor',
+          icon: techTheme.harbor.icon,
+        },
+        {
+          name: 'Home Assistant',
+          icon: techTheme.homeassistant.icon,
+        },
+        {
+          name: 'Local LLM',
+          icon: <AiIcon />,
+        },
+        {
+          name: 'Grafana',
+          icon: techTheme.grafana.icon,
+        },
+      ],
+      content:
+        // eslint-disable-next-line max-len
+        'A highly available MicroK8s cluster bootstrapped with Ansible and reconciled from git with Flux. Runs self-hosted CI runners, a Gitea forge, a Harbor OCI registry that proxies upstream pulls, a local LLM gateway, home automation, and cert-manager plus external-dns for automated TLS and DNS.',
     },
     {
       title: 'Crypto Trading Analysis Platform',
