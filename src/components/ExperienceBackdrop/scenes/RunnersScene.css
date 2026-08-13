@@ -36,10 +36,12 @@
  * detail, not a thing the eye should be tracking, and it needs to survive
  * reduced motion unchanged since it was never moving in the first place.
  */
+/* The pole's brightness lives in the runners-pole gradient (RunnersScene.jsx)
+   rather than a flat opacity here: the pole now runs from lamp to horizon,
+   and it needs to arrive at the ground dimmer than it left the lamp. */
 .RunnersScene-standardPole {
-    stroke: var(--vw-lavender, #b967ff);
+    stroke: url(#runners-pole);
     stroke-width: 1.4;
-    opacity: 0.22;
 }
 
 .RunnersScene-standardGlow {

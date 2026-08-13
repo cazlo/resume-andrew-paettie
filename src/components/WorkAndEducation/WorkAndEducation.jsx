@@ -11,6 +11,7 @@ import Avatar from '@mui/material/Avatar';
 import ScreenBlock from '../ScreenBlock/ScreenBlock';
 import EducationTile from './EducationTile';
 import ReactiveTimelineItem from '../common/ReactiveTimelineItem';
+import { TimelineSpotlightProvider } from '../common/TimelineSpotlight';
 import WorkTile from './WorkTile';
 import DetailDialog from '../common/DetailDialog';
 import { positionDetail, educationDetail } from './detailModel';
@@ -35,36 +36,44 @@ const WorkAndEducation = ({ positions, educations }) => {
           <Typography>My previous jobs and other qualifications.</Typography>
         </div>
 
-        <Timeline position={useMediaQuery(theme.breakpoints.up(moveDateToCardBreakpoint)) ? 'alternate' : 'right'}>
-          {positions.map(position => (
-            /* No periodDescription: the tiles print their own dates, because a
-               date on the timeline rail sits directly on the scene backdrop
-               and stops being readable. */
-            <ReactiveTimelineItem
-              key={formatPeriod(position)}
-              icon={<Avatar sx={{ backgroundColor: '#fff' }}>{position.icon || <FcBriefcase />}</Avatar>}
-              sceneId={sceneForPosition(position)}
-              child={<WorkTile position={position} elevation={24} onOpen={() => setDetail(positionDetail(position))} />}
-            />
-          ))}
-          {educations.map(education => (
-            <ReactiveTimelineItem
-              key={formatPeriod(education)}
-              icon={
-                <Avatar sx={{ backgroundColor: '#c65121' /* utd color */ }}>
-                  {education.icon || <FcGraduationCap />}
-                </Avatar>
-              }
-              child={
-                <EducationTile
-                  education={education}
-                  elevation={24}
-                  onOpen={() => setDetail(educationDetail(education))}
-                />
-              }
-            />
-          ))}
-        </Timeline>
+        {/* One spotlight across jobs and education both: they share a rail,
+            so "the row being read" has to be decided over all of them. */}
+        <TimelineSpotlightProvider>
+          <Timeline position={useMediaQuery(theme.breakpoints.up(moveDateToCardBreakpoint)) ? 'alternate' : 'right'}>
+            {positions.map(position => (
+              /* No periodDescription: the tiles print their own dates, because a
+                 date on the timeline rail sits directly on the scene backdrop
+                 and stops being readable. */
+              <ReactiveTimelineItem
+                key={formatPeriod(position)}
+                icon={<Avatar sx={{ backgroundColor: '#fff' }}>{position.icon || <FcBriefcase />}</Avatar>}
+                sceneId={sceneForPosition(position)}
+                spotlight
+                child={
+                  <WorkTile position={position} elevation={24} onOpen={() => setDetail(positionDetail(position))} />
+                }
+              />
+            ))}
+            {educations.map(education => (
+              <ReactiveTimelineItem
+                key={formatPeriod(education)}
+                spotlight
+                icon={
+                  <Avatar sx={{ backgroundColor: '#c65121' /* utd color */ }}>
+                    {education.icon || <FcGraduationCap />}
+                  </Avatar>
+                }
+                child={
+                  <EducationTile
+                    education={education}
+                    elevation={24}
+                    onOpen={() => setDetail(educationDetail(education))}
+                  />
+                }
+              />
+            ))}
+          </Timeline>
+        </TimelineSpotlightProvider>
       </Container>
       <DetailDialog open={Boolean(detail)} onClose={() => setDetail(null)} detail={detail} />
     </ScreenBlock>
