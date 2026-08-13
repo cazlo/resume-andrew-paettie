@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import WorkAndEducation from './WorkAndEducation';
+import { educationDetail } from './detailModel';
 import content from '../../common/content';
 
 it('renders without crashing', () => {
@@ -31,6 +32,19 @@ describe('resume content', () => {
       expect(position.detail.highlights.length).toBeGreaterThan(0);
     });
   });
+
+  it('gives every position a scannable impact statement', () => {
+    content.positions.forEach(position => {
+      expect(position.impact).toEqual(expect.any(String));
+      expect(position.impact.length).toBeGreaterThan(0);
+    });
+  });
+
+  it('keeps GPA out of the public education detail', () => {
+    const detail = educationDetail(content.educations[0]);
+
+    expect(detail.chipGroups.map(group => group.label)).not.toContain('GPA');
+  });
 });
 
 describe('timeline drill-down', () => {
@@ -43,6 +57,7 @@ describe('timeline drill-down', () => {
     startDate: '2020',
     endDate: '2024',
     summary: <span>One scannable line.</span>,
+    impact: 'Made a measurable difference.',
     domains: [{ name: 'Space' }],
     tech: [{ name: 'Kubernetes' }],
     detail: {
@@ -63,6 +78,7 @@ describe('timeline drill-down', () => {
     renderTimeline();
 
     expect(screen.getByText('One scannable line.')).toBeInTheDocument();
+    expect(screen.getByText('Made a measurable difference.')).toBeInTheDocument();
     expect(screen.queryByText('Did a notable thing.')).toBeNull();
     expect(screen.queryByRole('dialog')).toBeNull();
   });

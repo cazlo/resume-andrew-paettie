@@ -1,8 +1,5 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import PropTypes from 'prop-types';
-import { MdAlternateEmail, MdPictureAsPdf } from 'react-icons/md';
-import { FcDocument } from 'react-icons/fc';
+import { MdAlternateEmail } from 'react-icons/md';
 import { ReactComponent as LinkedIn } from 'devicon/icons/linkedin/linkedin-original.svg';
 
 import ChipList from '../common/ChipList';
@@ -16,7 +13,7 @@ const contactInfo = [
   },
   {
     icon: techTheme.github.whiteIcon,
-    name: 'Github',
+    name: 'GitHub',
     link: 'https://github.com/cazlo',
   },
   {
@@ -24,24 +21,7 @@ const contactInfo = [
     name: 'LinkedIn',
     link: 'https://www.linkedin.com/in/andrew-paettie/',
   },
-  {
-    icon: <MdPictureAsPdf />,
-    name: 'Resume PDF',
-    link: '/static/resume/resume-Andrew-Paettie.pdf',
-  },
-  {
-    icon: <FcDocument />,
-    name: 'Resume DOCX',
-    link: '/static/resume/resume-Andrew-Paettie.docx',
-  },
 ];
-
-const ButtonLink = ({ link, name }) => <Button href={link}>{name}</Button>;
-
-ButtonLink.propTypes = {
-  link: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-};
 
 export default function ContactInfo() {
   return (

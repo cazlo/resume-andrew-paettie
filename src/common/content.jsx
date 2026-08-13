@@ -103,7 +103,7 @@ const JavaTech = {
 };
 
 const GithubTech = {
-  name: 'Github',
+  name: 'GitHub',
   icon: WhiteBackgroundAvatar(techTheme.github.icon),
 };
 
@@ -121,7 +121,7 @@ const ApiGatewayTech = { name: 'ApiGateway', icon: techTheme.apiGateway.icon };
 
 const LambdaTech = { name: 'Lambda', icon: techTheme.lambda.icon };
 
-const JavascriptTech = { name: 'Javascript', icon: <Avatar>{techTheme.javascript.icon}</Avatar> };
+const JavascriptTech = { name: 'JavaScript', icon: <Avatar>{techTheme.javascript.icon}</Avatar> };
 
 const KubernetesTech = {
   name: 'Kubernetes',
@@ -134,7 +134,7 @@ const TerraformTech = { name: 'Terraform', icon: WhiteBackgroundAvatar(techTheme
 export default {
   educations: [
     {
-      schoolName: 'University of Texas @Dallas',
+      schoolName: 'University of Texas at Dallas',
       fieldOfStudy: 'Computer Science',
       startDate: '2010',
       endDate: '2015',
@@ -184,7 +184,7 @@ export default {
         overview: (
           <span>
             Bachelor of Science in Computer Science, with coursework across AI, machine learning, network security, and
-            computer architecture. The last year was done alongside a full time engineering job.
+            computer architecture. The last year was completed alongside a full-time engineering job.
           </span>
         ),
         highlights: [
@@ -217,7 +217,7 @@ export default {
         { name: 'Go', icon: techTheme.go.icon },
         { name: 'Rust', icon: techTheme.rust.icon },
         { name: 'Python', icon: techTheme.python.icon },
-        { name: 'Github Actions', icon: techTheme.githubActions.icon },
+        { name: 'GitHub Actions', icon: techTheme.githubActions.icon },
         { name: 'Linux', icon: techTheme.linux.icon },
         { name: 'Grafana', icon: techTheme.grafana.icon },
       ],
@@ -231,6 +231,9 @@ export default {
         { name: 'On-call support', icon: <FcAssistant /> },
       ],
       summary: <span>Platform team SRE for the Kubernetes and AWS foundations other teams deploy onto.</span>,
+      impact:
+        'Standardized shared Kubernetes, data, delivery, and observability services so product teams can focus on ' +
+        'shipping.',
       detail: {
         overview: (
           <span>
@@ -258,7 +261,7 @@ export default {
         { name: 'Linux', icon: techTheme.linux.icon },
         { name: 'Docker', icon: techTheme.docker.icon },
         KubernetesTech,
-        { name: 'Gitlab (CI)', icon: techTheme.gitlab.icon },
+        { name: 'GitLab CI', icon: techTheme.gitlab.icon },
         { name: 'Artifactory', icon: techTheme.artifactory.icon },
         { name: 'Ansible', icon: techTheme.ansible.icon },
         TerraformTech,
@@ -278,6 +281,7 @@ export default {
         { name: 'Technical Project Management', icon: <FcParallelTasks /> },
       ],
       summary: <span>Security architect for the lunar flight software development environment behind Artemis.</span>,
+      impact: 'Established the secure-development framework and automated the authorization evidence behind it.',
       detail: {
         overview: (
           <span>
@@ -289,7 +293,7 @@ export default {
           'Architected and administered Linux development platforms authorized for CUI (NIST 800-171).',
           'Established a Secure Development Framework (NIST 800-218) aligned to NIST 800-53 and NASA 7150.2D.',
           'Wrote System Security Plans and POA&Ms, automating the compliance process around them.',
-          'Built web based risk management frameworks to communicate security standards to stakeholders.',
+          'Built web-based risk management frameworks to communicate security standards to stakeholders.',
           'Led security review of peer merge requests and of open source dependencies.',
           'Ran security assessments of the data centers behind hardware-in-the-loop testing for Artemis V.',
           'Designed and roadmapped cloud based deployments for flight software verification.',
@@ -305,7 +309,7 @@ export default {
       isCurrent: false,
       tech: [
         KubernetesTech,
-        { name: 'Gitlab (CI)', icon: techTheme.gitlab.icon },
+        { name: 'GitLab CI', icon: techTheme.gitlab.icon },
         { name: 'Docker', icon: techTheme.docker.icon },
         { name: 'Linux', icon: techTheme.linux.icon },
         { name: 'Ansible', icon: techTheme.ansible.icon },
@@ -329,8 +333,10 @@ export default {
         { name: 'On-call support', icon: <FcAssistant /> },
       ],
       summary: (
-        <span>Site reliability lead for the ground based command and control systems behind lunar missions.</span>
+        <span>Site reliability lead for the ground-based command and control systems behind lunar missions.</span>
       ),
+      impact:
+        'Cut CI time enough to save ~20,000 engineer hours a year and reduced vulnerability remediation time 90%.',
       detail: {
         overview: (
           <span>
@@ -355,7 +361,7 @@ export default {
       icon: <BlueLogo />,
     },
     {
-      title: 'Senior Software engineer',
+      title: 'Senior Software Engineer',
       company: 'Nike',
       startDate: '2019',
       endDate: '2021',
@@ -386,6 +392,7 @@ export default {
         { name: 'Agile', icon: techTheme.agile.icon },
       ],
       summary: <span>Multi-region payment services for a global retail platform.</span>,
+      impact: 'Removed $10k a month in operational overhead while improving multi-region service reliability.',
       detail: {
         overview: (
           <span>
@@ -435,6 +442,7 @@ export default {
         { name: 'Agile', icon: techTheme.agile.icon },
       ],
       summary: <span>Technical lead for vehicle catalog data ingestion and management.</span>,
+      impact: 'Created a standardized vehicle language adopted across multiple business units.',
       detail: {
         overview: <span>Data Solutions Team. Technical lead driving technology and architectural decisions.</span>,
         highlights: [
@@ -461,7 +469,7 @@ export default {
         SpringTech,
         { name: 'Groovy', icon: techTheme.groovy.icon },
         { name: 'Angular', icon: techTheme.angular.icon },
-        { name: 'Mysql', icon: techTheme.mysql.icon },
+        { name: 'MySQL', icon: techTheme.mysql.icon },
         GithubTech,
         { name: 'Jenkins', icon: techTheme.jenkins.icon },
       ],
@@ -475,6 +483,7 @@ export default {
         { name: 'Agile', icon: techTheme.agile.icon },
       ],
       summary: <span>High throughput vehicle inventory management systems.</span>,
+      impact: 'Promoted into technical lead while modernizing core inventory services and moving image hosting to AWS.',
       detail: {
         overview: <span>Dealer.com Inventory Team. Promoted into technical lead during the role.</span>,
         highlights: [
@@ -489,14 +498,14 @@ export default {
       icon: <img src={coxAutoImage} style={{ maxWidth: '100%', maxHeight: '100%' }} alt="cox automotive" />,
     },
     {
-      title: 'Dev/Ops Engineer',
+      title: 'DevOps Engineer',
       startDate: '2014',
       endDate: '2015',
       isCurrent: false,
       company: 'CapitalSoft',
       tech: [
         JavaTech,
-        { name: 'Jquery', icon: techTheme.jquery.icon },
+        { name: 'jQuery', icon: techTheme.jquery.icon },
         { name: 'Oracle DB', icon: techTheme.oracle.icon },
         { name: 'Weblogic', icon: techTheme.oracle.icon },
         { name: 'Bugzilla', icon: <BsBugFill /> },
@@ -520,10 +529,11 @@ export default {
         { name: 'Business Workflow', icon: <FcWorkflow /> },
       ],
       summary: <span>Sys admin, web app development, and test automation.</span>,
+      impact: "Cut build time by 75% and built the product's automated regression testing system.",
       detail: {
         overview: (
           <span>
-            Construction management and accounting software, worked full time alongside the final year of the computer
+            Construction management and accounting software, worked full-time alongside the final year of the computer
             science degree.
           </span>
         ),
@@ -1160,7 +1170,7 @@ export default {
     },
     {
       title: 'Crypto Trading Analysis Platform',
-      subtitle: 'Swing trade crypto currency bot',
+      subtitle: 'Swing-trading cryptocurrency bot',
       date: 'April 2021',
       techTheme: techTheme.nodeJs,
       links: [
@@ -1201,7 +1211,7 @@ export default {
       ],
       content:
         // eslint-disable-next-line max-len
-        'Microservice clusters for ingesting data and using that data to analyze various algorithms for trading crypto currencies',
+        'Microservice clusters for ingesting data and evaluating algorithms for trading cryptocurrencies',
       image: cryptoTradingImage,
     },
     {
@@ -2123,7 +2133,7 @@ export default {
             },
             {
               name: 'Dependabot',
-              description: 'Scanning dependencies for known CVEs in Github',
+              description: 'Scanning dependencies for known CVEs in GitHub',
               icon: GithubTech.icon,
               experience: new Experience([new Interval(2017.5, null)]),
             },
@@ -2321,7 +2331,7 @@ export default {
               experience: new Experience([new Interval(2015, 2017), new Interval(2019, 2021)]),
             },
             {
-              name: 'Github Flow',
+              name: 'GitHub Flow',
               description: 'Branching pattern where new features branch out and back into `main`',
               icon: GithubTech.icon,
               experience: new Experience([new Interval(2017, 2019), new Interval(2021.5, null)]),
@@ -2333,7 +2343,7 @@ export default {
               experience: new Experience([new Interval(2021.5, null)]),
             },
             {
-              name: 'Gitlab CI',
+              name: 'GitLab CI',
               icon: techTheme.gitlab.icon,
               experience: new Experience([new Interval(2021.5, 2024)]),
             },

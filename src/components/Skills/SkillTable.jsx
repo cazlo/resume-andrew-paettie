@@ -51,12 +51,23 @@ function Row(props) {
   const { row, frameworkAlias } = props;
   const hasFrameworks = row.frameworks && row.frameworks.length > 0;
   const [open, setOpen] = React.useState(false);
+  const sortedFrameworks = hasFrameworks
+    ? [...row.frameworks].sort((a, b) => b.experience.lastUsed() - a.experience.lastUsed())
+    : [];
+  const detailsId = `skill-details-${row.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`;
 
   return (
     <>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} onClick={() => setOpen(!open)}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" disabled={!hasFrameworks}>
+          <IconButton
+            aria-label={`${open ? 'Hide' : 'Show'} ${frameworkAlias.toLowerCase()} for ${row.name}`}
+            aria-expanded={hasFrameworks ? open : undefined}
+            aria-controls={hasFrameworks ? detailsId : undefined}
+            size="small"
+            disabled={!hasFrameworks}
+            onClick={() => setOpen(!open)}
+          >
             {/* eslint-disable-next-line no-nested-ternary */}
             {!hasFrameworks ? <KeyboardArrowDownIcon /> : open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
@@ -64,9 +75,7 @@ function Row(props) {
         <TableCell component="th" scope="row">
           <Chip label={row.name} avatar={row.icon} />
         </TableCell>
-        <TableCell align="right">
-          {hasFrameworks && <FrameworkChiplist frameworks={row.frameworks.sort((a, d) => d.lastUsed - a.lastUsed)} />}
-        </TableCell>
+        <TableCell align="right">{hasFrameworks && <FrameworkChiplist frameworks={sortedFrameworks} />}</TableCell>
         <TableCell align="right">
           <SkillRating experience={row.experience.toNumber()} />
         </TableCell>
@@ -76,7 +85,7 @@ function Row(props) {
       {hasFrameworks && (
         <TableRow>
           <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Collapse id={detailsId} in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
                   {frameworkAlias}
@@ -92,13 +101,13 @@ function Row(props) {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.frameworks?.map(f => (
+                    {sortedFrameworks.map(f => (
                       <TableRow key={`${row.name}-${f.experience.toNumber()}`}>
                         <TableCell component="th" scope="row">
                           <Chip label={f.name} avatar={f.icon} />
                         </TableCell>
                         <TableCell>
-                          <SkillRating experience={f.experience?.toNumber()} />
+                          <SkillRating experience={f.experience.toNumber()} />
                         </TableCell>
                         <TableCell align="right">{f.description}</TableCell>
                         <TableCell align="right">{f.experience.toTimeline()}</TableCell>
@@ -138,7 +147,7 @@ Row.propTypes = {
 };
 
 export default function SkillTable({ rows, languageAlias, frameworkAlias }) {
-  const hasFrameworks = rows.reduce((a, c) => (c.frameworks?.length || 0) + a, 0) > 0;
+  const hasFrameworks = rows.reduce((a, c) => ((c.frameworks && c.frameworks.length) || 0) + a, 0) > 0;
   // const hasLastUsed = rows.reduce((a, c) => (c.lastUsed ? 1 : 0) + a, 0) > 0;
   return (
     <TableContainer component={Paper}>

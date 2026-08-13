@@ -44,11 +44,72 @@
     text-shadow: 0 2px 4px rgba(4, 1, 12, 0.95), 0 0 28px rgba(255, 94, 196, 0.55);
 }
 
-.ResumeHomeBlock-headline h2 {
+.ResumeHomeBlock-primary {
     margin: 0;
     color: #7fe8ff;
     letter-spacing: 0.08em;
     text-shadow: 0 1px 3px rgba(4, 1, 12, 0.95), 0 0 16px rgba(1, 205, 254, 0.5);
+}
+
+.ResumeHomeBlock-domains,
+.ResumeHomeBlock-location {
+    margin: 16px 0 0;
+    letter-spacing: 0.08em;
+}
+
+.ResumeHomeBlock-domains {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.ResumeHomeBlock-location {
+    margin-top: 8px;
+    color: #d6c8ff;
+}
+
+.ResumeHomeBlock-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 28px;
+}
+
+.ResumeHomeBlock-actions button {
+    min-height: 44px;
+    padding: 11px 18px;
+    border: 1px solid #01cdfe;
+    border-radius: 0;
+    background: rgba(1, 205, 254, 0.15);
+    box-shadow: 0 0 14px rgba(1, 205, 254, 0.25);
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.ResumeHomeBlock-actions button:nth-child(2) {
+    border-color: #ff5ec4;
+    background: rgba(255, 94, 196, 0.15);
+    box-shadow: 0 0 14px rgba(255, 94, 196, 0.25);
+}
+
+.ResumeHomeBlock-actions button:hover {
+    background: rgba(1, 205, 254, 0.32);
+    box-shadow: 0 0 20px rgba(1, 205, 254, 0.6);
+    transform: translateY(-2px);
+}
+
+.ResumeHomeBlock-actions button:nth-child(2):hover {
+    background: rgba(255, 94, 196, 0.32);
+    box-shadow: 0 0 20px rgba(255, 94, 196, 0.6);
+}
+
+.ResumeHomeBlock-actions button:focus-visible {
+    outline: 3px solid #05ffa1;
+    outline-offset: 3px;
 }
 
 .ResumeHomeBlock-heading {
@@ -116,6 +177,10 @@
     .ResumeHomeBlock-squares .GridItem::after {
         animation: none;
     }
+
+    .ResumeHomeBlock-actions button {
+        transition: none;
+    }
 }
 
 /*
@@ -157,15 +222,39 @@
         line-height: 48px;
     }
 
-    .ResumeHomeBlock-headline h2 {
+    .ResumeHomeBlock-primary {
         font-size: 18px;
         line-height: 24px;
+    }
+
+    .ResumeHomeBlock-domains,
+    .ResumeHomeBlock-location {
+        font-size: 15px;
+        line-height: 21px;
     }
 }
 
 @media only screen and (max-width: 480px) {
     .ResumeHomeBlock-squares {
         height: calc(100vh - 88px);
+    }
+
+    .ResumeHomeBlock-headline-container {
+        height: calc(100vh - 88px);
+        padding: 20px 14px;
+    }
+
+    .ResumeHomeBlock-headline {
+        padding: 24px 16px;
+    }
+
+    .ResumeHomeBlock-actions {
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .ResumeHomeBlock-actions button {
+        width: 100%;
     }
 }
 
@@ -174,7 +263,7 @@
         font-size: 26px;
     }
 
-    .ResumeHomeBlock-headline h2 {
+    .ResumeHomeBlock-primary {
         font-size: 15px;
     }
 }

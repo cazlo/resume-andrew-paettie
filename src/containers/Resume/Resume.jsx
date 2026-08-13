@@ -31,17 +31,17 @@ class Resume extends Component {
         <Element>
           <Home />
         </Element>
-        <Element name="ResumeAboutMe">
-          <AboutMe />
-        </Element>
-        <Element name="ResumeSkills">
-          <Skills skills={content.skills} tools={content.tools} />
-        </Element>
         <Element name="ResumeExperience">
           <WorkAndEducation educations={content.educations} positions={content.positions} />
         </Element>
         <Element name="ResumeProjects">
           <Projects projects={content.projects} />
+        </Element>
+        <Element name="ResumeSkills">
+          <Skills skills={content.skills} tools={content.tools} />
+        </Element>
+        <Element name="ResumeAboutMe">
+          <AboutMe />
         </Element>
         <Copyright />
         <BottomNav />

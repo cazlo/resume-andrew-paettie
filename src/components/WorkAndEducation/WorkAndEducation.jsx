@@ -85,6 +85,7 @@ WorkAndEducation.propTypes = {
     PropTypes.shape({
       title: PropTypes.string,
       summary: PropTypes.node,
+      impact: PropTypes.string,
       startDate: PropTypes.string,
       endDate: PropTypes.string,
       isCurrent: PropTypes.bool,

@@ -1,7 +1,6 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import Avatar from '@mui/material/Avatar';
 import { Card, CardActionArea, CardContent } from '@mui/material';
 import ChipList from '../common/ChipList';
 import formatPeriod from './formatPeriod';
@@ -33,14 +32,6 @@ export default function EducationTile({ education, elevation, onOpen }) {
             getKey={f => `${education.schoolName}-language-${f.name}`}
             disableLinks
           />
-          <br />
-          <ChipList
-            chips={education.gpa}
-            getIcon={gpa => <Avatar>{gpa.value}</Avatar>}
-            getLabel={gpa => `${gpa.name} GPA`}
-            getKey={gpa => `${gpa.name} GPA`}
-            disableLinks
-          />
         </CardContent>
       </CardActionArea>
     </Card>
@@ -65,12 +56,6 @@ EducationTile.propTypes = {
       PropTypes.shape({
         icon: PropTypes.element,
         name: PropTypes.string,
-      }),
-    ),
-    gpa: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        value: PropTypes.string,
       }),
     ),
   }).isRequired,

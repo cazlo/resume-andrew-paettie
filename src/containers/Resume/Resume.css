@@ -7,7 +7,10 @@
     padding-bottom: 69px;
 }
 
-.Resume div:nth-child(odd) .ScreenBlockContainer .ScreenBlock {
+/* The narrative sections are the first five direct children: Home,
+   Experience, Projects, Skills, and About. Keep this direct-child selector
+   aligned with Resume.jsx so nested layout divs cannot change the banding. */
+.Resume > div:nth-child(odd) .ScreenBlockContainer .ScreenBlock {
     background: linear-gradient(180deg, rgba(42, 20, 80, 0.55) 0%, rgba(18, 7, 38, 0.55) 100%);
     border-top: 1px solid rgba(1, 205, 254, 0.25);
     border-bottom: 1px solid rgba(255, 94, 196, 0.25);
