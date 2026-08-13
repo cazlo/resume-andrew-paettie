@@ -20,7 +20,6 @@ remote for that repository.
   is pure and unit-tested. Jest cannot load `engine.js` — it imports a Vite
   `?worker` module — so keep testable logic out of it.
 - `public/` — static assets copied into the build.
-- `lambda/emailForward/` — separate email-forward Lambda package.
 - `.circleci/config.yml` — existing CI pipeline.
 - `Dockerfile` — production container build.
 

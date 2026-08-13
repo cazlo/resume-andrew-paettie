@@ -10,7 +10,7 @@ Basically just a portfolio site to show some things I've done, but also a place 
  - routing with react router 4
  - static page snapshot generation via react-snap
  - CI/deployment via CircleCI-Github integration
- - Hosted via AWS S3, CloudFront, Lambda
+ - Hosted via AWS S3 and CloudFront
 
 ## Noscript compatibility
 Because this site is really static, it was easy to hook up react-snapshot to generate a version of the site which did not require javascript.
@@ -32,16 +32,6 @@ CI will deploy to http://andrewpaettie.test.com.s3-website-us-east-1.amazonaws.c
 For master branch CI will deploy to andrewpaettie.com
 
 It uses the aws cli sync and delete options for the s3 command.
-
-## Email Lambda
-
-Setting up an email address at admin@andrewpaettie.com was necessary to setup
-ssl using AWS ACM.  There is a lamda at [lambda/emailForward/](lambda/emailForward/exports.js)
-which forwards emails coming from this domain to a verified gmail.
-
-There is not any automation setup around deploying that,
-just zip `exports.js`, `package.json`, and `node_modules` into a file
- `exports.zip` which is uploaded to the already setup AWS lambda.
 
 # Links
  - [SSL setup](https://medium.com/@sbuckpesch/setup-aws-s3-static-website-hosting-using-ssl-acm-34d41d32e394)
