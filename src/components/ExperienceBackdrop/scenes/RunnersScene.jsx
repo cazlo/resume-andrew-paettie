@@ -125,18 +125,22 @@ const RunnerFigure = () => (
  * full y=300-598 range instead of squeezed into the last 212px.
  *
  * The frame's y-budget, top to bottom:
- *   0-130    sky detail only (stadium light standards) — clear of the
- *            section heading's band entirely.
+ *   0-130    the bright parts of the sky detail (the light standards' lamps
+ *            and glow) — clear of the section heading's band entirely.
  *   130-300  open sky plus the horizon glow, which brightens toward y=300.
+ *            The light standards' poles cross this band on their way down to
+ *            the horizon, but only as gradient-faded strokes (see the
+ *            runners-pole gradient) that are dimmer than the horizon glow by
+ *            the time they enter it.
  *   260-300  distant grandstand silhouette, low-contrast, hugging the
  *            horizon rather than dwelling in open sky.
  *   300-598  the track itself: filled surface, six lane-boundary lines, two
  *            dashed dividers, three runner depth bands.
  * y=300 sits inside the heading's scrim band (see SceneLayer.css), but the
  * horizon has to be somewhere in that band for the track to fill most of the
- * frame — the brief specifically asks for it there. Everything else added
- * for sky interest (the light standards) stays outside that band; only the
- * already-dim horizon glow and grandstand line cross into its lower edge.
+ * frame — the brief specifically asks for it there. The only things crossing
+ * into that band are already-dim by design: the horizon glow, the grandstand
+ * line, and the tail ends of the poles at their faintest.
  *
  * Each runner is two nested groups. The outer `RunnersScene-runner` is the
  * only thing that moves across the frame — a single shared translateX
@@ -181,21 +185,36 @@ const RunnersScene = () => (
           <stop offset="45%" stopColor="#3a1f3d" stopOpacity="0.95" />
           <stop offset="100%" stopColor="#4a2a34" stopOpacity="1" />
         </linearGradient>
+        {/*
+          Pole stroke for the light standards: brightest up by the lamp,
+          fading as it descends so the run down to the horizon never puts a
+          bright vertical line through the heading's scrim band. userSpaceOnUse
+          because the poles are <line>s — objectBoundingBox collapses on
+          zero-width shapes.
+        */}
+        <linearGradient id="runners-pole" x1="0" y1="46" x2="0" y2="300" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#b967ff" stopOpacity="0.26" />
+          <stop offset="40%" stopColor="#b967ff" stopOpacity="0.16" />
+          <stop offset="100%" stopColor="#b967ff" stopOpacity="0.07" />
+        </linearGradient>
       </defs>
       <rect className="RunnersScene-skyGlow" x="0" y="0" width="1000" height="300" fill="url(#runners-glow)" />
 
       {/*
-        Stadium light standards: the sky's only bright-ish detail, and kept
-        entirely above y=130 so no part of them — pole or lamp — enters the
-        heading's scrim band. Poles fade out before reaching the horizon
-        rather than running down to meet it, on purpose: a full-height pole
-        would put a bright vertical line straight through the middle of the
-        frame.
+        Stadium light standards: the sky's only bright-ish detail. Lamps and
+        their glow stay above y=130, clear of the heading's scrim band, but
+        each pole runs all the way down to the horizon at y=300 so the
+        standards read as planted in the ground rather than hovering — the
+        grandstand is drawn after this group, so the pole bases sit behind its
+        silhouette like masts behind the stands. The pole stroke is the
+        runners-pole gradient (see defs), fading toward the ground, so the
+        stretch crossing the scrim band is the faintest part of the line
+        rather than a bright seam through the heading.
       */}
       <g className="RunnersScene-stadium">
         {LIGHT_STANDARDS.map(standard => (
           <g key={standard.x} transform={`translate(${standard.x}, 0)`}>
-            <line className="RunnersScene-standardPole" x1="0" y1="126" x2="0" y2="46" />
+            <line className="RunnersScene-standardPole" x1="0" y1="300" x2="0" y2="46" />
             <g transform={`scale(${standard.lampScale})`}>
               <circle className="RunnersScene-standardGlow" cx="0" cy="42" r="20" />
               <rect className="RunnersScene-standardLamp" x="-16" y="34" width="32" height="10" rx="2" />
