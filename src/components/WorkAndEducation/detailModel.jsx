@@ -43,10 +43,6 @@ export const educationDetail = education => {
     chipGroups: [
       { label: 'Areas of study', chips: education.areasOfStudy },
       { label: 'Languages', chips: education.languages },
-      {
-        label: 'GPA',
-        chips: (education.gpa || []).map(gpa => ({ name: `${gpa.name} GPA ${gpa.value}` })),
-      },
     ],
     links: detail.links,
     image: detail.image,

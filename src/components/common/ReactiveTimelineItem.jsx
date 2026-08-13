@@ -85,12 +85,34 @@ export default function ReactiveTimelineItem({ periodDescription, icon, child, s
               {periodDescription}
             </Typography>
           ) : null}
-          {/* Spotlight swaps have to keep pace with scrolling — a leisurely
-              reveal reads fine once, but between every pair of cards it just
-              looks like nothing is on screen. */}
-          <Fade in={visible} timeout={spotlight ? { enter: 500, exit: 400 } : 1000}>
-            <Box>{child}</Box>
-          </Fade>
+          {spotlight ? (
+            /* Keep neighboring cards as quiet landmarks instead of making the
+               timeline vanish between observer updates during a fast scroll.
+               The winner stays fully readable while the scene still owns most
+               of the frame. */
+            <Box
+              data-spotlit={visible ? 'true' : 'false'}
+              sx={{
+                opacity: visible ? 1 : 0.28,
+                filter: visible ? 'none' : 'saturate(0.6)',
+                transform: visible ? 'none' : 'scale(0.985)',
+                transition: theme =>
+                  theme.transitions.create(['opacity', 'filter', 'transform'], {
+                    duration: visible ? 500 : 400,
+                  }),
+                '@media (prefers-reduced-motion: reduce)': {
+                  transform: 'none',
+                  transition: 'none',
+                },
+              }}
+            >
+              {child}
+            </Box>
+          ) : (
+            <Fade in={visible} timeout={1000}>
+              <Box>{child}</Box>
+            </Fade>
+          )}
         </div>
       </TimelineContent>
     </TimelineItem>

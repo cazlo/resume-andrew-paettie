@@ -24,6 +24,11 @@ export default function WorkTile({ position, elevation, onOpen }) {
           <Typography variant="h6">{position.title}</Typography>
           <Typography variant="subtitle1">{position.company}</Typography>
           <Typography variant="caption">{position.summary}</Typography>
+          {position.impact && (
+            <Typography variant="body2" color="primary.main" sx={{ mt: 1, fontWeight: 600 }}>
+              {position.impact}
+            </Typography>
+          )}
           <br />
           <ChipList
             chips={position.domains}
@@ -50,6 +55,7 @@ WorkTile.propTypes = {
   position: PropTypes.shape({
     title: PropTypes.string,
     summary: PropTypes.node,
+    impact: PropTypes.string,
     startDate: PropTypes.string,
     endDate: PropTypes.string,
     isCurrent: PropTypes.bool,

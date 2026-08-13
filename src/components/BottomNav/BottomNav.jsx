@@ -1,46 +1,14 @@
 import React from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
-import { FcEngineering, FcHome, FcManager, FcCommandLine, FcReading } from 'react-icons/fc';
 import { BottomNavigationAction, SvgIcon } from '@mui/material';
 import Scroll from 'react-scroll';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import navigationButtons from './navigationButtons';
 
 const { Link } = Scroll;
 // eslint-disable-next-line react/jsx-props-no-spreading,no-unused-vars
 const SLink = React.forwardRef((props, ref) => <Link {...props} />);
-
-const buttons = [
-  {
-    label: 'Home',
-    name: 'Resume-home',
-    icon: <FcHome />,
-  },
-  {
-    label: 'About Me',
-    name: 'ResumeAboutMe',
-    icon: <FcReading />,
-    offset: 12,
-  },
-  {
-    label: 'Skills',
-    name: 'ResumeSkills',
-    icon: <FcEngineering />,
-    offset: 18,
-  },
-  {
-    label: 'Experience',
-    name: 'ResumeExperience',
-    icon: <FcManager />,
-    offset: 18,
-  },
-  {
-    label: 'Projects',
-    name: 'ResumeProjects',
-    icon: <FcCommandLine />,
-    offset: 18,
-  },
-];
 
 export default function SimpleBottomNavigation() {
   const theme = useTheme();
@@ -49,7 +17,7 @@ export default function SimpleBottomNavigation() {
       showLabels={useMediaQuery(theme.breakpoints.up('md'))}
       sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
     >
-      {buttons.map(button => (
+      {navigationButtons.map(button => (
         <BottomNavigationAction
           icon={<SvgIcon>{button.icon}</SvgIcon>}
           label={button.label}
