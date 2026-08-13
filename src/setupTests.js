@@ -1,4 +1,10 @@
 import '@testing-library/jest-dom';
+import { TextDecoder, TextEncoder } from 'util';
+
+// React Router 7 uses the Encoding API, which Node provides but jsdom does not
+// copy onto its test global.
+global.TextDecoder = TextDecoder;
+global.TextEncoder = TextEncoder;
 
 /*
  * jsdom has no IntersectionObserver, and the timeline reveals its tiles with
