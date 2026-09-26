@@ -10,7 +10,8 @@
  * plain vaporwave backdrop up — that is the intended treatment for education.
  */
 const RULES = [
-  { match: /defense|department of defense/i, scene: 'radar' },
+  { match: /backup/i, scene: 'vault' },
+  { match: /leolabs|defense/i, scene: 'radar' },
   { match: /blue origin/i, scene: 'lunar' },
   { match: /nike/i, scene: 'runners' },
   { match: /cox automotive/i, scene: 'road' },

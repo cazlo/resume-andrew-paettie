@@ -3,6 +3,7 @@ import RadarScene from './scenes/RadarScene';
 import RoadScene from './scenes/RoadScene';
 import RunnersScene from './scenes/RunnersScene';
 import ConstructionScene from './scenes/ConstructionScene';
+import VaultScene from './scenes/VaultScene';
 
 /*
  * Scene id -> component.
@@ -13,6 +14,7 @@ import ConstructionScene from './scenes/ConstructionScene';
  * scene exists.
  */
 const sceneRegistry = {
+  vault: VaultScene,
   radar: RadarScene,
   lunar: LunarScene,
   runners: RunnersScene,

@@ -20,17 +20,17 @@ beforeEach(() => {
   window.matchMedia = jest.fn().mockReturnValue({ matches: false });
 });
 
-it('presents the platform engineering focus and direct section shortcuts', () => {
+it('presents the security architecture focus and direct section shortcuts', () => {
   render(<Home />);
 
   expect(screen.getByRole('heading', { level: 1, name: 'Drew Paettie' })).toBeInTheDocument();
   expect(
     screen.getByRole('heading', {
       level: 2,
-      name: 'Staff platform engineer building secure, reliable distributed systems',
+      name: 'Security architect and platform engineer building secure, reliable distributed systems',
     }),
   ).toBeInTheDocument();
-  expect(screen.getByText('Kubernetes · AWS · SRE · Security · Aerospace')).toBeInTheDocument();
+  expect(screen.getByText('Security · FedRAMP · Kubernetes · Azure · AWS · Aerospace')).toBeInTheDocument();
   expect(screen.getByText('Based in Washington')).toBeInTheDocument();
 
   fireEvent.click(screen.getByRole('button', { name: 'View experience' }));

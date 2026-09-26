@@ -50,6 +50,8 @@ import { ReactComponent as Ansible } from 'devicon/icons/ansible/ansible-origina
 import { ReactComponent as Gitlab } from 'devicon/icons/gitlab/gitlab-original.svg';
 import { ReactComponent as RedisIcon } from 'devicon/icons/redis/redis-original.svg';
 import { ReactComponent as AzureIcon } from 'devicon/icons/azure/azure-original.svg';
+import { ReactComponent as CosmosDbIcon } from 'devicon/icons/cosmosdb/cosmosdb-original.svg';
+import { ReactComponent as OktaIcon } from 'devicon/icons/okta/okta-original.svg';
 import { ReactComponent as JiraIcon } from 'devicon/icons/jira/jira-original.svg';
 import { ReactComponent as FedoraIcon } from 'devicon/icons/fedora/fedora-original.svg';
 import { ReactComponent as RedHatIcon } from 'devicon/icons/redhat/redhat-original.svg';
@@ -95,6 +97,7 @@ import {
   SiInfluxdb,
   SiHelm,
   SiNasa,
+  SiIstio,
 } from 'react-icons/si';
 import { FcCollaboration } from 'react-icons/fc';
 import Avatar from '@mui/material/Avatar';
@@ -835,6 +838,15 @@ const techTheme = {
   },
   azure: {
     icon: <AzureIcon />,
+  },
+  cosmosDb: {
+    icon: <CosmosDbIcon />,
+  },
+  okta: {
+    icon: <OktaIcon />,
+  },
+  istio: {
+    icon: <SiIstio style={{ color: '#466bb0' }} />,
   },
   jira: {
     icon: <JiraIcon />,
