@@ -1,0 +1,398 @@
+/*
+ * Bank vault door. See VaultScene.jsx for the shape of the door and the run.
+ *
+ * One 24s period:
+ *   0 - 4%    locked, idle
+ *   4 - 14%   wheel spins to unlock
+ *   14 - 20%  bolts draw back, lamp goes from red to mint
+ *   20 - 30%  door swings open on its hinge
+ *   30 - 70%  open: racks lit, mail and documents stream in
+ *   70 - 80%  door swings shut
+ *   80 - 86%  bolts shoot home, lamp back to red
+ *   86 - 96%  wheel spins back to where it started
+ *   96 - 100% locked, idle, which is also the 0% frame, so the loop never snaps
+ *
+ * 24s is four full cycles of the 6s grid drift in vaporwave.css, matching the
+ * lunar scene, so nothing beats against the rest of the page.
+ *
+ * Every animated element's STATIC value here is the locked, closed door with
+ * nothing in flight. Reduced motion drops each property to that value rather
+ * than the 0% keyframe, so it has to be a frame worth freezing on.
+ */
+
+/* --- Room --------------------------------------------------------------- */
+
+.VaultScene-seam {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.06;
+}
+
+.VaultScene-floor {
+    fill: #0b0820;
+}
+
+.VaultScene-floorLines line,
+.VaultScene-floorLines path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.12;
+}
+
+.VaultScene-horizon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    opacity: 0.5;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.VaultScene-spill {
+    opacity: 0;
+    animation: vault-open-glow 24s ease-in-out infinite;
+}
+
+/* --- Frame and lamp ----------------------------------------------------- */
+
+.VaultScene-frame {
+    fill: rgba(18, 13, 38, 0.9);
+    stroke: currentColor;
+    stroke-width: 3;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 10px currentColor);
+}
+
+.VaultScene-frameInner {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    opacity: 0.4;
+}
+
+.VaultScene-lampHousing {
+    fill: #120d26;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    opacity: 0.8;
+}
+
+.VaultScene-lampLocked {
+    fill: var(--vw-magenta, #ff5ec4);
+    filter: drop-shadow(0 0 6px var(--vw-magenta, #ff5ec4));
+    animation: vault-lamp-locked 24s linear infinite;
+}
+
+.VaultScene-lampOpen {
+    fill: var(--vw-mint, #05ffa1);
+    filter: drop-shadow(0 0 6px var(--vw-mint, #05ffa1));
+    opacity: 0;
+    animation: vault-lamp-open 24s linear infinite;
+}
+
+/* --- Interior ----------------------------------------------------------- */
+
+.VaultScene-shelf {
+    stroke: #01cdfe;
+    stroke-width: 1.5;
+    opacity: 0.35;
+}
+
+.VaultScene-bay {
+    fill: rgba(1, 205, 254, 0.06);
+    stroke: #01cdfe;
+    stroke-width: 1;
+    opacity: 0.55;
+}
+
+.VaultScene-led {
+    fill: var(--vw-mint, #05ffa1);
+    opacity: 0.7;
+    animation: vault-led 1.8s ease-in-out infinite alternate;
+}
+
+/* --- Door --------------------------------------------------------------- */
+
+/*
+ * The door is HTML, not part of the scene SVG, so it can take a real 3D
+ * rotation. It has to line up with the SVG underneath, which is scaled with
+ * `slice`: one view-box unit is whichever of width/1000 or height/600 is
+ * larger, centred. --u is that unit in pixels, measured against the art layer
+ * as a size container.
+ */
+.VaultScene .SceneLayer-art {
+    container-type: size;
+}
+
+.VaultScene-stage {
+    --u: max(0.1cqw, calc(100cqh / 600));
+    position: absolute;
+    inset: 0;
+    perspective: calc(1800 * var(--u));
+    /* Straight on to the door's centre (286 in a 600 tall view box). */
+    perspective-origin: 50% calc(50% - 14 * var(--u));
+}
+
+/* The door's box is the view box DOOR_VIEWBOX in the markup: 206 units either
+   side of the centre, with the hinge line 20 units in from its left edge. */
+.VaultScene-door {
+    position: absolute;
+    left: calc(50% - 206 * var(--u));
+    top: calc(50% - 220 * var(--u));
+    width: calc(412 * var(--u));
+    height: calc(412 * var(--u));
+    transform-style: preserve-3d;
+    transform-origin: calc(20 * var(--u)) 50%;
+    animation: vault-swing 24s ease-in-out infinite;
+}
+
+.VaultScene-door > svg {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+}
+
+/* Rim plates stacked back into the wall behind the face: hidden while the
+   door is shut, the door's thickness once it turns side-on. */
+.VaultScene-plate {
+    transform: translateZ(calc(var(--depth) * -1 * var(--u)));
+}
+
+.VaultScene-plateRim {
+    fill: #120d26;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-opacity: 0.55;
+}
+
+.VaultScene-bolt {
+    fill: #120d26;
+    stroke: currentColor;
+    stroke-width: 1.4;
+    animation: vault-bolt 24s ease-in-out infinite;
+}
+
+.VaultScene-face {
+    fill: #150f2c;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    filter: drop-shadow(0 0 8px currentColor);
+}
+
+.VaultScene-ring {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.2;
+    opacity: 0.45;
+}
+
+.VaultScene-rivets circle {
+    fill: currentColor;
+    opacity: 0.55;
+}
+
+.VaultScene-wheel {
+    transform-box: view-box;
+    transform-origin: 500px 286px;
+    animation: vault-wheel 24s ease-in-out infinite;
+}
+
+.VaultScene-wheelRim,
+.VaultScene-spoke {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    opacity: 0.8;
+}
+
+.VaultScene-wheelRim {
+    stroke-width: 1.4;
+    opacity: 0.5;
+}
+
+.VaultScene-knob {
+    fill: #150f2c;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+/* Kept dim: the section heading sits right over the hub. */
+.VaultScene-hub {
+    fill: #0c0820;
+    stroke: currentColor;
+    stroke-width: 1.6;
+}
+
+.VaultScene-hubCore {
+    fill: currentColor;
+    opacity: 0.6;
+}
+
+.VaultScene-hinges rect {
+    fill: #120d26;
+    stroke: currentColor;
+    stroke-width: 1.4;
+}
+
+/* --- Data inbound ------------------------------------------------------- */
+
+.VaultScene-packet {
+    opacity: 0;
+    animation: vault-packet 24s linear infinite;
+}
+
+.VaultScene-glyph {
+    fill: rgba(1, 205, 254, 0.14);
+    stroke: #01cdfe;
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 5px #01cdfe);
+}
+
+.VaultScene-glyphLine {
+    fill: none;
+    stroke: #01cdfe;
+    stroke-width: 1.2;
+}
+
+.VaultScene-trail {
+    fill: none;
+    stroke: #01cdfe;
+    stroke-width: 1.5;
+    stroke-dasharray: 10 6;
+    opacity: 0.4;
+}
+
+/* --- Keyframes ---------------------------------------------------------- */
+
+@keyframes vault-wheel {
+    0%,
+    4% {
+        transform: rotate(0deg);
+    }
+    14%,
+    86% {
+        transform: rotate(540deg);
+    }
+    96%,
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+/* Drawn toward the centre along the bolt's own axis: each bolt sits in a
+   group rotated to its bearing, where +y always points at the hub. */
+@keyframes vault-bolt {
+    0%,
+    14% {
+        transform: translate(0, 0);
+    }
+    20%,
+    80% {
+        transform: translate(0, 22px);
+    }
+    86%,
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* Negative is toward the viewer: the door swings out, a little past square
+   to the wall. */
+@keyframes vault-swing {
+    0%,
+    20% {
+        transform: rotateY(0deg);
+    }
+    30%,
+    70% {
+        transform: rotateY(-105deg);
+    }
+    80%,
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
+@keyframes vault-open-glow {
+    0%,
+    20% {
+        opacity: 0;
+    }
+    30%,
+    70% {
+        opacity: 1;
+    }
+    80%,
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes vault-lamp-locked {
+    0%,
+    18% {
+        opacity: 1;
+    }
+    20%,
+    84% {
+        opacity: 0;
+    }
+    86%,
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes vault-lamp-open {
+    0%,
+    18% {
+        opacity: 0;
+    }
+    20%,
+    84% {
+        opacity: 1;
+    }
+    86%,
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes vault-led {
+    from {
+        opacity: 0.15;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/*
+ * One packet's trip. It waits out the unlock, streaks in from beyond the right
+ * edge and fades as it passes into the vault. Staggered animation-delays in
+ * the markup turn six of these into a stream, all landing before the door
+ * starts to close at 70%.
+ */
+@keyframes vault-packet {
+    0%,
+    32% {
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+    34% {
+        opacity: 1;
+    }
+    48% {
+        transform: translate(-460px, 0);
+        opacity: 1;
+    }
+    51% {
+        transform: translate(-510px, 0);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-510px, 0);
+        opacity: 0;
+    }
+}

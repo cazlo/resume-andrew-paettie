@@ -2,6 +2,8 @@ import sceneForPosition from './sceneForPosition';
 
 describe('sceneForPosition', () => {
   it.each([
+    ['Undisclosed — Backup as a Service', 'vault'],
+    ['LeoLabs', 'radar'],
     ['Undisclosed — Defense and Space', 'radar'],
     ['Blue Origin', 'lunar'],
     ['Nike', 'runners'],

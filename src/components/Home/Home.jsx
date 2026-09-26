@@ -24,9 +24,9 @@ const Home = ({ style }) => (
       <div className="ResumeHomeBlock-headline ResumeHomeBlock-heading">
         <h1 className="Resume.im ResumeHomeBlock-heading">Drew Paettie</h1>
         <h2 className="ResumeHomeBlock-primary">
-          Staff platform engineer building secure, reliable distributed systems
+          Security architect and platform engineer building secure, reliable distributed systems
         </h2>
-        <p className="ResumeHomeBlock-domains">Kubernetes · AWS · SRE · Security · Aerospace</p>
+        <p className="ResumeHomeBlock-domains">Security · FedRAMP · Kubernetes · Azure · AWS · Aerospace</p>
         <p className="ResumeHomeBlock-location">Based in Washington</p>
         <div className="ResumeHomeBlock-actions" aria-label="Portfolio shortcuts">
           <button type="button" onClick={() => scrollToSection('ResumeExperience', -18)}>

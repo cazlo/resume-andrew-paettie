@@ -202,11 +202,67 @@ export default {
   ],
   positions: [
     {
-      title: 'Staff Site Reliability Engineer (Platform)',
-      company: 'Undisclosed — Defense and Space',
-      startDate: '2025',
+      title: 'Security Architect — FedRAMP Moderate',
+      company: 'Undisclosed — Backup as a Service',
+      startDate: '2026',
       endDate: 'Present',
       isCurrent: true,
+      tech: [
+        { name: 'Azure', icon: WhiteBackgroundAvatar(techTheme.azure.icon) },
+        { name: 'AKS', icon: techTheme.kubernetes.icon },
+        { name: 'Istio', icon: WhiteBackgroundAvatar(techTheme.istio.icon) },
+        { name: 'Cosmos DB', icon: WhiteBackgroundAvatar(techTheme.cosmosDb.icon) },
+        { name: 'Postgres', icon: techTheme.postgres.icon },
+        { name: 'Okta', icon: WhiteBackgroundAvatar(techTheme.okta.icon) },
+        { name: 'Go', icon: techTheme.go.icon },
+        { name: '.Net', icon: techTheme.dotNet.icon },
+        { name: 'Windows', icon: WhiteBackgroundAvatar(techTheme.windows.icon) },
+        { name: 'Linux', icon: techTheme.linux.icon },
+      ],
+      domains: [
+        { name: 'FedRAMP Moderate', icon: <FcFinePrint /> },
+        { name: 'Security Architecture', icon: <FcPrivacy /> },
+        { name: 'Microsoft 365 Backup', icon: <FcDataProtection /> },
+        { name: 'FIPS 140 Cryptography', icon: techTheme.security.icon },
+        { name: 'Service Mesh (mTLS)', icon: <FaProjectDiagram /> },
+        { name: 'PIV / CAC Authentication', icon: <MdSignalWifi4BarLock /> },
+        { name: 'Security Review & Pen Testing', icon: <SiBurpsuite /> },
+        { name: 'Requirements & Backlog Negotiation', icon: <FcCollaboration /> },
+        { name: 'Technical Leadership', icon: <FcOrgUnit /> },
+      ],
+      summary: (
+        <span>Security architect leading a FedRAMP Moderate authorization for a commercial SaaS backup product.</span>
+      ),
+      impact:
+        'Turned a commercial backup service into a FedRAMP ready reference architecture, with four more products ' +
+        'lined up to deploy onto it.',
+      detail: {
+        overview: (
+          <span>
+            Leading the FedRAMP Moderate ATO for an existing commercial backup as a service product that protects
+            Microsoft 365 data. Not a straight lift and shift: the product needed real architecture changes to meet the
+            federal baseline. The company and product are intentionally left out here.
+          </span>
+        ),
+        highlights: [
+          'Set the security architecture for the federal deployment on Azure and AKS, across mixed Windows and Linux.',
+          'Brought the stack to FIPS 140 validated cryptography end to end.',
+          'Introduced an Istio service mesh for mutual TLS and policy between services.',
+          'Swapped the authentication layer to support PIV smart card sign-in.',
+          'Implemented much of it directly and delegated the rest across the engineering teams.',
+          'Hold security review and penetration testing authority over what ships into the boundary.',
+          'Drive requirements and negotiate the backlog with commercial teams and business stakeholders.',
+          'Four more products are lined up to deploy onto the secured reference architecture.',
+        ],
+      },
+      icon: <FcDataProtection />,
+    },
+    {
+      title: 'Staff Site Reliability Engineer (Platform)',
+      company: 'LeoLabs',
+      startDate: '2025',
+      endDate: '2026',
+      isCurrent: false,
       tech: [
         KubernetesTech,
         { name: 'AWS', icon: techTheme.aws.icon },
@@ -237,8 +293,8 @@ export default {
       detail: {
         overview: (
           <span>
-            Staff level site reliability engineering on a platform team, in the defense and space domains. The customer
-            and the program are intentionally left out here.
+            Staff level site reliability engineering on a platform team, in the defense and space domains. Specific
+            customers and programs are intentionally left out here.
           </span>
         ),
         highlights: [
@@ -1719,14 +1775,15 @@ export default {
         {
           name: 'C#',
           icon: techTheme.csharp.icon,
-          experience: new Experience([new Interval(2014.5, 2015), new Interval(2020, 2021)]),
+          experience: new Experience([new Interval(2014.5, 2015), new Interval(2020, 2021), new Interval(2026, null)]),
 
           frameworks: [
             {
               name: '.Net',
-              description: 'Analyzed legacy Microsoft Java code to use as specifications for new systems',
+              description:
+                'Security review and FIPS hardening of .Net services; earlier, legacy code as specs for new systems',
               icon: techTheme.dotNet.icon,
-              experience: new Experience([new Interval(2020, 2021)]),
+              experience: new Experience([new Interval(2020, 2021), new Interval(2026, null)]),
             },
           ],
         },
@@ -1780,9 +1837,20 @@ export default {
         {
           name: 'NoSQL',
           icon: <FcDataSheet />,
-          experience: new Experience([new Interval(2015, 2015.5), new Interval(2018, 2019), new Interval(2019, 2021)]),
+          experience: new Experience([
+            new Interval(2015, 2015.5),
+            new Interval(2018, 2019),
+            new Interval(2019, 2021),
+            new Interval(2024, null),
+          ]),
 
           frameworks: [
+            {
+              name: 'Cosmos DB',
+              description: 'Azure document store inside a FedRAMP Moderate boundary',
+              icon: techTheme.cosmosDb.icon,
+              experience: new Experience([new Interval(2026, null)]),
+            },
             {
               name: 'DynamoDB',
               description: 'AWS Key value store with useful event streaming and DR capabilities',
@@ -1962,9 +2030,22 @@ export default {
         {
           name: 'Azure',
           icon: techTheme.azure.icon,
-          experience: new Experience([new Interval(2015, 2015.5)]),
+          experience: new Experience([new Interval(2015, 2015.5), new Interval(2026, null)]),
 
-          frameworks: [],
+          frameworks: [
+            {
+              name: 'AKS',
+              description: 'Managed Kubernetes for a FedRAMP Moderate workload',
+              icon: KubernetesTech.icon,
+              experience: new Experience([new Interval(2026, null)]),
+            },
+            {
+              name: 'Virtual Machines',
+              description: 'Mixed Windows and Linux fleets hardened to a federal baseline',
+              icon: techTheme.azure.icon,
+              experience: new Experience([new Interval(2026, null)]),
+            },
+          ],
         },
       ],
       operational: [
@@ -2036,6 +2117,17 @@ export default {
               name: 'AWS EKS',
               icon: techTheme.eks.icon,
               experience: new Experience([new Interval(2021.5, null)]),
+            },
+            {
+              name: 'Azure AKS',
+              icon: techTheme.azure.icon,
+              experience: new Experience([new Interval(2026, null)]),
+            },
+            {
+              name: 'Istio',
+              description: 'Service mesh for mutual TLS and authorization policy between services',
+              icon: techTheme.istio.icon,
+              experience: new Experience([new Interval(2026, null)]),
             },
             {
               name: 'microk8s',
@@ -2437,12 +2529,16 @@ export default {
             {
               name: 'Windows',
               icon: techTheme.windows.icon,
-              experience: new Experience([new Interval(2006, 2021)]),
+              experience: new Experience([new Interval(2006, 2021), new Interval(2026, null)]),
             },
             {
               name: 'Windows Server',
               icon: techTheme.windowsServer.icon,
-              experience: new Experience([new Interval(2015, 2016), new Interval(2021, 2022)]),
+              experience: new Experience([
+                new Interval(2015, 2016),
+                new Interval(2021, 2022),
+                new Interval(2026, null),
+              ]),
             },
           ],
         },
