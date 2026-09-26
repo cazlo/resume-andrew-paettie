@@ -85,5 +85,23 @@
       "collapseWhitespace": false,
       "removeComments": true
     }
+  },
+  "allowScripts": {
+    "@swc/core": false,
+    "core-js-pure": false,
+    "esbuild": false,
+    "unrs-resolver": false
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.15.0 || >=26.0.0",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "version": ">=12.0.2",
+      "onFail": "error"
+    }
   }
 }
