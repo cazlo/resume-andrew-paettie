@@ -3,44 +3,58 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2.1
+commands:
+  # The repo requires npm 12 (devEngines in package.json) for its install
+  # script allowlist and release age cooldown (.npmrc). Node images bundle an
+  # older npm, so swap it first. Pinned to a release older than the 7 day
+  # cooldown, and installed from outside the repo so the repo's .npmrc, which
+  # the bundled npm does not understand, is not in play.
+  setup-npm:
+    steps:
+      - run:
+          name: Install npm 12
+          command: cd ~ && sudo npm install --global npm@12.0.2 && npm --version
 jobs:
   install:
     docker:
-      - image: cimg/node:20.19-browsers
+      - image: cimg/node:26.5-browsers
     working_directory: /tmp/resume-andrew-paettie
     resource_class: medium
     steps:
       - checkout
+      - setup-npm
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "package.json" }}
-      - run: npm install
+          - dependencies-v2-{{ checksum "package-lock.json" }}
+      - run: npm ci
       - save_cache:
           paths:
           - node_modules
-          key: dependencies-{{ checksum "package.json" }}
+          key: dependencies-v2-{{ checksum "package-lock.json" }}
   lint:
     docker:
-      - image: cimg/node:20.19-browsers
+      - image: cimg/node:26.5-browsers
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
+      - setup-npm
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "package.json" }}
+          - dependencies-v2-{{ checksum "package-lock.json" }}
       - run: npm run lint
   unit-test:
     docker:
-      - image: cimg/node:20.19-browsers
+      - image: cimg/node:26.5-browsers
     parallelism: 2
     resource_class: large
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
+      - setup-npm
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "package.json" }}
+          - dependencies-v2-{{ checksum "package-lock.json" }}
       - run: npm run test-ci $(circleci tests glob "src/**/*.test.js" | circleci tests split )
       - store_artifacts:
           path: /tmp/resume-andrew-paettie/reports
@@ -48,15 +62,16 @@ jobs:
           path: /tmp/resume-andrew-paettie/reports/junit
   integration-test:
     docker:
-      - image: cimg/node:20.19-browsers
+      - image: cimg/node:26.5-browsers
     parallelism: 2
     resource_class: large
     working_directory: /tmp/resume-andrew-paettie
     steps:
       - checkout
+      - setup-npm
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "package.json" }}
+          - dependencies-v2-{{ checksum "package-lock.json" }}
       - run: npm run int-test-ci $(circleci tests glob "src/**/*.int.js" | circleci tests split --split-by=timings)
       - store_artifacts:
           path: /tmp/resume-andrew-paettie/reports
@@ -64,14 +79,15 @@ jobs:
           path: /tmp/resume-andrew-paettie/reports/junit
   build:
     docker:
-      - image: cimg/node:20.19-browsers
+      - image: cimg/node:26.5-browsers
     working_directory: /tmp/resume-andrew-paettie
     resource_class: medium
     steps:
       - checkout
+      - setup-npm
       - restore_cache:
           keys:
-          - dependencies-{{ checksum "package.json" }}
+          - dependencies-v2-{{ checksum "package-lock.json" }}
       - run: npm run build
       - persist_to_workspace:
           root: /tmp/resume-andrew-paettie/
