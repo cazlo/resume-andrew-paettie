@@ -57,6 +57,7 @@
     "vite-plugin-svgr": "^4.3.0"
   },
   "scripts": {
+    "install:ak": "sh scripts/install-via-ak.sh",
     "start": "vite",
     "build": "vite build",
     "build-run": "vite preview",
